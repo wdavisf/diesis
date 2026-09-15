@@ -7,6 +7,7 @@ Expo codebase.
 - `CHANGELOG.md` — what each build does, written for users.
 - `docs/design-system.md` and `design/tokens.json` — the design system.
 - `src/` — the app. `src/core` is the pure TypeScript game logic with tests.
+- `site/` — the diesis.app marketing site (Astro). The game itself is served at play.diesis.app.
 
 ```bash
 npm install

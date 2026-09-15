@@ -1,0 +1,147 @@
+---
+/* The game screen, drawn in SVG from design/tokens.json with the same geometry as
+   src/ui/Fretboard.tsx: nut on the left, high E on top, real logarithmic fret spacing, open
+   strings in a short zone left of the nut. One SVG so it scales with its container.
+   A CSS loop plays two questions: G lights on string 2 fret 8, turns green with its name, then
+   C on string 5 fret 3. Under Reduce Motion the first answered frame stays put. */
+import { strings, type Lang } from '../i18n';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = strings[lang].screen;
+
+const W = 640, H = 300;
+const header = 34, boardH = 156, feedbackH = 34, panelH = 44, pad = 12;
+const boardTop = header + 4;
+const numbersBand = 18;
+const boardBottom = boardTop + boardH - numbersBand;
+const boardInnerH = boardBottom - boardTop;
+const STRINGS = 6, MAX_FRET = 12;
+const stringInset = boardInnerH * 0.12;
+const stringGap = (boardInnerH - stringInset * 2) / (STRINGS - 1);
+const openZone = 36;
+const left = pad + openZone, right = W - pad - 4;
+const fretDistance = (n: number) => 1 - Math.pow(2, -n / 12);
+const scale = (right - left) / fretDistance(MAX_FRET);
+const fretX = (n: number) => left + fretDistance(n) * scale;
+const cellCenter = (n: number) => (n === 0 ? pad + openZone / 2 : (fretX(n - 1) + fretX(n)) / 2);
+const stringY = (s: number) => boardTop + stringInset + (s - 1) * stringGap;
+const frets = Array.from({ length: MAX_FRET }, (_, i) => i + 1);
+const gauges = [1.2, 1.5, 1.9, 2.4, 3.0, 3.6];
+const inlays = [3, 5, 7, 9, 12];
+const r = Math.min(stringGap * 0.46, 22);
+
+const notes = ['C', 'C♯', 'D', 'D♯', 'E', 'F', 'F♯', 'G', 'G♯', 'A', 'A♯', 'B'];
+const gap = 6;
+const btnW = (W - pad * 2 - gap * 11) / 12;
+const btnY = H - pad - panelH;
+const feedbackY = boardTop + boardH + feedbackH / 2;
+
+const q1 = { s: 2, f: 8, name: 'G' };
+const q2 = { s: 5, f: 3, name: 'C' };
+---
+<svg class="screen" viewBox={`0 0 ${W} ${H}`} role="img" aria-label={lang === 'es' ? 'Pantalla del juego: un punto iluminado en el diapasón y doce botones con nombres de notas' : 'Game screen: one lit position on the fretboard and twelve note-name buttons'}>
+  <rect width={W} height={H} rx="22" fill="#14120f" stroke="#3a352d" stroke-width="2" />
+
+  <!-- header -->
+  <text x={pad + 4} y="24" font-size="15" font-weight="600" fill="#f3efe6">{t.title}</text>
+  <text x={W - pad - 4} y="24" font-size="12" fill="#a39c8e" text-anchor="end">{t.score}</text>
+
+  <!-- wood -->
+  <rect x={left} y={boardTop} width={right - left} height={boardInnerH} fill="#5a3a2b" stroke="#3d271c" stroke-width="2" rx="3" />
+
+  <!-- inlays -->
+  {inlays.map((n) => {
+    const cx = cellCenter(n);
+    const ir = Math.min(stringGap * 0.28, 9);
+    if (n === 12) {
+      return (
+        <g>
+          <circle cx={cx} cy={(stringY(2) + stringY(3)) / 2} r={ir} fill="#e8e2d3" opacity="0.9" />
+          <circle cx={cx} cy={(stringY(4) + stringY(5)) / 2} r={ir} fill="#e8e2d3" opacity="0.9" />
+        </g>
+      );
+    }
+    return <circle cx={cx} cy={(stringY(3) + stringY(4)) / 2} r={ir} fill="#e8e2d3" opacity="0.9" />;
+  })}
+
+  <!-- nut -->
+  <rect x={left - 3} y={boardTop - 2} width="7" height={boardInnerH + 4} fill="#e9e2cf" rx="1.5" />
+
+  <!-- frets -->
+  {frets.map((n) => (
+    <g>
+      <line x1={fretX(n) + 1} y1={boardTop} x2={fretX(n) + 1} y2={boardBottom} stroke="#7d7a72" stroke-width="2" />
+      <line x1={fretX(n)} y1={boardTop} x2={fretX(n)} y2={boardBottom} stroke="#c9c6bd" stroke-width="2.5" />
+    </g>
+  ))}
+
+  <!-- strings, high E on top -->
+  {gauges.map((g, i) => (
+    <g>
+      <line x1={pad} y1={stringY(i + 1) + g * 0.6} x2={W - pad} y2={stringY(i + 1) + g * 0.6} stroke="#6b6558" stroke-width={g} />
+      <line x1={pad} y1={stringY(i + 1)} x2={W - pad} y2={stringY(i + 1)} stroke="#d8d4c8" stroke-width={g} />
+    </g>
+  ))}
+
+  <!-- fret numbers -->
+  {frets.map((n) => (
+    <text x={cellCenter(n)} y={boardTop + boardH - 4} font-size="11" fill="#a39c8e" text-anchor="middle">{n}</text>
+  ))}
+
+  <!-- question 1: asking, then answered -->
+  <g class="q q1-ask">
+    <circle cx={cellCenter(q1.f)} cy={stringY(q1.s)} r={r} fill="#e0a63a" stroke="#f0c46a" stroke-width="2" />
+  </g>
+  <g class="q q1-ok">
+    <circle cx={cellCenter(q1.f)} cy={stringY(q1.s)} r={r} fill="#4caf6b" />
+    <text x={cellCenter(q1.f)} y={stringY(q1.s) + 5} font-size="14" font-weight="700" fill="#14120f" text-anchor="middle">{q1.name}</text>
+  </g>
+  <!-- question 2 -->
+  <g class="q q2-ask">
+    <circle cx={cellCenter(q2.f)} cy={stringY(q2.s)} r={r} fill="#e0a63a" stroke="#f0c46a" stroke-width="2" />
+  </g>
+  <g class="q q2-ok">
+    <circle cx={cellCenter(q2.f)} cy={stringY(q2.s)} r={r} fill="#4caf6b" />
+    <text x={cellCenter(q2.f)} y={stringY(q2.s) + 5} font-size="14" font-weight="700" fill="#14120f" text-anchor="middle">{q2.name}</text>
+  </g>
+
+  <!-- feedback line -->
+  <text class="q feedback" x={W / 2} y={feedbackY + 6} font-size="16" font-weight="600" fill="#4caf6b" text-anchor="middle">{t.feedback}</text>
+  <text x={W - pad - 4} y={feedbackY + 5} font-size="12" fill="#f0c46a" text-anchor="end">{t.hearAgain}</text>
+
+  <!-- the twelve buttons -->
+  {notes.map((n, i) => {
+    const x = pad + i * (btnW + gap);
+    const cls = n === q1.name ? 'q q1-ok' : n === q2.name ? 'q q2-ok' : '';
+    return (
+      <g>
+        <rect x={x} y={btnY} width={btnW} height={panelH} rx="8" fill="#23201b" stroke="#3a352d" />
+        {cls && <rect class={cls} x={x} y={btnY} width={btnW} height={panelH} rx="8" fill="#4caf6b" />}
+        <text x={x + btnW / 2} y={btnY + panelH / 2 + 6} font-size="17" font-weight="600" fill="#f3efe6" text-anchor="middle">{n}</text>
+      </g>
+    );
+  })}
+</svg>
+
+<style>
+  .screen { width: 100%; height: auto; filter: drop-shadow(0 30px 60px rgba(0, 0, 0, 0.55)); }
+  /* Static frame: question 1 answered. */
+  .q { opacity: 0; }
+  .q1-ok, .feedback { opacity: 1; }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .q { animation: 8s infinite; }
+    .q1-ask { animation-name: q1ask; }
+    .q1-ok { animation-name: q1ok; }
+    .q2-ask { animation-name: q2ask; }
+    .q2-ok { animation-name: q2ok; }
+    .feedback { animation-name: fb; }
+  }
+  /* Each question: 2.6 s lit and waiting, 1.4 s answered. Fade in over ~0.25 s, cut out. */
+  @keyframes q1ask { 0% { opacity: 0 } 3%, 32% { opacity: 1 } 32.1%, 100% { opacity: 0 } }
+  @keyframes q1ok  { 0%, 32% { opacity: 0 } 33%, 50% { opacity: 1 } 50.1%, 100% { opacity: 0 } }
+  @keyframes q2ask { 0%, 50% { opacity: 0 } 53%, 82% { opacity: 1 } 82.1%, 100% { opacity: 0 } }
+  @keyframes q2ok  { 0%, 82% { opacity: 0 } 83%, 100% { opacity: 1 } }
+  @keyframes fb    { 0%, 32% { opacity: 0 } 33%, 50% { opacity: 1 } 50.1%, 82% { opacity: 0 } 83%, 100% { opacity: 1 } }
+</style>

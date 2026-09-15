@@ -1,0 +1,206 @@
+---
+import Base from '../layouts/Base.astro';
+import Screen from './Screen.astro';
+import Logo from './Logo.astro';
+import { strings, PLAY_URL, type Lang } from '../i18n';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = strings[lang];
+const whenLabel = { now: t.modes.now, next: t.modes.next, later: t.modes.later };
+---
+<Base title={t.meta.title} description={t.meta.description} lang={lang}>
+  <!-- Hero -->
+  <section class="hero">
+    <div class="wrap">
+      <div class="hero-copy">
+        <p class="eyebrow" data-reveal style="--i:0">{t.hero.eyebrow}</p>
+        <h1 data-reveal style="--i:1">{t.hero.h1}</h1>
+        <p class="hero-lede" data-reveal style="--i:2">{t.hero.lede}</p>
+        <div class="hero-cta" data-reveal style="--i:3">
+          <a href={PLAY_URL} class="btn btn-primary">{t.hero.cta}</a>
+          <a href="#how" class="btn btn-secondary">{t.hero.secondary}</a>
+        </div>
+        <ul class="hero-trust" data-reveal style="--i:4">
+          {t.hero.trust.map((s) => <li>{s}</li>)}
+        </ul>
+      </div>
+      <div class="hero-screen" data-reveal style="--i:3">
+        <Screen lang={lang} />
+      </div>
+    </div>
+  </section>
+
+  <!-- How it works -->
+  <section class="section how" id="how">
+    <div class="wrap">
+      <p class="eyebrow" data-reveal>{t.how.eyebrow}</p>
+      <h2 class="h2" data-reveal style="--i:1">{t.how.h2}</h2>
+      <p class="lede" data-reveal style="--i:2">{t.how.lede}</p>
+      <ol class="steps">
+        {t.how.steps.map((s, i) => (
+          <li class="card" data-reveal style={`--i:${i + 2}`}>
+            <span class="step-n">{i + 1}</span>
+            <h3>{s.h}</h3>
+            <p>{s.p}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <!-- Modes -->
+  <section class="section" id="modes">
+    <div class="wrap">
+      <p class="eyebrow" data-reveal>{t.modes.eyebrow}</p>
+      <h2 class="h2" data-reveal style="--i:1">{t.modes.h2}</h2>
+      <p class="lede" data-reveal style="--i:2">{t.modes.lede}</p>
+      <div class="modes">
+        {t.modes.items.map((m, i) => (
+          <article class={`card mode is-${m.when}`} data-reveal style={`--i:${i % 3}`}>
+            <span class="when">{whenLabel[m.when]}</span>
+            <h3>{m.title}</h3>
+            <p>{m.body}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- The name -->
+  <section class="section name">
+    <div class="wrap name-inner">
+      <div class="name-mark" data-reveal aria-hidden="true">
+        <Logo size={140} />
+      </div>
+      <div>
+        <p class="eyebrow" data-reveal>{t.name.eyebrow}</p>
+        <h2 class="h2 greek" lang="grc" data-reveal style="--i:1">{t.name.h2}</h2>
+        {t.name.p.map((p, i) => <p class="name-p" data-reveal style={`--i:${i + 2}`}>{p}</p>)}
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing -->
+  <section class="section pricing" id="pricing">
+    <div class="wrap">
+      <p class="eyebrow" data-reveal>{t.pricing.eyebrow}</p>
+      <h2 class="h2" data-reveal style="--i:1">{t.pricing.h2}</h2>
+      <div class="price-card card" data-reveal style="--i:2">
+        <div class="price-main">
+          <p class="price">{t.pricing.price}</p>
+          <p class="price-sub">{t.pricing.sub}</p>
+          <ul class="price-list">
+            {t.pricing.list.map((s) => <li>{s}</li>)}
+          </ul>
+          <a href={PLAY_URL} class="btn btn-primary price-btn">{t.pricing.cta}</a>
+        </div>
+        <aside class="price-ios">
+          <p class="soon"><span class="soon-dot" aria-hidden="true"></span>{t.pricing.iosTitle}</p>
+          <p>{t.pricing.ios}</p>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section" id="faq">
+    <div class="wrap faq-wrap">
+      <p class="eyebrow" data-reveal>{t.faq.eyebrow}</p>
+      <h2 class="h2" data-reveal style="--i:1">{t.faq.h2}</h2>
+      <div class="faq">
+        {t.faq.items.map((f, n) => (
+          <details data-reveal style={`--i:${Math.min(n, 6)}`}>
+            <summary>{f.q}</summary>
+            <p>{f.a}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Closing -->
+  <section class="section closing">
+    <div class="wrap">
+      <h2 class="h2" data-reveal>{t.closing.h2}</h2>
+      <p class="lede" data-reveal style="--i:1">{t.closing.lede}</p>
+      <div class="closing-cta" data-reveal style="--i:2">
+        <a href={PLAY_URL} class="btn btn-primary">{t.closing.cta}</a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  /* Hero: copy on top, the landscape screen full width under it. */
+  .hero { padding: 72px 0 40px; overflow: hidden; }
+  .hero-copy { max-width: 720px; }
+  h1 { font-size: clamp(40px, 6vw, 68px); max-width: 14ch; }
+  .hero-lede { font-size: 21px; color: var(--muted); max-width: 56ch; margin-top: 22px; }
+  .hero-cta { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 32px; }
+  .hero-trust { list-style: none; padding: 0; margin: 28px 0 0; display: flex; gap: 20px; flex-wrap: wrap; color: var(--muted); font-size: 15px; font-weight: 600; }
+  .hero-trust li::before { content: ""; display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--accent); margin-right: 8px; vertical-align: 1px; }
+  .hero-screen { margin: 56px auto 0; max-width: 900px; }
+  @media (max-width: 720px) {
+    .hero { padding-top: 48px; }
+    .hero-screen { margin-top: 36px; }
+  }
+
+  /* How */
+  .how { border-top: 1px solid var(--border); }
+  .steps { list-style: none; padding: 0; margin: 40px 0 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .steps li { padding: 24px; }
+  .step-n { display: inline-grid; place-items: center; width: 40px; height: 40px; border-radius: 12px; background: var(--accent); color: var(--bg); font-weight: 700; margin-bottom: 16px; }
+  .steps h3 { font-size: 20px; margin-bottom: 8px; }
+  .steps p { color: var(--muted); font-size: 16px; }
+  @media (max-width: 760px) { .steps { grid-template-columns: 1fr; } }
+
+  /* Modes */
+  .modes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 40px; }
+  .mode { padding: 24px; }
+  @media (prefers-reduced-motion: no-preference) {
+    .mode.in { transition: transform 0.25s ease, border-color 0.25s ease; }
+    .mode.in:hover { transform: translateY(-4px); border-color: var(--border-strong); }
+  }
+  .when { display: inline-block; font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 4px 10px; border-radius: 999px; margin-bottom: 14px; background: var(--surface-raised); color: var(--muted); }
+  .is-now { border-color: var(--accent); }
+  .is-now .when { background: var(--accent); color: var(--bg); }
+  .mode h3 { font-size: 20px; margin-bottom: 8px; }
+  .mode p { color: var(--muted); font-size: 16px; }
+  @media (max-width: 900px) { .modes { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 600px) { .modes { grid-template-columns: 1fr; } }
+
+  /* The name */
+  .name { border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); background: var(--surface); }
+  .name-inner { display: grid; grid-template-columns: 180px 1fr; gap: 40px; align-items: center; }
+  .greek { font-size: clamp(44px, 6vw, 64px); font-weight: 400; letter-spacing: 0.02em; }
+  .name-p { color: var(--muted); font-size: 19px; max-width: 58ch; margin-top: 16px; }
+  @media (max-width: 720px) { .name-inner { grid-template-columns: 1fr; gap: 20px; } }
+
+  /* Pricing */
+  .price-card { margin-top: 40px; display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 40px; padding: 32px; border-radius: 24px; }
+  .price { font-size: 56px; font-weight: 700; letter-spacing: -0.02em; line-height: 1; }
+  .price-sub { color: var(--muted); margin-top: 12px; }
+  .price-list { list-style: none; padding: 0; margin: 24px 0 0; display: grid; gap: 10px; }
+  .price-list li::before { content: "✓"; color: var(--accent-text); font-weight: 700; margin-right: 10px; }
+  .price-btn { margin-top: 28px; }
+  .price-ios { display: flex; flex-direction: column; gap: 12px; justify-content: center; padding: 24px; border-radius: 16px; background: var(--bg); border: 1px solid var(--border); color: var(--muted); font-size: 16px; }
+  .soon { display: flex; align-items: center; gap: 10px; font-weight: 600; color: var(--ink); font-size: 18px; }
+  .soon-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--accent); }
+  @media (max-width: 760px) { .price-card { grid-template-columns: 1fr; padding: 24px; } }
+
+  /* FAQ */
+  .faq-wrap { max-width: 800px; }
+  .faq { margin-top: 32px; border-top: 1px solid var(--border); }
+  details { border-bottom: 1px solid var(--border); }
+  summary { cursor: pointer; padding: 18px 0; font-size: 19px; font-weight: 600; list-style: none; display: flex; justify-content: space-between; gap: 16px; }
+  summary::-webkit-details-marker { display: none; }
+  summary::after { content: "+"; color: var(--accent-text); font-weight: 400; font-size: 24px; line-height: 1; flex: none; }
+  details[open] summary::after { content: "–"; }
+  details p { color: var(--muted); padding: 0 0 20px; max-width: 64ch; }
+
+  /* Closing */
+  .closing { text-align: center; border-top: 1px solid var(--border); }
+  .closing .h2, .closing .lede { margin-left: auto; margin-right: auto; }
+  .closing-cta { margin-top: 32px; }
+</style>

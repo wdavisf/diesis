@@ -24,8 +24,16 @@ and built; the Todoist project records what is still to do.
 - **Skins**: v1 has one skin. When a second arrives, every skin carries an `unlock` field so paid
   skins (€0.99 on iOS through StoreKit, later) need no restructuring. Web purchases only once there
   is an account.
-- **Website**: marketing site at diesis.app in `site/` (Astro, like Akoe), the playable web build at
-  play.diesis.app, two Vercel projects from this repo. Not started.
+- **Website** (built 2026-09-15): marketing site at diesis.app in `site/` (Astro 7, static, dark,
+  same layout as akoe.app), the playable web build at play.diesis.app. Two Vercel projects from
+  this repo: `diesis-site` with Root Directory `site`, `diesis-play` at the repo root using the
+  root `vercel.json` (`npm run build:web` → `dist/`). DNS at Namecheap. Deploy steps in
+  `site/README.md`. No analytics, no cookies, so no consent banner; privacy page says so.
+  Contact address on the site is hello@diesis.app (needs a forward at Namecheap).
+- **Standing rule (Will, as for Akoe): when the game changes (modes, settings, wording, pricing,
+  platforms, privacy behavior), update the site in the same session.** All copy, EN and ES, is
+  in `site/src/i18n/index.ts`; edit both languages together. Page structure is
+  `site/src/components/Landing.astro`; the animated game screen is `Screen.astro`.
 - Note names use ♯ (U+266F). Sharps by default; a flat spelling exists in the core for a future
   setting. Enharmonics are one pitch class; the quiz never asks for a spelling.
 - Fretboard drawing convention: nut on the left, string 1 (high E) at the top, fret numbers under
@@ -49,12 +57,17 @@ and built; the Todoist project records what is still to do.
 - `design/tokens.json` and `docs/design-system.md` — design system; tokens before screens.
 - `tools/gen-samples.mjs` — placeholder sample generator (`npm run samples`).
 - `assets/samples/nylon/` — generated WAVs, committed so a clone plays without running the script.
+- `site/` — the diesis.app marketing site (Astro). Its own `package.json`; see `site/README.md`.
+- `vercel.json` (root) — build settings for the play.diesis.app project only.
 
 ## Commands
 
 - `npm test` — core tests (Vitest). `npm run typecheck` — tsc.
 - `npm run web` — dev server on 8081 (also `.claude/launch.json` → `diesis-web`).
 - `npm run build:web` — static export to `dist/` for play.diesis.app.
+- `cd site && npm run dev` — the marketing site on 4321 (also `.claude/launch.json` →
+  `diesis-site`); `npm run build` there before committing site changes; `npm run icons`
+  regenerates `icon.png` and `og.png` from `public/favicon.svg`.
 - `npm run ios:device` — build to a cable-connected iPhone through Xcode (needs CocoaPods; not
   yet installed on Will's Mac as of 2026-09-15). Expo Go on the simulator is the quick check.
 - Every build Will installs: bump `version`/`buildNumber` in `app.json`, write the CHANGELOG entry,
