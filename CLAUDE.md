@@ -1,1 +1,69 @@
-@AGENTS.md
+# Diesis — project context
+
+Guitar fretboard trainer: notes on the neck and, later, scales, as games. Web and native from one
+codebase. Name from Greek δίεσις, the semitone, one fret. Store title "Diesis: Guitar Notes &
+Scales". Domain diesis.app (to register). Private repo `wdavisf/diesis`.
+
+The full spec is Will's Todoist project "Diesis" (id `6hWGmFjPwF25mCxM`, 43 tasks, sections 0–9):
+read it through the Todoist tools before proposing scope. This file records what has been decided
+and built; the Todoist project records what is still to do.
+
+## Decisions (2026-09-15)
+
+- **Stack: Expo** (React Native + react-native-web), one codebase, one UI. The game logic lives in
+  `src/core` as pure TypeScript with no React Native imports, tested with Vitest, so the shell could
+  be swapped without touching the maths. Only three seams are per platform: audio, storage (not yet
+  built), orientation.
+- **MVP is Mode A alone** (Will, 2026-09-15): open the app, fretboard in landscape, one position
+  lit and its note played, twelve buttons, "Wrong" keeps the question, "Correct" shows the name on
+  the board and moves on. Frets 0–12, all six strings, all twelve notes. No settings, no stats, no
+  home screen yet.
+- **Scales come after v1** (v1.1). The engine will model a scale as its full-neck set; boxed
+  positions (three-notes-per-string generated, CAGED as data) sit on top later. Not yet decided
+  with Will in detail; revisit when scales start.
+- **Skins**: v1 has one skin. When a second arrives, every skin carries an `unlock` field so paid
+  skins (€0.99 on iOS through StoreKit, later) need no restructuring. Web purchases only once there
+  is an account.
+- **Website**: marketing site at diesis.app in `site/` (Astro, like Akoe), the playable web build at
+  play.diesis.app, two Vercel projects from this repo. Not started.
+- Note names use ♯ (U+266F). Sharps by default; a flat spelling exists in the core for a future
+  setting. Enharmonics are one pitch class; the quiz never asks for a spelling.
+- Fretboard drawing convention: nut on the left, string 1 (high E) at the top, fret numbers under
+  the board, real logarithmic fret spacing scaled to the selected range, open strings get a short
+  zone left of the nut.
+- Audio: placeholder samples synthesised by `tools/gen-samples.mjs` (Karplus-Strong, one WAV per
+  MIDI pitch 40–88, 3.4 MB). Real nylon and electric samples with clear licensing are a Todoist
+  task. Web plays through Web Audio, unlocked by the "Tap to start" gesture; native through
+  expo-audio with `playsInSilentMode`, so the app sounds with the ringer switch off.
+- Orientation: native locked to landscape in `app.json` and at runtime; web shows a rotate gate on
+  portrait phones under 700 px wide.
+
+## Layout of the repo
+
+- `src/core/` — note model (`notes.ts`), question generator (`quiz.ts`), tests. Pure TS.
+- `src/audio/` — `NotePlayer` interface; `createNotePlayer.web.ts` (Web Audio) and
+  `createNotePlayer.ts` (expo-audio); `samples.generated.ts` is written by the sample script.
+- `src/game/useModeA.ts` — the Mode A state machine as a hook.
+- `src/ui/` — `Fretboard` (react-native-svg), `NotePanel`, `Game` screen, `RotateGate`,
+  `theme.ts` (hand mirror of `design/tokens.json`).
+- `design/tokens.json` and `docs/design-system.md` — design system; tokens before screens.
+- `tools/gen-samples.mjs` — placeholder sample generator (`npm run samples`).
+- `assets/samples/nylon/` — generated WAVs, committed so a clone plays without running the script.
+
+## Commands
+
+- `npm test` — core tests (Vitest). `npm run typecheck` — tsc.
+- `npm run web` — dev server on 8081 (also `.claude/launch.json` → `diesis-web`).
+- `npm run build:web` — static export to `dist/` for play.diesis.app.
+- `npm run ios:device` — build to a cable-connected iPhone through Xcode (needs CocoaPods; not
+  yet installed on Will's Mac as of 2026-09-15). Expo Go on the simulator is the quick check.
+- Every build Will installs: bump `version`/`buildNumber` in `app.json`, write the CHANGELOG entry,
+  commit.
+
+## Conventions
+
+- Same working style as Akoe: this file is the living spec, `CHANGELOG.md` is written for users
+  (newest first), design tokens before screens, every installed build committed.
+- American English in code and docs. UI copy in English for now; Spanish later.
+- Do not import `react-native` under `src/core`.
+- Keep `src/ui/theme.ts` in step with `design/tokens.json` when a token changes.
