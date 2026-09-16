@@ -2,7 +2,7 @@
 
 Guitar fretboard trainer: notes on the neck and, later, scales, as games. Web and native from one
 codebase. Name from Greek δίεσις, the semitone, one fret. Store title "Diesis: Guitar Notes &
-Scales". Domain diesis.app (to register). Private repo `wdavisf/diesis`.
+Scales". Domain diesis.app (to register). Repo `wdavisf/diesis` on GitHub (public).
 
 The full spec is Will's Todoist project "Diesis" (id `6hWGmFjPwF25mCxM`, 43 tasks, sections 0–9):
 read it through the Todoist tools before proposing scope. This file records what has been decided
