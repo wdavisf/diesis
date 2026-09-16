@@ -2,7 +2,7 @@
 
 Guitar fretboard trainer: notes on the neck and, later, scales, as games. Web and native from one
 codebase. Name from Greek δίεσις, the semitone, one fret. Store title "Diesis: Guitar Notes &
-Scales". Domain diesis.app (to register). Repo `wdavisf/diesis` on GitHub (public).
+Scales". Domain diesis.app (registered at Namecheap 2026-09-15). Repo `wdavisf/diesis` on GitHub (public).
 
 The full spec is Will's Todoist project "Diesis" (id `6hWGmFjPwF25mCxM`, 43 tasks, sections 0–9):
 read it through the Todoist tools before proposing scope. This file records what has been decided
@@ -24,14 +24,18 @@ and built; the Todoist project records what is still to do.
 - **Skins**: v1 has one skin. When a second arrives, every skin carries an `unlock` field so paid
   skins (€0.99 on iOS through StoreKit, later) need no restructuring. Web purchases only once there
   is an account.
-- **Website** (built 2026-09-15): marketing site at diesis.app in `site/` (Astro 7, static, dark,
-  same layout as akoe.app), the playable web build at play.diesis.app. Two Vercel projects from
-  this repo: `diesis-site` with Root Directory `site` (Astro preset), `diesis-play` at the repo
-  root with Build Command `npm run build:web` and Output Directory `dist` set in the Vercel
-  project settings. No root `vercel.json`: Vercel applies one even when the Root Directory is
-  `site`, which broke the site build on 2026-09-16. DNS at Namecheap. Deploy steps in
-  `site/README.md`. No analytics, no cookies, so no consent banner; privacy page says so.
-  Contact address on the site is hello@diesis.app (needs a forward at Namecheap).
+- **Website and game share one domain (Will, 2026-09-16)**: diesis.app shows the landing page,
+  the visitor logs in, then plays the game at the same domain. No separate play subdomain in the
+  end. How the landing page, login and game share the domain is not yet decided (one Expo app
+  with a landing route, the Astro site with the game under a path, or a Vercel rewrite). The
+  marketing site is built in `site/` (Astro 7, static, dark, EN and ES, same layout as akoe.app).
+  Hosting state on 2026-09-16, left as is: Vercel project `diesis-play` (repo root, framework
+  Other, `npm run build:web`, output `dist`) builds and serves play.diesis.app; project
+  `diesis-site` (Root Directory `site`, Astro) fails at "Building static entrypoints", not yet
+  diagnosed; diesis.app and www are attached to `diesis-site`. DNS at Namecheap. No root
+  `vercel.json`: Vercel applies one even with Root Directory `site`. No analytics, no cookies;
+  the privacy page says so. Contact address on the site is hello@diesis.app (needs a forward at
+  Namecheap). A login means an account, which v1 did not plan; revisit with storage.
 - **Standing rule (Will, as for Akoe): when the game changes (modes, settings, wording, pricing,
   platforms, privacy behavior), update the site in the same session.** All copy, EN and ES, is
   in `site/src/i18n/index.ts`; edit both languages together. Page structure is
