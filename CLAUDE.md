@@ -26,8 +26,10 @@ and built; the Todoist project records what is still to do.
   is an account.
 - **Website** (built 2026-09-15): marketing site at diesis.app in `site/` (Astro 7, static, dark,
   same layout as akoe.app), the playable web build at play.diesis.app. Two Vercel projects from
-  this repo: `diesis-site` with Root Directory `site`, `diesis-play` at the repo root using the
-  root `vercel.json` (`npm run build:web` → `dist/`). DNS at Namecheap. Deploy steps in
+  this repo: `diesis-site` with Root Directory `site` (Astro preset), `diesis-play` at the repo
+  root with Build Command `npm run build:web` and Output Directory `dist` set in the Vercel
+  project settings. No root `vercel.json`: Vercel applies one even when the Root Directory is
+  `site`, which broke the site build on 2026-09-16. DNS at Namecheap. Deploy steps in
   `site/README.md`. No analytics, no cookies, so no consent banner; privacy page says so.
   Contact address on the site is hello@diesis.app (needs a forward at Namecheap).
 - **Standing rule (Will, as for Akoe): when the game changes (modes, settings, wording, pricing,
@@ -58,7 +60,6 @@ and built; the Todoist project records what is still to do.
 - `tools/gen-samples.mjs` — placeholder sample generator (`npm run samples`).
 - `assets/samples/nylon/` — generated WAVs, committed so a clone plays without running the script.
 - `site/` — the diesis.app marketing site (Astro). Its own `package.json`; see `site/README.md`.
-- `vercel.json` (root) — build settings for the play.diesis.app project only.
 
 ## Commands
 

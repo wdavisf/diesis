@@ -15,9 +15,10 @@ Two Vercel projects, both from `wdavisf/diesis`:
 | Project | Root Directory | Build | Domain |
 |---|---|---|---|
 | `diesis-site` | `site` | detected as Astro (`npm run build`, output `dist`) | `diesis.app`, `www.diesis.app` |
-| `diesis-play` | `.` (repo root) | from the root `vercel.json`: `npm run build:web`, output `dist` | `play.diesis.app` |
+| `diesis-play` | `.` (repo root) | set in project settings: framework Other, `npm run build:web`, output `dist` | `play.diesis.app` |
 
-Every push to `main` redeploys both. On the play project, set **Ignored Build Step** to
+Do not add a root `vercel.json`: Vercel applies it to the site project too, even with Root
+Directory `site`. Every push to `main` redeploys both. On the play project, set **Ignored Build Step** to
 `git diff --quiet HEAD^ HEAD -- . ':!site'` so a copy change does not rebuild the game, and the
 mirror on the site project (`git diff --quiet HEAD^ HEAD -- site`) so a game change does not
 rebuild the site.
