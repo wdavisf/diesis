@@ -1,6 +1,6 @@
 /**
  * All UI copy, English and Spanish. Edit both languages together. The landing and privacy
- * pages live at `/` and `/es`; the login, mode picker and game read the `diesis_lang` cookie,
+ * pages live at `/` and `/es`; the mode picker and game read the `diesis_lang` cookie,
  * which the switcher sets through `/lang/[code]`.
  */
 export type Lang = "en" | "es";
@@ -27,12 +27,11 @@ export interface Strings {
     tracks: { title: string; lede: string; items: { title: string; body: string; when: When }[] }[];
   };
   name: { eyebrow: string; p: string[] };
-  pricing: { eyebrow: string; h2: string; price: string; sub: string; list: string[]; codeTitle: string; code: string; codeAfter: string };
+  pricing: { eyebrow: string; h2: string; price: string; sub: string; list: string[]; contactTitle: string; contact: string; contactAfter: string };
   faq: { eyebrow: string; h2: string; items: { q: string; a: string }[] };
   closing: { h2: string; lede: string };
   screen: { score: string; feedback: string; hearAgain: string; aria: string };
   footer: { tagline: string; made: string };
-  login: { h1: string; lede: string; label: string; button: string; checking: string; wrong: string; noCode: string; ask: string; back: string };
   home: { title: string; h1: string; lede: string; about: string; play: string; next: string; later: string; modes: { title: string; body: string }[] };
   game: {
     title: string;
@@ -136,17 +135,17 @@ const en: Strings = {
     eyebrow: "Pricing",
     h2: "Free while it is in preview.",
     price: "Free",
-    sub: "The browser version costs nothing and asks for nothing but an access code.",
+    sub: "The browser version costs nothing and asks for nothing. Open it and play.",
     list: ["Every mode that exists", "No account, no sign-up", "Phone or laptop", "No ads"],
-    codeTitle: "Need a code?",
-    code: "Diesis is being built in the open with a handful of players. Write to",
-    codeAfter: "and say what you play. Extra fretboards and sounds may become small one-off purchases later; the game itself stays free.",
+    contactTitle: "Say what you play",
+    contact: "Diesis is being built in the open with a handful of players. Write to",
+    contactAfter: "and say what you play, or what you would like to see next. Extra fretboards and sounds may become small one-off purchases later; the game itself stays free.",
   },
   faq: {
     eyebrow: "FAQ",
     h2: "Questions",
     items: [
-      { q: "Do I need an account?", a: "Not yet. Diesis is in private preview: you get an access code, type it once, and the browser remembers it. Scores live in your browser and nowhere else." },
+      { q: "Do I need an account?", a: "No. Open the app and play. Scores live in your browser and nowhere else." },
       { q: "Is there sound?", a: "Yes. Tap once to start (browsers require it) and each position plays as it lights. “Hear again” repeats it. The sound is a synthesised nylon pluck for now; recordings of a real guitar will replace it." },
       { q: "Sharps or flats?", a: "Sharps, written as ♯. F♯ and G♭ are the same place on the neck, and the game never asks which spelling you prefer. A flats setting is planned." },
       { q: "Which frets?", a: "Frets 0 to 12 on all six strings, standard tuning. A range picker (say, frets 5 to 9 only) is one of the next things to arrive." },
@@ -158,17 +157,6 @@ const en: Strings = {
   closing: { h2: "Guitar on your lap?", lede: "Play a round. It takes a minute." },
   screen: { score: "7 right · 1 wrong", feedback: "Correct", hearAgain: "Hear again", aria: "Game screen: one lit position on the fretboard and twelve note-name buttons" },
   footer: { tagline: "Guitar notes, scales and reading, as games.", made: "Made in Cáceres, Spain. “Diesis” is Greek for the semitone: one fret." },
-  login: {
-    h1: "Access code",
-    lede: "Diesis is in private preview. Enter the code you were given and the browser will remember it.",
-    label: "Code",
-    button: "Open the app",
-    checking: "Checking…",
-    wrong: "That code is not right.",
-    noCode: "No code yet?",
-    ask: "Ask for one",
-    back: "Back to diesis.app",
-  },
   home: {
     title: "Play",
     h1: "Pick a mode",
@@ -215,7 +203,7 @@ const en: Strings = {
     summary: "Diesis has no account and no advertising. Nothing you do in the game leaves your browser. The only thing we measure is visits to the site, with Google Analytics, and only if you allow it.",
     sections: [
       { h: "The game", p: ["Diesis runs entirely in your browser. It does not ask who you are, does not create an account, and does not send anything you do in the game to us or to anyone else.", "Scores for the current session are held in memory and disappear when you close the tab. When settings and personal bests arrive, they will be stored in your browser only."] },
-      { h: "Cookies", p: ["While Diesis is in private preview, the app sits behind an access code. Typing it sets one cookie in your browser so you are not asked again for six months. A second cookie remembers the language you picked, and a third remembers your answer to the analytics banner. None of them holds anything about you."] },
+      { h: "Cookies", p: ["Diesis sets two cookies. One remembers the language you picked; the other remembers your answer to the analytics banner. Neither holds anything about you."] },
       { h: "This website", p: ["diesis.app is hosted by Vercel, which keeps standard server logs (IP address, browser, pages requested) for a short time to run the service and keep it safe.", "If you allow it in the banner, the site loads Google Analytics 4 to count visits and see which pages are read. Google sets its own cookies for that and processes the data under its own privacy policy. If you decline, nothing from Google is loaded, and you can change your mind by clearing the site's cookies."] },
       { h: "Children", p: ["Diesis collects no personal data from anyone, of any age."] },
       { h: "Changes", p: ["If this policy changes, the new version is published here with a new date. It will never quietly start collecting data."] },
@@ -304,17 +292,17 @@ const es: Strings = {
     eyebrow: "Precio",
     h2: "Gratis mientras dure la beta.",
     price: "Gratis",
-    sub: "La versión web no cuesta nada. Solo hace falta un código de acceso.",
+    sub: "La versión web no cuesta nada y no pide nada. Entras y juegas.",
     list: ["Todos los modos disponibles", "Sin cuenta ni registro", "Móvil u ordenador", "Sin anuncios"],
-    codeTitle: "¿Necesitas un código?",
-    code: "Diesis se está construyendo con un grupo pequeño de guitarristas. Escribe a",
-    codeAfter: "y cuéntanos qué tocas. Más adelante puede que los mástiles y sonidos extra sean pequeñas compras únicas; el juego seguirá siendo gratis.",
+    contactTitle: "Cuéntanos qué tocas",
+    contact: "Diesis se está construyendo con un grupo pequeño de guitarristas. Escribe a",
+    contactAfter: "y cuéntanos qué tocas o qué te gustaría que llegara antes. Más adelante puede que los mástiles y sonidos extra sean pequeñas compras únicas; el juego seguirá siendo gratis.",
   },
   faq: {
     eyebrow: "Preguntas",
     h2: "Preguntas frecuentes",
     items: [
-      { q: "¿Hace falta registrarse?", a: "No. Diesis está en beta privada: te damos un código, lo escribes una vez y el navegador lo recuerda. Las puntuaciones se quedan en tu navegador y no salen de ahí." },
+      { q: "¿Hace falta registrarse?", a: "No. Entras y juegas. Las puntuaciones se quedan en tu navegador y no salen de ahí." },
       { q: "¿Tiene sonido?", a: "Sí. Toca una vez para empezar (el navegador lo exige) y cada posición suena al iluminarse. «Oír otra vez» la repite. De momento el sonido es una cuerda de nailon sintetizada; más adelante lo sustituirán grabaciones de una guitarra de verdad." },
       { q: "¿Sostenidos o bemoles?", a: "Sostenidos, escritos con ♯. Fa♯ y Sol♭ están en el mismo sitio del mástil, y el juego nunca te pregunta cómo prefieres escribirlo. Un ajuste para bemoles está previsto." },
       { q: "¿Qué trastes entran?", a: "Del 0 al 12 en las seis cuerdas, con afinación estándar. Poder elegir un rango (por ejemplo, solo del 5 al 9) es de lo próximo que llegará." },
@@ -326,17 +314,6 @@ const es: Strings = {
   closing: { h2: "¿Tienes la guitarra a mano?", lede: "Échate una ronda. Un minuto y listo." },
   screen: { score: "7 aciertos · 1 fallo", feedback: "¡Correcto!", hearAgain: "Oír otra vez", aria: "Pantalla del juego: una posición iluminada en el mástil y doce botones con los nombres de las notas" },
   footer: { tagline: "Notas, escalas y lectura para guitarra, en forma de juego.", made: "Hecho en Cáceres. «Diesis» es semitono en griego: un traste." },
-  login: {
-    h1: "Código de acceso",
-    lede: "Diesis está en beta privada. Escribe el código que te hemos dado; el navegador lo recordará.",
-    label: "Código",
-    button: "Entrar",
-    checking: "Comprobando…",
-    wrong: "El código no es correcto.",
-    noCode: "¿No tienes código?",
-    ask: "Pídenoslo",
-    back: "Volver a diesis.app",
-  },
   home: {
     title: "Jugar",
     h1: "Elige un modo",
@@ -383,7 +360,7 @@ const es: Strings = {
     summary: "Diesis no tiene cuentas ni publicidad. Nada de lo que haces en el juego sale de tu navegador. Lo único que medimos son las visitas a la web, con Google Analytics, y solo si tú lo permites.",
     sections: [
       { h: "El juego", p: ["Diesis funciona por completo en tu navegador. No te pregunta quién eres, no crea ninguna cuenta y no envía nada de lo que haces a nadie, ni a nosotros ni a terceros.", "Las puntuaciones de cada sesión se guardan en memoria y desaparecen al cerrar la pestaña. Cuando lleguen los ajustes y las mejores marcas, se guardarán solo en tu navegador."] },
-      { h: "Cookies", p: ["Mientras Diesis está en beta privada, para entrar en la app hace falta un código. Al escribirlo se guarda una cookie para no volver a pedírtelo durante seis meses. Otra cookie recuerda el idioma que has elegido y una tercera, lo que respondiste al aviso de analítica. Ninguna contiene datos sobre ti."] },
+      { h: "Cookies", p: ["Diesis guarda dos cookies: una recuerda el idioma que has elegido y la otra, lo que respondiste al aviso de analítica. Ninguna contiene datos sobre ti."] },
       { h: "Esta web", p: ["diesis.app está alojada en Vercel, que conserva durante poco tiempo los registros habituales de cualquier servidor (dirección IP, navegador, páginas solicitadas) para que el servicio funcione y esté protegido.", "Si lo permites en el aviso, la web carga Google Analytics 4 para contar visitas y ver qué páginas se leen. Google instala sus propias cookies para ello y trata los datos según su política de privacidad. Si dices que no, no se carga nada de Google; puedes cambiar de opinión borrando las cookies de la web."] },
       { h: "Menores", p: ["Diesis no recoge datos personales de nadie, tenga la edad que tenga."] },
       { h: "Cambios", p: ["Si esta política cambia, la nueva versión se publicará aquí con su fecha. Nunca empezará a recoger datos sin avisar."] },

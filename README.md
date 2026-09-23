@@ -10,13 +10,12 @@ Guitar trainer: notes on the neck, then scales, then reading music, as games. ht
 ## Run locally
 
 ```bash
-cp .env.example .env.local   # set DIESIS_ACCESS_CODE, or leave it empty to skip the gate
 npm install
 npm run dev
 ```
 
-`/` is the landing page, `/app` the trainer (access code required when `DIESIS_ACCESS_CODE` is set).
+`/` is the landing page, `/app` the trainer. No environment variables.
 
 ## Deploy
 
-Vercel, root directory = repo root, framework Next.js. Set `DIESIS_ACCESS_CODE` in the project settings.
+Vercel, root directory = repo root, framework Next.js. Nothing to configure.

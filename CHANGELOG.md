@@ -3,6 +3,13 @@
 Written for the people using it, not for the code. Newest first. Version matches
 `package.json`.
 
+## 0.4.0 — 23 September 2026, the door is open
+
+- No more access code. "Open the app" takes you straight to the game, on any device, with
+  nothing to type and nothing to ask for. If you still have the old code, forget it.
+- The site and the privacy page say so: Diesis sets two cookies now, one for the language and
+  one for your answer to the analytics banner, and nothing else.
+
 ## 0.3.0 — 23 September 2026, Spanish, a new mark, one code
 
 - Diesis speaks Spanish. An EN/ES switch sits in the header of every page; the Spanish site

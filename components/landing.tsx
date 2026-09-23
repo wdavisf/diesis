@@ -170,14 +170,14 @@ export function Landing({ t }: { t: Strings }) {
           <div className="rounded-2xl border border-dashed border-line p-6 sm:p-8">
             <p className="flex items-center gap-2 text-sm font-semibold text-amber-text">
               <span className="size-2 rounded-full bg-amber" aria-hidden />
-              {t.pricing.codeTitle}
+              {t.pricing.contactTitle}
             </p>
             <p className="mt-3 text-dim">
-              {t.pricing.code}{" "}
+              {t.pricing.contact}{" "}
               <a href="mailto:hello@diesis.app" className="text-ink underline underline-offset-4">
                 hello@diesis.app
               </a>{" "}
-              {t.pricing.codeAfter}
+              {t.pricing.contactAfter}
             </p>
           </div>
         </div>
