@@ -11,11 +11,11 @@ know at once if it was right".
 
 ## Mark
 
-A lowercase delta, δ, drawn so it also reads as a note: a filled, slightly tilted head (the
-bowl), a stem, and the δ's top arm sweeping right into a ball terminal (the flag). Amber on the
-stage tile with a 22% corner radius. Source: `public/favicon.svg`, mirrored in
-`components/logo.tsx`; `npm run icons` renders the PNGs. Minimum size 24 px; below that use
-the amber ellipse alone.
+A lowercase delta, δ, set on five staff lines like a note on a score: the bowl sits on the
+fourth line, the top arm rises like a flag. The letter is EB Garamond's δ (SIL Open Font
+License), amber #e0a63a; the lines are cream #e9e2cf at 45%, 14 units thick on a 1024 tile,
+with a 22% corner radius. Source: `public/favicon.svg`, mirrored in `components/logo.tsx`;
+`npm run icons` renders the PNGs. At 24 px the lines fade to a texture and the δ carries it.
 
 ## Color
 

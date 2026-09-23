@@ -54,10 +54,11 @@ Todoist project records what is still to do.
   strings file must be plain data (no functions): they cross into client components.
 - **Access code** is `RYUJIN` (Will, 2026-09-23), compared case-insensitively, one code for
   everyone in the preview. Lives in `.env.local` and in the Vercel project env.
-- **Logo (Will, 2026-09-23)**: a lowercase delta, δ, drawn so it also reads as a note: filled
-  head, stem, the δ's top arm as the flag, amber on the stage. Geometry lives in
-  `components/logo.tsx` and `public/favicon.svg`; `npm run icons` renders `icon.png` and
-  `og.png` from the SVG. Change both files together.
+- **Logo (Will, 2026-09-23)**: a real lowercase delta, δ, set on five staff lines like a note
+  on a score. The outline is EB Garamond's δ (SIL Open Font License, extracted with fontTools);
+  amber letter, cream lines at 45%, on the stage tile. Will rejected a hand-drawn δ: it must
+  look like the letter. Drawing lives in `components/logo.tsx` and `public/favicon.svg`;
+  `npm run icons` renders `icon.png` and `og.png` from the SVG. Change both files together.
 
 ## Hosting
 
