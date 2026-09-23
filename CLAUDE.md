@@ -45,7 +45,15 @@ Todoist project records what is still to do.
   MIDI pitch 40–88) in `public/samples/nylon/`, committed. Real nylon and electric samples with
   clear licensing are a Todoist task. Web Audio unlocks on the "Tap to start" gesture.
 - Orientation: portrait phones (under `md`, portrait) see a rotate gate, pure CSS.
-- No analytics, no cookies beyond the access cookie; the privacy page says so.
+- **Analytics (Will, 2026-09-23)**: Google Analytics 4, property `G-HNHYBR8Y13`, loaded by
+  `components/consent.tsx` only after the visitor accepts a banner (cookie `diesis_consent`,
+  one year). Decline loads nothing from Google. The privacy page describes it in both
+  languages; keep it true.
+- **Spanish note names**: the Spanish UI uses solfège (Do, Re♯, Sol…) on the buttons, the board
+  and the hero animation via `game.noteNames` in `lib/i18n.ts`; English keeps letters. The
+  core stays in pitch classes, so this is display only.
+- **Spanish copy is written natively, never translated literally** (Will, 2026-09-23, after
+  rejecting a literal pass). Spain register: ordenador, móvil, «échate una ronda».
 - **Standing rule: when the game changes (modes, settings, wording, pricing, privacy behavior),
   update the landing page, the app home and the privacy page in the same session.** All copy,
   EN and ES, is in `lib/i18n.ts`; edit both languages together. The landing and privacy pages

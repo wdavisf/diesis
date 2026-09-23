@@ -1,4 +1,4 @@
-import { SHARP_NAMES, type PitchClass } from "@/lib/core/notes";
+import type { PitchClass } from "@/lib/core/notes";
 import { cn } from "@/lib/utils";
 
 export interface NotePanelProps {
@@ -9,12 +9,14 @@ export interface NotePanelProps {
   /** Button shown red. */
   wrongPick: PitchClass | null;
   label?: string;
+  /** Twelve labels from C. */
+  names: readonly string[];
 }
 
 const ALL: PitchClass[] = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
 
-/** One row of the twelve chromatic notes, sharps spelled with ♯. */
-export function NotePanel({ onPick, disabled, correctPick, wrongPick, label = "Note names" }: NotePanelProps) {
+/** One row of the twelve chromatic notes, sharps spelled with ♯. Letters or solfège per language. */
+export function NotePanel({ onPick, disabled, correctPick, wrongPick, label = "Note names", names }: NotePanelProps) {
   return (
     <div className="flex gap-2 px-3 sm:gap-2.5" role="group" aria-label={label}>
       {ALL.map((pc) => {
@@ -23,7 +25,7 @@ export function NotePanel({ onPick, disabled, correctPick, wrongPick, label = "N
           <button
             key={pc}
             type="button"
-            aria-label={SHARP_NAMES[pc]}
+            aria-label={names[pc]}
             disabled={disabled}
             onClick={() => onPick(pc)}
             className={cn(
@@ -33,7 +35,7 @@ export function NotePanel({ onPick, disabled, correctPick, wrongPick, label = "N
               state === "wrong" && "flash-wrong border-wrong bg-wrong",
             )}
           >
-            {SHARP_NAMES[pc]}
+            {names[pc]}
           </button>
         );
       })}

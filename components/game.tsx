@@ -4,7 +4,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { ArrowLeft, RotateCw } from "lucide-react";
 import { createNotePlayer } from "@/lib/audio/note-player";
-import { noteName, type PitchClass } from "@/lib/core/notes";
+import type { PitchClass } from "@/lib/core/notes";
 import { DEFAULT_SETTINGS } from "@/lib/core/quiz";
 import { useModeA } from "@/lib/game/use-mode-a";
 import { Fretboard } from "@/components/fretboard";
@@ -95,7 +95,7 @@ export function Game({ t }: { t: Strings["game"] }) {
               maxFret={DEFAULT_SETTINGS.maxFret}
               highlight={game.question?.position ?? null}
               highlightState={game.phase === "correct" ? "correct" : "asking"}
-              highlightLabel={game.phase === "correct" && game.question ? noteName(game.question.answer) : undefined}
+              highlightLabel={game.phase === "correct" && game.question ? t.noteNames[game.question.answer] : undefined}
             />
           ) : null}
           {game.phase === "idle" || game.phase === "loading" ? (
@@ -134,6 +134,7 @@ export function Game({ t }: { t: Strings["game"] }) {
 
         <NotePanel
           label={t.notes}
+          names={t.noteNames}
           onPick={game.pick}
           disabled={game.phase !== "asking"}
           correctPick={game.phase === "correct" && game.question ? game.question.answer : null}

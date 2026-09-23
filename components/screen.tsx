@@ -32,16 +32,18 @@ const gauges = [1.2, 1.5, 1.9, 2.4, 3.0, 3.6];
 const inlays = [3, 5, 7, 9, 12];
 const r = Math.min(stringGap * 0.46, 22);
 
-const notes = ["C", "C♯", "D", "D♯", "E", "F", "F♯", "G", "G♯", "A", "A♯", "B"];
 const gap = 6;
 const btnW = (W - pad * 2 - gap * 11) / 12;
 const btnY = H - pad - panelH;
 const feedbackY = boardTop + boardH + feedbackH / 2;
 
-const q1 = { s: 2, f: 8, name: "G" };
-const q2 = { s: 5, f: 3, name: "C" };
+const q1 = { s: 2, f: 8, pc: 7 };
+const q2 = { s: 5, f: 3, pc: 0 };
 
 export function Screen({ t, className }: { t: Strings; className?: string }) {
+  const notes = t.game.noteNames;
+  const q1name = notes[q1.pc];
+  const q2name = notes[q2.pc];
   return (
     <svg
       className={`screen h-auto w-full ${className ?? ""}`}
@@ -94,14 +96,14 @@ export function Screen({ t, className }: { t: Strings; className?: string }) {
       </g>
       <g className="q q1-ok">
         <circle cx={cellCenter(q1.f)} cy={stringY(q1.s)} r={r} fill="#4caf6b" />
-        <text x={cellCenter(q1.f)} y={stringY(q1.s) + 5} fontSize="14" fontWeight="700" fill="#14120f" textAnchor="middle">{q1.name}</text>
+        <text x={cellCenter(q1.f)} y={stringY(q1.s) + 5} fontSize="14" fontWeight="700" fill="#14120f" textAnchor="middle">{q1name}</text>
       </g>
       <g className="q q2-ask">
         <circle cx={cellCenter(q2.f)} cy={stringY(q2.s)} r={r} fill="#e0a63a" stroke="#f0c46a" strokeWidth="2" />
       </g>
       <g className="q q2-ok">
         <circle cx={cellCenter(q2.f)} cy={stringY(q2.s)} r={r} fill="#4caf6b" />
-        <text x={cellCenter(q2.f)} y={stringY(q2.s) + 5} fontSize="14" fontWeight="700" fill="#14120f" textAnchor="middle">{q2.name}</text>
+        <text x={cellCenter(q2.f)} y={stringY(q2.s) + 5} fontSize="14" fontWeight="700" fill="#14120f" textAnchor="middle">{q2name}</text>
       </g>
 
       <text className="q fb" x={W / 2} y={feedbackY + 6} fontSize="16" fontWeight="600" fill="#4caf6b" textAnchor="middle">{t.screen.feedback}</text>
@@ -109,7 +111,7 @@ export function Screen({ t, className }: { t: Strings; className?: string }) {
 
       {notes.map((n, i) => {
         const x = pad + i * (btnW + gap);
-        const cls = n === q1.name ? "q q1-ok" : n === q2.name ? "q q2-ok" : "";
+        const cls = n === q1name ? "q q1-ok" : n === q2name ? "q q2-ok" : "";
         return (
           <g key={n}>
             <rect x={x} y={btnY} width={btnW} height={panelH} rx="8" fill="#23201b" stroke="#3a352d" />

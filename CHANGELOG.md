@@ -10,6 +10,10 @@ Written for the people using it, not for the code. Newest first. Version matches
 - A new logo: a lowercase delta, δ, set on staff lines like a note on a score.
 - One access code for everyone in the preview, and it no longer matters whether you type it
   in capitals.
+- In Spanish the notes are Do, Re, Mi… on the buttons and on the neck, as any Spanish player
+  expects. The English game keeps C, D, E.
+- A small banner asks whether we may count visits with Google Analytics. Nothing from Google
+  loads unless you say yes. The privacy page explains it.
 
 ## 0.2.0 — 23 September 2026, Diesis becomes a web app
 
