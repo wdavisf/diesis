@@ -50,13 +50,14 @@ Todoist project records what is still to do.
   update the landing page, the app home and the privacy page in the same session.** Copy is
   English only for now; Spanish comes back once the product settles.
 
-## Hosting (state on 2026-09-23)
+## Hosting
 
-Vercel from `wdavisf/diesis`. Two projects existed from the Expo era: `diesis-play` (repo root,
-framework Other, `npm run build:web`, output `dist`, served play.diesis.app) and `diesis-site`
-(Root Directory `site`, Astro, build failing; holds diesis.app and www). The rebuild needs one
-project at the repo root with framework Next.js and `DIESIS_ACCESS_CODE` set; see the CHANGELOG
-and the end of this file's git history for what was done. play.diesis.app is retired.
+Vercel project `diesis-site` (team wdavisf-gmailcoms-projects), Git integration from
+`wdavisf/diesis` main, framework Next.js at the repo root, env `DIESIS_ACCESS_CODE` on production
+and preview. Domains diesis.app and www (redirects to the apex); DNS at Namecheap. Live since
+2026-09-23. The old `diesis-play` project (play.diesis.app, Expo web export) is obsolete and can
+be deleted in the dashboard. The repo folder is linked to `diesis-site` (`.vercel/`, ignored), so
+`npx vercel deploy --prod` works as well as a push.
 
 ## Layout of the repo
 
