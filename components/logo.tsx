@@ -1,16 +1,23 @@
 import { cn } from "@/lib/utils";
 
-/** The sharp sign, ♯: what "diesis" means in Italian and Spanish. Amber on the stage. Same
- *  geometry as public/favicon.svg and tools/icons.mjs; change all three together. */
+/** A lowercase delta, δ, drawn so it also reads as a note: a filled head, a stem, and the
+ *  δ's top arm as the flag. Amber on the stage. Same geometry as public/favicon.svg (which
+ *  tools/icons.mjs renders to PNG); change both together. */
 export function LogoMark({ size = 32, className }: { size?: number; className?: string }) {
   return (
     <svg width={size} height={size} viewBox="0 0 1024 1024" aria-hidden="true" focusable="false" className={className}>
       <rect width="1024" height="1024" rx="230" fill="#14120f" />
-      <g fill="#e0a63a">
-        <rect x="384" y="196" width="72" height="632" rx="36" />
-        <rect x="568" y="196" width="72" height="632" rx="36" />
-        <path d="M232 470 L792 340 L792 436 L232 566 Z" />
-        <path d="M232 682 L792 552 L792 648 L232 778 Z" />
+      <g transform="translate(512 512) scale(1.08) translate(-512 -512)">
+        <path
+          d="M 604 626 C 672 520 636 386 528 306 C 470 262 480 214 552 208 C 626 202 690 236 716 288"
+          fill="none"
+          stroke="#e0a63a"
+          strokeWidth={84}
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <circle cx="722" cy="300" r="56" fill="#e0a63a" />
+        <ellipse cx="470" cy="712" rx="196" ry="150" transform="rotate(-18 470 712)" fill="#e0a63a" />
       </g>
     </svg>
   );

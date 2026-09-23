@@ -9,8 +9,8 @@ export async function login(_prev: LoginState, formData: FormData): Promise<Logi
   const expected = process.env.DIESIS_ACCESS_CODE;
   const given = String(formData.get("code") ?? "").trim();
   const next = String(formData.get("next") ?? "/app");
-  if (expected && given !== expected) {
-    return { error: "That code is not right." };
+  if (expected && given.toUpperCase() !== expected.toUpperCase()) {
+    return { error: "wrong" };
   }
   if (expected) {
     const store = await cookies();

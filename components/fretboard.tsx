@@ -13,6 +13,8 @@ export interface FretboardProps {
   highlightState: HighlightState;
   /** Note name drawn inside the highlight once answered. */
   highlightLabel?: string;
+  /** Accessible name of the drawing. */
+  label?: string;
 }
 
 // Mirrors design/tokens.json → color.fretboard. Keep in step.
@@ -44,7 +46,7 @@ function fretDistance(n: number): number {
  * real logarithmic one, scaled so the selected range fills the width. Fret 0 (open string) gets a
  * short zone left of the nut so an open-string question has somewhere to light.
  */
-export function Fretboard({ width, height, minFret, maxFret, highlight, highlightState, highlightLabel }: FretboardProps) {
+export function Fretboard({ width, height, minFret, maxFret, highlight, highlightState, highlightLabel, label = "Guitar fretboard" }: FretboardProps) {
   const layout = useMemo(() => {
     const numbersBand = 20;
     const boardTop = 6;
@@ -77,7 +79,7 @@ export function Fretboard({ width, height, minFret, maxFret, highlight, highligh
   const labelSize = Math.max(12, Math.min(highlightR * 0.95, 20));
 
   return (
-    <svg width={width} height={height} viewBox={`0 0 ${width} ${height}`} role="img" aria-label="Guitar fretboard">
+    <svg width={width} height={height} viewBox={`0 0 ${width} ${height}`} role="img" aria-label={label}>
       <rect
         x={layout.left}
         y={layout.boardTop}

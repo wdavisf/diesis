@@ -8,14 +8,15 @@ export interface NotePanelProps {
   correctPick: PitchClass | null;
   /** Button shown red. */
   wrongPick: PitchClass | null;
+  label?: string;
 }
 
 const ALL: PitchClass[] = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
 
 /** One row of the twelve chromatic notes, sharps spelled with ♯. */
-export function NotePanel({ onPick, disabled, correctPick, wrongPick }: NotePanelProps) {
+export function NotePanel({ onPick, disabled, correctPick, wrongPick, label = "Note names" }: NotePanelProps) {
   return (
-    <div className="flex gap-2 px-3 sm:gap-2.5" role="group" aria-label="Note names">
+    <div className="flex gap-2 px-3 sm:gap-2.5" role="group" aria-label={label}>
       {ALL.map((pc) => {
         const state = pc === correctPick ? "correct" : pc === wrongPick ? "wrong" : "idle";
         return (

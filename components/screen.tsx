@@ -2,6 +2,8 @@
    left, high E on top, real logarithmic fret spacing, open strings in a short zone left of the nut.
    One SVG so it scales with its container. The loop itself is CSS in app/globals.css (.screen). */
 
+import type { Strings } from "@/lib/i18n";
+
 const W = 640;
 const H = 300;
 const header = 34;
@@ -39,17 +41,17 @@ const feedbackY = boardTop + boardH + feedbackH / 2;
 const q1 = { s: 2, f: 8, name: "G" };
 const q2 = { s: 5, f: 3, name: "C" };
 
-export function Screen({ className }: { className?: string }) {
+export function Screen({ t, className }: { t: Strings; className?: string }) {
   return (
     <svg
       className={`screen h-auto w-full ${className ?? ""}`}
       viewBox={`0 0 ${W} ${H}`}
       role="img"
-      aria-label="Game screen: one lit position on the fretboard and twelve note-name buttons"
+      aria-label={t.screen.aria}
     >
       <rect width={W} height={H} rx="22" fill="#14120f" stroke="#3a352d" strokeWidth="2" />
       <text x={pad + 4} y="24" fontSize="15" fontWeight="600" fill="#f3efe6">Diesis</text>
-      <text x={W - pad - 4} y="24" fontSize="12" fill="#a39c8e" textAnchor="end">7 right · 1 wrong</text>
+      <text x={W - pad - 4} y="24" fontSize="12" fill="#a39c8e" textAnchor="end">{t.screen.score}</text>
 
       <rect x={left} y={boardTop} width={right - left} height={boardInnerH} fill="#5a3a2b" stroke="#3d271c" strokeWidth="2" rx="3" />
 
@@ -102,8 +104,8 @@ export function Screen({ className }: { className?: string }) {
         <text x={cellCenter(q2.f)} y={stringY(q2.s) + 5} fontSize="14" fontWeight="700" fill="#14120f" textAnchor="middle">{q2.name}</text>
       </g>
 
-      <text className="q fb" x={W / 2} y={feedbackY + 6} fontSize="16" fontWeight="600" fill="#4caf6b" textAnchor="middle">Correct</text>
-      <text x={W - pad - 4} y={feedbackY + 5} fontSize="12" fill="#f0c46a" textAnchor="end">Hear again</text>
+      <text className="q fb" x={W / 2} y={feedbackY + 6} fontSize="16" fontWeight="600" fill="#4caf6b" textAnchor="middle">{t.screen.feedback}</text>
+      <text x={W - pad - 4} y={feedbackY + 5} fontSize="12" fill="#f0c46a" textAnchor="end">{t.screen.hearAgain}</text>
 
       {notes.map((n, i) => {
         const x = pad + i * (btnW + gap);

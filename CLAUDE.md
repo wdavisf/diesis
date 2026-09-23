@@ -47,8 +47,17 @@ Todoist project records what is still to do.
 - Orientation: portrait phones (under `md`, portrait) see a rotate gate, pure CSS.
 - No analytics, no cookies beyond the access cookie; the privacy page says so.
 - **Standing rule: when the game changes (modes, settings, wording, pricing, privacy behavior),
-  update the landing page, the app home and the privacy page in the same session.** Copy is
-  English only for now; Spanish comes back once the product settles.
+  update the landing page, the app home and the privacy page in the same session.** All copy,
+  EN and ES, is in `lib/i18n.ts`; edit both languages together. The landing and privacy pages
+  have `/es` routes (SEO, hreflang); the login, mode picker and game read the `diesis_lang`
+  cookie, set by `/lang/[code]` (the switcher and the landing CTAs go through it). Values in the
+  strings file must be plain data (no functions): they cross into client components.
+- **Access code** is `RYUJIN` (Will, 2026-09-23), compared case-insensitively, one code for
+  everyone in the preview. Lives in `.env.local` and in the Vercel project env.
+- **Logo (Will, 2026-09-23)**: a lowercase delta, δ, drawn so it also reads as a note: filled
+  head, stem, the δ's top arm as the flag, amber on the stage. Geometry lives in
+  `components/logo.tsx` and `public/favicon.svg`; `npm run icons` renders `icon.png` and
+  `og.png` from the SVG. Change both files together.
 
 ## Hosting
 
@@ -61,10 +70,12 @@ be deleted in the dashboard. The repo folder is linked to `diesis-site` (`.verce
 
 ## Layout of the repo
 
-- `app/` — routes: `page.tsx` landing, `login/`, `app/` (mode picker), `app/name-the-note/`,
-  `privacy/`. `layout.tsx` holds fonts and metadata; `globals.css` the theme tokens.
-- `components/` — `logo`, `screen` (animated hero), `footer`, `fretboard` (SVG), `note-panel`,
-  `game` (Mode A screen, client), `ui/` (shadcn primitives).
+- `app/` — routes: `page.tsx` and `es/page.tsx` (landing), `privacy/` and `es/privacy/`,
+  `login/`, `app/` (mode picker), `app/name-the-note/`, `lang/[code]/` (cookie setter).
+  `layout.tsx` holds fonts and metadata; `globals.css` the theme tokens.
+- `components/` — `landing`, `privacy-page`, `logo`, `screen` (animated hero), `footer`,
+  `lang-switch`, `fretboard` (SVG), `note-panel`, `game` (Mode A screen, client), `ui/`.
+- `lib/i18n.ts` — every string, EN and ES. `lib/lang.ts` — reads the language cookie.
 - `lib/core/` — note model (`notes.ts`), question generator (`quiz.ts`), tests. Pure TS.
 - `lib/audio/note-player.ts` — Web Audio sampler. `lib/game/use-mode-a.ts` — Mode A hook.
 - `proxy.ts` — the access gate.
@@ -86,6 +97,6 @@ be deleted in the dashboard. The repo folder is linked to `diesis-site` (`.verce
 
 - Same working style as Akoe and Tabula: this file is the living spec, `CHANGELOG.md` is written
   for users (newest first), design tokens before screens.
-- American English in code and docs. UI copy in English for now.
+- American English in code and docs. UI copy in English and Spanish, both in `lib/i18n.ts`.
 - Do not import React under `lib/core`.
 - Keep `app/globals.css` and `components/fretboard.tsx` colors in step with `design/tokens.json`.

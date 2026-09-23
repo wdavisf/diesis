@@ -1,0 +1,225 @@
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Logo, LogoMark } from "@/components/logo";
+import { Screen } from "@/components/screen";
+import { Footer } from "@/components/footer";
+import { LangSwitch } from "@/components/lang-switch";
+import type { Strings, When } from "@/lib/i18n";
+
+const whenClass: Record<When, string> = {
+  now: "bg-correct/15 text-correct",
+  next: "bg-amber/15 text-amber-text",
+  later: "bg-white/5 text-dim",
+};
+
+export function Landing({ t }: { t: Strings }) {
+  const here = t.base || "/";
+  const app = `/lang/${t.code}?next=%2Fapp`;
+  return (
+    <main className="flex-1">
+      <header className="sticky top-0 z-20 border-b border-line/80 bg-stage/80 backdrop-blur-md">
+        <div className="mx-auto flex w-full max-w-6xl items-center justify-between px-4 py-3">
+          <Link href={here} aria-label="Diesis">
+            <Logo />
+          </Link>
+          <nav className="flex items-center gap-1">
+            <Button asChild variant="ghost" size="sm" className="hidden text-dim hover:bg-white/5 hover:text-ink sm:inline-flex">
+              <a href="#how">{t.nav.how}</a>
+            </Button>
+            <Button asChild variant="ghost" size="sm" className="hidden text-dim hover:bg-white/5 hover:text-ink sm:inline-flex">
+              <a href="#learn">{t.nav.learn}</a>
+            </Button>
+            <Button asChild variant="ghost" size="sm" className="hidden text-dim hover:bg-white/5 hover:text-ink sm:inline-flex">
+              <a href="#faq">{t.nav.faq}</a>
+            </Button>
+            <LangSwitch t={t} next={t.otherLang === "es" ? "/es" : "/"} className="ml-2" />
+            <Button asChild size="sm" className="ml-2">
+              <Link href={app}>
+                {t.nav.cta} <ArrowRight className="size-4" />
+              </Link>
+            </Button>
+          </nav>
+        </div>
+      </header>
+
+      {/* Hero */}
+      <section className="mx-auto grid w-full max-w-6xl items-center gap-12 px-4 pt-14 pb-20 lg:grid-cols-[1.05fr_1fr] lg:pt-24 lg:pb-28">
+        <div>
+          <p className="text-sm font-medium tracking-wide text-amber-text uppercase">{t.hero.eyebrow}</p>
+          <h1 className="mt-4 font-display text-5xl leading-[1] font-semibold text-balance sm:text-6xl lg:text-7xl">
+            {t.hero.h1}
+          </h1>
+          <p className="mt-6 max-w-xl text-lg text-pretty text-dim">
+            {t.hero.lede}
+          </p>
+          <div className="mt-8 flex flex-wrap gap-3">
+            <Button asChild size="lg" className="h-11 px-5 text-base">
+              <Link href={app}>
+                {t.hero.cta} <ArrowRight className="size-4" />
+              </Link>
+            </Button>
+            <Button asChild size="lg" variant="outline" className="h-11 border-line bg-surface px-5 text-base text-ink hover:bg-surface-raised hover:text-ink">
+              <a href="#how">{t.hero.secondary}</a>
+            </Button>
+          </div>
+          <ul className="mt-8 flex flex-wrap gap-x-6 gap-y-2 text-sm text-dim">
+            {t.hero.trust.map((s) => (
+              <li key={s} className="flex items-center gap-2">
+                <span className="size-1.5 rounded-full bg-amber" aria-hidden />
+                {s}
+              </li>
+            ))}
+          </ul>
+        </div>
+        <Screen t={t} className="drop-shadow-[0_30px_60px_rgba(0,0,0,0.55)]" />
+      </section>
+
+      {/* How it works */}
+      <section id="how" className="border-t border-line bg-surface/40">
+        <div className="mx-auto w-full max-w-6xl px-4 py-20 sm:py-24">
+          <p className="text-sm font-medium tracking-wide text-amber-text uppercase">{t.how.eyebrow}</p>
+          <h2 className="mt-3 max-w-2xl font-display text-3xl font-semibold tracking-tight text-balance sm:text-5xl">
+            {t.how.h2}
+          </h2>
+          <p className="mt-4 max-w-2xl text-lg text-dim">{t.how.lede}</p>
+          <ol className="mt-12 grid gap-6 sm:grid-cols-3">
+            {t.how.steps.map((s, i) => (
+              <li key={s.title} className="flex flex-col rounded-2xl border border-line bg-stage p-6">
+                <span className="font-display text-4xl font-semibold text-amber">{String(i + 1).padStart(2, "0")}</span>
+                <h3 className="mt-3 font-display text-xl font-semibold">{s.title}</h3>
+                <p className="mt-2 text-sm text-dim">{s.body}</p>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
+
+      {/* What you learn */}
+      <section id="learn" className="mx-auto w-full max-w-6xl px-4 py-20 sm:py-24">
+        <p className="text-sm font-medium tracking-wide text-amber-text uppercase">{t.learn.eyebrow}</p>
+        <h2 className="mt-3 max-w-2xl font-display text-3xl font-semibold tracking-tight text-balance sm:text-5xl">
+          {t.learn.h2}
+        </h2>
+        <p className="mt-4 max-w-2xl text-lg text-dim">{t.learn.lede}</p>
+        <div className="mt-12 grid gap-10">
+          {t.learn.tracks.map((tr) => (
+            <div key={tr.title} className="grid gap-6 lg:grid-cols-[260px_1fr]">
+              <div>
+                <h3 className="font-display text-2xl font-semibold">{tr.title}</h3>
+                <p className="mt-2 text-sm text-dim">{tr.lede}</p>
+              </div>
+              <ul className="grid gap-4 sm:grid-cols-2">
+                {tr.items.map((m) => (
+                  <li key={m.title} className="rounded-2xl border border-line bg-surface p-5">
+                    <span className={`inline-block rounded-full px-2.5 py-0.5 text-xs font-semibold ${whenClass[m.when]}`}>
+                      {t.learn.when[m.when]}
+                    </span>
+                    <h4 className="mt-3 font-semibold">{m.title}</h4>
+                    <p className="mt-1.5 text-sm text-dim">{m.body}</p>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* The name */}
+      <section className="border-y border-line bg-surface/40">
+        <div className="mx-auto grid w-full max-w-6xl items-center gap-10 px-4 py-20 sm:py-24 lg:grid-cols-[auto_1fr]">
+          <LogoMark size={150} className="rounded-[22%] ring-1 ring-white/10" />
+          <div>
+            <p className="text-sm font-medium tracking-wide text-amber-text uppercase">{t.name.eyebrow}</p>
+            <h2 className="mt-3 font-display text-4xl font-semibold tracking-tight sm:text-6xl" lang="grc">
+              δίεσις
+            </h2>
+            {t.name.p.map((p, i) => (
+              <p key={i} className={i === 0 ? "mt-5 max-w-2xl text-lg text-dim" : "mt-3 max-w-2xl text-lg text-dim"}>
+                {p}
+              </p>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Pricing */}
+      <section id="pricing" className="mx-auto w-full max-w-6xl px-4 py-20 sm:py-24">
+        <p className="text-sm font-medium tracking-wide text-amber-text uppercase">{t.pricing.eyebrow}</p>
+        <h2 className="mt-3 max-w-2xl font-display text-3xl font-semibold tracking-tight text-balance sm:text-5xl">
+          {t.pricing.h2}
+        </h2>
+        <div className="mt-8 grid gap-6 lg:grid-cols-[1.2fr_1fr]">
+          <div className="rounded-2xl border border-line bg-surface p-6 sm:p-8">
+            <p className="font-display text-5xl font-semibold">{t.pricing.price}</p>
+            <p className="mt-2 text-dim">{t.pricing.sub}</p>
+            <ul className="mt-6 grid gap-2 text-sm sm:grid-cols-2">
+              {t.pricing.list.map((s) => (
+                <li key={s} className="flex items-center gap-2">
+                  <span className="size-1.5 rounded-full bg-correct" aria-hidden />
+                  {s}
+                </li>
+              ))}
+            </ul>
+            <Button asChild size="lg" className="mt-8 h-11 px-5 text-base">
+              <Link href={app}>
+                {t.nav.cta} <ArrowRight className="size-4" />
+              </Link>
+            </Button>
+          </div>
+          <div className="rounded-2xl border border-dashed border-line p-6 sm:p-8">
+            <p className="flex items-center gap-2 text-sm font-semibold text-amber-text">
+              <span className="size-2 rounded-full bg-amber" aria-hidden />
+              {t.pricing.codeTitle}
+            </p>
+            <p className="mt-3 text-dim">
+              {t.pricing.code}{" "}
+              <a href="mailto:hello@diesis.app" className="text-ink underline underline-offset-4">
+                hello@diesis.app
+              </a>{" "}
+              {t.pricing.codeAfter}
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ */}
+      <section id="faq" className="border-t border-line bg-surface/40">
+        <div className="mx-auto w-full max-w-3xl px-4 py-20 sm:py-24">
+          <p className="text-sm font-medium tracking-wide text-amber-text uppercase">{t.faq.eyebrow}</p>
+          <h2 className="mt-3 font-display text-3xl font-semibold tracking-tight sm:text-5xl">{t.faq.h2}</h2>
+          <div className="mt-10 divide-y divide-line border-y border-line">
+            {t.faq.items.map((f) => (
+              <details key={f.q} className="group py-4">
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-semibold [&::-webkit-details-marker]:hidden">
+                  {f.q}
+                  <span className="text-dim transition-transform group-open:rotate-45" aria-hidden>
+                    +
+                  </span>
+                </summary>
+                <p className="mt-3 text-dim">{f.a}</p>
+              </details>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Closing */}
+      <section className="mx-auto w-full max-w-6xl px-4 py-20 sm:py-24">
+        <div className="rounded-2xl border border-line bg-surface px-6 py-14 sm:px-12">
+          <h2 className="max-w-2xl font-display text-3xl font-semibold tracking-tight text-balance sm:text-5xl">
+            {t.closing.h2}
+          </h2>
+          <p className="mt-4 max-w-2xl text-lg text-dim">{t.closing.lede}</p>
+          <Button asChild size="lg" className="mt-8 h-11 px-5 text-base">
+            <Link href={app}>
+              {t.nav.cta} <ArrowRight className="size-4" />
+            </Link>
+          </Button>
+        </div>
+      </section>
+
+      <Footer t={t} />
+    </main>
+  );
+}

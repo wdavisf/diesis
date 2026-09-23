@@ -3,6 +3,14 @@
 Written for the people using it, not for the code. Newest first. Version matches
 `package.json`.
 
+## 0.3.0 — 23 September 2026, Spanish, a new mark, one code
+
+- Diesis speaks Spanish. An EN/ES switch sits in the header of every page; the Spanish site
+  lives at diesis.app/es and the choice follows you into the app.
+- A new logo: a lowercase delta, δ, drawn so it also reads as a note with its flag.
+- One access code for everyone in the preview, and it no longer matters whether you type it
+  in capitals.
+
 ## 0.2.0 — 23 September 2026, Diesis becomes a web app
 
 Diesis now lives at diesis.app: a page that explains it, an access code, and the game.

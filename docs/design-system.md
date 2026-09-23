@@ -9,6 +9,14 @@ Built for one situation: phone or laptop in landscape, guitar on the lap, eyes f
 the neck on screen and the answer buttons. Every choice serves "see the lit note, tap the name,
 know at once if it was right".
 
+## Mark
+
+A lowercase delta, δ, drawn so it also reads as a note: a filled, slightly tilted head (the
+bowl), a stem, and the δ's top arm sweeping right into a ball terminal (the flag). Amber on the
+stage tile with a 22% corner radius. Source: `public/favicon.svg`, mirrored in
+`components/logo.tsx`; `npm run icons` renders the PNGs. Minimum size 24 px; below that use
+the amber ellipse alone.
+
 ## Color
 
 | Token | Value | Used for |

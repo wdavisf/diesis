@@ -1,8 +1,13 @@
 import type { Metadata } from "next";
 import { Game } from "@/components/game";
+import { currentStrings } from "@/lib/lang";
 
-export const metadata: Metadata = { title: "Name the note" };
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await currentStrings();
+  return { title: t.game.title };
+}
 
-export default function NameTheNotePage() {
-  return <Game />;
+export default async function NameTheNotePage() {
+  const t = await currentStrings();
+  return <Game t={t.game} />;
 }
