@@ -38,6 +38,8 @@ export function Consent() {
   const lang: Lang = pathname === "/es" || pathname.startsWith("/es/") ? "es" : cookieLang;
   const t = strings[lang].consent;
   const privacyHref = `${strings[lang].base}/privacy`;
+  // Game screens keep the note buttons along the bottom edge, so the banner goes to the top there.
+  const inGame = pathname.startsWith("/app/");
 
   return (
     <>
@@ -56,7 +58,7 @@ gtag('config', '${GA_ID}');`}
         <div
           role="dialog"
           aria-live="polite"
-          className="fixed inset-x-3 bottom-3 z-40 mx-auto flex max-w-xl flex-wrap items-center gap-3 rounded-2xl border border-line bg-surface p-4 text-sm shadow-[0_20px_50px_rgba(0,0,0,0.5)]"
+          className={`fixed inset-x-3 z-40 mx-auto flex max-w-xl flex-wrap items-center gap-3 rounded-2xl border border-line bg-surface p-4 text-sm shadow-[0_20px_50px_rgba(0,0,0,0.5)] ${inGame ? "top-14" : "bottom-3"}`}
         >
           <p className="min-w-0 flex-1 text-dim">
             {t.text}{" "}
