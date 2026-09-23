@@ -4,6 +4,10 @@ import { isLang, LANG_COOKIE } from "@/lib/i18n";
 /** Sets the language cookie and sends the visitor back where they were. */
 export async function GET(request: NextRequest, ctx: RouteContext<"/lang/[code]">) {
   const { code } = await ctx.params;
+  // Link prefetches must not change the language: only a real navigation does.
+  if (request.headers.get("next-router-prefetch") || request.headers.get("purpose") === "prefetch" || request.headers.get("sec-purpose")?.includes("prefetch")) {
+    return new NextResponse(null, { status: 204 });
+  }
   const next = request.nextUrl.searchParams.get("next") ?? "/";
   const safe = next.startsWith("/") && !next.startsWith("//") ? next : "/";
   const res = NextResponse.redirect(new URL(safe, request.url));

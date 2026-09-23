@@ -32,7 +32,7 @@ export function LoginForm({
     <form action={action} className="w-full max-w-sm space-y-6 rounded-2xl border border-line bg-surface p-8">
       <div className="flex items-start justify-between">
         <Logo />
-        <Link
+        <a
           href={`/lang/${otherLang}?next=${encodeURIComponent(here)}`}
           hrefLang={otherLang}
           lang={otherLang}
@@ -40,7 +40,7 @@ export function LoginForm({
           className="inline-flex h-8 items-center rounded-lg border border-line bg-stage px-2.5 text-xs font-bold tracking-wider text-ink hover:bg-surface-raised"
         >
           {otherLabel}
-        </Link>
+        </a>
       </div>
       <div className="space-y-2">
         <h1 className="font-display text-3xl font-semibold tracking-tight">{t.h1}</h1>

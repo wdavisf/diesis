@@ -35,9 +35,9 @@ export function Landing({ t }: { t: Strings }) {
             </Button>
             <LangSwitch t={t} next={t.otherLang === "es" ? "/es" : "/"} className="ml-2" />
             <Button asChild size="sm" className="ml-2">
-              <Link href={app}>
+              <a href={app}>
                 {t.nav.cta} <ArrowRight className="size-4" />
-              </Link>
+              </a>
             </Button>
           </nav>
         </div>
@@ -55,9 +55,9 @@ export function Landing({ t }: { t: Strings }) {
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
             <Button asChild size="lg" className="h-11 px-5 text-base">
-              <Link href={app}>
+              <a href={app}>
                 {t.hero.cta} <ArrowRight className="size-4" />
-              </Link>
+              </a>
             </Button>
             <Button asChild size="lg" variant="outline" className="h-11 border-line bg-surface px-5 text-base text-ink hover:bg-surface-raised hover:text-ink">
               <a href="#how">{t.hero.secondary}</a>
@@ -162,9 +162,9 @@ export function Landing({ t }: { t: Strings }) {
               ))}
             </ul>
             <Button asChild size="lg" className="mt-8 h-11 px-5 text-base">
-              <Link href={app}>
+              <a href={app}>
                 {t.nav.cta} <ArrowRight className="size-4" />
-              </Link>
+              </a>
             </Button>
           </div>
           <div className="rounded-2xl border border-dashed border-line p-6 sm:p-8">
@@ -212,9 +212,9 @@ export function Landing({ t }: { t: Strings }) {
           </h2>
           <p className="mt-4 max-w-2xl text-lg text-dim">{t.closing.lede}</p>
           <Button asChild size="lg" className="mt-8 h-11 px-5 text-base">
-            <Link href={app}>
+            <a href={app}>
               {t.nav.cta} <ArrowRight className="size-4" />
-            </Link>
+            </a>
           </Button>
         </div>
       </section>

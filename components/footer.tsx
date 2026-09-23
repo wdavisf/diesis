@@ -12,12 +12,12 @@ export function Footer({ t }: { t: Strings }) {
           <span className="hidden sm:inline">{t.footer.tagline}</span>
         </div>
         <nav className="flex flex-wrap gap-x-5 gap-y-2">
-          <Link href={`/lang/${t.code}?next=%2Fapp`} className="hover:text-ink">{t.nav.cta}</Link>
+          <a href={`/lang/${t.code}?next=%2Fapp`} className="hover:text-ink">{t.nav.cta}</a>
           <Link href={`${t.base}/privacy`} className="hover:text-ink">{t.nav.privacy}</Link>
           <a href="mailto:hello@diesis.app" className="hover:text-ink">hello@diesis.app</a>
-          <Link href={`/lang/${t.otherLang}?next=${encodeURIComponent(other)}`} hrefLang={t.otherLang} lang={t.otherLang} className="hover:text-ink">
+          <a href={`/lang/${t.otherLang}?next=${encodeURIComponent(other)}`} hrefLang={t.otherLang} lang={t.otherLang} className="hover:text-ink">
             {t.otherName}
-          </Link>
+          </a>
         </nav>
       </div>
       <div className="mx-auto w-full max-w-6xl px-4 pb-8 text-xs text-dim">

@@ -1,11 +1,10 @@
-import Link from "next/link";
 import type { Strings } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 
 /** EN/ES toggle. Goes through /lang/[code] so the cookie follows the visitor into the app. */
 export function LangSwitch({ t, next, className }: { t: Strings; next: string; className?: string }) {
   return (
-    <Link
+    <a
       href={`/lang/${t.otherLang}?next=${encodeURIComponent(next)}`}
       hrefLang={t.otherLang}
       lang={t.otherLang}
@@ -16,6 +15,6 @@ export function LangSwitch({ t, next, className }: { t: Strings; next: string; c
       )}
     >
       {t.otherLabel}
-    </Link>
+    </a>
   );
 }
