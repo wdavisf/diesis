@@ -1,8 +1,9 @@
 # Diesis design system
 
-Tokens and rules for the app. Values live in `design/tokens.json` and are mirrored by hand in
-`src/ui/theme.ts` until a generator is worth it. The app is dark only for now: a stage, with the
-fretboard as the one lit object on it.
+Tokens and rules for the site and the app. Values live in `design/tokens.json` and are mirrored by
+hand in `app/globals.css` (theme variables) and `components/fretboard.tsx` (board colors). Dark
+only: a stage, with the fretboard as the one lit object on it. The landing page uses the same
+stage so the app feels like walking through a door, not into a different building.
 
 Built for one situation: phone or laptop in landscape, guitar on the lap, eyes flicking between
 the neck on screen and the answer buttons. Every choice serves "see the lit note, tap the name,
@@ -36,7 +37,9 @@ correct 4.6:1 (button label), ink on wrong 4.7:1.
 
 ## Type
 
-System font. Semibold for anything read at a glance (note names, feedback), regular for chrome.
+Geist for everything read, Fraunces (variable, optical size) for display headings and the
+wordmark: a serif with some warmth for a classical instrument. Semibold for anything read at a
+glance (note names, feedback), regular for chrome.
 
 | Style | Size / line | Weight | Where |
 |---|---|---|---|
@@ -57,7 +60,9 @@ string at the top as in every chord book, fret numbers under it. Answer panel at
 row of twelve buttons, 56 high, 8 gap, 12 side margin. Minimum tap target 44 × 44. Feedback line
 sits between the board and the panel and keeps its slot when empty so nothing jumps.
 
-Web in portrait on a phone shows a rotate gate instead of the game. Native is locked to landscape.
+A portrait phone shows a rotate gate instead of the game. On a desktop the board fills the
+window and the letter keys pick notes; a one-line hint under the panel says so, only on devices
+with a fine pointer.
 
 ## Motion
 

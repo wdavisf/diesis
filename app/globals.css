@@ -1,0 +1,112 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* Diesis is dark only: a stage, with the fretboard as the one lit object on it.
+   Values mirror design/tokens.json; keep the two in step. */
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-geist-mono);
+  --font-heading: var(--font-display);
+
+  --color-stage: #14120f;
+  --color-surface: #23201b;
+  --color-surface-raised: #2e2a24;
+  --color-line: #3a352d;
+  --color-ink: #f3efe6;
+  --color-dim: #a39c8e;
+  --color-amber: #e0a63a;
+  --color-amber-text: #f0c46a;
+  --color-correct: #4caf6b;
+  --color-wrong: #d64545;
+
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+:root {
+  color-scheme: dark;
+  --background: #14120f;
+  --foreground: #f3efe6;
+  --card: #23201b;
+  --card-foreground: #f3efe6;
+  --popover: #23201b;
+  --popover-foreground: #f3efe6;
+  --primary: #e0a63a;
+  --primary-foreground: #14120f;
+  --secondary: #2e2a24;
+  --secondary-foreground: #f3efe6;
+  --muted: #23201b;
+  --muted-foreground: #a39c8e;
+  --accent: #2e2a24;
+  --accent-foreground: #f3efe6;
+  --destructive: #d64545;
+  --border: #3a352d;
+  --input: #3a352d;
+  --ring: rgb(224 166 58 / 60%);
+  --radius: 0.75rem;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    @apply font-sans;
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+  }
+  h1, h2, h3, .font-display {
+    font-family: var(--font-display), var(--font-sans);
+    letter-spacing: -0.01em;
+  }
+}
+
+/* The animated game screen in the hero (components/screen.tsx). Two questions loop: G lights,
+   turns green with its name, then C. Under Reduce Motion the first answered frame stays put. */
+.screen .q { opacity: 0; }
+.screen .q1-ok, .screen .fb { opacity: 1; }
+@media (prefers-reduced-motion: no-preference) {
+  .screen .q { animation: 8s infinite; }
+  .screen .q1-ask { animation-name: q1ask; }
+  .screen .q1-ok { animation-name: q1ok; }
+  .screen .q2-ask { animation-name: q2ask; }
+  .screen .q2-ok { animation-name: q2ok; }
+  .screen .fb { animation-name: fb; }
+}
+@keyframes q1ask { 0% { opacity: 0 } 3%, 32% { opacity: 1 } 32.1%, 100% { opacity: 0 } }
+@keyframes q1ok  { 0%, 32% { opacity: 0 } 33%, 50% { opacity: 1 } 50.1%, 100% { opacity: 0 } }
+@keyframes q2ask { 0%, 50% { opacity: 0 } 53%, 82% { opacity: 1 } 82.1%, 100% { opacity: 0 } }
+@keyframes q2ok  { 0%, 82% { opacity: 0 } 83%, 100% { opacity: 1 } }
+@keyframes fb    { 0%, 32% { opacity: 0 } 33%, 50% { opacity: 1 } 50.1%, 82% { opacity: 0 } 83%, 100% { opacity: 1 } }
+
+/* A wrong pick flashes the button red for 400 ms (components/note-panel.tsx). */
+@keyframes flash-wrong { 0%, 100% { transform: none } 25% { transform: translateX(-3px) } 75% { transform: translateX(3px) } }
+.flash-wrong { animation: flash-wrong 0.3s ease; }

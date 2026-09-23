@@ -1,18 +1,22 @@
 # Diesis
 
-Guitar fretboard trainer: notes on the neck and, later, scales, as games. Web and iOS from one
-Expo codebase.
+Guitar trainer: notes on the neck, then scales, then reading music, as games. https://diesis.app
 
 - `CLAUDE.md` — living spec and decisions. Start there.
-- `CHANGELOG.md` — what each build does, written for users.
+- `CHANGELOG.md` — what each release does, written for users.
 - `docs/design-system.md` and `design/tokens.json` — the design system.
-- `src/` — the app. `src/core` is the pure TypeScript game logic with tests.
-- `site/` — the diesis.app marketing site (Astro). The game itself is served at play.diesis.app.
+- `app/` routes, `components/` UI, `lib/core` the pure game logic with tests.
+
+## Run locally
 
 ```bash
+cp .env.example .env.local   # set DIESIS_ACCESS_CODE, or leave it empty to skip the gate
 npm install
-npm test
-npm run web
+npm run dev
 ```
 
-Status (2026-09-15): MVP Mode A runs in the browser. Not yet installed on a phone.
+`/` is the landing page, `/app` the trainer (access code required when `DIESIS_ACCESS_CODE` is set).
+
+## Deploy
+
+Vercel, root directory = repo root, framework Next.js. Set `DIESIS_ACCESS_CODE` in the project settings.

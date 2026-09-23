@@ -1,7 +1,20 @@
 # Diesis changelog
 
-Written for the people using it, not for the code. Newest first. Version and build match
-`app.json`.
+Written for the people using it, not for the code. Newest first. Version matches
+`package.json`.
+
+## 0.2.0 — 23 September 2026, Diesis becomes a web app
+
+Diesis now lives at diesis.app: a page that explains it, an access code, and the game.
+
+- diesis.app opens on a landing page: what Diesis is, how a round works, and what is coming
+  (notes now, scales next, reading music for classical guitar after that).
+- "Open the app" asks for an access code once; the browser remembers it for six months.
+- Inside, pick a mode. "Name the note" is playable; the others are listed and locked for now.
+- On a laptop the letter keys C to B pick a note, Shift adds the sharp, Space plays the note again.
+- The board fills the window on a desktop; on a phone, hold it sideways as before.
+- The iPhone build and the separate play.diesis.app address are retired. Nothing you could do
+  before is gone; it just moved.
 
 ## 0.1.0 (1) — 15 September 2026, first web build
 

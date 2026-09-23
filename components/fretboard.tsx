@@ -1,0 +1,172 @@
+import { useMemo } from "react";
+import type { Position } from "@/lib/core/notes";
+import { STRING_COUNT } from "@/lib/core/notes";
+
+export type HighlightState = "asking" | "correct";
+
+export interface FretboardProps {
+  width: number;
+  height: number;
+  minFret: number;
+  maxFret: number;
+  highlight: Position | null;
+  highlightState: HighlightState;
+  /** Note name drawn inside the highlight once answered. */
+  highlightLabel?: string;
+}
+
+// Mirrors design/tokens.json → color.fretboard. Keep in step.
+const board = {
+  wood: "#5a3a2b",
+  woodEdge: "#3d271c",
+  fret: "#c9c6bd",
+  fretShadow: "#7d7a72",
+  nut: "#e9e2cf",
+  string: "#d8d4c8",
+  stringShadow: "#6b6558",
+  inlay: "#e8e2d3",
+  fretNumber: "#a39c8e",
+  highlight: "#e0a63a",
+  highlightCorrect: "#4caf6b",
+  highlightInk: "#14120f",
+  stringGauges: [1.2, 1.5, 1.9, 2.4, 3.0, 3.6],
+  inlayFrets: [3, 5, 7, 9, 12, 15, 17, 19, 21, 24],
+  doubleInlayFrets: [12, 24],
+};
+
+/** Distance of fret n from the nut on a neck of scale length 1 (equal temperament). */
+function fretDistance(n: number): number {
+  return 1 - Math.pow(2, -n / 12);
+}
+
+/**
+ * The neck, drawn with the nut on the left and string 1 (high E) at the top. Fret spacing is the
+ * real logarithmic one, scaled so the selected range fills the width. Fret 0 (open string) gets a
+ * short zone left of the nut so an open-string question has somewhere to light.
+ */
+export function Fretboard({ width, height, minFret, maxFret, highlight, highlightState, highlightLabel }: FretboardProps) {
+  const layout = useMemo(() => {
+    const numbersBand = 20;
+    const boardTop = 6;
+    const boardBottom = height - numbersBand;
+    const boardHeight = boardBottom - boardTop;
+    const stringInset = boardHeight * 0.12;
+    const stringGap = (boardHeight - stringInset * 2) / (STRING_COUNT - 1);
+
+    const showsOpen = minFret === 0;
+    const openZone = showsOpen ? Math.max(40, width * 0.06) : 0;
+    const firstDrawnFret = Math.max(minFret - 1, 0);
+    const left = openZone;
+    const right = width - 4;
+    const span = fretDistance(maxFret) - fretDistance(firstDrawnFret);
+    const scale = (right - left) / span;
+
+    const fretX = (n: number) => left + (fretDistance(n) - fretDistance(firstDrawnFret)) * scale;
+    const cellCenter = (n: number) => (n === 0 ? openZone / 2 : (fretX(n - 1) + fretX(n)) / 2);
+    const stringY = (s: number) => boardTop + stringInset + (s - 1) * stringGap;
+
+    return { boardTop, boardBottom, boardHeight, left, right, showsOpen, fretX, cellCenter, stringY, stringGap, firstDrawnFret };
+  }, [width, height, minFret, maxFret]);
+
+  const fretsToDraw: number[] = [];
+  for (let n = Math.max(layout.firstDrawnFret, 1); n <= maxFret; n++) fretsToDraw.push(n);
+  const cells: number[] = [];
+  for (let n = Math.max(minFret, 1); n <= maxFret; n++) cells.push(n);
+
+  const highlightR = Math.min(layout.stringGap * 0.46, 26);
+  const labelSize = Math.max(12, Math.min(highlightR * 0.95, 20));
+
+  return (
+    <svg width={width} height={height} viewBox={`0 0 ${width} ${height}`} role="img" aria-label="Guitar fretboard">
+      <rect
+        x={layout.left}
+        y={layout.boardTop}
+        width={layout.right - layout.left}
+        height={layout.boardHeight}
+        fill={board.wood}
+        stroke={board.woodEdge}
+        strokeWidth={2}
+        rx={3}
+      />
+
+      {cells
+        .filter((n) => board.inlayFrets.includes(n))
+        .map((n) => {
+          const cx = layout.cellCenter(n);
+          const r = Math.min(layout.stringGap * 0.28, 10);
+          if (board.doubleInlayFrets.includes(n)) {
+            return (
+              <g key={`inlay-${n}`}>
+                <circle cx={cx} cy={(layout.stringY(2) + layout.stringY(3)) / 2} r={r} fill={board.inlay} opacity={0.9} />
+                <circle cx={cx} cy={(layout.stringY(4) + layout.stringY(5)) / 2} r={r} fill={board.inlay} opacity={0.9} />
+              </g>
+            );
+          }
+          return <circle key={`inlay-${n}`} cx={cx} cy={(layout.stringY(3) + layout.stringY(4)) / 2} r={r} fill={board.inlay} opacity={0.9} />;
+        })}
+
+      {layout.showsOpen ? (
+        <rect x={layout.left - 3} y={layout.boardTop - 2} width={7} height={layout.boardHeight + 4} fill={board.nut} rx={1.5} />
+      ) : null}
+
+      {fretsToDraw.map((n) => {
+        const x = layout.fretX(n);
+        return (
+          <g key={`fret-${n}`}>
+            <line x1={x + 1} y1={layout.boardTop} x2={x + 1} y2={layout.boardBottom} stroke={board.fretShadow} strokeWidth={2} />
+            <line x1={x} y1={layout.boardTop} x2={x} y2={layout.boardBottom} stroke={board.fret} strokeWidth={2.5} />
+          </g>
+        );
+      })}
+
+      {Array.from({ length: STRING_COUNT }, (_, i) => i + 1).map((s) => {
+        const y = layout.stringY(s);
+        const gauge = board.stringGauges[s - 1];
+        return (
+          <g key={`string-${s}`}>
+            <line x1={0} y1={y + gauge * 0.6} x2={width} y2={y + gauge * 0.6} stroke={board.stringShadow} strokeWidth={gauge} />
+            <line x1={0} y1={y} x2={width} y2={y} stroke={board.string} strokeWidth={gauge} />
+          </g>
+        );
+      })}
+
+      {cells.map((n) => (
+        <text key={`num-${n}`} x={layout.cellCenter(n)} y={height - 5} fontSize={12} fill={board.fretNumber} textAnchor="middle">
+          {n}
+        </text>
+      ))}
+
+      {highlight ? (
+        <g>
+          <circle
+            cx={layout.cellCenter(highlight.fret)}
+            cy={layout.stringY(highlight.string)}
+            r={highlightR + 4}
+            fill="none"
+            stroke={highlightState === "correct" ? board.highlightCorrect : board.highlight}
+            strokeWidth={2}
+            opacity={0.55}
+          />
+          <circle
+            cx={layout.cellCenter(highlight.fret)}
+            cy={layout.stringY(highlight.string)}
+            r={highlightR}
+            fill={highlightState === "correct" ? board.highlightCorrect : board.highlight}
+          />
+          {highlightLabel ? (
+            <text
+              x={layout.cellCenter(highlight.fret)}
+              y={layout.stringY(highlight.string) + labelSize * 0.36}
+              fontSize={labelSize}
+              fontWeight={700}
+              fill={board.highlightInk}
+              textAnchor="middle"
+            >
+              {highlightLabel}
+            </text>
+          ) : null}
+        </g>
+      ) : null}
+    </svg>
+  );
+}
