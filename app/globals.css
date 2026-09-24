@@ -125,6 +125,29 @@
   }
 }
 
+/* A mark appearing on the neck pops in, and its color eases when it turns green
+   (components/fretboard.tsx). The wrong mark keeps the shake below instead. */
+.mark {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: mark-in 0.22s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+.mark circle {
+  transition: fill 0.18s ease, stroke 0.18s ease;
+}
+@keyframes mark-in {
+  from { transform: scale(0.55); opacity: 0 }
+  to { transform: none; opacity: 1 }
+}
+
+/* Anchors on the landing glide; the header nav points at them. */
+html { scroll-behavior: smooth; }
+
+@media (prefers-reduced-motion: reduce) {
+  .mark { animation: none; }
+  html { scroll-behavior: auto; }
+}
+
 /* A wrong pick flashes the button red for 400 ms (components/note-panel.tsx). */
 @keyframes flash-wrong { 0%, 100% { transform: none } 25% { transform: translateX(-3px) } 75% { transform: translateX(3px) } }
 .flash-wrong { animation: flash-wrong 0.3s ease; }

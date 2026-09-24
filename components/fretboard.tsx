@@ -159,7 +159,7 @@ export function Fretboard({ width, height, minFret, maxFret, marks, onPick, labe
         const cy = layout.stringY(m.position.string);
         const fill = markFill[m.state];
         return (
-          <g key={`mark-${m.position.string}-${m.position.fret}`} className={m.state === "wrong" ? "flash-wrong" : undefined}>
+          <g key={`mark-${m.position.string}-${m.position.fret}`} className={m.state === "wrong" ? "mark flash-wrong" : "mark"}>
             <circle cx={cx} cy={cy} r={highlightR + 4} fill="none" stroke={fill} strokeWidth={2} opacity={0.55} />
             <circle cx={cx} cy={cy} r={highlightR} fill={fill} />
             {m.label ? (

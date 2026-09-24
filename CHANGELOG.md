@@ -3,6 +3,15 @@
 Written for the people using it, not for the code. Newest first. Version matches
 `package.json`.
 
+## 0.6.2 — 24 September 2026, smoother
+
+- "Open the app" no longer reloads the page on its way in: it goes straight to the mode picker,
+  in the language you were reading.
+- Screens fade in as you move around the app; the mode cards arrive one after another; the
+  start card and the result card zoom in; a lit position pops onto the neck and eases from
+  amber to green; buttons press down under your finger. Anchor links on the landing glide.
+  All of it stands still if your system asks for reduced motion.
+
 ## 0.6.1 — 24 September 2026, a landing you can look at
 
 - On a phone the landing page no longer opens on a wall of words: the headline, then the game

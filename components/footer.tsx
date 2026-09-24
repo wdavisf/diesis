@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { OpenApp } from "@/components/open-app";
 import { Logo } from "@/components/logo";
 import type { Strings } from "@/lib/i18n";
 
@@ -12,7 +13,7 @@ export function Footer({ t }: { t: Strings }) {
           <span className="hidden sm:inline">{t.footer.tagline}</span>
         </div>
         <nav className="flex flex-wrap gap-x-5 gap-y-2">
-          <a href={`/lang/${t.code}?next=%2Fapp`} className="hover:text-ink">{t.nav.cta}</a>
+          <OpenApp lang={t.code} className="hover:text-ink">{t.nav.cta}</OpenApp>
           <Link href={`${t.base}/privacy`} className="hover:text-ink">{t.nav.privacy}</Link>
           <a href="mailto:hello@diesis.app" className="hover:text-ink">hello@diesis.app</a>
           <a href={`/lang/${t.otherLang}?next=${encodeURIComponent(other)}`} hrefLang={t.otherLang} lang={t.otherLang} className="hover:text-ink">

@@ -31,7 +31,7 @@ export function NotePanel({ onPick, disabled, correctPick, wrongPick, label = "N
             disabled={disabled}
             onClick={() => onPick(pc)}
             className={cn(
-              "h-14 min-w-11 flex-1 rounded-xl border border-line bg-surface text-xl font-semibold text-ink transition-colors select-none sm:h-16 sm:text-2xl",
+              "h-14 min-w-11 flex-1 rounded-xl border border-line bg-surface text-xl font-semibold text-ink transition-[transform,background-color,border-color] duration-150 select-none active:scale-95 motion-reduce:transition-none sm:h-16 sm:text-2xl",
               "outline-none focus-visible:ring-3 focus-visible:ring-ring/50 active:bg-surface-raised disabled:cursor-default",
               state === "correct" && "border-correct bg-correct",
               state === "wrong" && "flash-wrong border-wrong bg-wrong",

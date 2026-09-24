@@ -3,6 +3,7 @@ import { ArrowRight, Lock } from "lucide-react";
 import { Logo } from "@/components/logo";
 import { LangSwitch } from "@/components/lang-switch";
 import { currentStrings } from "@/lib/lang";
+import { cn } from "@/lib/utils";
 
 const hrefs = ["/app/name-the-note", "/app/find-the-note", null, null, null] as const;
 const tags = ["play", "play", "next", "later", "later"] as const;
@@ -29,11 +30,13 @@ export default async function AppHome() {
         {h.modes.map((m, i) => {
           const href = hrefs[i];
           const tag = tags[i] === "play" ? h.play : tags[i] === "next" ? h.next : h.later;
+          const enter = "animate-in fade-in slide-in-from-bottom-3 fill-mode-both duration-500 motion-reduce:animate-none";
+          const delay = { animationDelay: `${i * 70}ms` };
           return href ? (
-            <li key={m.title}>
+            <li key={m.title} className={enter} style={delay}>
               <Link
                 href={href}
-                className="group flex h-full flex-col rounded-2xl border border-amber/50 bg-surface p-5 transition-colors hover:border-amber hover:bg-surface-raised"
+                className="group flex h-full flex-col rounded-2xl border border-amber/50 bg-surface p-5 transition-[transform,border-color,background-color] duration-200 hover:-translate-y-0.5 hover:border-amber hover:bg-surface-raised active:translate-y-0 active:scale-[0.99] motion-reduce:transition-none motion-reduce:hover:translate-y-0"
               >
                 <span className="text-xs font-semibold text-correct">{tag}</span>
                 <span className="mt-2 flex items-center justify-between font-display text-xl font-semibold">
@@ -44,7 +47,7 @@ export default async function AppHome() {
               </Link>
             </li>
           ) : (
-            <li key={m.title} className="flex flex-col rounded-2xl border border-line p-5 opacity-70">
+            <li key={m.title} className={cn("flex flex-col rounded-2xl border border-line p-5 opacity-70", enter)} style={delay}>
               <span className="flex items-center gap-1.5 text-xs font-semibold text-dim">
                 <Lock className="size-3" aria-hidden />
                 {tag}

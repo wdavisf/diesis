@@ -95,6 +95,16 @@ Todoist project records what is still to do.
   detail goes to "How it works" and "What you learn". Each "How it works" step carries a drawn
   figure (`components/how-figures.tsx`: neck slice, button row, green/red verdict, in the game's
   colors, note names per language). Section padding is `py-14 sm:py-24`.
+- **Motion and navigation (Will, 2026-09-24: "navigation is clunky, add animations").** No
+  React/Next view transitions (not stable here); everything is CSS. `app/app/template.tsx` fades
+  every screen under `/app` in (opacity only: a transform there would become the containing
+  block of the fixed sideways game shell). Mode cards stagger in (`app/app/page.tsx`), the
+  start and result cards zoom in (`challenge-card.tsx`), board marks pop in and ease amber to
+  green (`.mark` in `globals.css`), note buttons press (`active:scale-95`), the verdict pops.
+  Utilities come from `tw-animate-css`; every animation carries `motion-reduce:animate-none`.
+  The landing's "Open the app" is `components/open-app.tsx`: a prefetched `Link` to `/app`
+  that writes the `diesis_lang` cookie on click, instead of the `/lang` redirect hop. The
+  language switch itself still goes through `/lang` (a real navigation, on purpose).
 - **Logo (Will, 2026-09-23)**: a real lowercase delta, δ, set on five staff lines like a note
   on a score. The outline is EB Garamond's δ (SIL Open Font License, extracted with fontTools);
   amber letter, cream lines at 45%, on the stage tile. Will rejected a hand-drawn δ: it must

@@ -112,7 +112,11 @@ export function Game({ t, tc, ts, lang }: { t: Strings["game"]; tc: Strings["cha
     >
       <div className="relative flex h-11 items-center justify-center">
         <p className={cn("text-xl font-semibold", game.phase === "correct" ? "text-correct" : "text-wrong")} aria-live="assertive">
-          {feedback}
+          {feedback ? (
+            <span key={`${game.phase}-${feedback}`} className="inline-block animate-in fade-in zoom-in-90 fill-mode-both duration-200 motion-reduce:animate-none">
+              {feedback}
+            </span>
+          ) : null}
         </p>
         {!picking && !over ? (
           <button

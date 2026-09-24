@@ -10,7 +10,7 @@ import { cn } from "@/lib/utils";
 type T = Strings["challenge"];
 
 const card =
-  "w-full max-w-md rounded-2xl border border-line bg-stage/95 p-4 text-center shadow-[0_20px_50px_rgba(0,0,0,0.5)] backdrop-blur-sm [@media(max-height:30rem)]:p-3";
+  "w-full max-w-md animate-in fade-in zoom-in-95 fill-mode-both duration-200 motion-reduce:animate-none rounded-2xl border border-line bg-stage/95 p-4 text-center shadow-[0_20px_50px_rgba(0,0,0,0.5)] backdrop-blur-sm [@media(max-height:30rem)]:p-3";
 const primary =
   "rounded-xl bg-amber px-6 py-2.5 text-lg font-semibold text-stage outline-none transition-colors hover:bg-amber-text focus-visible:ring-3 focus-visible:ring-ring/50 disabled:opacity-70";
 const secondary =

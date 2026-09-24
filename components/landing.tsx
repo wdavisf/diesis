@@ -6,6 +6,7 @@ import { Screen } from "@/components/screen";
 import { Footer } from "@/components/footer";
 import { LangSwitch } from "@/components/lang-switch";
 import { HowFigure } from "@/components/how-figures";
+import { OpenApp } from "@/components/open-app";
 import type { Strings, When } from "@/lib/i18n";
 
 const whenClass: Record<When, string> = {
@@ -16,7 +17,6 @@ const whenClass: Record<When, string> = {
 
 export function Landing({ t }: { t: Strings }) {
   const here = t.base || "/";
-  const app = `/lang/${t.code}?next=%2Fapp`;
   return (
     <main className="flex-1">
       <header className="sticky top-0 z-20 border-b border-line/80 bg-stage/80 backdrop-blur-md">
@@ -36,9 +36,9 @@ export function Landing({ t }: { t: Strings }) {
             </Button>
             <LangSwitch t={t} next={t.otherLang === "es" ? "/es" : "/"} className="ml-2" />
             <Button asChild size="sm" className="ml-2">
-              <a href={app}>
+              <OpenApp lang={t.code}>
                 {t.nav.cta} <ArrowRight className="size-4" />
-              </a>
+              </OpenApp>
             </Button>
           </nav>
         </div>
@@ -60,9 +60,9 @@ export function Landing({ t }: { t: Strings }) {
           </p>
           <div className="mt-6 flex flex-wrap gap-3">
             <Button asChild size="lg" className="h-11 px-5 text-base">
-              <a href={app}>
+              <OpenApp lang={t.code}>
                 {t.hero.cta} <ArrowRight className="size-4" />
-              </a>
+              </OpenApp>
             </Button>
             <Button asChild size="lg" variant="outline" className="h-11 border-line bg-surface px-5 text-base text-ink hover:bg-surface-raised hover:text-ink">
               <a href="#how">{t.hero.secondary}</a>
@@ -167,9 +167,9 @@ export function Landing({ t }: { t: Strings }) {
               ))}
             </ul>
             <Button asChild size="lg" className="mt-8 h-11 px-5 text-base">
-              <a href={app}>
+              <OpenApp lang={t.code}>
                 {t.nav.cta} <ArrowRight className="size-4" />
-              </a>
+              </OpenApp>
             </Button>
           </div>
           <div className="rounded-2xl border border-dashed border-line p-6 sm:p-8">
@@ -217,9 +217,9 @@ export function Landing({ t }: { t: Strings }) {
           </h2>
           <p className="mt-4 max-w-2xl text-lg text-dim">{t.closing.lede}</p>
           <Button asChild size="lg" className="mt-8 h-11 px-5 text-base">
-            <a href={app}>
+            <OpenApp lang={t.code}>
               {t.nav.cta} <ArrowRight className="size-4" />
-            </a>
+            </OpenApp>
           </Button>
         </div>
       </section>
