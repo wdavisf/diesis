@@ -58,7 +58,8 @@ gtag('config', '${GA_ID}');`}
         <div
           role="dialog"
           aria-live="polite"
-          className={`fixed inset-x-3 z-40 mx-auto flex max-w-xl flex-wrap items-center gap-3 rounded-2xl border border-line bg-surface p-4 text-sm shadow-[0_20px_50px_rgba(0,0,0,0.5)] ${inGame ? "top-14" : "bottom-3"}`}
+          data-game={inGame || undefined}
+          className={`consent-banner fixed inset-x-3 z-40 mx-auto flex max-w-xl flex-wrap items-center gap-3 rounded-2xl border border-line bg-surface p-4 text-sm shadow-[0_20px_50px_rgba(0,0,0,0.5)] ${inGame ? "top-14" : "bottom-3"}`}
         >
           <p className="min-w-0 flex-1 text-dim">
             {t.text}{" "}

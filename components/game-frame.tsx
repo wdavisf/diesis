@@ -35,21 +35,23 @@ export interface GameFrameProps {
 }
 
 /**
- * The shell every game screen shares: a rotate gate for portrait phones, a header with the way
- * back, the board filling the space it has, and the controls underneath.
+ * The shell every game screen shares: a header with the way back, the board filling the space it
+ * has, and the controls underneath. On a phone held upright the whole shell is drawn rotated 90°
+ * (`.game-sideways` in globals.css), so the game is landscape whatever the rotation lock says; a
+ * web page cannot turn the phone itself. Only a narrow desktop window sees the "widen it" gate.
  */
 export function GameFrame({ t, title, status, board, overlay, children }: GameFrameProps) {
   const { ref, size } = useSize<HTMLDivElement>();
   return (
     <>
-      {/* Portrait phones: the neck needs the long side. */}
-      <div className="hidden flex-1 flex-col items-center justify-center gap-3 px-6 text-center max-md:portrait:flex">
+      {/* A narrow, tall window on a desktop: the neck needs the long side and there is nothing to rotate. */}
+      <div className="hidden flex-1 flex-col items-center justify-center gap-3 px-6 text-center max-md:portrait:pointer-fine:flex">
         <RotateCw className="size-10 text-amber" aria-hidden />
         <p className="text-xl font-semibold">{t.rotate}</p>
         <p className="text-sm text-dim">{t.rotateSub}</p>
       </div>
 
-      <div className="flex flex-1 flex-col max-md:portrait:hidden">
+      <div className="game-sideways flex flex-1 flex-col max-md:portrait:pointer-fine:hidden">
         <header className="flex h-11 items-center justify-between gap-3 px-4">
           <div className="flex min-w-0 items-center gap-3">
             <Link href="/app" className="flex items-center gap-1 text-sm text-dim hover:text-ink" aria-label={t.back}>

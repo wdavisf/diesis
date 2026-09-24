@@ -19,13 +19,28 @@ export function sampleUrl(midi: number, set = "nylon"): string {
   return `/samples/${set}/${midi}.wav`;
 }
 
+/** iPhones mute Web Audio under the ring/silent switch unless the page asks for the "playback"
+ *  audio session. Safari 17+ exposes that as navigator.audioSession; elsewhere this is a no-op. */
+function askForPlaybackSession() {
+  const session = (navigator as Navigator & { audioSession?: { type: string } }).audioSession;
+  if (!session) return;
+  try {
+    session.type = "playback";
+  } catch {
+    // Older Safari: the switch still mutes us, nothing more to do.
+  }
+}
+
 export function createNotePlayer(): NotePlayer {
   let ctx: AudioContext | null = null;
   const buffers = new Map<number, AudioBuffer>();
   const loading = new Map<number, Promise<void>>();
 
   function context(): AudioContext {
-    if (!ctx) ctx = new AudioContext();
+    if (!ctx) {
+      askForPlaybackSession();
+      ctx = new AudioContext();
+    }
     return ctx;
   }
 
@@ -54,6 +69,8 @@ export function createNotePlayer(): NotePlayer {
         void load(midi);
         return;
       }
+      // iOS suspends ("interrupts") the context after a call, a lock or a switch of app; wake it.
+      if (ctx.state !== "running") void ctx.resume();
       const source = ctx.createBufferSource();
       source.buffer = buffer;
       source.connect(ctx.destination);

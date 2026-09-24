@@ -107,6 +107,24 @@
 @keyframes q2ok  { 0%, 82% { opacity: 0 } 83%, 100% { opacity: 1 } }
 @keyframes fb    { 0%, 32% { opacity: 0 } 33%, 50% { opacity: 1 } 50.1%, 82% { opacity: 0 } 83%, 100% { opacity: 1 } }
 
+/* A phone held upright (touch, narrower than md, portrait): the game shell is drawn turned 90°
+   clockwise and sized to the viewport's long side, so it is landscape even under rotation lock.
+   The player turns the phone so its right edge is up. The consent banner stays out of the way. */
+@media (max-width: 47.9375rem) and (orientation: portrait) and (pointer: coarse) {
+  .game-sideways {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100dvh;
+    height: 100dvw;
+    transform: rotate(90deg) translateY(-100%);
+    transform-origin: top left;
+  }
+  .consent-banner[data-game] {
+    display: none;
+  }
+}
+
 /* A wrong pick flashes the button red for 400 ms (components/note-panel.tsx). */
 @keyframes flash-wrong { 0%, 100% { transform: none } 25% { transform: translateX(-3px) } 75% { transform: translateX(3px) } }
 .flash-wrong { animation: flash-wrong 0.3s ease; }

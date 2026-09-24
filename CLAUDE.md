@@ -59,7 +59,15 @@ Todoist project records what is still to do.
 - Audio: placeholder samples synthesised by `tools/gen-samples.mjs` (Karplus-Strong, one WAV per
   MIDI pitch 40–88) in `public/samples/nylon/`, committed. Real nylon and electric samples with
   clear licensing are a Todoist task. Web Audio unlocks on the "Tap to start" gesture.
-- Orientation: portrait phones (under `md`, portrait) see a rotate gate, pure CSS.
+- **Orientation (Will, 2026-09-24: "it should open in landscape whatever the user has set").**
+  A web page cannot rotate an iPhone, so on a touch device narrower than `md` in portrait the
+  game shell (`components/game-frame.tsx`) is drawn turned 90° clockwise and sized to the
+  viewport's long side (`.game-sideways` in `globals.css`): landscape even under rotation lock,
+  right edge of the phone up. The consent banner hides there. The old rotate gate survives only
+  for a narrow desktop window (fine pointer), worded "make the window wider".
+- **Audio on iOS**: `lib/audio/note-player.ts` sets `navigator.audioSession.type = "playback"`
+  before creating the AudioContext (Safari 17+), otherwise the silent switch mutes Web Audio;
+  `play()` resumes a suspended context. Will reported silence on his phone 2026-09-24.
 - **Analytics (Will, 2026-09-23)**: Google Analytics 4, property `G-HNHYBR8Y13`, loaded by
   `components/consent.tsx` only after the visitor accepts a banner (cookie `diesis_consent`,
   one year). Decline loads nothing from Google. The privacy page describes it in both

@@ -3,6 +3,14 @@
 Written for the people using it, not for the code. Newest first. Version matches
 `package.json`.
 
+## 0.5.1 — 24 September 2026, sound on the iPhone, sideways by itself
+
+- On an iPhone the notes now play even with the ring/silent switch on silent. Before, the
+  phone muted the game like a ringtone.
+- Hold the phone upright and the game turns itself: it is drawn sideways, so it plays in
+  landscape whatever your rotation lock says. Turn the phone so its right edge is up. The
+  "turn your phone" screen is gone.
+
 ## 0.5.0 — 24 September 2026, find the note, and challenges
 
 - New mode: **Find the note**. You get a note name; tap every place it lives on the neck,
