@@ -98,7 +98,10 @@ be deleted in the dashboard. The repo folder is linked to `diesis-site` (`.verce
   Next generates its route types). `npm run lint`. `npm run build` — production build.
 - Env: none. A clone runs as is.
 - Deploy: push to `main` (Vercel Git integration) or `npx vercel deploy --prod`.
-- Every release: bump `version` in `package.json`, write the CHANGELOG entry, commit.
+- Every release: bump `version` in `package.json`, write the CHANGELOG entry, commit **and push
+  to `main` in the same session, without asking** (Will, 2026-09-24: any change he asks for in
+  Diesis goes straight to production; a commit left unpushed once meant the live site kept the
+  access gate he had asked to remove). Check the Vercel deploy reached production afterwards.
 
 ## Conventions
 
