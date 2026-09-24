@@ -3,6 +3,14 @@
 Written for the people using it, not for the code. Newest first. Version matches
 `package.json`.
 
+## 0.6.1 — 24 September 2026, a landing you can look at
+
+- On a phone the landing page no longer opens on a wall of words: the headline, then the game
+  screen itself, then two sentences and the button. The long paragraph is gone; what it said
+  now lives in "How it works" and "What you learn".
+- "How it works" shows each step: the position lighting up, the row of buttons with the
+  answer, and the green and red verdicts, drawn with the game's own neck and buttons.
+
 ## 0.6.0 — 24 September 2026, your notes, your names
 
 - Two choices on the start card, in both modes. Notes: all twelve, or naturals only (C D E F

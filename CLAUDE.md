@@ -89,6 +89,12 @@ Todoist project records what is still to do.
   have `/es` routes (SEO, hreflang); the mode picker and game read the `diesis_lang`
   cookie, set by `/lang/[code]` (the switcher and the landing CTAs go through it). Values in the
   strings file must be plain data (no functions): they cross into client components.
+- **Landing on phones (Will, 2026-09-24: "only text").** The hero is a grid: headline, then the
+  animated `Screen`, then the lede, CTAs and trust line; from `lg` the screen takes the right
+  column against the whole text block. The hero lede stays at three or four short sentences;
+  detail goes to "How it works" and "What you learn". Each "How it works" step carries a drawn
+  figure (`components/how-figures.tsx`: neck slice, button row, green/red verdict, in the game's
+  colors, note names per language). Section padding is `py-14 sm:py-24`.
 - **Logo (Will, 2026-09-23)**: a real lowercase delta, δ, set on five staff lines like a note
   on a score. The outline is EB Garamond's δ (SIL Open Font License, extracted with fontTools);
   amber letter, cream lines at 45%, on the stage tile. Will rejected a hand-drawn δ: it must

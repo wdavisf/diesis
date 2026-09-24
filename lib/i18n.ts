@@ -114,7 +114,7 @@ const en: Strings = {
   hero: {
     eyebrow: "Guitar fretboard trainer",
     h1: "Know every note on the neck.",
-    lede: "A spot lights up on the fretboard and you hear it. Name it. Right turns green and moves on; wrong stays until you get it. Or turn it around: get a name and find every place it lives. Play for as long as you like, against the clock, or without a single mistake. A few minutes a day with the guitar on your lap, and the neck stops being a mystery. Scales and reading music follow, on the same neck.",
+    lede: "A spot lights up on the fretboard and you hear it. Name it. Or turn it around: get a name and find every place it lives. A few minutes a day with the guitar on your lap, and the neck stops being a mystery.",
     cta: "Open the app",
     secondary: "How it works",
     trust: ["Free in preview", "No account", "Phone or laptop, in the browser"],
@@ -122,7 +122,7 @@ const en: Strings = {
   how: {
     eyebrow: "How it works",
     h2: "See the note. Name it. Know at once.",
-    lede: "One thing at a time, the way a teacher would do it across the table. Nothing to set up.",
+    lede: "One thing at a time, the way a teacher would do it across the table. Nothing to set up. Play for as long as you like, against the clock, or without a single mistake.",
     steps: [
       { title: "A position lights up", body: "One spot on the neck turns amber and the note plays. Frets 0 to 12, all six strings, every one of the twelve notes." },
       { title: "Name it", body: "Twelve buttons along the bottom, C to B, sharps written as ♯. On a laptop, just press the letter." },
@@ -304,7 +304,7 @@ const es: Strings = {
   hero: {
     eyebrow: "El mástil de la guitarra, como un juego",
     h1: "Aprende todas las notas del mástil.",
-    lede: "Se ilumina un punto en el mástil y suena la nota. Tú dices cuál es. Si aciertas, se pone en verde y pasa a la siguiente; si fallas, se queda ahí hasta que la saques. O al revés: te dan el nombre y la buscas en todos los sitios del mástil. Juega sin límite, contrarreloj o sin permitirte ni un fallo. Unos minutos al día con la guitarra encima y el mástil deja de ser un misterio. Después llegan las escalas y la lectura de partituras, en el mismo mástil.",
+    lede: "Se ilumina un punto en el mástil y suena la nota. Tú dices cuál es. O al revés: te dan el nombre y la buscas por todo el mástil. Unos minutos al día con la guitarra encima y el mástil deja de ser un misterio.",
     cta: "Abrir la app",
     secondary: "Cómo funciona",
     trust: ["Gratis durante la beta", "Sin registro", "En el navegador, móvil u ordenador"],
@@ -312,7 +312,7 @@ const es: Strings = {
   how: {
     eyebrow: "Cómo funciona",
     h2: "Ves la nota. Dices cuál es. Sabes al instante si has acertado.",
-    lede: "De una en una, como haría un profesor sentado enfrente. No hay nada que configurar.",
+    lede: "De una en una, como haría un profesor sentado enfrente. No hay nada que configurar. Juega sin límite, contrarreloj o sin permitirte ni un fallo.",
     steps: [
       { title: "Se ilumina una posición", body: "Un punto del mástil se enciende en ámbar y suena la nota. Del traste 0 al 12, las seis cuerdas, las doce notas." },
       { title: "Di cuál es", body: "Doce botones en la parte de abajo, de Do a Si, con los sostenidos escritos como ♯. En el ordenador basta con pulsar la tecla de la nota." },

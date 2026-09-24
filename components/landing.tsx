@@ -5,6 +5,7 @@ import { Logo, LogoMark } from "@/components/logo";
 import { Screen } from "@/components/screen";
 import { Footer } from "@/components/footer";
 import { LangSwitch } from "@/components/lang-switch";
+import { HowFigure } from "@/components/how-figures";
 import type { Strings, When } from "@/lib/i18n";
 
 const whenClass: Record<When, string> = {
@@ -43,17 +44,21 @@ export function Landing({ t }: { t: Strings }) {
         </div>
       </header>
 
-      {/* Hero */}
-      <section className="mx-auto grid w-full max-w-6xl items-center gap-12 px-4 pt-14 pb-20 lg:grid-cols-[1.05fr_1fr] lg:pt-24 lg:pb-28">
-        <div>
+      {/* Hero. On a phone the game screen sits right under the headline, before any paragraph;
+          from lg up it takes the right column against the whole text block. */}
+      <section className="mx-auto grid w-full max-w-6xl gap-x-12 gap-y-7 px-4 pt-10 pb-16 lg:grid-cols-[1.05fr_1fr] lg:grid-rows-[auto_auto] lg:items-center lg:gap-y-6 lg:pt-24 lg:pb-28">
+        <div className="lg:col-start-1 lg:row-start-1 lg:self-end">
           <p className="text-sm font-medium tracking-wide text-amber-text uppercase">{t.hero.eyebrow}</p>
           <h1 className="mt-4 font-display text-5xl leading-[1] font-semibold text-balance sm:text-6xl lg:text-7xl">
             {t.hero.h1}
           </h1>
-          <p className="mt-6 max-w-xl text-lg text-pretty text-dim">
+        </div>
+        <Screen t={t} className="lg:col-start-2 lg:row-span-2 lg:row-start-1 drop-shadow-[0_30px_60px_rgba(0,0,0,0.55)]" />
+        <div className="lg:col-start-1 lg:row-start-2 lg:self-start">
+          <p className="max-w-xl text-lg text-pretty text-dim">
             {t.hero.lede}
           </p>
-          <div className="mt-8 flex flex-wrap gap-3">
+          <div className="mt-6 flex flex-wrap gap-3">
             <Button asChild size="lg" className="h-11 px-5 text-base">
               <a href={app}>
                 {t.hero.cta} <ArrowRight className="size-4" />
@@ -72,12 +77,11 @@ export function Landing({ t }: { t: Strings }) {
             ))}
           </ul>
         </div>
-        <Screen t={t} className="drop-shadow-[0_30px_60px_rgba(0,0,0,0.55)]" />
       </section>
 
       {/* How it works */}
       <section id="how" className="border-t border-line bg-surface/40">
-        <div className="mx-auto w-full max-w-6xl px-4 py-20 sm:py-24">
+        <div className="mx-auto w-full max-w-6xl px-4 py-14 sm:py-24">
           <p className="text-sm font-medium tracking-wide text-amber-text uppercase">{t.how.eyebrow}</p>
           <h2 className="mt-3 max-w-2xl font-display text-3xl font-semibold tracking-tight text-balance sm:text-5xl">
             {t.how.h2}
@@ -85,7 +89,8 @@ export function Landing({ t }: { t: Strings }) {
           <p className="mt-4 max-w-2xl text-lg text-dim">{t.how.lede}</p>
           <ol className="mt-12 grid gap-6 sm:grid-cols-3">
             {t.how.steps.map((s, i) => (
-              <li key={s.title} className="flex flex-col rounded-2xl border border-line bg-stage p-6">
+              <li key={s.title} className="flex flex-col rounded-2xl border border-line bg-stage p-5 sm:p-6">
+                <HowFigure step={i} t={t} className="mb-5 h-auto w-full" />
                 <span className="font-display text-4xl font-semibold text-amber">{String(i + 1).padStart(2, "0")}</span>
                 <h3 className="mt-3 font-display text-xl font-semibold">{s.title}</h3>
                 <p className="mt-2 text-sm text-dim">{s.body}</p>
@@ -96,7 +101,7 @@ export function Landing({ t }: { t: Strings }) {
       </section>
 
       {/* What you learn */}
-      <section id="learn" className="mx-auto w-full max-w-6xl px-4 py-20 sm:py-24">
+      <section id="learn" className="mx-auto w-full max-w-6xl px-4 py-14 sm:py-24">
         <p className="text-sm font-medium tracking-wide text-amber-text uppercase">{t.learn.eyebrow}</p>
         <h2 className="mt-3 max-w-2xl font-display text-3xl font-semibold tracking-tight text-balance sm:text-5xl">
           {t.learn.h2}
@@ -127,7 +132,7 @@ export function Landing({ t }: { t: Strings }) {
 
       {/* The name */}
       <section className="border-y border-line bg-surface/40">
-        <div className="mx-auto grid w-full max-w-6xl items-center gap-10 px-4 py-20 sm:py-24 lg:grid-cols-[auto_1fr]">
+        <div className="mx-auto grid w-full max-w-6xl items-center gap-10 px-4 py-14 sm:py-24 lg:grid-cols-[auto_1fr]">
           <LogoMark size={150} className="rounded-[22%] ring-1 ring-white/10" />
           <div>
             <p className="text-sm font-medium tracking-wide text-amber-text uppercase">{t.name.eyebrow}</p>
@@ -144,7 +149,7 @@ export function Landing({ t }: { t: Strings }) {
       </section>
 
       {/* Pricing */}
-      <section id="pricing" className="mx-auto w-full max-w-6xl px-4 py-20 sm:py-24">
+      <section id="pricing" className="mx-auto w-full max-w-6xl px-4 py-14 sm:py-24">
         <p className="text-sm font-medium tracking-wide text-amber-text uppercase">{t.pricing.eyebrow}</p>
         <h2 className="mt-3 max-w-2xl font-display text-3xl font-semibold tracking-tight text-balance sm:text-5xl">
           {t.pricing.h2}
@@ -185,7 +190,7 @@ export function Landing({ t }: { t: Strings }) {
 
       {/* FAQ */}
       <section id="faq" className="border-t border-line bg-surface/40">
-        <div className="mx-auto w-full max-w-3xl px-4 py-20 sm:py-24">
+        <div className="mx-auto w-full max-w-3xl px-4 py-14 sm:py-24">
           <p className="text-sm font-medium tracking-wide text-amber-text uppercase">{t.faq.eyebrow}</p>
           <h2 className="mt-3 font-display text-3xl font-semibold tracking-tight sm:text-5xl">{t.faq.h2}</h2>
           <div className="mt-10 divide-y divide-line border-y border-line">
@@ -205,7 +210,7 @@ export function Landing({ t }: { t: Strings }) {
       </section>
 
       {/* Closing */}
-      <section className="mx-auto w-full max-w-6xl px-4 py-20 sm:py-24">
+      <section className="mx-auto w-full max-w-6xl px-4 py-14 sm:py-24">
         <div className="rounded-2xl border border-line bg-surface px-6 py-14 sm:px-12">
           <h2 className="max-w-2xl font-display text-3xl font-semibold tracking-tight text-balance sm:text-5xl">
             {t.closing.h2}
