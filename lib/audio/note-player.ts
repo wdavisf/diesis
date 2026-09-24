@@ -4,6 +4,9 @@
  * calls from the first tap, as browsers require.
  */
 export interface NotePlayer {
+  /** Fetches the sample files without touching audio, so it can run before any gesture (the
+   *  setup screen calls it). `prepare` then only has to decode. */
+  preload(midiNotes: readonly number[]): Promise<void>;
   /** Must be called from a user gesture before anything can sound. Resolves when the given
    *  pitches are decoded and ready to play with low latency. */
   prepare(midiNotes: readonly number[]): Promise<void>;
@@ -35,6 +38,17 @@ export function createNotePlayer(): NotePlayer {
   let ctx: AudioContext | null = null;
   const buffers = new Map<number, AudioBuffer>();
   const loading = new Map<number, Promise<void>>();
+  const bytes = new Map<number, Promise<ArrayBuffer>>();
+
+  function fetchBytes(midi: number): Promise<ArrayBuffer> {
+    let pending = bytes.get(midi);
+    if (!pending) {
+      pending = fetch(sampleUrl(midi)).then((r) => r.arrayBuffer());
+      pending.catch(() => bytes.delete(midi));
+      bytes.set(midi, pending);
+    }
+    return pending;
+  }
 
   function context(): AudioContext {
     if (!ctx) {
@@ -50,14 +64,17 @@ export function createNotePlayer(): NotePlayer {
     if (pending) return pending;
     if (midi < SAMPLE_LOW || midi > SAMPLE_HIGH) return Promise.resolve();
     const task = (async () => {
-      const bytes = await (await fetch(sampleUrl(midi))).arrayBuffer();
-      buffers.set(midi, await context().decodeAudioData(bytes));
+      // decodeAudioData detaches the buffer it is given, so hand it a copy and keep the bytes.
+      buffers.set(midi, await context().decodeAudioData((await fetchBytes(midi)).slice(0)));
     })().finally(() => loading.delete(midi));
     loading.set(midi, task);
     return task;
   }
 
   return {
+    async preload(midiNotes) {
+      await Promise.all(midiNotes.filter((m) => m >= SAMPLE_LOW && m <= SAMPLE_HIGH).map((m) => fetchBytes(m).catch(() => undefined)));
+    },
     async prepare(midiNotes) {
       const c = context();
       if (c.state !== "running") await c.resume();

@@ -3,6 +3,12 @@
 Written for the people using it, not for the code. Newest first. Version matches
 `package.json`.
 
+## 0.6.4 — 24 September 2026, upright to choose, sideways to play
+
+- On a phone the setup screen is an ordinary upright page again. Press Start and the neck
+  grows out of it and swings a quarter turn into its landscape place. Turn the phone with it.
+- The sounds download while you are still choosing, so Start no longer waits.
+
 ## 0.6.3 — 24 September 2026, set up first, then the neck
 
 - The choices before a round (challenge, minutes, which notes, how they are named) have their

@@ -51,6 +51,11 @@ export function useModeA(settings: QuizSettings, player: NotePlayer, events: Mod
   };
   useEffect(() => clearTimers, []);
 
+  // Fetch the samples while the player is still on the setup screen; Start only decodes them.
+  useEffect(() => {
+    void player.preload(pitches);
+  }, [player, pitches]);
+
   const halt = useCallback(() => clearTimers(), []);
   const stop = useCallback(() => {
     clearTimers();

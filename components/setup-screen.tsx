@@ -10,7 +10,7 @@ import { cn } from "@/lib/utils";
 
 function Row({ label, children }: { label: string; children: ReactNode }) {
   return (
-    <div className="grid grid-cols-[6.5rem_1fr] items-center gap-3 sm:grid-cols-[8rem_1fr]">
+    <div className="flex flex-col gap-1.5 sm:grid sm:grid-cols-[8rem_1fr] sm:items-center sm:gap-3">
       <span className="text-sm font-medium text-dim">{label}</span>
       <div role="radiogroup" aria-label={label} className="flex gap-2">
         {children}
@@ -53,7 +53,7 @@ export function SetupScreen({
   const sub = value.kind === "timed" ? tc.timedSub : value.kind === "streak" ? tc.streakSub : tc.practiceSub;
   return (
     <div className="flex min-h-0 flex-1 flex-col overflow-auto px-4 pb-3 animate-in fade-in fill-mode-both duration-300 motion-reduce:animate-none">
-      <div className="mx-auto flex w-full max-w-2xl flex-1 flex-col justify-center gap-3 py-2 [@media(max-height:30rem)]:gap-2">
+      <div className="mx-auto flex w-full max-w-2xl flex-1 flex-col justify-center gap-4 py-4 sm:gap-3 sm:py-2 [@media(max-height:30rem)]:gap-2">
         <p className="text-sm text-dim [@media(max-height:26rem)]:hidden">{hint}</p>
         <Row label={ts.challenge}>
           <Chip on={value.kind === "practice"} onClick={() => onChange({ kind: "practice" })}>
@@ -91,12 +91,12 @@ export function SetupScreen({
             {ts.letters}
           </Chip>
         </Row>
-        <div className="mt-1 flex items-center justify-between gap-4 border-t border-line pt-3">
+        <div className="mt-1 flex flex-col gap-3 border-t border-line pt-4 sm:flex-row sm:items-center sm:justify-between sm:gap-4 sm:pt-3">
           <p className="min-w-0 text-sm text-dim">
             {sub}
             {best !== null ? <span className="text-amber-text"> · {tc.best.replace("{n}", String(best))}</span> : null}
           </p>
-          <button type="button" onClick={onStart} disabled={loading} className={cn(primary, "inline-flex shrink-0 items-center gap-2")}>
+          <button type="button" onClick={onStart} disabled={loading} className={cn(primary, "inline-flex shrink-0 items-center justify-center gap-2")}>
             {loading ? loadingLabel : tc.start}
             {loading ? null : <ArrowRight className="size-5" aria-hidden />}
           </button>

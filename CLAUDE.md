@@ -43,6 +43,8 @@ Todoist project records what is still to do.
   opens on `components/setup-screen.tsx`, a full screen inside the same `GameShell` (sideways
   on phones): challenge, minutes, notes, names, the stored best for that pick, Start. The
   board only mounts once the round starts; the result card is still an overlay on the board.
+  The mode hooks call `player.preload()` on mount so the WAVs download during setup and Start
+  only decodes (`lib/audio/note-player.ts` keeps the bytes; decoding gets a copy).
 - **Challenges** (Will, 2026-09-24): every mode starts on a picker. Practice (endless),
   Against the clock (1, 2 or 5 min, score = right answers; mistakes counted, do not end it),
   No mistakes (score = right answers before the first mistake). In Find the note each position
@@ -66,10 +68,14 @@ Todoist project records what is still to do.
   clear licensing are a Todoist task. Web Audio unlocks on the "Tap to start" gesture.
 - **Orientation (Will, 2026-09-24: "it should open in landscape whatever the user has set").**
   A web page cannot rotate an iPhone, so on a touch device narrower than `md` in portrait the
-  game shell (`components/game-frame.tsx`) is drawn turned 90° clockwise and sized to the
-  viewport's long side (`.game-sideways` in `globals.css`): landscape even under rotation lock,
-  right edge of the phone up. The consent banner hides there. The old rotate gate survives only
-  for a narrow desktop window (fine pointer), worded "make the window wider".
+  play screen (`GameFrame` → `GameShell sideways`) is drawn turned 90° clockwise and sized to
+  the viewport's long side (`.game-sideways` in `globals.css`, centered on the viewport and
+  turned about its middle): landscape even under rotation lock, right edge of the phone up.
+  **The setup screen stays upright** (Will, 2026-09-24) and on Start the play screen arrives
+  with `.game-enter`: on phones it grows from 40% and swings 0°→90° into place (`game-turn`,
+  0.8 s), elsewhere a short zoom (`game-in`). The consent banner hides while sideways
+  (`body:has(.game-sideways)`). The old rotate gate survives only for a narrow desktop window
+  (fine pointer), worded "make the window wider", and only on the play screen.
 - **Audio on iOS**: `lib/audio/note-player.ts` sets `navigator.audioSession.type = "playback"`
   before creating the AudioContext (Safari 17+), otherwise the silent switch mutes Web Audio;
   `play()` resumes a suspended context. Will reported silence on his phone 2026-09-24.
