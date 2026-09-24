@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils";
 type T = Strings["challenge"];
 
 const card =
-  "w-full max-w-md rounded-2xl border border-line bg-stage/95 p-4 text-center shadow-[0_20px_50px_rgba(0,0,0,0.5)] backdrop-blur-sm";
+  "w-full max-w-md rounded-2xl border border-line bg-stage/95 p-4 text-center shadow-[0_20px_50px_rgba(0,0,0,0.5)] backdrop-blur-sm [@media(max-height:30rem)]:p-3";
 const primary =
   "rounded-xl bg-amber px-6 py-2.5 text-lg font-semibold text-stage outline-none transition-colors hover:bg-amber-text focus-visible:ring-3 focus-visible:ring-ring/50 disabled:opacity-70";
 const secondary =
@@ -23,7 +23,7 @@ function Chip({ on, onClick, children }: { on: boolean; onClick: () => void; chi
       aria-checked={on}
       onClick={onClick}
       className={cn(
-        "h-9 flex-1 rounded-lg border px-2 text-sm font-medium outline-none transition-colors focus-visible:ring-3 focus-visible:ring-ring/50",
+        "h-9 flex-1 whitespace-nowrap rounded-lg border px-2 text-xs font-medium sm:text-sm [@media(max-height:30rem)]:h-8 outline-none transition-colors focus-visible:ring-3 focus-visible:ring-ring/50",
         on ? "border-amber bg-amber/15 text-amber-text" : "border-line text-dim hover:text-ink",
       )}
     >
@@ -76,8 +76,8 @@ export function ChallengePicker({
           ))}
         </div>
       ) : null}
-      <p className="mt-2 text-sm text-dim">{sub}</p>
-      <button type="button" onClick={onStart} disabled={loading} className={cn(primary, "mt-3 min-w-40")}>
+      <p className="mt-2 text-sm text-dim [@media(max-height:30rem)]:mt-1.5 [@media(max-height:30rem)]:text-xs">{sub}</p>
+      <button type="button" onClick={onStart} disabled={loading} className={cn(primary, "mt-3 min-w-40 [@media(max-height:30rem)]:mt-2 [@media(max-height:30rem)]:py-2")}>
         {loading ? loadingLabel : t.start}
       </button>
     </div>

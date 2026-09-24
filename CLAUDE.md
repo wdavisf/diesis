@@ -22,8 +22,8 @@ Todoist project records what is still to do.
   account or cookie. The `/login` route, `proxy.ts` and the `DIESIS_ACCESS_CODE` env that gated
   `/app/*` from 0.2.0 to 0.3.0 are gone (git history has them; the shared code `RYUJIN` is dead).
   If access control ever comes back it will be an account, not a shared code.
-- **Scope on the landing page** (three tracks): Notes (Name the note playable now; Find the note,
-  Hear the note, settings and challenges next), Scales (later: explore, build, name the scale,
+- **Scope on the landing page** (three tracks): Notes (Name the note, Find the note and
+  challenges playable now; Hear the note and settings next), Scales (later: explore, build, name the scale,
   name the degree), Reading music (later, for classical guitar: note on the staff to name or
   neck, neck to staff, short reading passages). Keep the page and the app home in step with what
   exists.
@@ -31,6 +31,20 @@ Todoist project records what is still to do.
   played, twelve buttons, "Wrong" keeps the question, "Correct" shows the name on the board and
   moves on. Frets 0–12, six strings, all twelve notes. Desktop keys: C D E F G A B pick a note,
   Shift for the sharp, Space or Enter replays (or starts).
+- **Mode B, Find the note** (built 2026-09-24): open `/app/find-the-note`. A note name is
+  shown under the board; the player taps every position of that pitch class in frets 0–12,
+  six strings. Every tap plays the note tapped. Partial-answer rules (decided when building,
+  Will can overrule): a right tap stays green with the name; a wrong tap flashes red with its
+  real name for 0.7 s and counts one mistake, the round goes on; the round ends when all are
+  found; in Practice a "Show me" button reveals the rest and moves on. Core: `positionsOf`
+  and `nextFindRound` in `lib/core/quiz.ts` (never the same note twice in a row).
+- **Challenges** (Will, 2026-09-24): every mode starts on a picker. Practice (endless),
+  Against the clock (1, 2 or 5 min, score = right answers; mistakes counted, do not end it),
+  No mistakes (score = right answers before the first mistake). In Find the note each position
+  found is one right answer. Pure rules in `lib/core/challenge.ts`; clock and storage in
+  `lib/game/use-challenge.ts`. Personal bests in localStorage `diesis_best:<mode>:<challenge>`
+  (per browser, never sent; the privacy page says so), last pick in `diesis_challenge`. The
+  Todoist "note-count challenge" (fixed number of notes, timed) is not built.
 - **Scales after notes**; the engine will model a scale as its full-neck set with boxed
   positions on top. Not yet designed in detail. **Reading music** is a new track (Will,
   2026-09-23): not yet specified beyond the landing-page copy; needs a staff renderer and a
@@ -82,13 +96,16 @@ be deleted in the dashboard. The repo folder is linked to `diesis-site` (`.verce
 ## Layout of the repo
 
 - `app/` — routes: `page.tsx` and `es/page.tsx` (landing), `privacy/` and `es/privacy/`,
-  `app/` (mode picker), `app/name-the-note/`, `lang/[code]/` (cookie setter).
+  `app/` (mode picker), `app/name-the-note/`, `app/find-the-note/`, `lang/[code]/` (cookie setter).
   `layout.tsx` holds fonts and metadata; `globals.css` the theme tokens.
 - `components/` — `landing`, `privacy-page`, `logo`, `screen` (animated hero), `footer`,
-  `lang-switch`, `fretboard` (SVG), `note-panel`, `game` (Mode A screen, client), `ui/`.
+  `lang-switch`, `fretboard` (SVG, marks and tap targets), `note-panel`, `game-frame` (shared
+  game shell), `challenge-card` (picker, result, header status), `game` (Mode A),
+  `find-game` (Mode B), `ui/`.
 - `lib/i18n.ts` — every string, EN and ES. `lib/lang.ts` — reads the language cookie.
 - `lib/core/` — note model (`notes.ts`), question generator (`quiz.ts`), tests. Pure TS.
-- `lib/audio/note-player.ts` — Web Audio sampler. `lib/game/use-mode-a.ts` — Mode A hook.
+- `lib/core/challenge.ts` — challenge rules. `lib/audio/note-player.ts` — Web Audio sampler.
+  `lib/game/use-mode-a.ts`, `use-mode-b.ts` — mode hooks; `use-challenge.ts` — score and clock.
 - `design/tokens.json` and `docs/design-system.md` — design system; tokens before screens.
 - `tools/gen-samples.mjs` (`npm run samples`), `tools/icons.mjs` (`npm run icons`, regenerates
   `public/icon.png` and `public/og.png` from `public/favicon.svg`).

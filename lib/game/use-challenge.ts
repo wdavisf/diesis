@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from "react";
 import {
   bestKey,
   decodeChallenge,
@@ -54,36 +54,36 @@ export interface ChallengeState {
  * Keeps score for one mode under the chosen challenge, runs the clock for timed runs and stores
  * personal bests in localStorage (per browser only). The last challenge picked is remembered too.
  */
+const noSubscribe = () => () => {};
+
 export function useChallenge(mode: string): ChallengeState {
-  const [challenge, setChallengeState] = useState<Challenge>({ kind: "practice" });
+  // The last challenge picked, read once from storage after hydration (null on the server).
+  const stored = useSyncExternalStore(noSubscribe, () => read(LAST_KEY), () => null);
+  const [chosen, setChosen] = useState<Challenge | null>(null);
+  const challenge = chosen ?? decodeChallenge(stored);
   const [tally, setTally] = useState<Tally>(EMPTY_TALLY);
-  const [running, setRunning] = useState(false);
   const [startedAt, setStartedAt] = useState<number | null>(null);
   const [left, setLeft] = useState<number | null>(null);
   const [best, setBest] = useState<number | null>(null);
-  const [newBest, setNewBest] = useState(false);
   const saved = useRef(false);
 
-  useEffect(() => {
-    setChallengeState(decodeChallenge(read(LAST_KEY)));
-  }, []);
+  const running = startedAt !== null && !tally.over;
+  const key = bestKey(mode, challenge);
+  const newBest = tally.over && key !== null && tally.right > 0 && (best === null || tally.right > best);
 
   const setChallenge = useCallback((c: Challenge) => {
-    setChallengeState(c);
+    setChosen(c);
     write(LAST_KEY, encodeChallenge(c));
   }, []);
 
   const begin = useCallback(() => {
-    const key = bestKey(mode, challenge);
-    const stored = key ? Number(read(BEST_PREFIX + key)) : NaN;
-    setBest(Number.isFinite(stored) && stored > 0 ? stored : null);
-    setNewBest(false);
+    const value = key ? Number(read(BEST_PREFIX + key)) : NaN;
+    setBest(Number.isFinite(value) && value > 0 ? value : null);
     saved.current = false;
     setTally(EMPTY_TALLY);
     setStartedAt(Date.now());
     setLeft(secondsLeft(challenge, 0));
-    setRunning(true);
-  }, [mode, challenge]);
+  }, [key, challenge]);
 
   // The clock: a light tick, the real time comes from Date.now().
   useEffect(() => {
@@ -96,22 +96,17 @@ export function useChallenge(mode: string): ChallengeState {
     return () => clearInterval(id);
   }, [running, startedAt, challenge]);
 
-  // A run that ends stores its best once.
+  // A run that ends with a new best stores it once.
   useEffect(() => {
-    if (!tally.over || saved.current) return;
+    if (!newBest || !key || saved.current) return;
     saved.current = true;
-    setRunning(false);
-    const key = bestKey(mode, challenge);
-    if (key && tally.right > 0 && (best === null || tally.right > best)) {
-      write(BEST_PREFIX + key, String(tally.right));
-      setNewBest(true);
-    }
-  }, [tally, mode, challenge, best]);
+    write(BEST_PREFIX + key, String(tally.right));
+  }, [newBest, key, tally.right]);
 
   const right = useCallback(() => setTally((t) => tallyRight(t)), []);
   const wrong = useCallback(() => setTally((t) => tallyWrong(t, challenge)), [challenge]);
   const reset = useCallback(() => {
-    setRunning(false);
+    setStartedAt(null);
     setTally(EMPTY_TALLY);
     setLeft(null);
   }, []);

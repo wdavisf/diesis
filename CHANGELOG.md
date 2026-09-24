@@ -3,6 +3,18 @@
 Written for the people using it, not for the code. Newest first. Version matches
 `package.json`.
 
+## 0.5.0 — 24 September 2026, find the note, and challenges
+
+- New mode: **Find the note**. You get a note name; tap every place it lives on the neck,
+  frets 0 to 12. Each spot plays as you tap it. Right ones stay green with the name on them; a
+  wrong one flashes red and shows what it really is. Find them all and the next note comes up.
+  Stuck? "Show me" lights the rest.
+- Both modes are now challenges if you want them to be. Before you start, pick:
+  **Practice** (no clock, no end, as before), **Against the clock** (one, two or five minutes:
+  how many can you get right?) or **No mistakes** (how many in a row before your first miss?).
+- Your best score for each challenge is kept in your browser, and only there. The privacy page
+  says so.
+
 ## 0.4.1 — 24 September 2026, δiesis
 
 - The name next to the icon now reads δiesis: the D is the same lowercase delta as the mark,
