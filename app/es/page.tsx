@@ -6,7 +6,13 @@ const t = strings.es;
 export const metadata: Metadata = {
   title: { absolute: t.meta.title },
   description: t.meta.description,
-  openGraph: { title: t.meta.title, description: t.meta.description, locale: "es_ES" },
+  openGraph: {
+    title: t.meta.title,
+    description: t.meta.description,
+    siteName: "Diesis",
+    locale: "es_ES",
+    images: [{ url: "/og-es.png", width: 1200, height: 630 }],
+  },
   alternates: { canonical: "/es", languages: { en: "/", es: "/es", "x-default": "/" } },
 };
 

@@ -3,6 +3,11 @@
 Written for the people using it, not for the code. Newest first. Version matches
 `package.json`.
 
+## 0.6.5 — 24 September 2026, the Spanish link preview
+
+- A link to diesis.app/es shared on WhatsApp or anywhere else now shows the same wide card as the
+  English one, with its line in Spanish, instead of a giant icon.
+
 ## 0.6.4 — 24 September 2026, upright to choose, sideways to play
 
 - On a phone the setup screen is an ordinary upright page again. Press Start and the neck

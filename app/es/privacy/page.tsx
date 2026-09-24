@@ -6,6 +6,13 @@ const t = strings.es;
 export const metadata: Metadata = {
   title: t.meta.privacyTitle,
   description: t.meta.privacyDescription,
+  openGraph: {
+    title: t.meta.privacyTitle,
+    description: t.meta.privacyDescription,
+    siteName: "Diesis",
+    locale: "es_ES",
+    images: [{ url: "/og-es.png", width: 1200, height: 630 }],
+  },
   alternates: { canonical: "/es/privacy", languages: { en: "/privacy", es: "/es/privacy", "x-default": "/privacy" } },
 };
 
