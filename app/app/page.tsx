@@ -4,8 +4,8 @@ import { Logo } from "@/components/logo";
 import { LangSwitch } from "@/components/lang-switch";
 import { currentStrings } from "@/lib/lang";
 
-const hrefs = ["/app/name-the-note", null, null, null, null] as const;
-const tags = ["play", "next", "next", "later", "later"] as const;
+const hrefs = ["/app/name-the-note", "/app/find-the-note", null, null, null] as const;
+const tags = ["play", "play", "next", "later", "later"] as const;
 
 export default async function AppHome() {
   const t = await currentStrings();

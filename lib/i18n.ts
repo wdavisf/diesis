@@ -52,6 +52,44 @@ export interface Strings {
     /** The twelve pitch classes from C, sharps as ♯. Letters in English, solfège in Spanish. */
     noteNames: string[];
   };
+  find: {
+    title: string;
+    startSub: string;
+    /** Uses {n}, the note name. */
+    prompt: string;
+    /** Uses {f} found and {t} total. */
+    progress: string;
+    done: string;
+    showRest: string;
+    keys: string;
+  };
+  challenge: {
+    heading: string;
+    practice: string;
+    practiceSub: string;
+    timed: string;
+    timedSub: string;
+    streak: string;
+    streakSub: string;
+    /** Uses {m}. */
+    minutes: string;
+    start: string;
+    timeUp: string;
+    broken: string;
+    /** Uses {n}. */
+    result: string;
+    /** Uses {n}. */
+    best: string;
+    newBest: string;
+    again: string;
+    change: string;
+    /** Uses {n}. */
+    streakNow: string;
+    /** Uses {r}. */
+    rightNow: string;
+    clock: string;
+    stop: string;
+  };
   consent: { text: string; accept: string; decline: string; more: string };
   privacy: { eyebrow: string; h1: string; updated: string; summary: string; sections: { h: string; p: string[] }[]; contactHeading: string; contact: string };
 }
@@ -73,7 +111,7 @@ const en: Strings = {
   hero: {
     eyebrow: "Guitar fretboard trainer",
     h1: "Know every note on the neck.",
-    lede: "A spot lights up on the fretboard and you hear it. Name it. Right turns green and moves on; wrong stays until you get it. A few minutes a day with the guitar on your lap, and the neck stops being a mystery. Scales and reading music follow, on the same neck.",
+    lede: "A spot lights up on the fretboard and you hear it. Name it. Right turns green and moves on; wrong stays until you get it. Or turn it around: get a name and find every place it lives. Play for as long as you like, against the clock, or without a single mistake. A few minutes a day with the guitar on your lap, and the neck stops being a mystery. Scales and reading music follow, on the same neck.",
     cta: "Open the app",
     secondary: "How it works",
     trust: ["Free in preview", "No account", "Phone or laptop, in the browser"],
@@ -98,10 +136,11 @@ const en: Strings = {
         title: "Notes",
         lede: "Where every note lives on the neck, until you stop having to think about it.",
         items: [
-          { title: "Name the note", body: "A position lights, you say which note it is. The one you can play today.", when: "now" },
-          { title: "Find the note", body: "You get a name. Tap every place it lives within the fret range, until you have them all.", when: "next" },
+          { title: "Name the note", body: "A position lights, you say which note it is.", when: "now" },
+          { title: "Find the note", body: "You get a name. Tap every place it lives within the fret range, until you have them all.", when: "now" },
           { title: "Hear the note", body: "A note plays with nothing lit. Tap a place on the neck where it could be.", when: "next" },
-          { title: "Settings and challenges", body: "Fret range, naturals only, one string at a time, timed rounds, note-count rounds, personal bests.", when: "next" },
+          { title: "Challenges", body: "Practice with no end, race the clock for one, two or five minutes, or see how far you get without a single mistake. Your best score is kept.", when: "now" },
+          { title: "Settings", body: "Fret range, naturals only, one string at a time.", when: "next" },
         ],
       },
       {
@@ -190,6 +229,37 @@ const en: Strings = {
     notes: "Note names",
     noteNames: ["C", "C♯", "D", "D♯", "E", "F", "F♯", "G", "G♯", "A", "A♯", "B"],
   },
+  find: {
+    title: "Find the note",
+    startSub: "A note name appears. Tap every place it lives on the neck.",
+    prompt: "Find every {n}",
+    progress: "{f} of {t}",
+    done: "All found",
+    showRest: "Show me",
+    keys: "Click every place on the neck that sounds the note. Each spot plays as you click it.",
+  },
+  challenge: {
+    heading: "How do you want to play?",
+    practice: "Practice",
+    practiceSub: "No clock, no end. Stop when you like.",
+    timed: "Against the clock",
+    timedSub: "How many can you get right before time runs out?",
+    streak: "No mistakes",
+    streakSub: "How many in a row before your first miss?",
+    minutes: "{m} min",
+    start: "Start",
+    timeUp: "Time's up",
+    broken: "That one was wrong",
+    result: "{n} right",
+    best: "Your best: {n}",
+    newBest: "New personal best",
+    again: "Play again",
+    change: "Change",
+    streakNow: "{n} in a row",
+    rightNow: "{r} right",
+    clock: "Time left",
+    stop: "Stop",
+  },
   consent: {
     text: "Diesis uses Google Analytics to count visits, only if you say yes. No ads, nothing sold.",
     accept: "Allow",
@@ -199,10 +269,10 @@ const en: Strings = {
   privacy: {
     eyebrow: "Privacy",
     h1: "Privacy policy",
-    updated: "Last updated 23 September 2026",
+    updated: "Last updated 24 September 2026",
     summary: "Diesis has no account and no advertising. Nothing you do in the game leaves your browser. The only thing we measure is visits to the site, with Google Analytics, and only if you allow it.",
     sections: [
-      { h: "The game", p: ["Diesis runs entirely in your browser. It does not ask who you are, does not create an account, and does not send anything you do in the game to us or to anyone else.", "Scores for the current session are held in memory and disappear when you close the tab. When settings and personal bests arrive, they will be stored in your browser only."] },
+      { h: "The game", p: ["Diesis runs entirely in your browser. It does not ask who you are, does not create an account, and does not send anything you do in the game to us or to anyone else.", "Your score for a round is held in memory and disappears when you close the tab. Your personal best for each challenge, and the challenge you last picked, are kept in your browser's local storage, on your device only. They are never sent anywhere; clearing the site's data removes them."] },
       { h: "Cookies", p: ["Diesis sets two cookies. One remembers the language you picked; the other remembers your answer to the analytics banner. Neither holds anything about you."] },
       { h: "This website", p: ["diesis.app is hosted by Vercel, which keeps standard server logs (IP address, browser, pages requested) for a short time to run the service and keep it safe.", "If you allow it in the banner, the site loads Google Analytics 4 to count visits and see which pages are read. Google sets its own cookies for that and processes the data under its own privacy policy. If you decline, nothing from Google is loaded, and you can change your mind by clearing the site's cookies."] },
       { h: "Children", p: ["Diesis collects no personal data from anyone, of any age."] },
@@ -226,12 +296,12 @@ const es: Strings = {
     privacyTitle: "Privacidad",
     privacyDescription: "Qué hace Diesis con tus datos: sin cuenta, sin anuncios y sin que nada del juego salga de tu navegador. Contamos visitas con Google Analytics solo si tú lo permites.",
   },
-  nav: { how: "Cómo funciona", learn: "Qué aprendes", faq: "Preguntas", cta: "Jugar", privacy: "Privacidad", about: "Sobre Diesis" },
+  nav: { how: "Cómo funciona", learn: "Qué aprendes", faq: "Preguntas", cta: "Abrir la app", privacy: "Privacidad", about: "Sobre Diesis" },
   hero: {
     eyebrow: "El mástil de la guitarra, como un juego",
     h1: "Aprende todas las notas del mástil.",
-    lede: "Se ilumina un punto en el mástil y suena la nota. Tú dices cuál es. Si aciertas, se pone en verde y pasa a la siguiente; si fallas, se queda ahí hasta que la saques. Unos minutos al día con la guitarra encima y el mástil deja de ser un misterio. Después llegan las escalas y la lectura de partituras, en el mismo mástil.",
-    cta: "Jugar ahora",
+    lede: "Se ilumina un punto en el mástil y suena la nota. Tú dices cuál es. Si aciertas, se pone en verde y pasa a la siguiente; si fallas, se queda ahí hasta que la saques. O al revés: te dan el nombre y la buscas en todos los sitios del mástil. Juega sin límite, contrarreloj o sin permitirte ni un fallo. Unos minutos al día con la guitarra encima y el mástil deja de ser un misterio. Después llegan las escalas y la lectura de partituras, en el mismo mástil.",
+    cta: "Abrir la app",
     secondary: "Cómo funciona",
     trust: ["Gratis durante la beta", "Sin registro", "En el navegador, móvil u ordenador"],
   },
@@ -255,10 +325,11 @@ const es: Strings = {
         title: "Notas",
         lede: "Dónde está cada nota del mástil, hasta que no tengas que pensarlo.",
         items: [
-          { title: "Nombra la nota", body: "Se ilumina una posición y tú dices qué nota es. El modo que ya puedes jugar.", when: "now" },
-          { title: "Encuentra la nota", body: "Te dan una nota y tienes que tocarla en todos los sitios del mástil donde esté, dentro del rango de trastes que hayas elegido.", when: "next" },
+          { title: "Nombra la nota", body: "Se ilumina una posición y tú dices qué nota es.", when: "now" },
+          { title: "Encuentra la nota", body: "Te dan una nota y tienes que tocarla en todos los sitios del mástil donde esté, dentro del rango de trastes que hayas elegido.", when: "now" },
           { title: "Escucha la nota", body: "Suena una nota sin que se ilumine nada. Tócala en algún sitio del mástil donde pueda estar.", when: "next" },
-          { title: "Ajustes y retos", body: "Rango de trastes, solo notas naturales, una cuerda cada vez, rondas contrarreloj, rondas de un número fijo de notas y mejores marcas.", when: "next" },
+          { title: "Retos", body: "Juego libre sin final, contrarreloj de uno, dos o cinco minutos, o a ver cuántas encadenas sin fallar ni una. Tu mejor marca se queda guardada.", when: "now" },
+          { title: "Ajustes", body: "Rango de trastes, solo notas naturales, una cuerda cada vez.", when: "next" },
         ],
       },
       {
@@ -347,6 +418,37 @@ const es: Strings = {
     notes: "Nombres de las notas",
     noteNames: ["Do", "Do♯", "Re", "Re♯", "Mi", "Fa", "Fa♯", "Sol", "Sol♯", "La", "La♯", "Si"],
   },
+  find: {
+    title: "Encuentra la nota",
+    startSub: "Te sale el nombre de una nota. Tócala en todos los sitios del mástil donde esté.",
+    prompt: "Busca todos los {n}",
+    progress: "{f} de {t}",
+    done: "¡Todos!",
+    showRest: "Enséñamelos",
+    keys: "Haz clic en cada sitio del mástil donde suene esa nota. Cada punto suena al tocarlo.",
+  },
+  challenge: {
+    heading: "¿Cómo quieres jugar?",
+    practice: "Libre",
+    practiceSub: "Sin reloj y sin final. Paras cuando quieras.",
+    timed: "Contrarreloj",
+    timedSub: "¿Cuántas aciertas antes de que se acabe el tiempo?",
+    streak: "Sin fallos",
+    streakSub: "¿Cuántas seguidas antes del primer fallo?",
+    minutes: "{m} min",
+    start: "Empezar",
+    timeUp: "¡Tiempo!",
+    broken: "Esa no era",
+    result: "{n} aciertos",
+    best: "Tu mejor marca: {n}",
+    newBest: "¡Nueva mejor marca!",
+    again: "Otra vez",
+    change: "Cambiar",
+    streakNow: "{n} seguidas",
+    rightNow: "{r} aciertos",
+    clock: "Tiempo restante",
+    stop: "Parar",
+  },
   consent: {
     text: "Diesis usa Google Analytics para contar visitas, solo si tú lo permites. Sin anuncios y sin vender nada.",
     accept: "Permitir",
@@ -356,10 +458,10 @@ const es: Strings = {
   privacy: {
     eyebrow: "Privacidad",
     h1: "Política de privacidad",
-    updated: "Última actualización: 23 de septiembre de 2026",
+    updated: "Última actualización: 24 de septiembre de 2026",
     summary: "Diesis no tiene cuentas ni publicidad. Nada de lo que haces en el juego sale de tu navegador. Lo único que medimos son las visitas a la web, con Google Analytics, y solo si tú lo permites.",
     sections: [
-      { h: "El juego", p: ["Diesis funciona por completo en tu navegador. No te pregunta quién eres, no crea ninguna cuenta y no envía nada de lo que haces a nadie, ni a nosotros ni a terceros.", "Las puntuaciones de cada sesión se guardan en memoria y desaparecen al cerrar la pestaña. Cuando lleguen los ajustes y las mejores marcas, se guardarán solo en tu navegador."] },
+      { h: "El juego", p: ["Diesis funciona por completo en tu navegador. No te pregunta quién eres, no crea ninguna cuenta y no envía nada de lo que haces a nadie, ni a nosotros ni a terceros.", "La puntuación de cada ronda se guarda en memoria y desaparece al cerrar la pestaña. Tu mejor marca en cada reto, y el último reto que elegiste, se guardan en el almacenamiento local de tu navegador, solo en tu dispositivo. No se envían a ningún sitio; si borras los datos de la web, desaparecen."] },
       { h: "Cookies", p: ["Diesis guarda dos cookies: una recuerda el idioma que has elegido y la otra, lo que respondiste al aviso de analítica. Ninguna contiene datos sobre ti."] },
       { h: "Esta web", p: ["diesis.app está alojada en Vercel, que conserva durante poco tiempo los registros habituales de cualquier servidor (dirección IP, navegador, páginas solicitadas) para que el servicio funcione y esté protegido.", "Si lo permites en el aviso, la web carga Google Analytics 4 para contar visitas y ver qué páginas se leen. Google instala sus propias cookies para ello y trata los datos según su política de privacidad. Si dices que no, no se carga nada de Google; puedes cambiar de opinión borrando las cookies de la web."] },
       { h: "Menores", p: ["Diesis no recoge datos personales de nadie, tenga la edad que tenga."] },

@@ -62,3 +62,34 @@ export function nextQuestion(
 export function isCorrect(question: Question, pick: PitchClass): boolean {
   return question.answer === pick;
 }
+
+/** A Find-the-note round: a note name and every place it lives within the settings. */
+export interface FindRound {
+  readonly target: PitchClass;
+  readonly positions: readonly Position[];
+}
+
+/** Every position the settings allow that sounds the given pitch class. */
+export function positionsOf(pc: PitchClass, settings: QuizSettings): Position[] {
+  return candidatePositions(settings).filter((p) => pitchClassAt(p) === pc);
+}
+
+/**
+ * Picks the next Find-the-note round. Never repeats the previous note when another is possible.
+ * Throws when the settings allow no position at all.
+ */
+export function nextFindRound(
+  settings: QuizSettings,
+  previous: PitchClass | null = null,
+  rng: Rng = Math.random,
+): FindRound {
+  const present = Array.from(new Set(candidatePositions(settings).map((p) => pitchClassAt(p)))).sort(
+    (a, b) => a - b,
+  );
+  if (present.length === 0) {
+    throw new Error('No positions match the quiz settings');
+  }
+  const pool = previous !== null && present.length > 1 ? present.filter((pc) => pc !== previous) : present;
+  const target = pool[Math.floor(rng() * pool.length)];
+  return { target, positions: positionsOf(target, settings) };
+}

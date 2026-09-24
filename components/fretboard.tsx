@@ -2,17 +2,23 @@ import { useMemo } from "react";
 import type { Position } from "@/lib/core/notes";
 import { STRING_COUNT } from "@/lib/core/notes";
 
-export type HighlightState = "asking" | "correct";
+export type MarkState = "asking" | "correct" | "wrong";
+
+/** A lit spot on the neck, optionally with a note name written in it. */
+export interface Mark {
+  position: Position;
+  state: MarkState;
+  label?: string;
+}
 
 export interface FretboardProps {
   width: number;
   height: number;
   minFret: number;
   maxFret: number;
-  highlight: Position | null;
-  highlightState: HighlightState;
-  /** Note name drawn inside the highlight once answered. */
-  highlightLabel?: string;
+  marks: readonly Mark[];
+  /** When set, every string-and-fret cell in range is a tap target. */
+  onPick?: (p: Position) => void;
   /** Accessible name of the drawing. */
   label?: string;
 }
@@ -30,6 +36,7 @@ const board = {
   fretNumber: "#a39c8e",
   highlight: "#e0a63a",
   highlightCorrect: "#4caf6b",
+  highlightWrong: "#d64545",
   highlightInk: "#14120f",
   stringGauges: [1.2, 1.5, 1.9, 2.4, 3.0, 3.6],
   inlayFrets: [3, 5, 7, 9, 12, 15, 17, 19, 21, 24],
@@ -46,7 +53,13 @@ function fretDistance(n: number): number {
  * real logarithmic one, scaled so the selected range fills the width. Fret 0 (open string) gets a
  * short zone left of the nut so an open-string question has somewhere to light.
  */
-export function Fretboard({ width, height, minFret, maxFret, highlight, highlightState, highlightLabel, label = "Guitar fretboard" }: FretboardProps) {
+const markFill: Record<MarkState, string> = {
+  asking: board.highlight,
+  correct: board.highlightCorrect,
+  wrong: board.highlightWrong,
+};
+
+export function Fretboard({ width, height, minFret, maxFret, marks, onPick, label = "Guitar fretboard" }: FretboardProps) {
   const layout = useMemo(() => {
     const numbersBand = 20;
     const boardTop = 6;
@@ -67,7 +80,10 @@ export function Fretboard({ width, height, minFret, maxFret, highlight, highligh
     const cellCenter = (n: number) => (n === 0 ? openZone / 2 : (fretX(n - 1) + fretX(n)) / 2);
     const stringY = (s: number) => boardTop + stringInset + (s - 1) * stringGap;
 
-    return { boardTop, boardBottom, boardHeight, left, right, showsOpen, fretX, cellCenter, stringY, stringGap, firstDrawnFret };
+    /** Horizontal extent of the tap target for a fret. */
+    const cellSpan = (n: number): [number, number] => (n === 0 ? [0, openZone] : [fretX(n - 1), fretX(n)]);
+
+    return { boardTop, boardBottom, boardHeight, left, right, showsOpen, fretX, cellCenter, cellSpan, stringY, stringGap, firstDrawnFret };
   }, [width, height, minFret, maxFret]);
 
   const fretsToDraw: number[] = [];
@@ -138,37 +154,45 @@ export function Fretboard({ width, height, minFret, maxFret, highlight, highligh
         </text>
       ))}
 
-      {highlight ? (
-        <g>
-          <circle
-            cx={layout.cellCenter(highlight.fret)}
-            cy={layout.stringY(highlight.string)}
-            r={highlightR + 4}
-            fill="none"
-            stroke={highlightState === "correct" ? board.highlightCorrect : board.highlight}
-            strokeWidth={2}
-            opacity={0.55}
-          />
-          <circle
-            cx={layout.cellCenter(highlight.fret)}
-            cy={layout.stringY(highlight.string)}
-            r={highlightR}
-            fill={highlightState === "correct" ? board.highlightCorrect : board.highlight}
-          />
-          {highlightLabel ? (
-            <text
-              x={layout.cellCenter(highlight.fret)}
-              y={layout.stringY(highlight.string) + labelSize * 0.36}
-              fontSize={labelSize}
-              fontWeight={700}
-              fill={board.highlightInk}
-              textAnchor="middle"
-            >
-              {highlightLabel}
-            </text>
-          ) : null}
-        </g>
-      ) : null}
+      {marks.map((m) => {
+        const cx = layout.cellCenter(m.position.fret);
+        const cy = layout.stringY(m.position.string);
+        const fill = markFill[m.state];
+        return (
+          <g key={`mark-${m.position.string}-${m.position.fret}`} className={m.state === "wrong" ? "flash-wrong" : undefined}>
+            <circle cx={cx} cy={cy} r={highlightR + 4} fill="none" stroke={fill} strokeWidth={2} opacity={0.55} />
+            <circle cx={cx} cy={cy} r={highlightR} fill={fill} />
+            {m.label ? (
+              <text x={cx} y={cy + labelSize * 0.36} fontSize={labelSize} fontWeight={700} fill={board.highlightInk} textAnchor="middle">
+                {m.label}
+              </text>
+            ) : null}
+          </g>
+        );
+      })}
+
+      {onPick
+        ? Array.from({ length: STRING_COUNT }, (_, i) => i + 1).flatMap((s) =>
+            (minFret === 0 ? [0, ...cells] : cells).map((n) => {
+              const [x0, x1] = layout.cellSpan(n);
+              return (
+                <rect
+                  key={`hit-${s}-${n}`}
+                  x={x0}
+                  y={layout.stringY(s) - layout.stringGap / 2}
+                  width={x1 - x0}
+                  height={layout.stringGap}
+                  fill="transparent"
+                  className="cursor-pointer"
+                  onPointerDown={(e) => {
+                    e.preventDefault();
+                    onPick({ string: s, fret: n });
+                  }}
+                />
+              );
+            }),
+          )
+        : null}
     </svg>
   );
 }

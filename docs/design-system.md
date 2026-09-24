@@ -49,9 +49,15 @@ Geist for everything read, Fraunces (variable, optical size) for display heading
 wordmark: a serif with some warmth for a classical instrument. Semibold for anything read at a
 glance (note names, feedback), regular for chrome.
 
+The wordmark reads "δiesis": the D is the mark's own EB Garamond δ, drawn inline as SVG at text
+size (`DeltaGlyph` in `components/logo.tsx`), because Fraunces has no Greek and the letter must
+match the icon. Its height and a thickening stroke are constants in that file, tuned so the
+bowl sits on Fraunces' x-height and the weight reads as semibold. Plain text still says
+"Diesis" (page titles, copy, screen readers).
+
 | Style | Size / line | Weight | Where |
 |---|---|---|---|
-| title | 18 / 22 | semibold | header word "Diesis" |
+| title | 18 / 22 | semibold | header wordmark "δiesis" |
 | noteButton | 22 / 26 | semibold | the twelve answer buttons |
 | feedback | 22 / 28 | semibold | Correct / Wrong line |
 | score | 15 / 20 | regular, muted | running score |

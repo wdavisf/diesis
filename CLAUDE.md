@@ -66,6 +66,9 @@ Todoist project records what is still to do.
   amber letter, cream lines at 45%, on the stage tile. Will rejected a hand-drawn δ: it must
   look like the letter. Drawing lives in `components/logo.tsx` and `public/favicon.svg`;
   `npm run icons` renders `icon.png` and `og.png` from the SVG. Change both files together.
+  **The wordmark is "δiesis" (Will, 2026-09-24)**: next to the mark, the D of the word is that
+  same δ, drawn inline as SVG at text size by `DeltaGlyph` in `components/logo.tsx` (Fraunces has
+  no Greek). Only the wordmark; page titles, copy and the `<title>` keep the Latin "Diesis".
 
 ## Hosting
 

@@ -3,6 +3,13 @@
 Written for the people using it, not for the code. Newest first. Version matches
 `package.json`.
 
+## 0.4.1 — 24 September 2026, δiesis
+
+- The name next to the icon now reads δiesis: the D is the same lowercase delta as the mark,
+  so the icon and the word share one letter. Everywhere else the name is still written Diesis.
+- In Spanish, the button that opens the app says «Abrir la app», like the English "Open the
+  app", instead of «Jugar».
+
 ## 0.4.0 — 23 September 2026, the door is open
 
 - No more access code. "Open the app" takes you straight to the game, on any device, with

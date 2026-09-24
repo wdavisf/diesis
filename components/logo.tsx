@@ -23,6 +23,31 @@ export function LogoMark({ size = 32, className }: { size?: number; className?: 
   );
 }
 
+/* The wordmark is "δiesis": the D is the same EB Garamond δ as the mark, drawn inline at text
+ * size (Fraunces has no Greek, and the letter must match the mark anyway). The glyph spans
+ * y = -14…700 in font units; WORD_DELTA_EM is its height in em, picked so its bowl sits on
+ * Fraunces' x-height, and the stroke thickens Garamond's regular weight toward Fraunces semibold. */
+const GLYPH_TOP = 700;
+const GLYPH_BOTTOM = -14;
+const GLYPH_ADVANCE = 452;
+const WORD_DELTA_EM = 0.8;
+const WORD_DELTA_STROKE = 24;
+
+function DeltaGlyph({ className }: { className?: string }) {
+  const height = GLYPH_TOP - GLYPH_BOTTOM;
+  return (
+    <svg
+      viewBox={`0 ${-GLYPH_TOP} ${GLYPH_ADVANCE} ${height}`}
+      aria-hidden="true"
+      focusable="false"
+      className={cn("inline-block w-auto", className)}
+      style={{ height: `${WORD_DELTA_EM}em`, verticalAlign: `${(GLYPH_BOTTOM / height) * WORD_DELTA_EM}em` }}
+    >
+      <path transform="scale(1 -1)" d={DELTA_PATH} fill="currentColor" stroke="currentColor" strokeWidth={WORD_DELTA_STROKE} strokeLinejoin="round" />
+    </svg>
+  );
+}
+
 /** Mark plus the word, for headers and footers. */
 export function Logo({ size = "md", className }: { size?: "sm" | "md" | "lg"; className?: string }) {
   const px = size === "sm" ? 26 : size === "lg" ? 44 : 32;
@@ -30,7 +55,11 @@ export function Logo({ size = "md", className }: { size?: "sm" | "md" | "lg"; cl
   return (
     <span className={cn("inline-flex items-center gap-2.5 font-display font-semibold tracking-tight text-ink", text, className)}>
       <LogoMark size={px} className="rounded-[22%] ring-1 ring-white/10" />
-      Diesis
+      <span className="sr-only">Diesis</span>
+      <span aria-hidden="true" className="whitespace-nowrap">
+        <DeltaGlyph />
+        iesis
+      </span>
     </span>
   );
 }
