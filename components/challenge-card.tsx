@@ -1,9 +1,8 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { formatClock, TIMED_SECONDS, type Challenge } from "@/lib/core/challenge";
+import { formatClock } from "@/lib/core/challenge";
 import type { ChallengeState } from "@/lib/game/use-challenge";
-import type { Settings } from "@/lib/game/use-settings";
 import type { Strings } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 
@@ -11,12 +10,12 @@ type T = Strings["challenge"];
 
 const card =
   "w-full max-w-md animate-in fade-in zoom-in-95 fill-mode-both duration-200 motion-reduce:animate-none rounded-2xl border border-line bg-stage/95 p-4 text-center shadow-[0_20px_50px_rgba(0,0,0,0.5)] backdrop-blur-sm [@media(max-height:30rem)]:p-3";
-const primary =
+export const primary =
   "rounded-xl bg-amber px-6 py-2.5 text-lg font-semibold text-stage outline-none transition-colors hover:bg-amber-text focus-visible:ring-3 focus-visible:ring-ring/50 disabled:opacity-70";
 const secondary =
   "rounded-xl border border-line px-5 py-2.5 text-base text-ink outline-none transition-colors hover:bg-surface focus-visible:ring-3 focus-visible:ring-ring/50";
 
-function Chip({ on, onClick, children }: { on: boolean; onClick: () => void; children: ReactNode }) {
+export function Chip({ on, onClick, children }: { on: boolean; onClick: () => void; children: ReactNode }) {
   return (
     <button
       type="button"
@@ -30,81 +29,6 @@ function Chip({ on, onClick, children }: { on: boolean; onClick: () => void; chi
     >
       {children}
     </button>
-  );
-}
-
-/** Picks the challenge and the round's settings, then starts the run. Doubles as the
- *  audio-unlocking first tap. */
-export function ChallengePicker({
-  t,
-  ts,
-  value,
-  onChange,
-  settings,
-  onStart,
-  loading,
-  loadingLabel,
-  hint,
-}: {
-  t: T;
-  ts: Strings["settings"];
-  value: Challenge;
-  onChange: (c: Challenge) => void;
-  settings: Settings;
-  onStart: () => void;
-  loading: boolean;
-  loadingLabel: string;
-  /** One line on what the mode asks of you. */
-  hint: string;
-}) {
-  const sub = value.kind === "timed" ? t.timedSub : value.kind === "streak" ? t.streakSub : t.practiceSub;
-  const seconds = value.kind === "timed" ? value.seconds : null;
-  return (
-    <div className={card}>
-      <p className="text-sm text-dim [@media(max-height:30rem)]:hidden">{hint}</p>
-      <div role="radiogroup" aria-label={t.heading} className="mt-3 flex gap-2 [@media(max-height:30rem)]:mt-0">
-        <Chip on={value.kind === "practice"} onClick={() => onChange({ kind: "practice" })}>
-          {t.practice}
-        </Chip>
-        <Chip on={value.kind === "timed"} onClick={() => onChange({ kind: "timed", seconds: seconds ?? TIMED_SECONDS[0] })}>
-          {t.timed}
-        </Chip>
-        <Chip on={value.kind === "streak"} onClick={() => onChange({ kind: "streak" })}>
-          {t.streak}
-        </Chip>
-      </div>
-      {seconds !== null ? (
-        <div role="radiogroup" aria-label={t.timed} className="mx-auto mt-2 flex max-w-64 gap-2">
-          {TIMED_SECONDS.map((s) => (
-            <Chip key={s} on={s === seconds} onClick={() => onChange({ kind: "timed", seconds: s })}>
-              {t.minutes.replace("{m}", String(s / 60))}
-            </Chip>
-          ))}
-        </div>
-      ) : null}
-      <p className="mt-2 text-sm text-dim [@media(max-height:30rem)]:mt-1.5 [@media(max-height:30rem)]:text-xs">{sub}</p>
-      <div className="mt-3 grid grid-cols-2 gap-3 border-t border-line pt-3 [@media(max-height:30rem)]:mt-2 [@media(max-height:30rem)]:pt-2">
-        <div role="radiogroup" aria-label={ts.notes} className="flex gap-1.5">
-          <Chip on={!settings.naturalsOnly} onClick={() => settings.setNaturalsOnly(false)}>
-            {ts.all}
-          </Chip>
-          <Chip on={settings.naturalsOnly} onClick={() => settings.setNaturalsOnly(true)}>
-            {ts.naturals}
-          </Chip>
-        </div>
-        <div role="radiogroup" aria-label={ts.names} className="flex gap-1.5">
-          <Chip on={settings.names === "solfege"} onClick={() => settings.setNames("solfege")}>
-            {ts.solfege}
-          </Chip>
-          <Chip on={settings.names === "letters"} onClick={() => settings.setNames("letters")}>
-            {ts.letters}
-          </Chip>
-        </div>
-      </div>
-      <button type="button" onClick={onStart} disabled={loading} className={cn(primary, "mt-3 min-w-40 [@media(max-height:30rem)]:mt-2 [@media(max-height:30rem)]:py-2")}>
-        {loading ? loadingLabel : t.start}
-      </button>
-    </div>
   );
 }
 

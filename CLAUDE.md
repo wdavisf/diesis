@@ -39,6 +39,10 @@ Todoist project records what is still to do.
   real name for 0.7 s and counts one mistake, the round goes on; the round ends when all are
   found; in Practice a "Show me" button reveals the rest and moves on. Core: `positionsOf`
   and `nextFindRound` in `lib/core/quiz.ts` (never the same note twice in a row).
+- **Setup screen (Will, 2026-09-24: the picker over the neck "looks awful").** Every mode
+  opens on `components/setup-screen.tsx`, a full screen inside the same `GameShell` (sideways
+  on phones): challenge, minutes, notes, names, the stored best for that pick, Start. The
+  board only mounts once the round starts; the result card is still an overlay on the board.
 - **Challenges** (Will, 2026-09-24): every mode starts on a picker. Practice (endless),
   Against the clock (1, 2 or 5 min, score = right answers; mistakes counted, do not end it),
   No mistakes (score = right answers before the first mistake). In Find the note each position
@@ -130,9 +134,10 @@ Will), and it can be deleted in the dashboard. The repo folder is linked to `die
   `app/` (mode picker), `app/name-the-note/`, `app/find-the-note/`, `lang/[code]/` (cookie setter).
   `layout.tsx` holds fonts and metadata; `globals.css` the theme tokens.
 - `components/` — `landing`, `privacy-page`, `logo`, `screen` (animated hero), `footer`,
-  `lang-switch`, `fretboard` (SVG, marks and tap targets), `note-panel`, `game-frame` (shared
-  game shell), `challenge-card` (picker, result, header status), `game` (Mode A),
-  `find-game` (Mode B), `ui/`.
+  `lang-switch`, `fretboard` (SVG, marks and tap targets), `note-panel`, `game-frame`
+  (`GameShell`: sideways treatment, gate, header; `GameFrame`: the board inside it),
+  `setup-screen` (before a round), `challenge-card` (result card, header status, `Chip`),
+  `game` (Mode A), `find-game` (Mode B), `how-figures` and `open-app` (landing), `ui/`.
 - `lib/i18n.ts` — every string, EN and ES. `lib/lang.ts` — reads the language cookie.
 - `lib/core/` — note model (`notes.ts`), question generator (`quiz.ts`), tests. Pure TS.
 - `lib/core/challenge.ts` — challenge rules. `lib/audio/note-player.ts` — Web Audio sampler.

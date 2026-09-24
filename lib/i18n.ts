@@ -92,7 +92,7 @@ export interface Strings {
     stop: string;
   };
   /** The start card's settings. */
-  settings: { notes: string; all: string; naturals: string; names: string; solfege: string; letters: string };
+  settings: { challenge: string; time: string; notes: string; all: string; naturals: string; names: string; solfege: string; letters: string };
   consent: { text: string; accept: string; decline: string; more: string };
   privacy: { eyebrow: string; h1: string; updated: string; summary: string; sections: { h: string; p: string[] }[]; contactHeading: string; contact: string };
 }
@@ -263,7 +263,7 @@ const en: Strings = {
     clock: "Time left",
     stop: "Stop",
   },
-  settings: { notes: "Notes", all: "All twelve", naturals: "Naturals only", names: "Note names", solfege: "Do Re Mi", letters: "C D E" },
+  settings: { challenge: "Challenge", time: "Time", notes: "Notes", all: "All twelve", naturals: "Naturals only", names: "Note names", solfege: "Do Re Mi", letters: "C D E" },
   consent: {
     text: "Diesis uses Google Analytics to count visits, only if you say yes. No ads, nothing sold.",
     accept: "Allow",
@@ -453,7 +453,7 @@ const es: Strings = {
     clock: "Tiempo restante",
     stop: "Parar",
   },
-  settings: { notes: "Notas", all: "Todas", naturals: "Solo naturales", names: "Nombres", solfege: "Do Re Mi", letters: "C D E" },
+  settings: { challenge: "Reto", time: "Tiempo", notes: "Notas", all: "Todas", naturals: "Solo naturales", names: "Nombres", solfege: "Do Re Mi", letters: "C D E" },
   consent: {
     text: "Diesis usa Google Analytics para contar visitas, solo si tú lo permites. Sin anuncios y sin vender nada.",
     accept: "Permitir",

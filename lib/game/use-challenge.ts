@@ -43,6 +43,9 @@ export interface ChallengeState {
   best: number | null;
   /** True when the run just ended beat the stored best. */
   newBest: boolean;
+  /** The stored best for the challenge as currently picked, for the setup screen. Null for
+   *  practice or when there is none. */
+  bestNow: number | null;
   begin: () => void;
   right: () => void;
   wrong: () => void;
@@ -69,6 +72,9 @@ export function useChallenge(mode: string): ChallengeState {
 
   const running = startedAt !== null && !tally.over;
   const key = bestKey(mode, challenge);
+  const storedBest = useSyncExternalStore(noSubscribe, () => (key ? read(BEST_PREFIX + key) : null), () => null);
+  const bestNowValue = Number(storedBest);
+  const bestNow = Number.isFinite(bestNowValue) && bestNowValue > 0 ? bestNowValue : null;
   const newBest = tally.over && key !== null && tally.right > 0 && (best === null || tally.right > best);
 
   const setChallenge = useCallback((c: Challenge) => {
@@ -111,5 +117,5 @@ export function useChallenge(mode: string): ChallengeState {
     setLeft(null);
   }, []);
 
-  return { challenge, setChallenge, tally, left, running, best, newBest, begin, right, wrong, reset };
+  return { challenge, setChallenge, tally, left, running, best, newBest, bestNow, begin, right, wrong, reset };
 }

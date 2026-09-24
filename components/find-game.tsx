@@ -7,9 +7,10 @@ import { DEFAULT_SETTINGS } from "@/lib/core/quiz";
 import { useChallenge } from "@/lib/game/use-challenge";
 import { useModeB } from "@/lib/game/use-mode-b";
 import { useSettings } from "@/lib/game/use-settings";
-import { ChallengePicker, ChallengeResult, ChallengeStatus } from "@/components/challenge-card";
+import { ChallengeResult, ChallengeStatus } from "@/components/challenge-card";
 import { Fretboard, type Mark } from "@/components/fretboard";
-import { GameFrame } from "@/components/game-frame";
+import { GameFrame, GameShell } from "@/components/game-frame";
+import { SetupScreen } from "@/components/setup-screen";
 import { cn } from "@/lib/utils";
 import type { Lang, Strings } from "@/lib/i18n";
 
@@ -81,11 +82,30 @@ export function FindGame({
   const score = t.score.replace("{r}", String(run.tally.right)).replace("{w}", String(run.tally.wrong));
   const allFound = round !== null && game.found.length === round.positions.length;
 
+  if (picking) {
+    return (
+      <GameShell t={t} title={tf.title}>
+        <SetupScreen
+          tc={tc}
+          ts={ts}
+          hint={tf.startSub}
+          value={run.challenge}
+          onChange={run.setChallenge}
+          settings={prefs}
+          best={run.bestNow}
+          onStart={() => void begin()}
+          loading={game.phase === "loading"}
+          loadingLabel={t.loading}
+        />
+      </GameShell>
+    );
+  }
+
   return (
     <GameFrame
       t={t}
       title={tf.title}
-      status={picking ? null : <ChallengeStatus t={tc} score={score} state={run} onStop={over ? undefined : change} />}
+      status={<ChallengeStatus t={tc} score={score} state={run} onStop={over ? undefined : change} />}
       board={(size) => (
         <Fretboard
           label={t.board}
@@ -94,29 +114,13 @@ export function FindGame({
           minFret={DEFAULT_SETTINGS.minFret}
           maxFret={DEFAULT_SETTINGS.maxFret}
           marks={marks}
-          onPick={picking || over ? undefined : game.tap}
+          onPick={over ? undefined : game.tap}
         />
       )}
-      overlay={
-        picking ? (
-          <ChallengePicker
-            t={tc}
-            ts={ts}
-            value={run.challenge}
-            onChange={run.setChallenge}
-            settings={prefs}
-            onStart={() => void begin()}
-            loading={game.phase === "loading"}
-            loadingLabel={t.loading}
-            hint={tf.startSub}
-          />
-        ) : over ? (
-          <ChallengeResult t={tc} state={run} onAgain={() => void begin()} onChange={change} />
-        ) : null
-      }
+      overlay={over ? <ChallengeResult t={tc} state={run} onAgain={() => void begin()} onChange={change} /> : null}
     >
       <div className="relative flex h-20 items-center justify-center gap-4 px-4">
-        {round && !picking ? (
+        {round ? (
           <>
             <p className="font-display text-3xl font-semibold sm:text-4xl" aria-live="polite">
               {tf.prompt.replace("{n}", names[round.target])}

@@ -3,6 +3,12 @@
 Written for the people using it, not for the code. Newest first. Version matches
 `package.json`.
 
+## 0.6.3 — 24 September 2026, set up first, then the neck
+
+- The choices before a round (challenge, minutes, which notes, how they are named) have their
+  own screen now, instead of a card floating over the fretboard. It also shows your best for
+  the challenge you have picked. Press Start and the neck appears on its own, clean.
+
 ## 0.6.2 — 24 September 2026, smoother
 
 - "Open the app" no longer reloads the page on its way in: it goes straight to the mode picker,
