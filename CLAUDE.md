@@ -123,6 +123,11 @@ Todoist project records what is still to do.
   **The wordmark is "δiesis" (Will, 2026-09-24)**: next to the mark, the D of the word is that
   same δ, drawn inline as SVG at text size by `DeltaGlyph` in `components/logo.tsx` (Fraunces has
   no Greek). Only the wordmark; page titles, copy and the `<title>` keep the Latin "Diesis".
+- **Link preview (Will, 2026-09-24)**: the card is the game, one per language: "¿Qué nota es?" /
+  "Which note is it?", the tagline under it, the wordmark top right, frets 0–7 with C lit on
+  string 2, and the seven natural buttons with C green. A page that sets its own `openGraph`
+  must repeat `images` (Next replaces the object, it does not merge): `/es` pages use
+  `og-es.png`. Bump the `?v=` on the image URLs when the card changes.
 
 ## Hosting
 
@@ -151,7 +156,8 @@ Will), and it can be deleted in the dashboard. The repo folder is linked to `die
   `use-settings.ts` — note names and naturals only, in localStorage.
 - `design/tokens.json` and `docs/design-system.md` — design system; tokens before screens.
 - `tools/gen-samples.mjs` (`npm run samples`), `tools/icons.mjs` (`npm run icons`, regenerates
-  `public/icon.png` and `public/og.png` from `public/favicon.svg`).
+  `public/icon.png` from `public/favicon.svg` and the link previews `public/og.png` and
+  `public/og-es.png` from `tools/og-card.mjs`, drawn with satori via `next/og`, fonts in `tools/fonts`).
 - `public/samples/nylon/` — generated WAVs, committed so a clone plays without the script.
 
 ## Commands

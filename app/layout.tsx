@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     title: "Diesis — know every note on the guitar neck",
     description,
     siteName: "Diesis",
-    images: [{ url: "/og.png", width: 1200, height: 630 }],
+    images: [{ url: "/og.png?v=2", width: 1200, height: 630 }],
   },
   twitter: { card: "summary_large_image" },
 };

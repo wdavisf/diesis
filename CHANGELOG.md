@@ -3,6 +3,11 @@
 Written for the people using it, not for the code. Newest first. Version matches
 `package.json`.
 
+## 0.6.6 — 24 September 2026, a preview that shows the game
+
+- A shared link to Diesis now shows the game itself: the question, the neck with a spot lit and
+  the note buttons with the right one green, in English or Spanish to match the page.
+
 ## 0.6.5 — 24 September 2026, the Spanish link preview
 
 - A link to diesis.app/es shared on WhatsApp or anywhere else now shows the same wide card as the
