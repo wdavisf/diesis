@@ -9,5 +9,5 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function NameTheNotePage() {
   const t = await currentStrings();
-  return <Game t={t.game} tc={t.challenge} />;
+  return <Game t={t.game} tc={t.challenge} ts={t.settings} lang={t.code} />;
 }

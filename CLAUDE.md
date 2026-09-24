@@ -22,8 +22,9 @@ Todoist project records what is still to do.
   account or cookie. The `/login` route, `proxy.ts` and the `DIESIS_ACCESS_CODE` env that gated
   `/app/*` from 0.2.0 to 0.3.0 are gone (git history has them; the shared code `RYUJIN` is dead).
   If access control ever comes back it will be an account, not a shared code.
-- **Scope on the landing page** (three tracks): Notes (Name the note, Find the note and
-  challenges playable now; Hear the note and settings next), Scales (later: explore, build, name the scale,
+- **Scope on the landing page** (three tracks): Notes (Name the note, Find the note,
+  challenges and the start-card settings playable now; Hear the note, fret range and one string
+  at a time next), Scales (later: explore, build, name the scale,
   name the degree), Reading music (later, for classical guitar: note on the staff to name or
   neck, neck to staff, short reading passages). Keep the page and the app home in step with what
   exists.
@@ -72,9 +73,14 @@ Todoist project records what is still to do.
   `components/consent.tsx` only after the visitor accepts a banner (cookie `diesis_consent`,
   one year). Decline loads nothing from Google. The privacy page describes it in both
   languages; keep it true.
-- **Spanish note names**: the Spanish UI uses solfège (Do, Re♯, Sol…) on the buttons, the board
-  and the hero animation via `game.noteNames` in `lib/i18n.ts`; English keeps letters. The
-  core stays in pitch classes, so this is display only.
+- **Note names and naturals are settings (Will, 2026-09-24)**, chosen on the start card of
+  every mode (`ChallengePicker`), kept in localStorage by `lib/game/use-settings.ts`
+  (`diesis_names`: `solfege` | `letters`; `diesis_naturals`: `yes` | `no`), never sent. Names
+  default to solfège in the Spanish UI and letters in English (`namesFor` in `lib/core/notes.ts`
+  holds both spellings, sharps as ♯); the landing keeps the language default via
+  `game.noteNames`. Naturals only feeds `QuizSettings.naturalsOnly`, shows seven buttons in Mode
+  A, ignores Shift on the keyboard, and keeps its own personal bests (`name:naturals`,
+  `find:naturals`). The core stays in pitch classes; names are display only.
 - **Spanish copy is written natively, never translated literally** (Will, 2026-09-23, after
   rejecting a literal pass). Spain register: ordenador, móvil, «échate una ronda».
 - **Standing rule: when the game changes (modes, settings, wording, pricing, privacy behavior),
@@ -97,8 +103,9 @@ Todoist project records what is still to do.
 Vercel project `diesis-site` (team wdavisf-gmailcoms-projects), Git integration from
 `wdavisf/diesis` main, framework Next.js at the repo root, no environment variables (the old
 `DIESIS_ACCESS_CODE` is no longer read and can be deleted from the project settings). Domains
-diesis.app and www (redirects to the apex); DNS at Namecheap. Live since 2026-09-23. The old `diesis-play` project (play.diesis.app, Expo web export) is obsolete and can
-be deleted in the dashboard. The repo folder is linked to `diesis-site` (`.vercel/`, ignored), so
+diesis.app and www (redirects to the apex); DNS at Namecheap. Live since 2026-09-23. The old `diesis-play` project (play.diesis.app, Expo web export) is obsolete; its Git
+integration was disconnected 2026-09-24 (every push had been failing a build there and emailing
+Will), and it can be deleted in the dashboard. The repo folder is linked to `diesis-site` (`.vercel/`, ignored), so
 `npx vercel deploy --prod` works as well as a push.
 
 ## Layout of the repo
@@ -113,7 +120,8 @@ be deleted in the dashboard. The repo folder is linked to `diesis-site` (`.verce
 - `lib/i18n.ts` — every string, EN and ES. `lib/lang.ts` — reads the language cookie.
 - `lib/core/` — note model (`notes.ts`), question generator (`quiz.ts`), tests. Pure TS.
 - `lib/core/challenge.ts` — challenge rules. `lib/audio/note-player.ts` — Web Audio sampler.
-  `lib/game/use-mode-a.ts`, `use-mode-b.ts` — mode hooks; `use-challenge.ts` — score and clock.
+  `lib/game/use-mode-a.ts`, `use-mode-b.ts` — mode hooks; `use-challenge.ts` — score and clock;
+  `use-settings.ts` — note names and naturals only, in localStorage.
 - `design/tokens.json` and `docs/design-system.md` — design system; tokens before screens.
 - `tools/gen-samples.mjs` (`npm run samples`), `tools/icons.mjs` (`npm run icons`, regenerates
   `public/icon.png` and `public/og.png` from `public/favicon.svg`).

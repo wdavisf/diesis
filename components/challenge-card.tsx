@@ -3,6 +3,7 @@
 import type { ReactNode } from "react";
 import { formatClock, TIMED_SECONDS, type Challenge } from "@/lib/core/challenge";
 import type { ChallengeState } from "@/lib/game/use-challenge";
+import type { Settings } from "@/lib/game/use-settings";
 import type { Strings } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 
@@ -32,19 +33,24 @@ function Chip({ on, onClick, children }: { on: boolean; onClick: () => void; chi
   );
 }
 
-/** Picks the challenge and starts the run. Doubles as the audio-unlocking first tap. */
+/** Picks the challenge and the round's settings, then starts the run. Doubles as the
+ *  audio-unlocking first tap. */
 export function ChallengePicker({
   t,
+  ts,
   value,
   onChange,
+  settings,
   onStart,
   loading,
   loadingLabel,
   hint,
 }: {
   t: T;
+  ts: Strings["settings"];
   value: Challenge;
   onChange: (c: Challenge) => void;
+  settings: Settings;
   onStart: () => void;
   loading: boolean;
   loadingLabel: string;
@@ -77,6 +83,24 @@ export function ChallengePicker({
         </div>
       ) : null}
       <p className="mt-2 text-sm text-dim [@media(max-height:30rem)]:mt-1.5 [@media(max-height:30rem)]:text-xs">{sub}</p>
+      <div className="mt-3 grid grid-cols-2 gap-3 border-t border-line pt-3 [@media(max-height:30rem)]:mt-2 [@media(max-height:30rem)]:pt-2">
+        <div role="radiogroup" aria-label={ts.notes} className="flex gap-1.5">
+          <Chip on={!settings.naturalsOnly} onClick={() => settings.setNaturalsOnly(false)}>
+            {ts.all}
+          </Chip>
+          <Chip on={settings.naturalsOnly} onClick={() => settings.setNaturalsOnly(true)}>
+            {ts.naturals}
+          </Chip>
+        </div>
+        <div role="radiogroup" aria-label={ts.names} className="flex gap-1.5">
+          <Chip on={settings.names === "solfege"} onClick={() => settings.setNames("solfege")}>
+            {ts.solfege}
+          </Chip>
+          <Chip on={settings.names === "letters"} onClick={() => settings.setNames("letters")}>
+            {ts.letters}
+          </Chip>
+        </div>
+      </div>
       <button type="button" onClick={onStart} disabled={loading} className={cn(primary, "mt-3 min-w-40 [@media(max-height:30rem)]:mt-2 [@media(max-height:30rem)]:py-2")}>
         {loading ? loadingLabel : t.start}
       </button>

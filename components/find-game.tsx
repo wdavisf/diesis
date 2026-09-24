@@ -2,22 +2,39 @@
 
 import { useEffect, useMemo } from "react";
 import { createNotePlayer } from "@/lib/audio/note-player";
-import { pitchClassAt, samePosition } from "@/lib/core/notes";
+import { namesFor, pitchClassAt, samePosition } from "@/lib/core/notes";
 import { DEFAULT_SETTINGS } from "@/lib/core/quiz";
 import { useChallenge } from "@/lib/game/use-challenge";
 import { useModeB } from "@/lib/game/use-mode-b";
+import { useSettings } from "@/lib/game/use-settings";
 import { ChallengePicker, ChallengeResult, ChallengeStatus } from "@/components/challenge-card";
 import { Fretboard, type Mark } from "@/components/fretboard";
 import { GameFrame } from "@/components/game-frame";
 import { cn } from "@/lib/utils";
-import type { Strings } from "@/lib/i18n";
+import type { Lang, Strings } from "@/lib/i18n";
 
 /** Mode B, Find the note. */
-export function FindGame({ t, tf, tc }: { t: Strings["game"]; tf: Strings["find"]; tc: Strings["challenge"] }) {
+export function FindGame({
+  t,
+  tf,
+  tc,
+  ts,
+  lang,
+}: {
+  t: Strings["game"];
+  tf: Strings["find"];
+  tc: Strings["challenge"];
+  ts: Strings["settings"];
+  lang: Lang;
+}) {
   const player = useMemo(() => createNotePlayer(), []);
   useEffect(() => () => player.dispose(), [player]);
-  const run = useChallenge("find");
-  const game = useModeB(DEFAULT_SETTINGS, player, { onRight: run.right, onWrong: run.wrong, locked: run.tally.over });
+  const prefs = useSettings(lang === "es" ? "solfege" : "letters");
+  const names = namesFor(prefs.names);
+  const naturalsOnly = prefs.naturalsOnly;
+  const settings = useMemo(() => ({ ...DEFAULT_SETTINGS, naturalsOnly }), [naturalsOnly]);
+  const run = useChallenge(naturalsOnly ? "find:naturals" : "find");
+  const game = useModeB(settings, player, { onRight: run.right, onWrong: run.wrong, locked: run.tally.over });
 
   const over = run.tally.over;
   const picking = game.phase === "idle" || game.phase === "loading";
@@ -53,11 +70,11 @@ export function FindGame({ t, tf, tc }: { t: Strings["game"]; tf: Strings["find"
   if (round) {
     for (const p of round.positions) {
       const isFound = game.found.some((f) => samePosition(f, p));
-      if (isFound) marks.push({ position: p, state: "correct", label: t.noteNames[round.target] });
-      else if (game.revealed || over) marks.push({ position: p, state: "asking", label: t.noteNames[round.target] });
+      if (isFound) marks.push({ position: p, state: "correct", label: names[round.target] });
+      else if (game.revealed || over) marks.push({ position: p, state: "asking", label: names[round.target] });
     }
     if (game.wrongTap) {
-      marks.push({ position: game.wrongTap, state: "wrong", label: t.noteNames[pitchClassAt(game.wrongTap)] });
+      marks.push({ position: game.wrongTap, state: "wrong", label: names[pitchClassAt(game.wrongTap)] });
     }
   }
 
@@ -84,8 +101,10 @@ export function FindGame({ t, tf, tc }: { t: Strings["game"]; tf: Strings["find"
         picking ? (
           <ChallengePicker
             t={tc}
+            ts={ts}
             value={run.challenge}
             onChange={run.setChallenge}
+            settings={prefs}
             onStart={() => void begin()}
             loading={game.phase === "loading"}
             loadingLabel={t.loading}
@@ -100,7 +119,7 @@ export function FindGame({ t, tf, tc }: { t: Strings["game"]; tf: Strings["find"
         {round && !picking ? (
           <>
             <p className="font-display text-3xl font-semibold sm:text-4xl" aria-live="polite">
-              {tf.prompt.replace("{n}", t.noteNames[round.target])}
+              {tf.prompt.replace("{n}", names[round.target])}
             </p>
             <p
               className={cn("text-lg tabular-nums", allFound ? "font-semibold text-correct" : game.wrongTap ? "text-wrong" : "text-dim")}

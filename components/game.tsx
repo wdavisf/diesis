@@ -2,26 +2,31 @@
 
 import { useEffect, useMemo } from "react";
 import { createNotePlayer } from "@/lib/audio/note-player";
-import type { PitchClass } from "@/lib/core/notes";
+import { namesFor, NATURAL_PITCH_CLASSES, type PitchClass } from "@/lib/core/notes";
 import { DEFAULT_SETTINGS } from "@/lib/core/quiz";
 import { useChallenge } from "@/lib/game/use-challenge";
 import { useModeA } from "@/lib/game/use-mode-a";
+import { useSettings } from "@/lib/game/use-settings";
 import { ChallengePicker, ChallengeResult, ChallengeStatus } from "@/components/challenge-card";
 import { Fretboard } from "@/components/fretboard";
 import { GameFrame } from "@/components/game-frame";
 import { NotePanel } from "@/components/note-panel";
 import { cn } from "@/lib/utils";
-import type { Strings } from "@/lib/i18n";
+import type { Lang, Strings } from "@/lib/i18n";
 
 /** Letter keys pick a natural; hold Shift for the sharp. Space or Enter replays the note. */
 const KEY_TO_PC: Record<string, PitchClass> = { c: 0, d: 2, e: 4, f: 5, g: 7, a: 9, b: 11 };
 
 /** Mode A, Name the note. */
-export function Game({ t, tc }: { t: Strings["game"]; tc: Strings["challenge"] }) {
+export function Game({ t, tc, ts, lang }: { t: Strings["game"]; tc: Strings["challenge"]; ts: Strings["settings"]; lang: Lang }) {
   const player = useMemo(() => createNotePlayer(), []);
   useEffect(() => () => player.dispose(), [player]);
-  const run = useChallenge("name");
-  const game = useModeA(DEFAULT_SETTINGS, player, { onRight: run.right, onWrong: run.wrong, locked: run.tally.over });
+  const prefs = useSettings(lang === "es" ? "solfege" : "letters");
+  const names = namesFor(prefs.names);
+  const naturalsOnly = prefs.naturalsOnly;
+  const settings = useMemo(() => ({ ...DEFAULT_SETTINGS, naturalsOnly }), [naturalsOnly]);
+  const run = useChallenge(naturalsOnly ? "name:naturals" : "name");
+  const game = useModeA(settings, player, { onRight: run.right, onWrong: run.wrong, locked: run.tally.over });
 
   const over = run.tally.over;
   const picking = game.phase === "idle" || game.phase === "loading";
@@ -53,7 +58,7 @@ export function Game({ t, tc }: { t: Strings["game"]; tc: Strings["challenge"] }
       const pc = KEY_TO_PC[key];
       if (pc === undefined) return;
       e.preventDefault();
-      game.pick(e.shiftKey ? (((pc + 1) % 12) as PitchClass) : pc);
+      game.pick(e.shiftKey && !naturalsOnly ? (((pc + 1) % 12) as PitchClass) : pc);
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
@@ -80,7 +85,7 @@ export function Game({ t, tc }: { t: Strings["game"]; tc: Strings["challenge"] }
                   {
                     position: game.question.position,
                     state: game.phase === "correct" ? "correct" : "asking",
-                    label: game.phase === "correct" || over ? t.noteNames[game.question.answer] : undefined,
+                    label: game.phase === "correct" || over ? names[game.question.answer] : undefined,
                   },
                 ]
               : []
@@ -91,8 +96,10 @@ export function Game({ t, tc }: { t: Strings["game"]; tc: Strings["challenge"] }
         picking ? (
           <ChallengePicker
             t={tc}
+            ts={ts}
             value={run.challenge}
             onChange={run.setChallenge}
+            settings={prefs}
             onStart={() => void begin()}
             loading={game.phase === "loading"}
             loadingLabel={t.loading}
@@ -121,7 +128,8 @@ export function Game({ t, tc }: { t: Strings["game"]; tc: Strings["challenge"] }
 
       <NotePanel
         label={t.notes}
-        names={t.noteNames}
+        names={names}
+        pitchClasses={naturalsOnly ? NATURAL_PITCH_CLASSES : undefined}
         onPick={game.pick}
         disabled={game.phase !== "asking" || over}
         correctPick={game.phase === "correct" && game.question ? game.question.answer : null}

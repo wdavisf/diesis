@@ -3,6 +3,14 @@
 Written for the people using it, not for the code. Newest first. Version matches
 `package.json`.
 
+## 0.6.0 — 24 September 2026, your notes, your names
+
+- Two choices on the start card, in both modes. Notes: all twelve, or naturals only (C D E F
+  G A B, and in that case only those seven buttons). Names: Do Re Mi or C D E, whatever you
+  read the neck in. Spanish starts on Do Re Mi, English on C D E; change it once and the
+  browser remembers.
+- Personal bests are kept apart for naturals-only rounds, since they are easier.
+
 ## 0.5.1 — 24 September 2026, sound on the iPhone, sideways by itself
 
 - On an iPhone the notes now play even with the ring/silent switch on silent. Before, the

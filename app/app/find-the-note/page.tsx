@@ -9,5 +9,5 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function FindTheNotePage() {
   const t = await currentStrings();
-  return <FindGame t={t.game} tf={t.find} tc={t.challenge} />;
+  return <FindGame t={t.game} tf={t.find} tc={t.challenge} ts={t.settings} lang={t.code} />;
 }

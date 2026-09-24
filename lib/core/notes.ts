@@ -11,6 +11,16 @@ export type PitchClass = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11;
 export const SHARP_NAMES = ['C', 'C♯', 'D', 'D♯', 'E', 'F', 'F♯', 'G', 'G♯', 'A', 'A♯', 'B'] as const;
 export const FLAT_NAMES = ['C', 'D♭', 'D', 'E♭', 'E', 'F', 'G♭', 'G', 'A♭', 'A', 'B♭', 'B'] as const;
 
+/** The same twelve pitch classes in solfège, sharps as ♯: Do, Do♯, Re… as Spanish players read them. */
+export const SOLFEGE_NAMES = ['Do', 'Do♯', 'Re', 'Re♯', 'Mi', 'Fa', 'Fa♯', 'Sol', 'Sol♯', 'La', 'La♯', 'Si'] as const;
+
+/** How note names are written on screen: letters (C D E) or solfège (Do Re Mi). Display only. */
+export type NameStyle = 'letters' | 'solfege';
+
+export function namesFor(style: NameStyle): readonly string[] {
+  return style === 'solfege' ? SOLFEGE_NAMES : SHARP_NAMES;
+}
+
 export const NATURAL_PITCH_CLASSES: readonly PitchClass[] = [0, 2, 4, 5, 7, 9, 11];
 
 export type Spelling = 'sharp' | 'flat';

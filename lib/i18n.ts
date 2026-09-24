@@ -49,7 +49,8 @@ export interface Strings {
     rotateSub: string;
     board: string;
     notes: string;
-    /** The twelve pitch classes from C, sharps as ♯. Letters in English, solfège in Spanish. */
+    /** The twelve pitch classes from C, sharps as ♯, as the language shows them by default (letters in
+     *  English, solfège in Spanish). The landing uses these; inside the game the player's own setting wins. */
     noteNames: string[];
   };
   find: {
@@ -90,6 +91,8 @@ export interface Strings {
     clock: string;
     stop: string;
   };
+  /** The start card's settings. */
+  settings: { notes: string; all: string; naturals: string; names: string; solfege: string; letters: string };
   consent: { text: string; accept: string; decline: string; more: string };
   privacy: { eyebrow: string; h1: string; updated: string; summary: string; sections: { h: string; p: string[] }[]; contactHeading: string; contact: string };
 }
@@ -140,7 +143,7 @@ const en: Strings = {
           { title: "Find the note", body: "You get a name. Tap every place it lives within the fret range, until you have them all.", when: "now" },
           { title: "Hear the note", body: "A note plays with nothing lit. Tap a place on the neck where it could be.", when: "next" },
           { title: "Challenges", body: "Practice with no end, race the clock for one, two or five minutes, or see how far you get without a single mistake. Your best score is kept.", when: "now" },
-          { title: "Settings", body: "Fret range, naturals only, one string at a time.", when: "next" },
+          { title: "Settings", body: "On the start card: naturals only or all twelve, and note names as C D E or Do Re Mi. Fret range and one string at a time come next.", when: "now" },
         ],
       },
       {
@@ -260,6 +263,7 @@ const en: Strings = {
     clock: "Time left",
     stop: "Stop",
   },
+  settings: { notes: "Notes", all: "All twelve", naturals: "Naturals only", names: "Note names", solfege: "Do Re Mi", letters: "C D E" },
   consent: {
     text: "Diesis uses Google Analytics to count visits, only if you say yes. No ads, nothing sold.",
     accept: "Allow",
@@ -272,7 +276,7 @@ const en: Strings = {
     updated: "Last updated 24 September 2026",
     summary: "Diesis has no account and no advertising. Nothing you do in the game leaves your browser. The only thing we measure is visits to the site, with Google Analytics, and only if you allow it.",
     sections: [
-      { h: "The game", p: ["Diesis runs entirely in your browser. It does not ask who you are, does not create an account, and does not send anything you do in the game to us or to anyone else.", "Your score for a round is held in memory and disappears when you close the tab. Your personal best for each challenge, and the challenge you last picked, are kept in your browser's local storage, on your device only. They are never sent anywhere; clearing the site's data removes them."] },
+      { h: "The game", p: ["Diesis runs entirely in your browser. It does not ask who you are, does not create an account, and does not send anything you do in the game to us or to anyone else.", "Your score for a round is held in memory and disappears when you close the tab. Your personal best for each challenge, the challenge you last picked and the start-card settings (note names, naturals only) are kept in your browser's local storage, on your device only. They are never sent anywhere; clearing the site's data removes them."] },
       { h: "Cookies", p: ["Diesis sets two cookies. One remembers the language you picked; the other remembers your answer to the analytics banner. Neither holds anything about you."] },
       { h: "This website", p: ["diesis.app is hosted by Vercel, which keeps standard server logs (IP address, browser, pages requested) for a short time to run the service and keep it safe.", "If you allow it in the banner, the site loads Google Analytics 4 to count visits and see which pages are read. Google sets its own cookies for that and processes the data under its own privacy policy. If you decline, nothing from Google is loaded, and you can change your mind by clearing the site's cookies."] },
       { h: "Children", p: ["Diesis collects no personal data from anyone, of any age."] },
@@ -329,7 +333,7 @@ const es: Strings = {
           { title: "Encuentra la nota", body: "Te dan una nota y tienes que tocarla en todos los sitios del mástil donde esté, dentro del rango de trastes que hayas elegido.", when: "now" },
           { title: "Escucha la nota", body: "Suena una nota sin que se ilumine nada. Tócala en algún sitio del mástil donde pueda estar.", when: "next" },
           { title: "Retos", body: "Juego libre sin final, contrarreloj de uno, dos o cinco minutos, o a ver cuántas encadenas sin fallar ni una. Tu mejor marca se queda guardada.", when: "now" },
-          { title: "Ajustes", body: "Rango de trastes, solo notas naturales, una cuerda cada vez.", when: "next" },
+          { title: "Ajustes", body: "Antes de cada ronda: solo naturales o las doce notas, y los nombres como Do Re Mi o C D E. El rango de trastes y jugar cuerda a cuerda llegarán después.", when: "now" },
         ],
       },
       {
@@ -449,6 +453,7 @@ const es: Strings = {
     clock: "Tiempo restante",
     stop: "Parar",
   },
+  settings: { notes: "Notas", all: "Todas", naturals: "Solo naturales", names: "Nombres", solfege: "Do Re Mi", letters: "C D E" },
   consent: {
     text: "Diesis usa Google Analytics para contar visitas, solo si tú lo permites. Sin anuncios y sin vender nada.",
     accept: "Permitir",
@@ -461,7 +466,7 @@ const es: Strings = {
     updated: "Última actualización: 24 de septiembre de 2026",
     summary: "Diesis no tiene cuentas ni publicidad. Nada de lo que haces en el juego sale de tu navegador. Lo único que medimos son las visitas a la web, con Google Analytics, y solo si tú lo permites.",
     sections: [
-      { h: "El juego", p: ["Diesis funciona por completo en tu navegador. No te pregunta quién eres, no crea ninguna cuenta y no envía nada de lo que haces a nadie, ni a nosotros ni a terceros.", "La puntuación de cada ronda se guarda en memoria y desaparece al cerrar la pestaña. Tu mejor marca en cada reto, y el último reto que elegiste, se guardan en el almacenamiento local de tu navegador, solo en tu dispositivo. No se envían a ningún sitio; si borras los datos de la web, desaparecen."] },
+      { h: "El juego", p: ["Diesis funciona por completo en tu navegador. No te pregunta quién eres, no crea ninguna cuenta y no envía nada de lo que haces a nadie, ni a nosotros ni a terceros.", "La puntuación de cada ronda se guarda en memoria y desaparece al cerrar la pestaña. Tu mejor marca en cada reto, el último reto que elegiste y los ajustes de la tarjeta de inicio (nombres de las notas, solo naturales) se guardan en el almacenamiento local de tu navegador, solo en tu dispositivo. No se envían a ningún sitio; si borras los datos de la web, desaparecen."] },
       { h: "Cookies", p: ["Diesis guarda dos cookies: una recuerda el idioma que has elegido y la otra, lo que respondiste al aviso de analítica. Ninguna contiene datos sobre ti."] },
       { h: "Esta web", p: ["diesis.app está alojada en Vercel, que conserva durante poco tiempo los registros habituales de cualquier servidor (dirección IP, navegador, páginas solicitadas) para que el servicio funcione y esté protegido.", "Si lo permites en el aviso, la web carga Google Analytics 4 para contar visitas y ver qué páginas se leen. Google instala sus propias cookies para ello y trata los datos según su política de privacidad. Si dices que no, no se carga nada de Google; puedes cambiar de opinión borrando las cookies de la web."] },
       { h: "Menores", p: ["Diesis no recoge datos personales de nadie, tenga la edad que tenga."] },
