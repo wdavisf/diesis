@@ -15,7 +15,7 @@ export default async function AppHome() {
       <p className="mt-2 text-dim">{h.lede}</p>
       <ul className="mt-8 grid gap-4 sm:grid-cols-2">
         {h.modes.map((m, i) => {
-          const href = hrefs[i];
+          const href = hrefs[i] ? `${t.base}${hrefs[i]}` : null;
           const tag = tags[i] === "now" ? h.start : tags[i] === "next" ? h.next : h.later;
           const enter = "animate-in fade-in slide-in-from-bottom-3 fill-mode-both duration-500 motion-reduce:animate-none";
           const delay = { animationDelay: `${i * 70}ms` };

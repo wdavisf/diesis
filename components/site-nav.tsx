@@ -14,10 +14,8 @@ import { cn } from "@/lib/utils";
 /** The tools, in the order of `nav.tools` in lib/i18n.ts. */
 export const TOOL_HREFS = ["/learn", "/learn/name-the-note", "/learn/find-the-note", "/learn/metronome"] as const;
 
-/** The same page in the other language: the web has /es twins; the app keeps its path (the
- *  language lives in a cookie there). */
+/** The same page in the other language: every page has an /es twin, the app included. */
 function otherLangPath(pathname: string, t: Strings): string {
-  if (pathname.startsWith("/learn")) return pathname;
   if (t.otherLang === "es") return pathname === "/" ? "/es" : `/es${pathname}`;
   return pathname.replace(/^\/es(?=\/|$)/, "") || "/";
 }
@@ -38,8 +36,9 @@ export function SiteNav({ t, area }: { t: Strings; area: "site" | "app" }) {
   useEffect(() => {
     row.current?.querySelector<HTMLElement>('[aria-current="page"]')?.scrollIntoView({ block: "nearest", inline: "center" });
   }, [pathname]);
-  const tools = TOOL_HREFS.map((href, i) => {
-    const on = href === "/learn" ? pathname === "/learn" : pathname.startsWith(href);
+  const tools = TOOL_HREFS.map((path, i) => {
+    const href = `${t.base}${path}`;
+    const on = path === "/learn" ? pathname === href : pathname.startsWith(href);
     return (
       <Link
         key={href}

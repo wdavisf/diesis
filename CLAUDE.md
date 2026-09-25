@@ -153,10 +153,16 @@ Todoist project records what is still to do.
   rejecting a literal pass). Spain register: ordenador, móvil, «échate una ronda».
 - **Standing rule: when the game changes (modes, settings, wording, pricing, privacy behavior),
   update the landing page, the app home and the privacy page in the same session.** All copy,
-  EN and ES, is in `lib/i18n.ts`; edit both languages together. The landing and privacy pages
-  have `/es` routes (SEO, hreflang); the mode picker and game read the `diesis_lang`
-  cookie, set by `/lang/[code]` (the switcher and the landing CTAs go through it). Values in the
-  strings file must be plain data (no functions): they cross into client components.
+  EN and ES, is in `lib/i18n.ts`; edit both languages together. Every page has an `/es`
+  twin, the app included (Will, 2026-09-25: a shared app link opened in the wrong language):
+  `/learn/…` is English, `/es/learn/…` Spanish. `proxy.ts` rewrites `/es/learn/…` onto the same
+  pages with an `x-diesis-lang: es` header (`currentLang` in `lib/lang.ts` reads only that),
+  and sends a visitor whose `diesis_lang` cookie says Spanish from `/learn/…` to the `/es`
+  twin. The cookie is still set by `/lang/[code]` (the switcher) and by Open the app. App
+  links are built from `t.base` (site-nav, the menu cards, the exercise's back arrow reads the
+  path). `appMetadata` in `lib/lang.ts` gives app pages their title, hreflang and a link
+  preview in their language (og-es.png for Spanish). Values in the strings file must be plain
+  data (no functions): they cross into client components.
 - **Landing on phones (Will, 2026-09-24: "only text").** The hero is a grid: headline, then the
   animated `Screen`, then the lede, CTAs and trust line; from `lg` the screen takes the right
   column against the whole text block. The hero lede stays at three or four short sentences;
@@ -208,7 +214,7 @@ Will), and it can be deleted in the dashboard. The repo folder is linked to `die
 `npx vercel deploy --prod` works as well as a push.
 
 **Search (2026-09-25)**: diesis.app is verified in Google Search Console (DNS TXT at Namecheap).
-`app/sitemap.ts` lists `/`, `/es` and both privacy pages with hreflang pairs; `app/robots.ts`
+`app/sitemap.ts` lists the landing, the app menu and tools and the privacy page, each with its `/es` twin (hreflang pairs); `app/robots.ts`
 points to it and keeps `/lang/` out. Add new public pages to the sitemap.
 
 ## Layout of the repo

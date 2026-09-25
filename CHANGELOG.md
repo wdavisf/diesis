@@ -3,6 +3,13 @@
 Written for the people using it, not for the code. Newest first. Version matches
 `package.json`.
 
+## 0.11.0 — 25 September 2026, links that keep their language
+
+- The app now has a Spanish address of its own, like the home page: diesis.app/es/learn/… in
+  Spanish, diesis.app/learn/… in English. Share a link to the metronome or an exercise and it
+  opens in the language you shared it in, and its preview on WhatsApp is in that language too.
+- If you use Diesis in Spanish, the old English addresses take you to the Spanish ones.
+
 ## 0.10.0 — 25 September 2026, one metronome, typed tempos
 
 - The speed trainer is now part of the metronome: switch between **Steady tempo** and
