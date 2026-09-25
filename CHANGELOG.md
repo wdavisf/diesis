@@ -3,6 +3,11 @@
 Written for the people using it, not for the code. Newest first. Version matches
 `package.json`.
 
+## 0.6.8 — 25 September 2026, easier to find
+
+- Search engines get a map of the site, English and Spanish pages paired, so the Spanish
+  version can turn up in Spanish searches.
+
 ## 0.6.7 — 25 September 2026, who makes it
 
 - The home page now says who is building Diesis: Will, a guitarist in Cáceres, with links to his

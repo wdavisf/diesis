@@ -142,6 +142,10 @@ integration was disconnected 2026-09-24 (every push had been failing a build the
 Will), and it can be deleted in the dashboard. The repo folder is linked to `diesis-site` (`.vercel/`, ignored), so
 `npx vercel deploy --prod` works as well as a push.
 
+**Search (2026-09-25)**: diesis.app is verified in Google Search Console (DNS TXT at Namecheap).
+`app/sitemap.ts` lists `/`, `/es` and both privacy pages with hreflang pairs; `app/robots.ts`
+points to it and keeps `/lang/` out. Add new public pages to the sitemap.
+
 ## Layout of the repo
 
 - `app/` — routes: `page.tsx` and `es/page.tsx` (landing), `privacy/` and `es/privacy/`,
