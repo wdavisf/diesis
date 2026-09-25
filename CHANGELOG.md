@@ -3,6 +3,11 @@
 Written for the people using it, not for the code. Newest first. Version matches
 `package.json`.
 
+## 0.9.1 — 25 September 2026, Start where you can reach it
+
+- In the metronome and the speed trainer, Start and Stop now sit right under the tempo, so on a
+  phone you never have to scroll to reach them. The settings follow below.
+
 ## 0.9.0 — 25 September 2026, the speed trainer, and one bar on top
 
 - New: the **speed trainer**. Pick a start tempo and a target, how much it goes up (1, 2, 5 or

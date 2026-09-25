@@ -117,6 +117,11 @@ export function Metronome({ t, tg }: { t: Strings["metronome"]; tg: Strings["gam
             />
           </section>
 
+          <button type="button" onClick={() => void toggle()} className={cn(primary, "inline-flex w-full items-center justify-center gap-2 py-3")}>
+            {running ? <Square className="size-5" aria-hidden /> : <Play className="size-5" aria-hidden />}
+            {running ? t.stop : t.start}
+          </button>
+
           <div className="flex flex-col gap-4">
             <Row label={t.meter}>
               {METERS.map((m) => (
@@ -142,10 +147,6 @@ export function Metronome({ t, tg }: { t: Strings["metronome"]; tg: Strings["gam
             </Row>
           </div>
 
-          <button type="button" onClick={() => void toggle()} className={cn(primary, "inline-flex w-full items-center justify-center gap-2 py-3")}>
-            {running ? <Square className="size-5" aria-hidden /> : <Play className="size-5" aria-hidden />}
-            {running ? t.stop : t.start}
-          </button>
           <p className="hidden text-center text-xs text-dim pointer-fine:block">{t.keys}</p>
         </div>
       </div>

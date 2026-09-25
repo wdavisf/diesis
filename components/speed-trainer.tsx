@@ -103,6 +103,11 @@ export function SpeedTrainer({ t, tm, tg }: { t: Strings["speed"]; tm: Strings["
             </div>
           </section>
 
+          <button type="button" onClick={() => void toggle()} className={cn(primary, "inline-flex w-full items-center justify-center gap-2 py-3")}>
+            {running ? <Square className="size-5" aria-hidden /> : <Play className="size-5" aria-hidden />}
+            {running ? tm.stop : tm.start}
+          </button>
+
           <div className="flex flex-col gap-4">
             <Field label={t.from}>
               <Stepper value={plan.from} onChange={(v) => setPlan({ from: v, to: Math.max(v, plan.to) })} label={t.from} slower={tm.slower} faster={tm.faster} />
@@ -148,10 +153,6 @@ export function SpeedTrainer({ t, tm, tg }: { t: Strings["speed"]; tm: Strings["
             </Row>
           </div>
 
-          <button type="button" onClick={() => void toggle()} className={cn(primary, "inline-flex w-full items-center justify-center gap-2 py-3")}>
-            {running ? <Square className="size-5" aria-hidden /> : <Play className="size-5" aria-hidden />}
-            {running ? tm.stop : tm.start}
-          </button>
           <p className="hidden text-center text-xs text-dim pointer-fine:block">{t.keys}</p>
         </div>
       </div>

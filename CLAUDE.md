@@ -87,7 +87,8 @@ Todoist project records what is still to do.
   clock runs slow at first, so a precomputed timer lit beat one early). Settings live in
   localStorage `diesis_metronome` (`lib/game/use-metronome.ts`), which also holds a screen
   wake lock while it runs. The speed trainer runs on the same engine.
-- **Speed trainer** (built 2026-09-25): open `/learn/speed-trainer`. The metronome with a
+- **Speed trainer** (built 2026-09-25): open `/learn/speed-trainer`. Start/Stop sits right under the tempo in both tools, above
+  the settings (Will, 2026-09-25: it must be above the fold on a phone). The metronome with a
   plan: start tempo, target, step (+1/2/5/10 BPM) every 1/2/4/8 bars, then stay at the target
   or start over (the target gets its own bars, then back to the start). Meter and subdivision
   are the metronome's own settings (shared `diesis_metronome`); the plan is in `diesis_speed`.
