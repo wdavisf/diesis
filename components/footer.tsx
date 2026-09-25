@@ -16,6 +16,9 @@ export function Footer({ t }: { t: Strings }) {
           <OpenApp lang={t.code} className="hover:text-ink">{t.nav.cta}</OpenApp>
           <Link href={`${t.base}/privacy`} className="hover:text-ink">{t.nav.privacy}</Link>
           <a href="mailto:hello@diesis.app" className="hover:text-ink">hello@diesis.app</a>
+          <a href="https://instagram.com/diesis.app" target="_blank" rel="noopener" className="hover:text-ink">
+            Instagram
+          </a>
           <a href={`/lang/${t.otherLang}?next=${encodeURIComponent(other)}`} hrefLang={t.otherLang} lang={t.otherLang} className="hover:text-ink">
             {t.otherName}
           </a>

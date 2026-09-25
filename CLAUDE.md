@@ -170,6 +170,9 @@ Todoist project records what is still to do.
   The landing's "Open the app" is `components/open-app.tsx`: a prefetched `Link` to `/learn`
   that writes the `diesis_lang` cookie on click, instead of the `/lang` redirect hop. The
   language switch itself still goes through `/lang` (a real navigation, on purpose).
+- **Instagram @diesis.app (Will, 2026-09-25)**: linked in the footer. Profile picture is
+  `design/social/instagram-profile.png` (1080², from `design/social/profile.svg`: the favicon
+  full-bleed with the mark at 80% so the circular crop keeps it whole).
 - **Logo (Will, 2026-09-23)**: a real lowercase delta, δ, set on five staff lines like a note
   on a score. The outline is EB Garamond's δ (SIL Open Font License, extracted with fontTools);
   amber letter, cream lines at 45%, on the stage tile. Will rejected a hand-drawn δ: it must

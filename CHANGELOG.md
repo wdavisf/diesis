@@ -3,6 +3,10 @@
 Written for the people using it, not for the code. Newest first. Version matches
 `package.json`.
 
+## 0.9.2 — 25 September 2026, on Instagram
+
+- Diesis is on Instagram as @diesis.app; the link is at the foot of every page.
+
 ## 0.9.1 — 25 September 2026, Start where you can reach it
 
 - In the metronome and the speed trainer, Start and Stop now sit right under the tempo, so on a
