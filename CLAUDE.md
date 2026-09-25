@@ -86,7 +86,23 @@ Todoist project records what is still to do.
   keeps time, and lights the beat on screen by checking the audio clock (a fresh context's
   clock runs slow at first, so a precomputed timer lit beat one early). Settings live in
   localStorage `diesis_metronome` (`lib/game/use-metronome.ts`), which also holds a screen
-  wake lock while it runs. Speed trainer (rising tempo) is next and should reuse this engine.
+  wake lock while it runs. The speed trainer runs on the same engine.
+- **Speed trainer** (built 2026-09-25): open `/learn/speed-trainer`. The metronome with a
+  plan: start tempo, target, step (+1/2/5/10 BPM) every 1/2/4/8 bars, then stay at the target
+  or start over (the target gets its own bars, then back to the start). Meter and subdivision
+  are the metronome's own settings (shared `diesis_metronome`); the plan is in `diesis_speed`.
+  Rules in `lib/core/speed.ts` (tests); the engine asks `setPlan`'s function for each bar's
+  tempo as it books the bar's first click, so every bar is played at one tempo.
+- **Top bar (Will, 2026-09-25: "una barra arriba del todo que se mantiene constante entre la
+  web y la app, pero que en la app tiene las diferentes modalidades").** One component,
+  `components/site-nav.tsx`, on the landing, privacy and every `/learn` screen (it lives in
+  `app/learn/layout.tsx`, outside the fading template, so it stays put). Web: sections, EN/ES,
+  Open the app. App: the tools (`nav.tools`, hrefs in `TOOL_HREFS`) with the current one lit;
+  on phones they drop to a second row that scrolls to the current tool. The logo always goes
+  to the landing. The bar hides while an exercise is played sideways on a phone or on a short
+  screen (`.site-nav` rules in globals.css); the exercise header keeps its back arrow for that
+  case only. Upright screens have no header of their own. **Every new tool gets a place in
+  `nav.tools`/`TOOL_HREFS`, the menu cards and the landing.**
 - **Scales after notes**; the engine will model a scale as its full-neck set with boxed
   positions on top. Not yet designed in detail. **Reading music** is a new track (Will,
   2026-09-23): not yet specified beyond the landing-page copy; needs a staff renderer and a
@@ -188,13 +204,13 @@ points to it and keeps `/lang/` out. Add new public pages to the sitemap.
 ## Layout of the repo
 
 - `app/` — routes: `page.tsx` and `es/page.tsx` (landing), `privacy/` and `es/privacy/`,
-  `learn/` (mode picker), `learn/name-the-note/`, `learn/find-the-note/`, `learn/metronome/`, `lang/[code]/` (cookie setter).
+  `learn/` (mode picker), `learn/name-the-note/`, `learn/find-the-note/`, `learn/metronome/`, `learn/speed-trainer/`, `lang/[code]/` (cookie setter).
   `layout.tsx` holds fonts and metadata; `globals.css` the theme tokens.
 - `components/` — `landing`, `privacy-page`, `logo`, `screen` (animated hero), `footer`,
   `lang-switch`, `fretboard` (SVG, marks and tap targets), `note-panel`, `game-frame`
   (`GameShell`: sideways treatment, gate, header; `GameFrame`: the board inside it),
   `setup-screen` (before a round), `challenge-card` (result card, header status, `Chip`),
-  `game` (Mode A), `find-game` (Mode B), `metronome`, `how-figures` and `open-app` (landing), `ui/`.
+  `game` (Mode A), `find-game` (Mode B), `metronome`, `speed-trainer`, `site-nav` (the top bar), `how-figures` and `open-app` (landing), `ui/`.
 - `lib/i18n.ts` — every string, EN and ES. `lib/lang.ts` — reads the language cookie.
 - `lib/core/` — note model (`notes.ts`), question generator (`quiz.ts`), tests. Pure TS.
 - `lib/core/challenge.ts` — challenge rules. `lib/audio/note-player.ts` — Web Audio sampler.

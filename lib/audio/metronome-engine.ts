@@ -21,6 +21,12 @@ const VOICE: Record<ClickKind, { freq: number; gain: number }> = {
   sub: { freq: 880, gain: 0.3 },
 };
 
+/** Where a heard click sits: the bar since start (from 0) and the tempo it is played at. */
+export interface Beat {
+  bar: number;
+  bpm: number;
+}
+
 export interface MetronomeEngine {
   /** Must be called from a user gesture the first time. Starts on beat one. */
   start(settings: MetronomeSettings): Promise<void>;
@@ -28,6 +34,9 @@ export interface MetronomeEngine {
   /** Takes new settings while running. Tempo changes land on the next click; a new meter or
    *  subdivision restarts the count on the next click at beat one. */
   update(settings: MetronomeSettings): void;
+  /** A tempo per bar (the speed trainer). Asked at the start of every bar; null gives the tempo
+   *  back to the settings. Can change while running, from the next bar. */
+  setPlan(plan: ((bar: number) => number) | null): void;
   dispose(): void;
 }
 
@@ -66,12 +75,16 @@ function createTicker(onWake: () => void): { start(): void; stop(): void; dispos
   };
 }
 
-export function createMetronomeEngine(onClick: (click: Click) => void): MetronomeEngine {
+export function createMetronomeEngine(onClick: (click: Click, beat: Beat) => void): MetronomeEngine {
   let ctx: AudioContext | null = null;
   let settings: MetronomeSettings | null = null;
   let running = false;
   let index = 0;
   let nextTime = 0;
+  let plan: ((bar: number) => number) | null = null;
+  /** Bars begun since start; the bar being booked is `bar - 1`. */
+  let bar = 0;
+  let barBpm = 0;
   const timeouts = new Set<ReturnType<typeof setTimeout>>();
   const ticker = createTicker(schedule);
 
@@ -108,14 +121,14 @@ export function createMetronomeEngine(onClick: (click: Click) => void): Metronom
    * click, then checks the audio clock and waits out any remainder: a fresh context's clock runs
    * slow for its first moments, so a delay computed once would light the beat early.
    */
-  function announce(at: number, click: Click) {
+  function announce(at: number, click: Click, beat: Beat) {
     const arm = (ms: number) => {
       const id = setTimeout(() => {
         timeouts.delete(id);
         if (!running) return;
         const left = at - heardNow();
         if (left > 0.004) arm(left * 1000);
-        else onClick(click);
+        else onClick(click, beat);
       }, ms);
       timeouts.add(id);
     };
@@ -132,10 +145,16 @@ export function createMetronomeEngine(onClick: (click: Click) => void): Metronom
     // Fell far behind (the tab slept): skip ahead rather than fire a burst of late clicks.
     if (nextTime < ctx.currentTime - 0.2) nextTime = ctx.currentTime + 0.05;
     while (nextTime < ctx.currentTime + LOOKAHEAD_S) {
+      // A plan changes tempo only at the start of a bar, so each bar is played at one tempo.
+      if (index === 0) {
+        barBpm = plan ? plan(bar) : settings.bpm;
+        bar += 1;
+      }
+      const bpm = plan ? barBpm : settings.bpm;
       const click = clickAt(index, settings);
       blip(nextTime, click.kind);
-      announce(nextTime, click);
-      nextTime += secondsPerClick(settings);
+      announce(nextTime, click, { bar: bar - 1, bpm });
+      nextTime += secondsPerClick({ ...settings, bpm });
       index = (index + 1) % clicksPerBar(settings);
     }
   }
@@ -151,6 +170,7 @@ export function createMetronomeEngine(onClick: (click: Click) => void): Metronom
       if (c.state !== "running") await c.resume();
       settings = next;
       index = 0;
+      bar = 0;
       nextTime = c.currentTime + 0.06;
       running = true;
       schedule();
@@ -166,6 +186,9 @@ export function createMetronomeEngine(onClick: (click: Click) => void): Metronom
       settings = next;
       if (!running || !prev) return;
       if (prev.meter !== next.meter || prev.subdivision !== next.subdivision) index = 0;
+    },
+    setPlan(next) {
+      plan = next;
     },
     dispose() {
       this.stop();

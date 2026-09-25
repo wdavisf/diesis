@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { clampBpm, decodeMetronome, encodeMetronome, tap as tapTempo, type Click, type MetronomeSettings } from "@/lib/core/metronome";
-import { createMetronomeEngine, type MetronomeEngine } from "@/lib/audio/metronome-engine";
+import { createMetronomeEngine, type Beat, type MetronomeEngine } from "@/lib/audio/metronome-engine";
+import { encodeSpeed, tempoAtBar, type SpeedPlan } from "@/lib/core/speed";
 
 const KEY = "diesis_metronome";
 const CHANGED = "diesis-metronome";
@@ -27,19 +28,24 @@ type WakeLock = { release(): Promise<void> };
 /**
  * The metronome screen's state: settings kept in this browser (localStorage `diesis_metronome`,
  * never sent), the engine, the click being heard for the beat display, tap tempo, and a screen
- * wake lock while it runs so the phone does not go dark mid-practice.
+ * wake lock while it runs so the phone does not go dark mid-practice. With a speed plan the
+ * engine takes its tempo from the plan, bar by bar, and `beat` reports the bar and tempo heard.
  */
-export function useMetronome() {
+export function useMetronome(plan: SpeedPlan | null = null) {
   const raw = useSyncExternalStore(subscribe, read, () => null);
   const settings = decodeMetronome(raw);
   const [running, setRunning] = useState(false);
   const [click, setClick] = useState<Click | null>(null);
+  const [beat, setBeat] = useState<Beat | null>(null);
   const engine = useRef<MetronomeEngine | null>(null);
   const taps = useRef<number[]>([]);
   const wake = useRef<WakeLock | null>(null);
 
   useEffect(() => {
-    engine.current = createMetronomeEngine(setClick);
+    engine.current = createMetronomeEngine((c, b) => {
+      setClick(c);
+      setBeat(b);
+    });
     return () => {
       engine.current?.dispose();
       engine.current = null;
@@ -51,6 +57,13 @@ export function useMetronome() {
   useEffect(() => {
     engine.current?.update(settings);
   }, [settings.bpm, settings.meter, settings.subdivision, settings.accent]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // The plan reaches the engine as a tempo per bar; edits apply from the next bar.
+  const planKey = plan ? encodeSpeed(plan) : null;
+  useEffect(() => {
+    const p = planKey ? plan : null;
+    engine.current?.setPlan(p ? (bar) => tempoAtBar(p, bar) : null);
+  }, [planKey]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const save = useCallback((next: MetronomeSettings) => {
     try {
@@ -80,6 +93,7 @@ export function useMetronome() {
       e.stop();
       setRunning(false);
       setClick(null);
+      setBeat(null);
       void wake.current?.release();
       wake.current = null;
     } else {
@@ -105,5 +119,5 @@ export function useMetronome() {
     if (r.bpm !== null) set({ bpm: r.bpm });
   }, [set]);
 
-  return { settings, set, nudge, running, toggle, click, tap };
+  return { settings, set, nudge, running, toggle, click, beat, tap };
 }

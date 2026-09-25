@@ -1,10 +1,9 @@
-import Link from "next/link";
 import { ArrowRight, Globe } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Logo, LogoMark } from "@/components/logo";
+import { LogoMark } from "@/components/logo";
 import { Screen } from "@/components/screen";
 import { Footer } from "@/components/footer";
-import { LangSwitch } from "@/components/lang-switch";
+import { SiteNav } from "@/components/site-nav";
 import { HowFigure } from "@/components/how-figures";
 import { OpenApp } from "@/components/open-app";
 import type { Strings, When } from "@/lib/i18n";
@@ -16,33 +15,9 @@ const whenClass: Record<When, string> = {
 };
 
 export function Landing({ t }: { t: Strings }) {
-  const here = t.base || "/";
   return (
     <main className="flex-1">
-      <header className="sticky top-0 z-20 border-b border-line/80 bg-stage/80 backdrop-blur-md">
-        <div className="mx-auto flex w-full max-w-6xl items-center justify-between px-4 py-3">
-          <Link href={here} aria-label="Diesis">
-            <Logo />
-          </Link>
-          <nav className="flex items-center gap-1">
-            <Button asChild variant="ghost" size="sm" className="hidden text-dim hover:bg-white/5 hover:text-ink sm:inline-flex">
-              <a href="#how">{t.nav.how}</a>
-            </Button>
-            <Button asChild variant="ghost" size="sm" className="hidden text-dim hover:bg-white/5 hover:text-ink sm:inline-flex">
-              <a href="#learn">{t.nav.learn}</a>
-            </Button>
-            <Button asChild variant="ghost" size="sm" className="hidden text-dim hover:bg-white/5 hover:text-ink sm:inline-flex">
-              <a href="#faq">{t.nav.faq}</a>
-            </Button>
-            <LangSwitch t={t} next={t.otherLang === "es" ? "/es" : "/"} className="ml-2" />
-            <Button asChild size="sm" className="ml-2">
-              <OpenApp lang={t.code}>
-                {t.nav.cta} <ArrowRight className="size-4" />
-              </OpenApp>
-            </Button>
-          </nav>
-        </div>
-      </header>
+      <SiteNav t={t} area="site" />
 
       {/* Hero. On a phone the game screen sits right under the headline, before any paragraph;
           from lg up it takes the right column against the whole text block. */}

@@ -1,19 +1,12 @@
-import Link from "next/link";
-import { Logo } from "@/components/logo";
 import { Footer } from "@/components/footer";
-import { LangSwitch } from "@/components/lang-switch";
+import { SiteNav } from "@/components/site-nav";
 import type { Strings } from "@/lib/i18n";
 
 export function PrivacyPage({ t }: { t: Strings }) {
   const p = t.privacy;
   return (
     <main className="flex-1">
-      <header className="mx-auto flex w-full max-w-3xl items-center justify-between px-4 py-4">
-        <Link href={t.base || "/"} aria-label="Diesis">
-          <Logo />
-        </Link>
-        <LangSwitch t={t} next={`${t.otherLang === "es" ? "/es" : ""}/privacy`} />
-      </header>
+      <SiteNav t={t} area="site" />
       <article className="mx-auto w-full max-w-3xl px-4 py-12">
         <p className="text-sm font-medium tracking-wide text-amber-text uppercase">{p.eyebrow}</p>
         <h1 className="mt-3 font-display text-4xl font-semibold tracking-tight sm:text-5xl">{p.h1}</h1>

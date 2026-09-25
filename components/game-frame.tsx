@@ -4,6 +4,7 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 import Link from "next/link";
 import { ArrowLeft, RotateCw } from "lucide-react";
 import type { Strings } from "@/lib/i18n";
+import { cn } from "@/lib/utils";
 
 function useSize<T extends HTMLElement>() {
   const ref = useRef<T>(null);
@@ -53,9 +54,12 @@ export function GameShell({
       ) : null}
 
       <div className={sideways ? "game-sideways game-enter flex flex-1 flex-col max-md:portrait:pointer-fine:hidden" : "flex flex-1 flex-col"}>
-        <header className="flex h-11 shrink-0 items-center justify-between gap-3 px-4">
+        {/* Upright screens are named by the top bar already; the header is for the exercise itself
+            (its score or clock) and for the way out when the bar is hidden. */}
+        <header className={cn("h-11 shrink-0 items-center justify-between gap-3 px-4", sideways || status ? "flex" : "hidden")}>
           <div className="flex min-w-0 items-center gap-3">
-            <Link href="/learn" className="flex items-center gap-1 text-sm text-dim hover:text-ink" aria-label={t.back}>
+            {/* The top bar covers navigation; mid-exercise, when that bar is hidden, this is the way out. */}
+            <Link href="/learn" className={cn("items-center gap-1 text-sm text-dim hover:text-ink", sideways ? "flex" : "hidden")} aria-label={t.back}>
               <ArrowLeft className="size-4" />
               <span className="hidden sm:inline">{t.back}</span>
             </Link>

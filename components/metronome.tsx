@@ -15,7 +15,7 @@ const step =
 
 /** One circle per beat, group starts ringed in amber, and a dot per subdivision underneath. The
  *  beat being heard lights up. */
-function Beats({ meterId, subdivision, accent, click }: { meterId: string; subdivision: number; accent: boolean; click: Click | null }) {
+export function Beats({ meterId, subdivision, accent, click }: { meterId: string; subdivision: number; accent: boolean; click: Click | null }) {
   const meter = meterOf(meterId);
   const starts = groupStarts(meter);
   return (

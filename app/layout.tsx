@@ -12,7 +12,7 @@ const display = Fraunces({
 });
 
 const description =
-  "Everything you need to master the guitar, in one place. Learn every note on the neck and keep time with the metronome today; scales, reading music, a speed trainer and tools for your own guitar come next. Free, in the browser.";
+  "Everything you need to master the guitar, in one place. Learn every note on the neck, keep time with the metronome and build speed with the speed trainer today; scales, reading music and tools for your own guitar come next. Free, in the browser.";
 
 export const metadata: Metadata = {
   title: { default: "Diesis", template: "%s · Diesis" },

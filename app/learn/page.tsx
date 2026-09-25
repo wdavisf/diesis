@@ -1,30 +1,17 @@
 import Link from "next/link";
 import { ArrowRight, Lock } from "lucide-react";
-import { Logo } from "@/components/logo";
-import { LangSwitch } from "@/components/lang-switch";
 import { currentStrings } from "@/lib/lang";
 import { cn } from "@/lib/utils";
 
-const hrefs = ["/learn/name-the-note", "/learn/find-the-note", "/learn/metronome", null, null, null] as const;
-const tags = ["now", "now", "now", "next", "later", "later"] as const;
+const hrefs = ["/learn/name-the-note", "/learn/find-the-note", "/learn/metronome", "/learn/speed-trainer", null, null, null] as const;
+const tags = ["now", "now", "now", "now", "next", "later", "later"] as const;
 
 export default async function AppHome() {
   const t = await currentStrings();
   const h = t.home;
   return (
     <main className="mx-auto flex w-full max-w-4xl flex-1 flex-col px-4 py-6 sm:py-10">
-      <header className="flex items-center justify-between">
-        <Link href={t.base || "/"} aria-label="Diesis">
-          <Logo />
-        </Link>
-        <div className="flex items-center gap-3">
-          <Link href={t.base || "/"} className="text-sm text-dim hover:text-ink">
-            {h.about}
-          </Link>
-          <LangSwitch t={t} next="/learn" />
-        </div>
-      </header>
-      <h1 className="mt-10 font-display text-3xl font-semibold tracking-tight sm:text-4xl">{h.h1}</h1>
+      <h1 className="mt-4 font-display text-3xl font-semibold tracking-tight sm:text-4xl">{h.h1}</h1>
       <p className="mt-2 text-dim">{h.lede}</p>
       <ul className="mt-8 grid gap-4 sm:grid-cols-2">
         {h.modes.map((m, i) => {

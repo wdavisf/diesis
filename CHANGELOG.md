@@ -3,6 +3,17 @@
 Written for the people using it, not for the code. Newest first. Version matches
 `package.json`.
 
+## 0.9.0 — 25 September 2026, the speed trainer, and one bar on top
+
+- New: the **speed trainer**. Pick a start tempo and a target, how much it goes up (1, 2, 5 or
+  10 BPM) and after how many bars (1, 2, 4 or 8). It climbs on its own, always on the first
+  beat of a bar; at the target it stays there or goes back to the start and climbs again. A
+  bar shows how far you are, and which bar of the current step you are in.
+- One bar at the top of every page, on the site and in the app. In the app it lists the tools
+  (Name the note, Find the note, Metronome, Speed trainer) and lights the one you are in, so
+  you can jump from one to another. On a phone the tools sit in a row you can slide. While an
+  exercise is running sideways, the bar steps aside to leave the whole screen to the neck.
+
 ## 0.8.0 — 25 September 2026, the metronome
 
 - New: a **metronome**, in the menu next to the note exercises. Tempo from 20 to 300: step it

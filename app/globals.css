@@ -147,7 +147,16 @@
       transform: translate(calc((100dvw - 100dvh) / 2), calc((100dvh - 100dvw) / 2)) rotate(90deg) scale(1);
     }
   }
-  body:has(.game-sideways) .consent-banner {
+  body:has(.game-sideways) .consent-banner,
+  body:has(.game-sideways) .site-nav {
+    display: none;
+  }
+}
+
+/* A short screen (a phone on its side) needs every pixel for the neck while an exercise runs:
+   the top bar steps aside and the exercise header's back arrow takes over. */
+@media (max-height: 40rem) {
+  body:has(.game-sideways) .site-nav {
     display: none;
   }
 }
