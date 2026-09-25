@@ -11,6 +11,16 @@ Todoist project records what is still to do.
 
 ## Decisions
 
+- **Vision (Will, 2026-09-25): the one guitar app you need.** Diesis grows from a fretboard
+  trainer into the standalone software a guitarist keeps open, replacing the separate tools Will
+  uses today: fretboard games, every scale, reading music, a metronome and a speed trainer
+  (rising tempo), an instrument profile (6, 7 or 8 strings, tuning, scale length) that every
+  game and tool reads, and setup tools (string gauges and tension, which strings suit your
+  guitar, action and intonation after a string change). Todoist sections 10–12 hold these.
+  Consequence for code now: do not bake six strings or standard tuning deeper into `lib/core`
+  or the fretboard; tuning should become an input. The landing page only promises what exists
+  or is next; add the tools there when they are built.
+
 - **2026-09-23, rebuilt as a web app, Tabula-style (Will).** One Next.js 16 app at the repo root:
   the landing page at `/`, the trainer under `/app`. The Expo
   shell, the native audio player and the separate Astro site are gone (git history has them). No
