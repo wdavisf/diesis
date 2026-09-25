@@ -3,6 +3,12 @@
 Written for the people using it, not for the code. Newest first. Version matches
 `package.json`.
 
+## 0.7.1 — 25 September 2026, tidier on the phone
+
+- The top of the home page says it in two short sentences instead of a paragraph.
+- Longer note names like Sol and Do♯ now fit inside the dot on the neck instead of spilling
+  out of it.
+
 ## 0.7.0 — 25 September 2026, a tool for mastering the guitar
 
 - Diesis now says what it is: everything you need to master the guitar, in one place. It

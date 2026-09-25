@@ -31,6 +31,8 @@ const frets = Array.from({ length: MAX_FRET }, (_, i) => i + 1);
 const gauges = [1.2, 1.5, 1.9, 2.4, 3.0, 3.6];
 const inlays = [3, 5, 7, 9, 12];
 const r = Math.min(stringGap * 0.46, 22);
+/** A note name that fits inside the dot: "Sol" and "Do♯" get smaller type than "C". */
+const fit = (name: string) => Math.min(14, (r * 1.8) / (name.length * 0.62));
 
 const gap = 6;
 const btnW = (W - pad * 2 - gap * 11) / 12;
@@ -96,14 +98,14 @@ export function Screen({ t, className }: { t: Strings; className?: string }) {
       </g>
       <g className="q q1-ok">
         <circle cx={cellCenter(q1.f)} cy={stringY(q1.s)} r={r} fill="#4caf6b" />
-        <text x={cellCenter(q1.f)} y={stringY(q1.s) + 5} fontSize="14" fontWeight="700" fill="#14120f" textAnchor="middle">{q1name}</text>
+        <text x={cellCenter(q1.f)} y={stringY(q1.s) + fit(q1name) * 0.36} fontSize={fit(q1name)} fontWeight="700" fill="#14120f" textAnchor="middle">{q1name}</text>
       </g>
       <g className="q q2-ask">
         <circle cx={cellCenter(q2.f)} cy={stringY(q2.s)} r={r} fill="#e0a63a" stroke="#f0c46a" strokeWidth="2" />
       </g>
       <g className="q q2-ok">
         <circle cx={cellCenter(q2.f)} cy={stringY(q2.s)} r={r} fill="#4caf6b" />
-        <text x={cellCenter(q2.f)} y={stringY(q2.s) + 5} fontSize="14" fontWeight="700" fill="#14120f" textAnchor="middle">{q2name}</text>
+        <text x={cellCenter(q2.f)} y={stringY(q2.s) + fit(q2name) * 0.36} fontSize={fit(q2name)} fontWeight="700" fill="#14120f" textAnchor="middle">{q2name}</text>
       </g>
 
       <text className="q fb" x={W / 2} y={feedbackY + 6} fontSize="16" fontWeight="600" fill="#4caf6b" textAnchor="middle">{t.screen.feedback}</text>

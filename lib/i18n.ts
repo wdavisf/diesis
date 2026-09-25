@@ -115,7 +115,7 @@ const en: Strings = {
   hero: {
     eyebrow: "The guitar learning tool",
     h1: "Everything you need to master the guitar.",
-    lede: "One place to learn the guitar properly and become the best guitarist you can be. It starts with the neck: a note lights up and sounds, and you name it, or find every place it lives. Scales, reading music, a metronome and tools for your own guitar come next.",
+    lede: "Become the best guitarist you can be. Today, the neck, note by note; next, scales, reading, a metronome and tools for your own guitar.",
     cta: "Open the app",
     secondary: "How it works",
     trust: ["Free in preview", "No account", "Phone or laptop, in the browser"],
@@ -324,7 +324,7 @@ const es: Strings = {
   hero: {
     eyebrow: "La herramienta para aprender guitarra",
     h1: "Todo lo que necesitas para dominar la guitarra.",
-    lede: "Un solo sitio para aprender guitarra en serio y llegar a ser el mejor guitarrista que puedas ser. Empieza por el mástil: se enciende una nota y suena, y tú dices cuál es o la buscas en todos los sitios donde está. Después llegan las escalas, la lectura, el metrónomo y herramientas para tu propia guitarra.",
+    lede: "Llega a ser el mejor guitarrista que puedas ser. Hoy, el mástil, nota a nota; después, escalas, lectura, metrónomo y herramientas para tu guitarra.",
     cta: "Abrir la app",
     secondary: "Cómo funciona",
     trust: ["Gratis durante la beta", "Sin registro", "En el navegador, móvil u ordenador"],

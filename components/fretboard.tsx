@@ -93,6 +93,8 @@ export function Fretboard({ width, height, minFret, maxFret, marks, onPick, labe
 
   const highlightR = Math.min(layout.stringGap * 0.46, 26);
   const labelSize = Math.max(12, Math.min(highlightR * 0.95, 20));
+  // Longer names ("Sol", "Do♯", "Sol♯") shrink to stay inside the dot.
+  const labelFit = (s: string) => Math.max(9, Math.min(labelSize, (highlightR * 1.8) / (s.length * 0.62)));
 
   return (
     <svg width={width} height={height} viewBox={`0 0 ${width} ${height}`} role="img" aria-label={label}>
@@ -163,7 +165,7 @@ export function Fretboard({ width, height, minFret, maxFret, marks, onPick, labe
             <circle cx={cx} cy={cy} r={highlightR + 4} fill="none" stroke={fill} strokeWidth={2} opacity={0.55} />
             <circle cx={cx} cy={cy} r={highlightR} fill={fill} />
             {m.label ? (
-              <text x={cx} y={cy + labelSize * 0.36} fontSize={labelSize} fontWeight={700} fill={board.highlightInk} textAnchor="middle">
+              <text x={cx} y={cy + labelFit(m.label) * 0.36} fontSize={labelFit(m.label)} fontWeight={700} fill={board.highlightInk} textAnchor="middle">
                 {m.label}
               </text>
             ) : null}

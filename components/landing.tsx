@@ -49,7 +49,7 @@ export function Landing({ t }: { t: Strings }) {
       <section className="mx-auto grid w-full max-w-6xl gap-x-12 gap-y-7 px-4 pt-10 pb-16 lg:grid-cols-[1.05fr_1fr] lg:grid-rows-[auto_auto] lg:items-center lg:gap-y-6 lg:pt-24 lg:pb-28">
         <div className="lg:col-start-1 lg:row-start-1 lg:self-end">
           <p className="text-sm font-medium tracking-wide text-amber-text uppercase">{t.hero.eyebrow}</p>
-          <h1 className="mt-4 font-display text-5xl leading-[1] font-semibold text-balance sm:text-6xl lg:text-7xl">
+          <h1 className="mt-4 font-display text-[2.6rem] leading-[1.02] font-semibold text-balance sm:text-6xl lg:text-7xl">
             {t.hero.h1}
           </h1>
         </div>
