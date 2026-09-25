@@ -3,6 +3,11 @@
 Written for the people using it, not for the code. Newest first. Version matches
 `package.json`.
 
+## 0.7.2 — 25 September 2026, diesis.es
+
+- diesis.es takes you to Diesis in Spanish. Easier to share: WhatsApp and the rest turn it
+  into a link.
+
 ## 0.7.1 — 25 September 2026, tidier on the phone
 
 - The top of the home page says it in two short sentences instead of a paragraph.

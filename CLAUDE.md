@@ -24,8 +24,7 @@ Todoist project records what is still to do.
   diesis.app/app); code identifiers like `GameShell` stay.
 - **Market (decided 2026-09-25, Claude's call when Will asked):** English is the main market for
   the future premium plan; Spanish is a full second language at `/es`, and Spain is where the
-  first users and feedback come from. diesis.app stays the main domain; diesis.es, if bought,
-  only redirects to `/es`.
+  first users and feedback come from. diesis.app stays the main domain; diesis.es only redirects to `/es`.
 - **Vision (Will, 2026-09-25): the one guitar app you need.** Diesis grows from a fretboard
   trainer into the standalone software a guitarist keeps open, replacing the separate tools Will
   uses today: fretboard games, every scale, reading music, a metronome and a speed trainer
@@ -162,7 +161,11 @@ Todoist project records what is still to do.
 Vercel project `diesis-site` (team wdavisf-gmailcoms-projects), Git integration from
 `wdavisf/diesis` main, framework Next.js at the repo root, no environment variables (the old
 `DIESIS_ACCESS_CODE` is no longer read and can be deleted from the project settings). Domains
-diesis.app and www (redirects to the apex); DNS at Namecheap. Live since 2026-09-23. The old `diesis-play` project (play.diesis.app, Expo web export) is obsolete; its Git
+diesis.app and www (redirects to the apex); DNS at Namecheap. Live since 2026-09-23. diesis.es and www.diesis.es
+(registered 2026-09-25 at dominios.es by Will, nameservers ns1/ns2.vercel-dns.com) are on the
+same project and redirect (307, `next.config.ts`) to diesis.app/es; other paths keep their path
+on diesis.app. Share diesis.es in Spanish (chat apps link `.es`, often not `.app`) and
+`www.diesis.app` in English. The old `diesis-play` project (play.diesis.app, Expo web export) is obsolete; its Git
 integration was disconnected 2026-09-24 (every push had been failing a build there and emailing
 Will), and it can be deleted in the dashboard. The repo folder is linked to `diesis-site` (`.vercel/`, ignored), so
 `npx vercel deploy --prod` works as well as a push.
