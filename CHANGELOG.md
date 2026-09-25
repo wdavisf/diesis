@@ -3,6 +3,11 @@
 Written for the people using it, not for the code. Newest first. Version matches
 `package.json`.
 
+## 0.6.7 — 25 September 2026, who makes it
+
+- The home page now says who is building Diesis: Will, a guitarist in Cáceres, with links to his
+  music at willdafer.es and his Instagram.
+
 ## 0.6.6 — 24 September 2026, a preview that shows the game
 
 - A shared link to Diesis now shows the game itself: the question, the neck with a spot lit and

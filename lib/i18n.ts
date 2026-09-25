@@ -29,6 +29,7 @@ export interface Strings {
   name: { eyebrow: string; p: string[] };
   pricing: { eyebrow: string; h2: string; price: string; sub: string; list: string[]; contactTitle: string; contact: string; contactAfter: string };
   faq: { eyebrow: string; h2: string; items: { q: string; a: string }[] };
+  maker: { eyebrow: string; h2: string; p: string[]; site: string; instagram: string };
   closing: { h2: string; lede: string };
   screen: { score: string; feedback: string; hearAgain: string; aria: string };
   footer: { tagline: string; made: string };
@@ -195,6 +196,16 @@ const en: Strings = {
       { q: "Left-handed?", a: "Not yet. The board is drawn the way chord books draw it, nut on the left, high E on top. A mirrored board is on the list." },
       { q: "Will there be a mobile app?", a: "The web version comes first and works on a phone today. A native app comes if enough people want one." },
     ],
+  },
+  maker: {
+    eyebrow: "Who makes it",
+    h2: "Built by one guitarist in Cáceres.",
+    p: [
+      "I’m Will. As WILLDAFER I write, record and produce punk and modern metal from home, mostly on seven-string guitars in low tunings.",
+      "Diesis is the trainer I wanted for myself: short games that teach the neck one fret at a time. It is a side project, and it grows a little every week, in the open.",
+    ],
+    site: "My music at willdafer.es",
+    instagram: "@willdafer.es on Instagram",
   },
   closing: { h2: "Guitar on your lap?", lede: "Play a round. It takes a minute." },
   screen: { score: "7 right · 1 wrong", feedback: "Correct", hearAgain: "Hear again", aria: "Game screen: one lit position on the fretboard and twelve note-name buttons" },
@@ -385,6 +396,16 @@ const es: Strings = {
       { q: "¿Y si soy zurdo?", a: "Todavía no hay opción. El mástil se dibuja como en los libros de acordes: cejuela a la izquierda y la cuerda aguda arriba. Un mástil en espejo está en la lista." },
       { q: "¿Habrá app para el móvil?", a: "Primero la versión web, que ya funciona en el móvil. Si la pide bastante gente, haremos una app nativa." },
     ],
+  },
+  maker: {
+    eyebrow: "Quién está detrás",
+    h2: "Lo hace un guitarrista desde Cáceres.",
+    p: [
+      "Soy Will. Como WILLDAFER escribo, grabo y produzco punk y metal moderno desde casa, casi siempre con guitarras de siete cuerdas y afinaciones graves.",
+      "Diesis es el entrenador que me hacía falta a mí: partidas cortas para aprenderse el mástil traste a traste. Es un proyecto personal y va creciendo semana a semana, a la vista de todos.",
+    ],
+    site: "Mi música en willdafer.es",
+    instagram: "@willdafer.es en Instagram",
   },
   closing: { h2: "¿Tienes la guitarra a mano?", lede: "Échate una ronda. Un minuto y listo." },
   screen: { score: "7 aciertos · 1 fallo", feedback: "¡Correcto!", hearAgain: "Oír otra vez", aria: "Pantalla del juego: una posición iluminada en el mástil y doce botones con los nombres de las notas" },

@@ -105,6 +105,9 @@ Todoist project records what is still to do.
   detail goes to "How it works" and "What you learn". Each "How it works" step carries a drawn
   figure (`components/how-figures.tsx`: neck slice, button row, green/red verdict, in the game's
   colors, note names per language). Section padding is `py-14 sm:py-24`.
+- **Who makes it (Will, 2026-09-25)**: a landing section (`#maker`, before the closing card)
+  in Will's first person, linking willdafer.es and Instagram `@willdafer.es`. Copy in
+  `t.maker`; keep it true to what he actually does.
 - **Motion and navigation (Will, 2026-09-24: "navigation is clunky, add animations").** No
   React/Next view transitions (not stable here); everything is CSS. `app/app/template.tsx` fades
   every screen under `/app` in (opacity only: a transform there would become the containing

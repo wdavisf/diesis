@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Globe } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Logo, LogoMark } from "@/components/logo";
 import { Screen } from "@/components/screen";
@@ -205,6 +205,38 @@ export function Landing({ t }: { t: Strings }) {
                 <p className="mt-3 text-dim">{f.a}</p>
               </details>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Who makes it */}
+      <section id="maker" className="mx-auto grid w-full max-w-6xl gap-6 px-4 pt-14 sm:pt-24 lg:grid-cols-[1fr_1.2fr] lg:gap-12">
+        <div>
+          <p className="text-sm font-medium tracking-wide text-amber-text uppercase">{t.maker.eyebrow}</p>
+          <h2 className="mt-3 font-display text-3xl font-semibold tracking-tight text-balance sm:text-5xl">{t.maker.h2}</h2>
+        </div>
+        <div>
+          {t.maker.p.map((p, i) => (
+            <p key={i} className={i === 0 ? "text-lg text-dim lg:mt-2" : "mt-3 text-lg text-dim"}>
+              {p}
+            </p>
+          ))}
+          <div className="mt-6 flex flex-wrap gap-3">
+            <Button asChild variant="outline" className="border-line bg-surface text-ink hover:bg-surface-raised hover:text-ink">
+              <a href="https://willdafer.es" target="_blank" rel="noopener">
+                <Globe className="size-4" /> {t.maker.site}
+              </a>
+            </Button>
+            <Button asChild variant="outline" className="border-line bg-surface text-ink hover:bg-surface-raised hover:text-ink">
+              <a href="https://instagram.com/willdafer.es" target="_blank" rel="noopener">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" className="size-4" aria-hidden>
+                  <rect x="2.5" y="2.5" width="19" height="19" rx="5.5" />
+                  <circle cx="12" cy="12" r="4.2" />
+                  <circle cx="17.6" cy="6.4" r="1" fill="currentColor" stroke="none" />
+                </svg>
+                {t.maker.instagram}
+              </a>
+            </Button>
           </div>
         </div>
       </section>
