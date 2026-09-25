@@ -3,6 +3,16 @@
 Written for the people using it, not for the code. Newest first. Version matches
 `package.json`.
 
+## 0.12.0 — 25 September 2026, the neck and its scales
+
+- New: **The neck**, first in the menu. It opens with every note written on the fretboard,
+  frets 0 to 12 (or 0 to 24).
+- Pick a root and a scale and only that scale stays lit, the root in amber: minor and major
+  pentatonic, blues, major, natural, harmonic and melodic minor, and the modes (Dorian,
+  Phrygian, Lydian, Mixolydian, Locrian).
+- Show the notes by name (Do Re Mi or C D E, as you set them) or by degree (1, ♭3, 5…).
+- Tap any lit note to hear it.
+
 ## 0.11.2 — 25 September 2026, speed up is a switch
 
 - The metronome no longer asks you to pick a mode at the top. Speed up is a section of the

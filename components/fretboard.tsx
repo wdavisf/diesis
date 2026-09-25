@@ -2,7 +2,9 @@ import { useMemo } from "react";
 import type { Position } from "@/lib/core/notes";
 import { STRING_COUNT } from "@/lib/core/notes";
 
-export type MarkState = "asking" | "correct" | "wrong";
+/** asking/correct/wrong: the exercises. root/note: the neck explorer (a scale's root and its
+ *  other notes). */
+export type MarkState = "asking" | "correct" | "wrong" | "root" | "note";
 
 /** A lit spot on the neck, optionally with a note name written in it. */
 export interface Mark {
@@ -37,6 +39,7 @@ const board = {
   highlight: "#e0a63a",
   highlightCorrect: "#4caf6b",
   highlightWrong: "#d64545",
+  highlightNote: "#efe9dc",
   highlightInk: "#14120f",
   stringGauges: [1.2, 1.5, 1.9, 2.4, 3.0, 3.6],
   inlayFrets: [3, 5, 7, 9, 12, 15, 17, 19, 21, 24],
@@ -57,6 +60,8 @@ const markFill: Record<MarkState, string> = {
   asking: board.highlight,
   correct: board.highlightCorrect,
   wrong: board.highlightWrong,
+  root: board.highlight,
+  note: board.highlightNote,
 };
 
 export function Fretboard({ width, height, minFret, maxFret, marks, onPick, label = "Guitar fretboard" }: FretboardProps) {
@@ -162,7 +167,7 @@ export function Fretboard({ width, height, minFret, maxFret, marks, onPick, labe
         const fill = markFill[m.state];
         return (
           <g key={`mark-${m.position.string}-${m.position.fret}`} className={m.state === "wrong" ? "mark flash-wrong" : "mark"}>
-            <circle cx={cx} cy={cy} r={highlightR + 4} fill="none" stroke={fill} strokeWidth={2} opacity={0.55} />
+            {m.state === "note" ? null : <circle cx={cx} cy={cy} r={highlightR + 4} fill="none" stroke={fill} strokeWidth={2} opacity={0.55} />}
             <circle cx={cx} cy={cy} r={highlightR} fill={fill} />
             {m.label ? (
               <text x={cx} y={cy + labelFit(m.label) * 0.36} fontSize={labelFit(m.label)} fontWeight={700} fill={board.highlightInk} textAnchor="middle">

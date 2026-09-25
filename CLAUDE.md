@@ -113,8 +113,18 @@ Todoist project records what is still to do.
   screen (`.site-nav` rules in globals.css); the exercise header keeps its back arrow for that
   case only. Upright screens have no header of their own. **Every new tool gets a place in
   `nav.tools`/`TOOL_HREFS`, the menu cards and the landing.**
-- **Scales after notes**; the engine will model a scale as its full-neck set with boxed
-  positions on top. Not yet designed in detail. **Reading music** is a new track (Will,
+- **The neck (scale explorer), built 2026-09-25** (Will: "see all the notes in the fretboard,
+  and then select things like a pentatonic scale, selecting the root note"): `/learn/neck`,
+  first tool in the bar. Opens on every note (scale "all"); pick a root (12 buttons) and a
+  scale (scrolling chips) and the neck shows that scale, root in amber (`MarkState` "root"),
+  other notes cream ("note", `highlightNote` in tokens). Header toggles: names (the player's
+  Do Re Mi / C D E setting) or degrees (1, ♭3, ♯4…), frets 0–12 or 0–24. Tapping a lit note
+  plays it (the first tap unlocks audio). Picking a root while on "all" jumps to the minor
+  pentatonic, so the tap does something. Drawn sideways on phones via `GameFrame`. Scales are
+  data in `lib/core/scales.ts` (intervals + degree names; 13: all, pentatonics, blues, major,
+  natural/harmonic/melodic minor, the modes), names in `neck.scales` in i18n; choices in
+  localStorage `diesis_neck`. Boxed positions (CAGED / 3nps) and the scale exercises are not
+  designed yet. **Reading music** is a new track (Will,
   2026-09-23): not yet specified beyond the landing-page copy; needs a staff renderer and a
   guitar-range note model (treble clef, sounds an octave lower).
 - **Skins**: one skin. When a second arrives, every skin carries an `unlock` field. Any paid
@@ -223,13 +233,13 @@ points to it and keeps `/lang/` out. Add new public pages to the sitemap.
 ## Layout of the repo
 
 - `app/` — routes: `page.tsx` and `es/page.tsx` (landing), `privacy/` and `es/privacy/`,
-  `learn/` (mode picker), `learn/name-the-note/`, `learn/find-the-note/`, `learn/metronome/`, `lang/[code]/` (cookie setter).
+  `learn/` (mode picker), `learn/name-the-note/`, `learn/find-the-note/`, `learn/metronome/`, `learn/neck/`, `lang/[code]/` (cookie setter).
   `layout.tsx` holds fonts and metadata; `globals.css` the theme tokens.
 - `components/` — `landing`, `privacy-page`, `logo`, `screen` (animated hero), `footer`,
   `lang-switch`, `fretboard` (SVG, marks and tap targets), `note-panel`, `game-frame`
   (`GameShell`: sideways treatment, gate, header; `GameFrame`: the board inside it),
   `setup-screen` (before a round), `challenge-card` (result card, header status, `Chip`),
-  `game` (Mode A), `find-game` (Mode B), `metronome` (both modes), `site-nav` (the top bar), `how-figures` and `open-app` (landing), `ui/`.
+  `game` (Mode A), `find-game` (Mode B), `metronome` (both modes), `neck` (scale explorer), `site-nav` (the top bar), `how-figures` and `open-app` (landing), `ui/`.
 - `lib/i18n.ts` — every string, EN and ES. `lib/lang.ts` — reads the language cookie.
 - `lib/core/` — note model (`notes.ts`), question generator (`quiz.ts`), tests. Pure TS.
 - `lib/core/challenge.ts` — challenge rules. `lib/audio/note-player.ts` — Web Audio sampler.
