@@ -3,7 +3,7 @@
  * scale on any root on the whole neck comes from the same few functions. "all" is the chromatic
  * set: every note, no degrees. Display names live in lib/i18n.ts under `neck.scales`, keyed by id.
  */
-import { pitchClassAt, type PitchClass, type Position, STRING_COUNT } from './notes';
+import { pitchClassAt, STANDARD_TUNING, type PitchClass, type Position, type Tuning } from './notes';
 
 export interface Scale {
   id: string;
@@ -53,13 +53,13 @@ export interface NeckNote {
 }
 
 /** Every position from `minFret` to `maxFret` on all strings whose note is in the scale. */
-export function neckNotes(root: PitchClass, scale: Scale, minFret: number, maxFret: number): NeckNote[] {
+export function neckNotes(root: PitchClass, scale: Scale, minFret: number, maxFret: number, tuning: Tuning = STANDARD_TUNING): NeckNote[] {
   const set = new Set(scalePitchClasses(root, scale));
   const out: NeckNote[] = [];
-  for (let string = 1; string <= STRING_COUNT; string++) {
+  for (let string = 1; string <= tuning.length; string++) {
     for (let fret = minFret; fret <= maxFret; fret++) {
       const position = { string, fret };
-      const pc = pitchClassAt(position);
+      const pc = pitchClassAt(position, tuning);
       if (!set.has(pc)) continue;
       out.push({ position, pc, root: scale.id !== 'all' && pc === root, degree: degreeOf(pc, root, scale) });
     }

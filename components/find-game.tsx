@@ -7,6 +7,8 @@ import { DEFAULT_SETTINGS } from "@/lib/core/quiz";
 import { useChallenge } from "@/lib/game/use-challenge";
 import { useModeB } from "@/lib/game/use-mode-b";
 import { useSettings } from "@/lib/game/use-settings";
+import { useGuitar } from "@/lib/game/use-guitar";
+import { modeKey } from "@/lib/core/records";
 import { ChallengeResult, ChallengeStatus } from "@/components/challenge-card";
 import { Fretboard, type Mark } from "@/components/fretboard";
 import { GameFrame, GameShell } from "@/components/game-frame";
@@ -33,8 +35,10 @@ export function FindGame({
   const prefs = useSettings(lang === "es" ? "solfege" : "letters");
   const names = namesFor(prefs.names);
   const naturalsOnly = prefs.naturalsOnly;
-  const settings = useMemo(() => ({ ...DEFAULT_SETTINGS, naturalsOnly }), [naturalsOnly]);
-  const run = useChallenge(naturalsOnly ? "find:naturals" : "find");
+  const guitar = useGuitar();
+  const tuning = guitar.preset.notes;
+  const settings = useMemo(() => ({ ...DEFAULT_SETTINGS, naturalsOnly, tuning, strings: guitar.strings }), [naturalsOnly, tuning]); // eslint-disable-line react-hooks/exhaustive-deps
+  const run = useChallenge(modeKey("find", naturalsOnly, tuning.length));
   const game = useModeB(settings, player, { onRight: run.right, onWrong: run.wrong, locked: run.tally.over });
 
   const over = run.tally.over;
@@ -75,7 +79,7 @@ export function FindGame({
       else if (game.revealed || over) marks.push({ position: p, state: "asking", label: names[round.target] });
     }
     if (game.wrongTap) {
-      marks.push({ position: game.wrongTap, state: "wrong", label: names[pitchClassAt(game.wrongTap)] });
+      marks.push({ position: game.wrongTap, state: "wrong", label: names[pitchClassAt(game.wrongTap, tuning)] });
     }
   }
 
@@ -113,6 +117,7 @@ export function FindGame({
           height={size.height}
           minFret={DEFAULT_SETTINGS.minFret}
           maxFret={DEFAULT_SETTINGS.maxFret}
+          strings={tuning.length}
           marks={marks}
           onPick={over ? undefined : game.tap}
         />

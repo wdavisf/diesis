@@ -47,7 +47,7 @@ export function useModeB(settings: QuizSettings, player: NotePlayer, events: Mod
   const timers = useRef<ReturnType<typeof setTimeout>[]>([]);
 
   const pitches = useMemo(
-    () => Array.from(new Set(candidatePositions(settings).map((p) => midiAt(p)))),
+    () => Array.from(new Set(candidatePositions(settings).map((p) => midiAt(p, settings.tuning)))),
     [settings],
   );
 
@@ -95,9 +95,9 @@ export function useModeB(settings: QuizSettings, player: NotePlayer, events: Mod
   const tap = useCallback(
     (p: Position) => {
       if (phase !== "asking" || !round || locked) return;
-      player.play(midiAt(p));
+      player.play(midiAt(p, settings.tuning));
       if (found.some((f) => samePosition(f, p))) return;
-      if (pitchClassAt(p) === round.target) {
+      if (pitchClassAt(p, settings.tuning) === round.target) {
         const now = [...found, p];
         setFound(now);
         setWrongTap(null);
@@ -112,7 +112,7 @@ export function useModeB(settings: QuizSettings, player: NotePlayer, events: Mod
         timers.current.push(setTimeout(() => setWrongTap((w) => (w === p ? null : w)), WRONG_FLASH_MS));
       }
     },
-    [phase, round, found, locked, player, next, onRight, onWrong],
+    [phase, round, found, locked, player, next, onRight, onWrong, settings.tuning],
   );
 
   const reveal = useCallback(() => {

@@ -103,6 +103,19 @@ Todoist project records what is still to do.
   the big number and the start and target are `BpmInput`s (digits only, applied on Enter or
   blur, clamped 20–300, Escape cancels); in Speed up the big number edits the start while
   stopped and is read-only while running.
+- **Profile (Will, 2026-09-25: "a profile page where I can put all the settings… seven string,
+  six string… and the achievements, records").** `/learn/profile`, linked from the top bar (an
+  icon beside EN/ES, app only). Sections: your guitar (6/7/8 strings and a tuning preset:
+  `TUNINGS` in `lib/core/notes.ts`, stored as the preset id in localStorage `diesis_guitar`,
+  `lib/game/use-guitar.ts`), note names (the same `diesis_names` setting the start card sets),
+  language, records (every `diesis_best:*`, parsed by `lib/core/records.ts`), achievements
+  (derived from the records, nine, `ACHIEVEMENTS`), and "Erase my data" (removes every
+  `diesis_*` localStorage key; cookies stay). **The guitar is real, not decoration:** the
+  exercises (`QuizSettings.tuning`/`strings`), the neck (`neckNotes(…, tuning)`) and the
+  fretboard (`strings` prop: gauges and inlays for 7/8) all read it; samples go down to E1
+  (MIDI 28, `SAMPLE_LOW`), and `npm run samples` only writes missing files (`--all` redoes all).
+  Bests on 7/8 strings are kept apart (`modeKey`: `name:7s:timed:60`); six-string keys are
+  unchanged. No account: if one ever comes, this page is where it lives.
 - **Top bar (Will, 2026-09-25: "una barra arriba del todo que se mantiene constante entre la
   web y la app, pero que en la app tiene las diferentes modalidades").** One component,
   `components/site-nav.tsx`, on the landing, privacy and every `/learn` screen (it lives in
@@ -233,18 +246,19 @@ points to it and keeps `/lang/` out. Add new public pages to the sitemap.
 ## Layout of the repo
 
 - `app/` — routes: `page.tsx` and `es/page.tsx` (landing), `privacy/` and `es/privacy/`,
-  `learn/` (mode picker), `learn/name-the-note/`, `learn/find-the-note/`, `learn/metronome/`, `learn/neck/`, `lang/[code]/` (cookie setter).
+  `learn/` (mode picker), `learn/name-the-note/`, `learn/find-the-note/`, `learn/metronome/`, `learn/neck/`, `learn/profile/`, `lang/[code]/` (cookie setter).
   `layout.tsx` holds fonts and metadata; `globals.css` the theme tokens.
 - `components/` — `landing`, `privacy-page`, `logo`, `screen` (animated hero), `footer`,
   `lang-switch`, `fretboard` (SVG, marks and tap targets), `note-panel`, `game-frame`
   (`GameShell`: sideways treatment, gate, header; `GameFrame`: the board inside it),
   `setup-screen` (before a round), `challenge-card` (result card, header status, `Chip`),
-  `game` (Mode A), `find-game` (Mode B), `metronome` (both modes), `neck` (scale explorer), `site-nav` (the top bar), `how-figures` and `open-app` (landing), `ui/`.
+  `game` (Mode A), `find-game` (Mode B), `metronome` (both modes), `neck` (scale explorer), `profile`, `site-nav` (the top bar), `how-figures` and `open-app` (landing), `ui/`.
 - `lib/i18n.ts` — every string, EN and ES. `lib/lang.ts` — reads the language cookie.
 - `lib/core/` — note model (`notes.ts`), question generator (`quiz.ts`), tests. Pure TS.
 - `lib/core/challenge.ts` — challenge rules. `lib/audio/note-player.ts` — Web Audio sampler.
   `lib/game/use-mode-a.ts`, `use-mode-b.ts` — mode hooks; `use-challenge.ts` — score and clock;
-  `use-settings.ts` — note names and naturals only, in localStorage.
+  `use-settings.ts` — note names and naturals only, in localStorage; `use-guitar.ts`,
+  `use-records.ts` — the profile.
 - `design/tokens.json` and `docs/design-system.md` — design system; tokens before screens.
 - `tools/gen-samples.mjs` (`npm run samples`), `tools/icons.mjs` (`npm run icons`, regenerates
   `public/icon.png` from `public/favicon.svg` and the link previews `public/og.png` and

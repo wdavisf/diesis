@@ -2,10 +2,11 @@
 
 import { useEffect, useMemo, useRef } from "react";
 import { createNotePlayer } from "@/lib/audio/note-player";
-import { midiAt, namesFor, STRING_COUNT, type PitchClass, type Position } from "@/lib/core/notes";
+import { midiAt, namesFor, type PitchClass, type Position } from "@/lib/core/notes";
 import { NECK_RANGES, neckNotes, SCALES, scaleOf } from "@/lib/core/scales";
 import { useNeck } from "@/lib/game/use-neck";
 import { useSettings } from "@/lib/game/use-settings";
+import { useGuitar } from "@/lib/game/use-guitar";
 import type { Lang, Strings } from "@/lib/i18n";
 import { Fretboard, type Mark } from "@/components/fretboard";
 import { GameFrame } from "@/components/game-frame";
@@ -46,21 +47,22 @@ export function Neck({ t, tg, lang }: { t: Strings["neck"]; tg: Strings["game"];
   const names = namesFor(prefs.names);
   const scale = scaleOf(settings.scale);
   const chromatic = scale.id === "all";
+  const tuning = useGuitar().preset.notes;
 
   const player = useMemo(() => createNotePlayer(), []);
   useEffect(() => () => player.dispose(), [player]);
   const ready = useRef(false);
   const pitches = useMemo(() => {
     const out = new Set<number>();
-    for (let s = 1; s <= STRING_COUNT; s++) for (let f = 0; f <= settings.maxFret; f++) out.add(midiAt({ string: s, fret: f }));
+    for (let s = 1; s <= tuning.length; s++) for (let f = 0; f <= settings.maxFret; f++) out.add(midiAt({ string: s, fret: f }, tuning));
     return [...out];
-  }, [settings.maxFret]);
+  }, [settings.maxFret, tuning]);
   useEffect(() => {
     void player.preload(pitches);
   }, [player, pitches]);
 
   const hear = async (p: Position) => {
-    const midi = midiAt(p);
+    const midi = midiAt(p, tuning);
     // The first tap is the gesture that unlocks audio: decode that one note, play it, then the rest.
     if (!ready.current) {
       await player.prepare([midi]);
@@ -70,7 +72,7 @@ export function Neck({ t, tg, lang }: { t: Strings["neck"]; tg: Strings["game"];
     player.play(midi);
   };
 
-  const notes = neckNotes(settings.root as PitchClass, scale, 0, settings.maxFret);
+  const notes = neckNotes(settings.root as PitchClass, scale, 0, settings.maxFret, tuning);
   const marks: Mark[] = notes.map((n) => ({
     position: n.position,
     state: n.root ? "root" : "note",
@@ -99,6 +101,7 @@ export function Neck({ t, tg, lang }: { t: Strings["neck"]; tg: Strings["game"];
           height={size.height}
           minFret={0}
           maxFret={settings.maxFret}
+          strings={tuning.length}
           marks={marks}
           onPick={(p) => {
             if (lit.has(`${p.string}-${p.fret}`)) void hear(p);

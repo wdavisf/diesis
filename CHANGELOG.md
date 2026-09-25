@@ -3,6 +3,18 @@
 Written for the people using it, not for the code. Newest first. Version matches
 `package.json`.
 
+## 0.13.0 — 25 September 2026, your profile and your guitar
+
+- New: a **profile**, from the person icon in the top bar.
+- **Your guitar:** six, seven or eight strings and the tuning: standard, drop D, E♭, D
+  standard, drop C, DADGAD, open G, open D; drop A on seven strings; drop E on eight. The
+  exercises and the neck draw that guitar and play its notes, low B and F♯ included.
+- **Records:** your best in every challenge, in one list. Bests on seven and eight strings are
+  kept apart from six.
+- **Achievements:** nine to unlock, from a first record to fifty in a row.
+- Note names and language live there too, and a button to erase everything Diesis keeps in
+  your browser.
+
 ## 0.12.0 — 25 September 2026, the neck and its scales
 
 - New: **The neck**, first in the menu. It opens with every note written on the fretboard,

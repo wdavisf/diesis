@@ -23,6 +23,8 @@ export interface FretboardProps {
   onPick?: (p: Position) => void;
   /** Accessible name of the drawing. */
   label?: string;
+  /** Strings on the neck: 6, or 7 or 8 from the player's profile. */
+  strings?: number;
 }
 
 // Mirrors design/tokens.json → color.fretboard. Keep in step.
@@ -41,7 +43,7 @@ const board = {
   highlightWrong: "#d64545",
   highlightNote: "#efe9dc",
   highlightInk: "#14120f",
-  stringGauges: [1.2, 1.5, 1.9, 2.4, 3.0, 3.6],
+  stringGauges: [1.2, 1.5, 1.9, 2.4, 3.0, 3.6, 4.1, 4.6],
   inlayFrets: [3, 5, 7, 9, 12, 15, 17, 19, 21, 24],
   doubleInlayFrets: [12, 24],
 };
@@ -64,14 +66,14 @@ const markFill: Record<MarkState, string> = {
   note: board.highlightNote,
 };
 
-export function Fretboard({ width, height, minFret, maxFret, marks, onPick, label = "Guitar fretboard" }: FretboardProps) {
+export function Fretboard({ width, height, minFret, maxFret, marks, onPick, label = "Guitar fretboard", strings = STRING_COUNT }: FretboardProps) {
   const layout = useMemo(() => {
     const numbersBand = 20;
     const boardTop = 6;
     const boardBottom = height - numbersBand;
     const boardHeight = boardBottom - boardTop;
     const stringInset = boardHeight * 0.12;
-    const stringGap = (boardHeight - stringInset * 2) / (STRING_COUNT - 1);
+    const stringGap = (boardHeight - stringInset * 2) / (strings - 1);
 
     const showsOpen = minFret === 0;
     const openZone = showsOpen ? Math.max(40, width * 0.06) : 0;
@@ -89,7 +91,7 @@ export function Fretboard({ width, height, minFret, maxFret, marks, onPick, labe
     const cellSpan = (n: number): [number, number] => (n === 0 ? [0, openZone] : [fretX(n - 1), fretX(n)]);
 
     return { boardTop, boardBottom, boardHeight, left, right, showsOpen, fretX, cellCenter, cellSpan, stringY, stringGap, firstDrawnFret };
-  }, [width, height, minFret, maxFret]);
+  }, [width, height, minFret, maxFret, strings]);
 
   const fretsToDraw: number[] = [];
   for (let n = Math.max(layout.firstDrawnFret, 1); n <= maxFret; n++) fretsToDraw.push(n);
@@ -120,14 +122,17 @@ export function Fretboard({ width, height, minFret, maxFret, marks, onPick, labe
           const cx = layout.cellCenter(n);
           const r = Math.min(layout.stringGap * 0.28, 10);
           if (board.doubleInlayFrets.includes(n)) {
+            // A third of the way in from each edge; on six strings, between 2–3 and 4–5.
+            const top = layout.stringY(1);
+            const span = layout.stringY(strings) - top;
             return (
               <g key={`inlay-${n}`}>
-                <circle cx={cx} cy={(layout.stringY(2) + layout.stringY(3)) / 2} r={r} fill={board.inlay} opacity={0.9} />
-                <circle cx={cx} cy={(layout.stringY(4) + layout.stringY(5)) / 2} r={r} fill={board.inlay} opacity={0.9} />
+                <circle cx={cx} cy={top + span * 0.3} r={r} fill={board.inlay} opacity={0.9} />
+                <circle cx={cx} cy={top + span * 0.7} r={r} fill={board.inlay} opacity={0.9} />
               </g>
             );
           }
-          return <circle key={`inlay-${n}`} cx={cx} cy={(layout.stringY(3) + layout.stringY(4)) / 2} r={r} fill={board.inlay} opacity={0.9} />;
+          return <circle key={`inlay-${n}`} cx={cx} cy={(layout.stringY(1) + layout.stringY(strings)) / 2} r={r} fill={board.inlay} opacity={0.9} />;
         })}
 
       {layout.showsOpen ? (
@@ -144,7 +149,7 @@ export function Fretboard({ width, height, minFret, maxFret, marks, onPick, labe
         );
       })}
 
-      {Array.from({ length: STRING_COUNT }, (_, i) => i + 1).map((s) => {
+      {Array.from({ length: strings }, (_, i) => i + 1).map((s) => {
         const y = layout.stringY(s);
         const gauge = board.stringGauges[s - 1];
         return (
@@ -179,7 +184,7 @@ export function Fretboard({ width, height, minFret, maxFret, marks, onPick, labe
       })}
 
       {onPick
-        ? Array.from({ length: STRING_COUNT }, (_, i) => i + 1).flatMap((s) =>
+        ? Array.from({ length: strings }, (_, i) => i + 1).flatMap((s) =>
             (minFret === 0 ? [0, ...cells] : cells).map((n) => {
               const [x0, x1] = layout.cellSpan(n);
               return (

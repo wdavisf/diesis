@@ -15,7 +15,7 @@ export interface NotePlayer {
   dispose(): void;
 }
 
-export const SAMPLE_LOW = 40;
+export const SAMPLE_LOW = 28;
 export const SAMPLE_HIGH = 88;
 
 export function sampleUrl(midi: number, set = "nylon"): string {

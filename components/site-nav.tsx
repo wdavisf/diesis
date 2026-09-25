@@ -3,7 +3,7 @@
 import { useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, UserRound } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Logo } from "@/components/logo";
 import { LangSwitch } from "@/components/lang-switch";
@@ -65,6 +65,17 @@ export function SiteNav({ t, area }: { t: Strings; area: "site" | "app" }) {
         ) : null}
 
         <div className="flex shrink-0 items-center gap-1">
+          {area === "app" ? (
+            <Link
+              href={`${t.base}/learn/profile`}
+              aria-current={pathname.endsWith("/learn/profile") ? "page" : undefined}
+              aria-label={t.profile.title}
+              className={cn(link, "gap-1.5 px-2.5", pathname.endsWith("/learn/profile") ? "bg-surface-raised font-medium text-ink" : "text-dim hover:bg-white/5 hover:text-ink")}
+            >
+              <UserRound className="size-4" aria-hidden />
+              <span className="hidden sm:inline">{t.profile.title}</span>
+            </Link>
+          ) : null}
           {area === "site" ? (
             <>
               <Button asChild variant="ghost" size="sm" className="hidden text-dim hover:bg-white/5 hover:text-ink sm:inline-flex">

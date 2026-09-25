@@ -110,6 +110,30 @@ export interface Strings {
     faster: string;
     keys: string;
   };
+  profile: {
+    title: string;
+    guitar: string;
+    guitarLede: string;
+    strings: string;
+    tuning: string;
+    /** Display name per tuning id in lib/core/notes.ts. */
+    tunings: Record<string, string>;
+    names: string;
+    namesLede: string;
+    language: string;
+    records: string;
+    recordsEmpty: string;
+    /** Uses {n}. */
+    stringsCount: string;
+    achievements: string;
+    /** Uses {e} earned and {t} total. */
+    achievementsCount: string;
+    achievementList: Record<string, { title: string; body: string }>;
+    data: string;
+    dataBody: string;
+    erase: string;
+    eraseConfirm: string;
+  };
   neck: {
     title: string;
     root: string;
@@ -213,7 +237,7 @@ const en: Strings = {
         lede: "What you keep open while you practice, set up for your own guitar.",
         items: [
           { title: "Metronome and speed trainer", body: "Tempo from 20 to 300, 2/4 to 7/8 with the accents where they belong, subdivisions up to sextuplets, tap tempo. Turn on Speed up and it climbs on its own: pick the start, the target, the step and the bars at each tempo.", when: "now" },
-          { title: "Your guitar", body: "Six, seven or eight strings, your tuning and your scale length. All of Diesis adapts to it.", when: "later" },
+          { title: "Your guitar", body: "In your profile: six, seven or eight strings and your tuning (standard, drop D, E♭, DADGAD, open G, drop A…). The exercises and the neck draw and play that guitar.", when: "now" },
           { title: "Strings and setup", body: "Work out each string’s tension, pick the gauges that suit your guitar, and set action and intonation after a string change.", when: "later" },
         ],
       },
@@ -243,7 +267,7 @@ const en: Strings = {
       { q: "Do I need an account?", a: "No. Open the app and start. Scores live in your browser and nowhere else." },
       { q: "Is there sound?", a: "Yes. Tap once to start (browsers require it) and each position plays as it lights. “Hear again” repeats it. The sound is a synthesised nylon pluck for now; recordings of a real guitar will replace it." },
       { q: "Sharps or flats?", a: "Sharps, written as ♯. F♯ and G♭ are the same place on the neck, and Diesis never asks which spelling you prefer. A flats setting is planned." },
-      { q: "Which frets?", a: "Frets 0 to 12 on all six strings, standard tuning. A range picker (say, frets 5 to 9 only) is one of the next things to arrive." },
+      { q: "Which frets?", a: "Frets 0 to 12 on every string of your guitar: six, seven or eight, in the tuning you pick in your profile. A range picker (say, frets 5 to 9 only) is one of the next things to arrive." },
       { q: "Phone or laptop?", a: "Either, in a browser. The neck is long and thin, so on a phone Diesis asks you to turn it sideways. On a laptop it fills the window and the letter keys pick the note." },
       { q: "Left-handed?", a: "Not yet. The board is drawn the way chord books draw it, nut on the left, high E on top. A mirrored board is on the list." },
       { q: "Will there be a mobile app?", a: "The web version comes first and works on a phone today. A native app comes if enough people want one." },
@@ -345,6 +369,37 @@ const en: Strings = {
     faster: "Faster",
     keys: "Keys: Space starts and stops, ← → change the tempo (Shift for 5 at a time), T taps it.",
   },
+  profile: {
+    title: "Profile",
+    guitar: "Your guitar",
+    guitarLede: "The exercises and the neck draw and play this guitar: its strings and the notes they give.",
+    strings: "Strings",
+    tuning: "Tuning",
+    tunings: { standard6: "Standard", dropD: "Drop D", eFlat: "E♭ standard", dStandard: "D standard", dropC: "Drop C", dadgad: "DADGAD", openG: "Open G", openD: "Open D", standard7: "Standard (low B)", dropA7: "Drop A", standard8: "Standard (low F♯)", dropE8: "Drop E" },
+    names: "Note names",
+    namesLede: "How notes are written on the buttons and on the neck, everywhere in the app.",
+    language: "Language",
+    records: "Records",
+    recordsEmpty: "No records yet. Play Name the note or Find the note against the clock or without mistakes, and your bests appear here.",
+    stringsCount: "{n} strings",
+    achievements: "Achievements",
+    achievementsCount: "{e} of {t}",
+    achievementList: {
+      firstBest: { title: "First record", body: "Set a best in any challenge." },
+      streak10: { title: "Ten in a row", body: "Ten right without a mistake." },
+      minute20: { title: "Twenty in a minute", body: "Name 20 notes in one minute." },
+      allTwelve: { title: "All twelve", body: "A record with the sharps in, not naturals only." },
+      finder: { title: "Finder", body: "Find 30 positions against the clock." },
+      streak25: { title: "Twenty-five in a row", body: "25 in a row with all twelve notes." },
+      minute40: { title: "Forty in a minute", body: "Name 40 notes in one minute, all twelve." },
+      extended: { title: "Extended range", body: "A record on a seven- or eight-string guitar." },
+      streak50: { title: "Fifty in a row", body: "50 in a row with all twelve notes." },
+    },
+    data: "Your data",
+    dataBody: "Everything on this page lives in this browser only: there is no account and nothing is sent. Erasing it cannot be undone.",
+    erase: "Erase my data",
+    eraseConfirm: "Erase your records, achievements and settings from this browser?",
+  },
   neck: {
     title: "The neck",
     root: "Root",
@@ -381,7 +436,7 @@ const en: Strings = {
     updated: "Last updated 25 September 2026",
     summary: "Diesis has no account and no advertising. Nothing you do in Diesis leaves your browser. The only thing we measure is visits to the site, with Google Analytics, and only if you allow it.",
     sections: [
-      { h: "The app", p: ["Diesis runs entirely in your browser. It does not ask who you are, does not create an account, and does not send anything you do in it to us or to anyone else.", "Your score for a session is held in memory and disappears when you close the tab. Your personal best for each challenge, the challenge you last picked and the start-card settings (note names, naturals only) your metronome settings (tempo, time signature, subdivision, accent, and the start, target and step when it speeds up) and the root, scale and labels you last picked on the neck are kept in your browser's local storage, on your device only. They are never sent anywhere; clearing the site's data removes them."] },
+      { h: "The app", p: ["Diesis runs entirely in your browser. It does not ask who you are, does not create an account, and does not send anything you do in it to us or to anyone else.", "Your score for a session is held in memory and disappears when you close the tab. Everything else you choose or earn stays in your browser's local storage, on your device only: your guitar (strings and tuning), how notes are named, your personal bests and the challenge you last picked, the metronome's settings (including a speed-up plan) and what you last picked on the neck. None of it is ever sent anywhere. The Erase my data button in your profile removes it, and so does clearing the site's data."] },
       { h: "Cookies", p: ["Diesis sets two cookies. One remembers the language you picked; the other remembers your answer to the analytics banner. Neither holds anything about you."] },
       { h: "This website", p: ["diesis.app is hosted by Vercel, which keeps standard server logs (IP address, browser, pages requested) for a short time to run the service and keep it safe.", "If you allow it in the banner, the site loads Google Analytics 4 to count visits and see which pages are read. Google sets its own cookies for that and processes the data under its own privacy policy. If you decline, nothing from Google is loaded, and you can change your mind by clearing the site's cookies."] },
       { h: "Children", p: ["Diesis collects no personal data from anyone, of any age."] },
@@ -464,7 +519,7 @@ const es: Strings = {
         lede: "Lo que tienes abierto mientras practicas, pensado para tu guitarra.",
         items: [
           { title: "Metrónomo y entrenador de velocidad", body: "Tempo de 20 a 300, compases de 2/4 a 7/8 con los acentos donde tocan, subdivisiones hasta seisillos y tap tempo. Activa la subida de tempo y sube solo: eliges inicio, objetivo, cuánto sube y cuántos compases en cada tempo.", when: "now" },
-          { title: "Tu guitarra", body: "Seis, siete u ocho cuerdas, tu afinación y la escala de tu mástil. Todo Diesis se adapta a ella.", when: "later" },
+          { title: "Tu guitarra", body: "En tu perfil: seis, siete u ocho cuerdas y tu afinación (estándar, drop D, Mi♭, DADGAD, Sol abierta, drop A…). Los ejercicios y el mástil dibujan y suenan con esa guitarra.", when: "now" },
           { title: "Cuerdas y ajuste", body: "Calcula la tensión de cada cuerda, elige los calibres que le van a tu guitarra y ajusta la altura y la octavación cuando cambies las cuerdas.", when: "later" },
         ],
       },
@@ -494,7 +549,7 @@ const es: Strings = {
       { q: "¿Hace falta registrarse?", a: "No. Entras y empiezas. Las puntuaciones se quedan en tu navegador y no salen de ahí." },
       { q: "¿Tiene sonido?", a: "Sí. Toca una vez para empezar (el navegador lo exige) y cada posición suena al iluminarse. «Oír otra vez» la repite. De momento el sonido es una cuerda de nailon sintetizada; más adelante lo sustituirán grabaciones de una guitarra de verdad." },
       { q: "¿Sostenidos o bemoles?", a: "Sostenidos, escritos con ♯. Fa♯ y Sol♭ están en el mismo sitio del mástil, y Diesis nunca te pregunta cómo prefieres escribirlo. Un ajuste para bemoles está previsto." },
-      { q: "¿Qué trastes entran?", a: "Del 0 al 12 en las seis cuerdas, con afinación estándar. Poder elegir un rango (por ejemplo, solo del 5 al 9) es de lo próximo que llegará." },
+      { q: "¿Qué trastes entran?", a: "Del 0 al 12 en todas las cuerdas de tu guitarra: seis, siete u ocho, con la afinación que elijas en tu perfil. Poder elegir un rango (por ejemplo, solo del 5 al 9) es de lo próximo que llegará." },
       { q: "¿Móvil u ordenador?", a: "Los dos, desde el navegador. El mástil es largo y estrecho, así que en el móvil Diesis te pide que lo pongas en horizontal. En el ordenador ocupa toda la ventana y puedes responder con el teclado." },
       { q: "¿Y si soy zurdo?", a: "Todavía no hay opción. El mástil se dibuja como en los libros de acordes: cejuela a la izquierda y la cuerda aguda arriba. Un mástil en espejo está en la lista." },
       { q: "¿Habrá app para el móvil?", a: "Primero la versión web, que ya funciona en el móvil. Si la pide bastante gente, haremos una app nativa." },
@@ -596,6 +651,37 @@ const es: Strings = {
     faster: "Más rápido",
     keys: "Teclado: espacio para empezar o parar, ← → cambian el tempo (con Mayús, de 5 en 5), T para marcarlo.",
   },
+  profile: {
+    title: "Perfil",
+    guitar: "Tu guitarra",
+    guitarLede: "Los ejercicios y el mástil dibujan y suenan con esta guitarra: sus cuerdas y las notas que dan.",
+    strings: "Cuerdas",
+    tuning: "Afinación",
+    tunings: { standard6: "Estándar", dropD: "Drop D", eFlat: "Mi♭ estándar", dStandard: "Re estándar", dropC: "Drop C", dadgad: "DADGAD", openG: "Sol abierta", openD: "Re abierta", standard7: "Estándar (Si grave)", dropA7: "Drop A", standard8: "Estándar (Fa♯ grave)", dropE8: "Drop E" },
+    names: "Nombres de las notas",
+    namesLede: "Cómo se escriben las notas en los botones y en el mástil, en toda la app.",
+    language: "Idioma",
+    records: "Récords",
+    recordsEmpty: "Aún no hay récords. Juega a Nombra la nota o Encuentra la nota contrarreloj o sin fallos y aquí aparecerán tus mejores marcas.",
+    stringsCount: "{n} cuerdas",
+    achievements: "Logros",
+    achievementsCount: "{e} de {t}",
+    achievementList: {
+      firstBest: { title: "Primer récord", body: "Consigue una marca en cualquier reto." },
+      streak10: { title: "Diez seguidas", body: "Diez aciertos sin fallar ni una." },
+      minute20: { title: "Veinte en un minuto", body: "Nombra 20 notas en un minuto." },
+      allTwelve: { title: "Las doce", body: "Una marca con los sostenidos, no solo naturales." },
+      finder: { title: "Buscador", body: "Encuentra 30 posiciones contrarreloj." },
+      streak25: { title: "Veinticinco seguidas", body: "25 seguidas con las doce notas." },
+      minute40: { title: "Cuarenta en un minuto", body: "Nombra 40 notas en un minuto, con las doce." },
+      extended: { title: "Rango extendido", body: "Una marca con guitarra de siete u ocho cuerdas." },
+      streak50: { title: "Cincuenta seguidas", body: "50 seguidas con las doce notas." },
+    },
+    data: "Tus datos",
+    dataBody: "Todo lo de esta página se guarda solo en este navegador: no hay cuenta y no se envía nada. Borrarlo no tiene vuelta atrás.",
+    erase: "Borrar mis datos",
+    eraseConfirm: "¿Borrar tus récords, logros y ajustes de este navegador?",
+  },
   neck: {
     title: "El mástil",
     root: "Tónica",
@@ -632,7 +718,7 @@ const es: Strings = {
     updated: "Última actualización: 25 de septiembre de 2026",
     summary: "Diesis no tiene cuentas ni publicidad. Nada de lo que haces en Diesis sale de tu navegador. Lo único que medimos son las visitas a la web, con Google Analytics, y solo si tú lo permites.",
     sections: [
-      { h: "La app", p: ["Diesis funciona por completo en tu navegador. No te pregunta quién eres, no crea ninguna cuenta y no envía nada de lo que haces a nadie, ni a nosotros ni a terceros.", "La puntuación de cada sesión se guarda en memoria y desaparece al cerrar la pestaña. Tu mejor marca en cada reto, el último reto que elegiste y los ajustes de la tarjeta de inicio (nombres de las notas, solo naturales) los ajustes del metrónomo (tempo, compás, subdivisión, acento y, cuando va subiendo, el inicio, el objetivo y la subida) y la tónica, la escala y las etiquetas que elegiste en el mástil se guardan en el almacenamiento local de tu navegador, solo en tu dispositivo. No se envían a ningún sitio; si borras los datos de la web, desaparecen."] },
+      { h: "La app", p: ["Diesis funciona por completo en tu navegador. No te pregunta quién eres, no crea ninguna cuenta y no envía nada de lo que haces a nadie, ni a nosotros ni a terceros.", "La puntuación de cada sesión se guarda en memoria y desaparece al cerrar la pestaña. Todo lo demás que eliges o consigues se queda en el almacenamiento local de tu navegador, solo en tu dispositivo: tu guitarra (cuerdas y afinación), cómo se nombran las notas, tus mejores marcas y el último reto que elegiste, los ajustes del metrónomo (con el plan de subida de tempo) y lo último que elegiste en el mástil. Nada de eso se envía nunca a ningún sitio. El botón «Borrar mis datos» de tu perfil lo elimina, y también borrar los datos de la web."] },
       { h: "Cookies", p: ["Diesis guarda dos cookies: una recuerda el idioma que has elegido y la otra, lo que respondiste al aviso de analítica. Ninguna contiene datos sobre ti."] },
       { h: "Esta web", p: ["diesis.app está alojada en Vercel, que conserva durante poco tiempo los registros habituales de cualquier servidor (dirección IP, navegador, páginas solicitadas) para que el servicio funcione y esté protegido.", "Si lo permites en el aviso, la web carga Google Analytics 4 para contar visitas y ver qué páginas se leen. Google instala sus propias cookies para ello y trata los datos según su política de privacidad. Si dices que no, no se carga nada de Google; puedes cambiar de opinión borrando las cookies de la web."] },
       { h: "Menores", p: ["Diesis no recoge datos personales de nadie, tenga la edad que tenga."] },

@@ -41,7 +41,7 @@ export function useModeA(settings: QuizSettings, player: NotePlayer, events: Mod
   const timers = useRef<ReturnType<typeof setTimeout>[]>([]);
 
   const pitches = useMemo(
-    () => Array.from(new Set(candidatePositions(settings).map((p) => midiAt(p)))),
+    () => Array.from(new Set(candidatePositions(settings).map((p) => midiAt(p, settings.tuning)))),
     [settings],
   );
 
@@ -70,7 +70,7 @@ export function useModeA(settings: QuizSettings, player: NotePlayer, events: Mod
       setQuestion(q);
       setWrongPick(null);
       setPhase("asking");
-      player.play(midiAt(q.position));
+      player.play(midiAt(q.position, settings.tuning));
     },
     [settings, player],
   );
@@ -102,8 +102,8 @@ export function useModeA(settings: QuizSettings, player: NotePlayer, events: Mod
   );
 
   const replay = useCallback(() => {
-    if (question) player.play(midiAt(question.position));
-  }, [question, player]);
+    if (question) player.play(midiAt(question.position, settings.tuning));
+  }, [question, player, settings.tuning]);
 
   return { phase, halt, stop, question, wrongPick, start, pick, replay };
 }

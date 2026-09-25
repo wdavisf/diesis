@@ -7,6 +7,8 @@ import { DEFAULT_SETTINGS } from "@/lib/core/quiz";
 import { useChallenge } from "@/lib/game/use-challenge";
 import { useModeA } from "@/lib/game/use-mode-a";
 import { useSettings } from "@/lib/game/use-settings";
+import { useGuitar } from "@/lib/game/use-guitar";
+import { modeKey } from "@/lib/core/records";
 import { ChallengeResult, ChallengeStatus } from "@/components/challenge-card";
 import { Fretboard } from "@/components/fretboard";
 import { GameFrame, GameShell } from "@/components/game-frame";
@@ -25,8 +27,10 @@ export function Game({ t, tc, ts, lang }: { t: Strings["game"]; tc: Strings["cha
   const prefs = useSettings(lang === "es" ? "solfege" : "letters");
   const names = namesFor(prefs.names);
   const naturalsOnly = prefs.naturalsOnly;
-  const settings = useMemo(() => ({ ...DEFAULT_SETTINGS, naturalsOnly }), [naturalsOnly]);
-  const run = useChallenge(naturalsOnly ? "name:naturals" : "name");
+  const guitar = useGuitar();
+  const tuning = guitar.preset.notes;
+  const settings = useMemo(() => ({ ...DEFAULT_SETTINGS, naturalsOnly, tuning, strings: guitar.strings }), [naturalsOnly, tuning]); // eslint-disable-line react-hooks/exhaustive-deps
+  const run = useChallenge(modeKey("name", naturalsOnly, tuning.length));
   const game = useModeA(settings, player, { onRight: run.right, onWrong: run.wrong, locked: run.tally.over });
 
   const over = run.tally.over;
@@ -99,6 +103,7 @@ export function Game({ t, tc, ts, lang }: { t: Strings["game"]; tc: Strings["cha
           height={size.height}
           minFret={DEFAULT_SETTINGS.minFret}
           maxFret={DEFAULT_SETTINGS.maxFret}
+          strings={tuning.length}
           marks={
             game.question
               ? [

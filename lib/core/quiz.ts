@@ -6,15 +6,19 @@ import {
   pitchClassAt,
   positionsInRange,
   samePosition,
+  STANDARD_TUNING,
   type PitchClass,
   type Position,
+  type Tuning,
 } from './notes';
 
 export interface QuizSettings {
   readonly minFret: number;
   readonly maxFret: number;
-  /** Strings to draw from, 1 (high E) to 6 (low E). */
+  /** Strings to draw from, 1 (the highest) to the tuning's lowest. */
   readonly strings: readonly number[];
+  /** The player's guitar (profile): which notes the strings give. */
+  readonly tuning: Tuning;
   /** When true only C D E F G A B positions are asked. */
   readonly naturalsOnly: boolean;
 }
@@ -23,6 +27,7 @@ export const DEFAULT_SETTINGS: QuizSettings = {
   minFret: 0,
   maxFret: 12,
   strings: [1, 2, 3, 4, 5, 6],
+  tuning: STANDARD_TUNING,
   naturalsOnly: false,
 };
 
@@ -36,7 +41,7 @@ export type Rng = () => number;
 /** All positions the settings allow. */
 export function candidatePositions(settings: QuizSettings): Position[] {
   return positionsInRange(settings.minFret, settings.maxFret, settings.strings).filter(
-    (p) => !settings.naturalsOnly || isNatural(pitchClassAt(p)),
+    (p) => !settings.naturalsOnly || isNatural(pitchClassAt(p, settings.tuning)),
   );
 }
 
@@ -56,7 +61,7 @@ export function nextQuestion(
   const pool =
     previous && all.length > 1 ? all.filter((p) => !samePosition(p, previous)) : all;
   const position = pool[Math.floor(rng() * pool.length)];
-  return { position, answer: pitchClassAt(position) };
+  return { position, answer: pitchClassAt(position, settings.tuning) };
 }
 
 export function isCorrect(question: Question, pick: PitchClass): boolean {
@@ -71,7 +76,7 @@ export interface FindRound {
 
 /** Every position the settings allow that sounds the given pitch class. */
 export function positionsOf(pc: PitchClass, settings: QuizSettings): Position[] {
-  return candidatePositions(settings).filter((p) => pitchClassAt(p) === pc);
+  return candidatePositions(settings).filter((p) => pitchClassAt(p, settings.tuning) === pc);
 }
 
 /**
@@ -83,7 +88,7 @@ export function nextFindRound(
   previous: PitchClass | null = null,
   rng: Rng = Math.random,
 ): FindRound {
-  const present = Array.from(new Set(candidatePositions(settings).map((p) => pitchClassAt(p)))).sort(
+  const present = Array.from(new Set(candidatePositions(settings).map((p) => pitchClassAt(p, settings.tuning)))).sort(
     (a, b) => a - b,
   );
   if (present.length === 0) {

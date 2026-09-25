@@ -1,7 +1,9 @@
 // Generates placeholder plucked-string samples with Karplus-Strong synthesis, one WAV per MIDI
-// pitch from E2 (40) to E6 (88), into public/samples/nylon. Run: npm run samples.
+// pitch from E1 (28, the low E of an 8-string in drop E) to E6 (88), into public/samples/nylon.
+// Run: npm run samples. Only missing files are written, so existing samples stay as committed;
+// `npm run samples -- --all` regenerates every one (the noise is random, so all of them change).
 // These stand in until real nylon and electric samples with clear licensing are sourced.
-import { mkdirSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -11,7 +13,7 @@ mkdirSync(outDir, { recursive: true });
 
 const SR = 22050;
 const DURATION = 1.6;
-const LOW = 40;
+const LOW = 28;
 const HIGH = 88;
 
 function pluck(freq) {
@@ -73,8 +75,13 @@ function wav(samples) {
   return buf;
 }
 
+const all = process.argv.includes('--all');
+let written = 0;
 for (let midi = LOW; midi <= HIGH; midi++) {
+  const file = join(outDir, `${midi}.wav`);
+  if (!all && existsSync(file)) continue;
   const freq = 440 * Math.pow(2, (midi - 69) / 12);
-  writeFileSync(join(outDir, `${midi}.wav`), wav(pluck(freq)));
+  writeFileSync(file, wav(pluck(freq)));
+  written++;
 }
-console.log(`wrote ${HIGH - LOW + 1} samples to ${outDir}`);
+console.log(`wrote ${written} samples to ${outDir}`);
