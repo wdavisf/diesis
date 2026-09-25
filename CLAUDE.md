@@ -7,8 +7,9 @@ GitHub (public).
 
 Notion page "Diesis" (https://app.notion.com/p/3e645a93be8581a5aeccc6e40ba25f0b, private, created
 2026-09-25) is the readable overview for Will, with child pages Roadmap, Releases and Decisions.
-Every release: add it to the Releases page too; when a decision or the roadmap changes, update
-those pages in the same session.
+**Update Notion only when Will asks** (Will, 2026-09-25): never on a release or decision by
+default. When he asks, bring Releases, Decisions and Roadmap up to date from CHANGELOG.md and
+this file.
 
 The spec is Will's Todoist project "Diesis" (id `6hWGmFjPwF25mCxM`, sections 0–9): read it through
 the Todoist tools before proposing scope. This file records what has been decided and built; the
