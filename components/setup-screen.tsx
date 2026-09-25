@@ -8,7 +8,7 @@ import type { Strings } from "@/lib/i18n";
 import { Chip, primary } from "@/components/challenge-card";
 import { cn } from "@/lib/utils";
 
-function Row({ label, children }: { label: string; children: ReactNode }) {
+export function Row({ label, children }: { label: string; children: ReactNode }) {
   return (
     <div className="flex flex-col gap-1.5 sm:grid sm:grid-cols-[8rem_1fr] sm:items-center sm:gap-3">
       <span className="text-sm font-medium text-dim">{label}</span>

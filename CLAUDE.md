@@ -76,6 +76,17 @@ Todoist project records what is still to do.
   `lib/game/use-challenge.ts`. Personal bests in localStorage `diesis_best:<mode>:<challenge>`
   (per browser, never sent; the privacy page says so), last pick in `diesis_challenge`. The
   Todoist "note-count challenge" (fixed number of notes, timed) is not built.
+- **Metronome** (built 2026-09-25, Will: "empieza con el metrónomo"): open `/learn/metronome`,
+  an upright screen (no neck, never sideways). Tempo 20–300 with ±1/±5, a slider and tap tempo
+  (average of the last five taps, a 2 s pause starts over); the Italian marking under the
+  number; meters 2/4, 3/4, 4/4, 5/4 (3+2), 6/8 (3+3), 7/8 (2+2+3), group starts get a second
+  accent; subdivision 1–4; accent on the one or none. Keys: Space, ←/→ (Shift ×5), T. Rules in
+  `lib/core/metronome.ts` (tests); `lib/audio/metronome-engine.ts` books synthesised clicks
+  120 ms ahead on its own AudioContext, woken every 25 ms by a Worker timer so a background tab
+  keeps time, and lights the beat on screen by checking the audio clock (a fresh context's
+  clock runs slow at first, so a precomputed timer lit beat one early). Settings live in
+  localStorage `diesis_metronome` (`lib/game/use-metronome.ts`), which also holds a screen
+  wake lock while it runs. Speed trainer (rising tempo) is next and should reuse this engine.
 - **Scales after notes**; the engine will model a scale as its full-neck set with boxed
   positions on top. Not yet designed in detail. **Reading music** is a new track (Will,
   2026-09-23): not yet specified beyond the landing-page copy; needs a staff renderer and a
@@ -177,13 +188,13 @@ points to it and keeps `/lang/` out. Add new public pages to the sitemap.
 ## Layout of the repo
 
 - `app/` — routes: `page.tsx` and `es/page.tsx` (landing), `privacy/` and `es/privacy/`,
-  `learn/` (mode picker), `learn/name-the-note/`, `learn/find-the-note/`, `lang/[code]/` (cookie setter).
+  `learn/` (mode picker), `learn/name-the-note/`, `learn/find-the-note/`, `learn/metronome/`, `lang/[code]/` (cookie setter).
   `layout.tsx` holds fonts and metadata; `globals.css` the theme tokens.
 - `components/` — `landing`, `privacy-page`, `logo`, `screen` (animated hero), `footer`,
   `lang-switch`, `fretboard` (SVG, marks and tap targets), `note-panel`, `game-frame`
   (`GameShell`: sideways treatment, gate, header; `GameFrame`: the board inside it),
   `setup-screen` (before a round), `challenge-card` (result card, header status, `Chip`),
-  `game` (Mode A), `find-game` (Mode B), `how-figures` and `open-app` (landing), `ui/`.
+  `game` (Mode A), `find-game` (Mode B), `metronome`, `how-figures` and `open-app` (landing), `ui/`.
 - `lib/i18n.ts` — every string, EN and ES. `lib/lang.ts` — reads the language cookie.
 - `lib/core/` — note model (`notes.ts`), question generator (`quiz.ts`), tests. Pure TS.
 - `lib/core/challenge.ts` — challenge rules. `lib/audio/note-player.ts` — Web Audio sampler.

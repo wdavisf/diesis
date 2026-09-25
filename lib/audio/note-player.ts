@@ -24,7 +24,7 @@ export function sampleUrl(midi: number, set = "nylon"): string {
 
 /** iPhones mute Web Audio under the ring/silent switch unless the page asks for the "playback"
  *  audio session. Safari 17+ exposes that as navigator.audioSession; elsewhere this is a no-op. */
-function askForPlaybackSession() {
+export function askForPlaybackSession() {
   const session = (navigator as Navigator & { audioSession?: { type: string } }).audioSession;
   if (!session) return;
   try {

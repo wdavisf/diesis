@@ -3,6 +3,18 @@
 Written for the people using it, not for the code. Newest first. Version matches
 `package.json`.
 
+## 0.8.0 — 25 September 2026, the metronome
+
+- New: a **metronome**, in the menu next to the note exercises. Tempo from 20 to 300: step it
+  by one or five, slide it, or tap it in. The Italian marking (Andante, Allegro…) sits under
+  the number.
+- Time signatures 2/4, 3/4, 4/4, 5/4, 6/8 and 7/8, with the accent on the one and a lighter
+  one where each group starts (6/8 as 3+3, 7/8 as 2+2+3). Or no accent at all.
+- Subdivisions of two, three or four clicks per beat. The beats light up as you hear them.
+- It keeps time if you switch to another tab, and on a phone the screen stays on while it runs.
+- On a laptop: Space starts and stops, the arrow keys change the tempo, T taps it.
+- Your settings stay in this browser for next time, and only there.
+
 ## 0.7.2 — 25 September 2026, diesis.es
 
 - diesis.es takes you to Diesis in Spanish. Easier to share: WhatsApp and the rest turn it
