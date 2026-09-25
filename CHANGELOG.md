@@ -3,6 +3,12 @@
 Written for the people using it, not for the code. Newest first. Version matches
 `package.json`.
 
+## 0.11.2 — 25 September 2026, speed up is a switch
+
+- The metronome no longer asks you to pick a mode at the top. Speed up is a section of the
+  settings with a switch: off, it is a plain metronome; on, the section opens with the start,
+  the target, the step and the bars, and the tempo climbs.
+
 ## 0.11.1 — 25 September 2026, sextuplets
 
 - The metronome's subdivisions now include sextuplets: six clicks per beat, next to eighths,

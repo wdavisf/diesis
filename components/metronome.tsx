@@ -129,8 +129,8 @@ function Stepper({ value, onChange, label, t }: { value: number; onChange: (v: n
 }
 
 /**
- * The metronome, one tool with two ways to run: a steady tempo, or climbing (the speed trainer)
- * from a start tempo to a target, a step every few bars, then staying there or starting over.
+ * The metronome. A steady tempo, or, with the Speed up section switched on, a climb (the speed
+ * trainer) from a start tempo to a target, a step every few bars, then staying there or starting over.
  * Meter, subdivision and accent serve both. Upright screen, no neck; settings apply while it
  * runs, a new plan from the next bar.
  */
@@ -171,24 +171,6 @@ export function Metronome({ t, ts, tg }: { t: Strings["metronome"]; ts: Strings[
     <GameShell t={tg} title={t.title}>
       <div className="flex min-h-0 flex-1 flex-col overflow-auto px-4 pb-6 animate-in fade-in fill-mode-both duration-300 motion-reduce:animate-none">
         <div className="mx-auto flex w-full max-w-lg flex-1 flex-col justify-center gap-6 py-4">
-          <div role="radiogroup" aria-label={t.mode} className="grid grid-cols-2 gap-1 rounded-xl border border-line p-1">
-            {(["steady", "speed"] as const).map((m) => (
-              <button
-                key={m}
-                type="button"
-                role="radio"
-                aria-checked={settings.mode === m}
-                onClick={() => set({ mode: m })}
-                className={cn(
-                  "h-9 rounded-lg text-sm font-medium outline-none transition-colors focus-visible:ring-3 focus-visible:ring-ring/50",
-                  settings.mode === m ? "bg-amber/15 text-amber-text" : "text-dim hover:text-ink",
-                )}
-              >
-                {m === "steady" ? t.steady : t.speed}
-              </button>
-            ))}
-          </div>
-
           <Beats meterId={settings.meter} subdivision={settings.subdivision} accent={settings.accent} click={running ? click : null} />
 
           <section aria-label={t.tempo} className="flex flex-col items-center gap-4">
@@ -259,8 +241,58 @@ export function Metronome({ t, ts, tg }: { t: Strings["metronome"]; ts: Strings[
           </button>
 
           <div className="flex flex-col gap-4">
+            <Row label={t.meter}>
+              {METERS.map((m) => (
+                <Chip key={m.id} on={settings.meter === m.id} onClick={() => set({ meter: m.id })}>
+                  {m.id}
+                </Chip>
+              ))}
+            </Row>
+            <Row label={t.subdivision}>
+              {SUBDIVISIONS.map((n) => (
+                <Chip key={n} on={settings.subdivision === n} onClick={() => set({ subdivision: n })}>
+                  {n}
+                </Chip>
+              ))}
+            </Row>
+            <Row label={t.accent}>
+              <Chip on={settings.accent} onClick={() => set({ accent: true })}>
+                {t.accentOn}
+              </Chip>
+              <Chip on={!settings.accent} onClick={() => set({ accent: false })}>
+                {t.accentOff}
+              </Chip>
+            </Row>
+          </div>
+
+          {/* The climb: off, a plain metronome; on, the tempo rises by this plan. */}
+          <section aria-label={t.speed} className={cn("rounded-2xl border p-4 transition-colors", speedOn ? "border-amber/50 bg-surface/60" : "border-line")}>
+            <div className="flex items-center justify-between gap-4">
+              <div className="min-w-0">
+                <p className="font-medium">{t.speed}</p>
+                <p className="text-sm text-dim">{t.speedHint}</p>
+              </div>
+              <button
+                type="button"
+                role="switch"
+                aria-checked={speedOn}
+                aria-label={t.speed}
+                onClick={() => set({ mode: speedOn ? "steady" : "speed" })}
+                className={cn(
+                  "relative h-7 w-12 shrink-0 rounded-full outline-none transition-colors focus-visible:ring-3 focus-visible:ring-ring/50",
+                  speedOn ? "bg-amber" : "bg-line",
+                )}
+              >
+                <span
+                  className={cn(
+                    "absolute top-1 left-1 size-5 rounded-full bg-ink transition-transform motion-reduce:transition-none",
+                    speedOn ? "translate-x-5" : "translate-x-0",
+                  )}
+                />
+              </button>
+            </div>
             {speedOn ? (
-              <>
+              <div className="mt-4 flex flex-col gap-4 border-t border-line pt-4 animate-in fade-in slide-in-from-top-1 duration-200 motion-reduce:animate-none">
                 <Field label={ts.from}>
                   <Stepper value={plan.from} onChange={(v) => setPlan({ from: v, to: Math.max(v, plan.to) })} label={ts.from} t={t} />
                 </Field>
@@ -289,31 +321,9 @@ export function Metronome({ t, ts, tg }: { t: Strings["metronome"]; ts: Strings[
                     {ts.restart}
                   </Chip>
                 </Row>
-              </>
+              </div>
             ) : null}
-            <Row label={t.meter}>
-              {METERS.map((m) => (
-                <Chip key={m.id} on={settings.meter === m.id} onClick={() => set({ meter: m.id })}>
-                  {m.id}
-                </Chip>
-              ))}
-            </Row>
-            <Row label={t.subdivision}>
-              {SUBDIVISIONS.map((n) => (
-                <Chip key={n} on={settings.subdivision === n} onClick={() => set({ subdivision: n })}>
-                  {n}
-                </Chip>
-              ))}
-            </Row>
-            <Row label={t.accent}>
-              <Chip on={settings.accent} onClick={() => set({ accent: true })}>
-                {t.accentOn}
-              </Chip>
-              <Chip on={!settings.accent} onClick={() => set({ accent: false })}>
-                {t.accentOff}
-              </Chip>
-            </Row>
-          </div>
+          </section>
 
           <p className="hidden text-center text-xs text-dim pointer-fine:block">{speedOn ? ts.keys : t.keys}</p>
         </div>

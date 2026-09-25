@@ -89,9 +89,11 @@ Todoist project records what is still to do.
   localStorage `diesis_metronome` (`lib/game/use-metronome.ts`), which also holds a screen
   wake lock while it runs. Its Speed up mode (below) runs on the same engine.
 - **Speed trainer = the metronome's "Speed up" mode (Will, 2026-09-25: "combina el metrónomo y
-  el entrenador de velocidad en la misma feature").** One tool at `/learn/metronome` with a
-  mode switch on top, Steady tempo / Speed up (`MetronomeSettings.mode`, stored with the rest in
-  `diesis_metronome`). Speed up shows the plan: start, target, step (+1/2/5/10 BPM) every
+  el entrenador de velocidad en la misma feature").** One tool at `/learn/metronome`. The climb
+  is a section of the settings with an on/off switch, "Speed up" / «Subida de tempo» (Will,
+  2026-09-25: "no pongas ir subiendo así, pon simplemente un toggle de la sección de subida"):
+  `MetronomeSettings.mode` "steady" | "speed", stored with the rest in `diesis_metronome`. On,
+  the section opens with the plan: start, target, step (+1/2/5/10 BPM) every
   1/2/4/8 bars, then stay or start over (the target gets its own bars, then back to the
   start); the plan is in `diesis_speed`. Rules in `lib/core/speed.ts` (tests); the engine asks
   `setPlan`'s function for each bar's tempo as it books the bar's first click, so every bar is
