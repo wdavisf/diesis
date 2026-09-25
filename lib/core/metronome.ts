@@ -25,7 +25,8 @@ export const METERS: readonly Meter[] = [
   { id: "7/8", beats: 7, groups: [2, 2, 3] },
 ];
 
-export const SUBDIVISIONS = [1, 2, 3, 4] as const;
+/** Clicks per beat: none, eighths, triplets, sixteenths, sextuplets. */
+export const SUBDIVISIONS = [1, 2, 3, 4, 6] as const;
 export type Subdivision = (typeof SUBDIVISIONS)[number];
 
 export interface MetronomeSettings {

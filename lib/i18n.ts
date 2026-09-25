@@ -201,7 +201,7 @@ const en: Strings = {
         title: "Tools",
         lede: "What you keep open while you practice, set up for your own guitar.",
         items: [
-          { title: "Metronome and speed trainer", body: "Tempo from 20 to 300, 2/4 to 7/8 with the accents where they belong, subdivisions up to sixteenths, tap tempo. Switch to Speed up and it climbs on its own: pick the start, the target, the step and the bars at each tempo.", when: "now" },
+          { title: "Metronome and speed trainer", body: "Tempo from 20 to 300, 2/4 to 7/8 with the accents where they belong, subdivisions up to sextuplets, tap tempo. Switch to Speed up and it climbs on its own: pick the start, the target, the step and the bars at each tempo.", when: "now" },
           { title: "Your guitar", body: "Six, seven or eight strings, your tuning and your scale length. All of Diesis adapts to it.", when: "later" },
           { title: "Strings and setup", body: "Work out each string’s tension, pick the gauges that suit your guitar, and set action and intonation after a string change.", when: "later" },
         ],
@@ -442,7 +442,7 @@ const es: Strings = {
         title: "Herramientas",
         lede: "Lo que tienes abierto mientras practicas, pensado para tu guitarra.",
         items: [
-          { title: "Metrónomo y entrenador de velocidad", body: "Tempo de 20 a 300, compases de 2/4 a 7/8 con los acentos donde tocan, subdivisiones hasta semicorcheas y tap tempo. En «Ir subiendo» el tempo sube solo: eliges inicio, objetivo, cuánto sube y cuántos compases en cada tempo.", when: "now" },
+          { title: "Metrónomo y entrenador de velocidad", body: "Tempo de 20 a 300, compases de 2/4 a 7/8 con los acentos donde tocan, subdivisiones hasta seisillos y tap tempo. En «Ir subiendo» el tempo sube solo: eliges inicio, objetivo, cuánto sube y cuántos compases en cada tempo.", when: "now" },
           { title: "Tu guitarra", body: "Seis, siete u ocho cuerdas, tu afinación y la escala de tu mástil. Todo Diesis se adapta a ella.", when: "later" },
           { title: "Cuerdas y ajuste", body: "Calcula la tensión de cada cuerda, elige los calibres que le van a tu guitarra y ajusta la altura y la octavación cuando cambies las cuerdas.", when: "later" },
         ],

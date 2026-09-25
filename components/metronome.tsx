@@ -39,10 +39,11 @@ function Beats({ meterId, subdivision, accent, click }: { meterId: string; subdi
             >
               {beat + 1}
             </span>
-            <span className="flex h-1.5 gap-1">
+            {/* Sextuplets: six smaller dots, so a 7/8 bar still fits a phone. */}
+            <span className={cn("flex h-1.5 items-center", subdivision > 4 ? "gap-0.5" : "gap-1")}>
               {subdivision > 1
                 ? Array.from({ length: subdivision }, (_, sub) => (
-                    <span key={sub} className={cn("size-1.5 rounded-full", on && click?.sub === sub ? "bg-amber" : "bg-line")} />
+                    <span key={sub} className={cn("rounded-full", subdivision > 4 ? "size-1" : "size-1.5", on && click?.sub === sub ? "bg-amber" : "bg-line")} />
                   ))
                 : null}
             </span>

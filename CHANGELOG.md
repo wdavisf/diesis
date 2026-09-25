@@ -3,6 +3,11 @@
 Written for the people using it, not for the code. Newest first. Version matches
 `package.json`.
 
+## 0.11.1 — 25 September 2026, sextuplets
+
+- The metronome's subdivisions now include sextuplets: six clicks per beat, next to eighths,
+  triplets and sixteenths. Works in Speed up too.
+
 ## 0.11.0 — 25 September 2026, links that keep their language
 
 - The app now has a Spanish address of its own, like the home page: diesis.app/es/learn/… in

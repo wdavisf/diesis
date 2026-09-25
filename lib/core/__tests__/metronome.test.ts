@@ -32,6 +32,14 @@ describe('metronome', () => {
     expect(secondsPerClick(s({ bpm: 60, subdivision: 3 }))).toBeCloseTo(1 / 3);
   });
 
+  it('plays sextuplets', () => {
+    const st = s({ bpm: 60, subdivision: 6 });
+    expect(secondsPerClick(st)).toBeCloseTo(1 / 6);
+    expect(clickAt(5, st)).toEqual({ beat: 0, sub: 5, kind: 'sub' });
+    expect(clickAt(6, st).kind).toBe('beat');
+    expect(decodeMetronome(encodeMetronome(st)).subdivision).toBe(6);
+  });
+
   it('counts clicks per bar', () => {
     expect(clicksPerBar(s({ meter: '4/4' }))).toBe(4);
     expect(clicksPerBar(s({ meter: '6/8', subdivision: 2 }))).toBe(12);

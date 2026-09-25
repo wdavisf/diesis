@@ -80,7 +80,8 @@ Todoist project records what is still to do.
   an upright screen (no neck, never sideways). Tempo 20–300 with ±1/±5, a slider and tap tempo
   (average of the last five taps, a 2 s pause starts over); the Italian marking under the
   number; meters 2/4, 3/4, 4/4, 5/4 (3+2), 6/8 (3+3), 7/8 (2+2+3), group starts get a second
-  accent; subdivision 1–4; accent on the one or none. Keys: Space, ←/→ (Shift ×5), T. Rules in
+  accent; subdivision 1, 2, 3, 4 or 6 (sextuplets, Will 2026-09-25; the beat dots shrink for
+  them); accent on the one or none. Keys: Space, ←/→ (Shift ×5), T. Rules in
   `lib/core/metronome.ts` (tests); `lib/audio/metronome-engine.ts` books synthesised clicks
   120 ms ahead on its own AudioContext, woken every 25 ms by a Worker timer so a background tab
   keeps time, and lights the beat on screen by checking the audio clock (a fresh context's
