@@ -5,6 +5,11 @@ guitar, all as games. A web app first; a native app only if it earns one. Name f
 the semitone, one fret. Domain diesis.app (Namecheap, DNS on Vercel). Repo `wdavisf/diesis` on
 GitHub (public).
 
+Notion page "Diesis" (https://app.notion.com/p/3e645a93be8581a5aeccc6e40ba25f0b, private, created
+2026-09-25) is the readable overview for Will, with child pages Roadmap, Releases and Decisions.
+Every release: add it to the Releases page too; when a decision or the roadmap changes, update
+those pages in the same session.
+
 The spec is Will's Todoist project "Diesis" (id `6hWGmFjPwF25mCxM`, sections 0–9): read it through
 the Todoist tools before proposing scope. This file records what has been decided and built; the
 Todoist project records what is still to do.
