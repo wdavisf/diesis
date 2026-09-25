@@ -28,8 +28,8 @@ type WakeLock = { release(): Promise<void> };
 /**
  * The metronome screen's state: settings kept in this browser (localStorage `diesis_metronome`,
  * never sent), the engine, the click being heard for the beat display, tap tempo, and a screen
- * wake lock while it runs so the phone does not go dark mid-practice. With a speed plan the
- * engine takes its tempo from the plan, bar by bar, and `beat` reports the bar and tempo heard.
+ * wake lock while it runs so the phone does not go dark mid-practice. In climbing mode
+ * (`settings.mode === "speed"`) the engine takes its tempo from the plan, bar by bar, and `beat` reports the bar and tempo heard.
  */
 export function useMetronome(plan: SpeedPlan | null = null) {
   const raw = useSyncExternalStore(subscribe, read, () => null);
@@ -59,7 +59,7 @@ export function useMetronome(plan: SpeedPlan | null = null) {
   }, [settings.bpm, settings.meter, settings.subdivision, settings.accent]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // The plan reaches the engine as a tempo per bar; edits apply from the next bar.
-  const planKey = plan ? encodeSpeed(plan) : null;
+  const planKey = plan && settings.mode === "speed" ? encodeSpeed(plan) : null;
   useEffect(() => {
     const p = planKey ? plan : null;
     engine.current?.setPlan(p ? (bar) => tempoAtBar(p, bar) : null);

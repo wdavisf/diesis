@@ -95,6 +95,9 @@ export interface Strings {
   /** The start card's settings. */
   metronome: {
     title: string;
+    mode: string;
+    steady: string;
+    speed: string;
     tempo: string;
     meter: string;
     subdivision: string;
@@ -136,15 +139,15 @@ const en: Strings = {
   meta: {
     title: "Diesis — everything you need to master the guitar",
     description:
-      "Everything you need to master the guitar, in one place. Learn every note on the neck, keep time with the metronome and build speed with the speed trainer today; scales, reading music and tools for your own guitar come next. Free, in the browser.",
+      "Everything you need to master the guitar, in one place. Learn every note on the neck, keep time and build speed with the metronome today; scales, reading music and tools for your own guitar come next. Free, in the browser.",
     privacyTitle: "Privacy",
     privacyDescription: "What Diesis does with your data: no account, no ads, nothing you do in Diesis leaves your browser. Visit counting with Google Analytics only if you allow it.",
   },
-  nav: { how: "How it works", learn: "What you learn", faq: "FAQ", cta: "Open the app", privacy: "Privacy", about: "About Diesis", tools: ["All tools", "Name the note", "Find the note", "Metronome", "Speed trainer"] },
+  nav: { how: "How it works", learn: "What you learn", faq: "FAQ", cta: "Open the app", privacy: "Privacy", about: "About Diesis", tools: ["All tools", "Name the note", "Find the note", "Metronome"] },
   hero: {
     eyebrow: "The guitar learning tool",
     h1: "Everything you need to master the guitar.",
-    lede: "Become the best guitarist you can be. Today, the neck note by note, a metronome and a speed trainer; next, scales, reading and tools for your own guitar.",
+    lede: "Become the best guitarist you can be. Today, the neck note by note and a metronome that builds your speed; next, scales, reading and tools for your own guitar.",
     cta: "Open the app",
     secondary: "How it works",
     trust: ["Free in preview", "No account", "Phone or laptop, in the browser"],
@@ -198,8 +201,7 @@ const en: Strings = {
         title: "Tools",
         lede: "What you keep open while you practice, set up for your own guitar.",
         items: [
-          { title: "Metronome", body: "Tempo from 20 to 300, 2/4 to 7/8 with the accents where they belong, subdivisions up to sixteenths, tap tempo. It keeps time even in a background tab.", when: "now" },
-          { title: "Speed trainer", body: "A metronome that raises the tempo on its own: pick where to start, where to stop, how big a step and how many bars at each tempo. At the target it stays there or starts over.", when: "now" },
+          { title: "Metronome and speed trainer", body: "Tempo from 20 to 300, 2/4 to 7/8 with the accents where they belong, subdivisions up to sixteenths, tap tempo. Switch to Speed up and it climbs on its own: pick the start, the target, the step and the bars at each tempo.", when: "now" },
           { title: "Your guitar", body: "Six, seven or eight strings, your tuning and your scale length. All of Diesis adapts to it.", when: "later" },
           { title: "Strings and setup", body: "Work out each string’s tension, pick the gauges that suit your guitar, and set action and intonation after a string change.", when: "later" },
         ],
@@ -260,8 +262,7 @@ const en: Strings = {
     modes: [
       { title: "Name the note", body: "A position lights and plays. Say which note it is." },
       { title: "Find the note", body: "You get a name. Tap every place it lives." },
-      { title: "Metronome", body: "Tempo, time signature, accents and subdivisions. Tap to set the tempo." },
-      { title: "Speed trainer", body: "Start slow and let the tempo climb a step every few bars, up to your target." },
+      { title: "Metronome", body: "A steady tempo, or one that climbs a step every few bars up to your target. Time signatures, accents, subdivisions, tap tempo." },
       { title: "Hear the note", body: "A note plays with nothing lit. Find it on the neck." },
       { title: "Scales", body: "Explore, build, name the scale, name the degree." },
       { title: "Reading music", body: "The note on the staff, the place on the neck." },
@@ -317,6 +318,9 @@ const en: Strings = {
   },
   metronome: {
     title: "Metronome",
+    mode: "Mode",
+    steady: "Steady tempo",
+    speed: "Speed up",
     tempo: "Tempo",
     meter: "Time signature",
     subdivision: "Subdivision",
@@ -356,7 +360,7 @@ const en: Strings = {
     updated: "Last updated 25 September 2026",
     summary: "Diesis has no account and no advertising. Nothing you do in Diesis leaves your browser. The only thing we measure is visits to the site, with Google Analytics, and only if you allow it.",
     sections: [
-      { h: "The app", p: ["Diesis runs entirely in your browser. It does not ask who you are, does not create an account, and does not send anything you do in it to us or to anyone else.", "Your score for a session is held in memory and disappears when you close the tab. Your personal best for each challenge, the challenge you last picked and the start-card settings (note names, naturals only) your metronome settings (tempo, time signature, subdivision, accent) and your speed-trainer plan are kept in your browser's local storage, on your device only. They are never sent anywhere; clearing the site's data removes them."] },
+      { h: "The app", p: ["Diesis runs entirely in your browser. It does not ask who you are, does not create an account, and does not send anything you do in it to us or to anyone else.", "Your score for a session is held in memory and disappears when you close the tab. Your personal best for each challenge, the challenge you last picked and the start-card settings (note names, naturals only) your metronome settings (tempo, time signature, subdivision, accent, and the start, target and step when it speeds up) are kept in your browser's local storage, on your device only. They are never sent anywhere; clearing the site's data removes them."] },
       { h: "Cookies", p: ["Diesis sets two cookies. One remembers the language you picked; the other remembers your answer to the analytics banner. Neither holds anything about you."] },
       { h: "This website", p: ["diesis.app is hosted by Vercel, which keeps standard server logs (IP address, browser, pages requested) for a short time to run the service and keep it safe.", "If you allow it in the banner, the site loads Google Analytics 4 to count visits and see which pages are read. Google sets its own cookies for that and processes the data under its own privacy policy. If you decline, nothing from Google is loaded, and you can change your mind by clearing the site's cookies."] },
       { h: "Children", p: ["Diesis collects no personal data from anyone, of any age."] },
@@ -376,15 +380,15 @@ const es: Strings = {
   meta: {
     title: "Diesis — todo lo que necesitas para dominar la guitarra",
     description:
-      "Todo lo que necesitas para dominar la guitarra, en un solo sitio. Hoy, todas las notas del mástil, un metrónomo y un entrenador de velocidad; después, escalas, lectura de partituras y herramientas para tu propia guitarra. Gratis y en el navegador.",
+      "Todo lo que necesitas para dominar la guitarra, en un solo sitio. Hoy, todas las notas del mástil y un metrónomo que te hace ganar velocidad; después, escalas, lectura de partituras y herramientas para tu propia guitarra. Gratis y en el navegador.",
     privacyTitle: "Privacidad",
     privacyDescription: "Qué hace Diesis con tus datos: sin cuenta, sin anuncios y sin que nada de lo que haces en Diesis salga de tu navegador. Contamos visitas con Google Analytics solo si tú lo permites.",
   },
-  nav: { how: "Cómo funciona", learn: "Qué aprendes", faq: "Preguntas", cta: "Abrir la app", privacy: "Privacidad", about: "Sobre Diesis", tools: ["Todo", "Nombra la nota", "Encuentra la nota", "Metrónomo", "Velocidad"] },
+  nav: { how: "Cómo funciona", learn: "Qué aprendes", faq: "Preguntas", cta: "Abrir la app", privacy: "Privacidad", about: "Sobre Diesis", tools: ["Todo", "Nombra la nota", "Encuentra la nota", "Metrónomo"] },
   hero: {
     eyebrow: "La herramienta para aprender guitarra",
     h1: "Todo lo que necesitas para dominar la guitarra.",
-    lede: "Llega a ser el mejor guitarrista que puedas ser. Hoy, el mástil nota a nota, un metrónomo y un entrenador de velocidad; después, escalas, lectura y herramientas para tu guitarra.",
+    lede: "Llega a ser el mejor guitarrista que puedas ser. Hoy, el mástil nota a nota y un metrónomo que te hace ganar velocidad; después, escalas, lectura y herramientas para tu guitarra.",
     cta: "Abrir la app",
     secondary: "Cómo funciona",
     trust: ["Gratis durante la beta", "Sin registro", "En el navegador, móvil u ordenador"],
@@ -438,8 +442,7 @@ const es: Strings = {
         title: "Herramientas",
         lede: "Lo que tienes abierto mientras practicas, pensado para tu guitarra.",
         items: [
-          { title: "Metrónomo", body: "Tempo de 20 a 300, compases de 2/4 a 7/8 con los acentos donde tocan, subdivisiones hasta semicorcheas y tap tempo. Sigue marcando aunque cambies de pestaña.", when: "now" },
-          { title: "Entrenador de velocidad", body: "Un metrónomo que sube el tempo solo: eliges dónde empieza, dónde acaba, cuánto sube y cuántos compases en cada tempo. Al llegar, se queda ahí o vuelve a empezar.", when: "now" },
+          { title: "Metrónomo y entrenador de velocidad", body: "Tempo de 20 a 300, compases de 2/4 a 7/8 con los acentos donde tocan, subdivisiones hasta semicorcheas y tap tempo. En «Ir subiendo» el tempo sube solo: eliges inicio, objetivo, cuánto sube y cuántos compases en cada tempo.", when: "now" },
           { title: "Tu guitarra", body: "Seis, siete u ocho cuerdas, tu afinación y la escala de tu mástil. Todo Diesis se adapta a ella.", when: "later" },
           { title: "Cuerdas y ajuste", body: "Calcula la tensión de cada cuerda, elige los calibres que le van a tu guitarra y ajusta la altura y la octavación cuando cambies las cuerdas.", when: "later" },
         ],
@@ -500,8 +503,7 @@ const es: Strings = {
     modes: [
       { title: "Nombra la nota", body: "Se ilumina una posición y suena. Di qué nota es." },
       { title: "Encuentra la nota", body: "Te dan una nota. Tócala en todos los sitios donde esté." },
-      { title: "Metrónomo", body: "Tempo, compás, acentos y subdivisiones. Marca el tempo con unos toques." },
-      { title: "Entrenador de velocidad", body: "Empieza despacio y deja que el tempo suba solo cada pocos compases, hasta tu objetivo." },
+      { title: "Metrónomo", body: "Tempo fijo, o uno que sube solo cada pocos compases hasta tu objetivo. Compases, acentos, subdivisiones y tap tempo." },
       { title: "Escucha la nota", body: "Suena una nota sin iluminar nada. Encuéntrala en el mástil." },
       { title: "Escalas", body: "Explóralas, constrúyelas, reconócelas y di el grado." },
       { title: "Leer partituras", body: "De la nota en el pentagrama a la posición en el mástil." },
@@ -557,6 +559,9 @@ const es: Strings = {
   },
   metronome: {
     title: "Metrónomo",
+    mode: "Modo",
+    steady: "Tempo fijo",
+    speed: "Ir subiendo",
     tempo: "Tempo",
     meter: "Compás",
     subdivision: "Subdivisión",
@@ -596,7 +601,7 @@ const es: Strings = {
     updated: "Última actualización: 25 de septiembre de 2026",
     summary: "Diesis no tiene cuentas ni publicidad. Nada de lo que haces en Diesis sale de tu navegador. Lo único que medimos son las visitas a la web, con Google Analytics, y solo si tú lo permites.",
     sections: [
-      { h: "La app", p: ["Diesis funciona por completo en tu navegador. No te pregunta quién eres, no crea ninguna cuenta y no envía nada de lo que haces a nadie, ni a nosotros ni a terceros.", "La puntuación de cada sesión se guarda en memoria y desaparece al cerrar la pestaña. Tu mejor marca en cada reto, el último reto que elegiste y los ajustes de la tarjeta de inicio (nombres de las notas, solo naturales) los ajustes del metrónomo (tempo, compás, subdivisión y acento) y el plan del entrenador de velocidad se guardan en el almacenamiento local de tu navegador, solo en tu dispositivo. No se envían a ningún sitio; si borras los datos de la web, desaparecen."] },
+      { h: "La app", p: ["Diesis funciona por completo en tu navegador. No te pregunta quién eres, no crea ninguna cuenta y no envía nada de lo que haces a nadie, ni a nosotros ni a terceros.", "La puntuación de cada sesión se guarda en memoria y desaparece al cerrar la pestaña. Tu mejor marca en cada reto, el último reto que elegiste y los ajustes de la tarjeta de inicio (nombres de las notas, solo naturales) los ajustes del metrónomo (tempo, compás, subdivisión, acento y, cuando va subiendo, el inicio, el objetivo y la subida) se guardan en el almacenamiento local de tu navegador, solo en tu dispositivo. No se envían a ningún sitio; si borras los datos de la web, desaparecen."] },
       { h: "Cookies", p: ["Diesis guarda dos cookies: una recuerda el idioma que has elegido y la otra, lo que respondiste al aviso de analítica. Ninguna contiene datos sobre ti."] },
       { h: "Esta web", p: ["diesis.app está alojada en Vercel, que conserva durante poco tiempo los registros habituales de cualquier servidor (dirección IP, navegador, páginas solicitadas) para que el servicio funcione y esté protegido.", "Si lo permites en el aviso, la web carga Google Analytics 4 para contar visitas y ver qué páginas se leen. Google instala sus propias cookies para ello y trata los datos según su política de privacidad. Si dices que no, no se carga nada de Google; puedes cambiar de opinión borrando las cookies de la web."] },
       { h: "Menores", p: ["Diesis no recoge datos personales de nadie, tenga la edad que tenga."] },

@@ -9,5 +9,5 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function MetronomePage() {
   const t = await currentStrings();
-  return <Metronome t={t.metronome} tg={t.game} />;
+  return <Metronome t={t.metronome} ts={t.speed} tg={t.game} />;
 }

@@ -34,9 +34,13 @@ export interface MetronomeSettings {
   subdivision: Subdivision;
   /** Accent the first beat of the bar (and the start of each group). Off: every beat alike. */
   accent: boolean;
+  /** steady: one tempo, `bpm`. speed: the tempo climbs by the speed plan (lib/core/speed.ts). */
+  mode: MetronomeMode;
 }
 
-export const DEFAULT_METRONOME: MetronomeSettings = { bpm: 80, meter: "4/4", subdivision: 1, accent: true };
+export type MetronomeMode = "steady" | "speed";
+
+export const DEFAULT_METRONOME: MetronomeSettings = { bpm: 80, meter: "4/4", subdivision: 1, accent: true, mode: "steady" };
 
 /** accent: first beat of the bar. group: first beat of a later group. beat: any other beat.
  *  sub: a click between beats. */
@@ -130,6 +134,7 @@ export function decodeMetronome(raw: string | null): MetronomeSettings {
       meter: typeof v.meter === "string" && METERS.some((m) => m.id === v.meter) ? v.meter : DEFAULT_METRONOME.meter,
       subdivision: SUBDIVISIONS.includes(v.subdivision as Subdivision) ? (v.subdivision as Subdivision) : DEFAULT_METRONOME.subdivision,
       accent: typeof v.accent === "boolean" ? v.accent : DEFAULT_METRONOME.accent,
+      mode: v.mode === "speed" ? "speed" : "steady",
     };
   } catch {
     return DEFAULT_METRONOME;
@@ -137,5 +142,5 @@ export function decodeMetronome(raw: string | null): MetronomeSettings {
 }
 
 export function encodeMetronome(s: MetronomeSettings): string {
-  return JSON.stringify({ bpm: clampBpm(s.bpm), meter: s.meter, subdivision: s.subdivision, accent: s.accent });
+  return JSON.stringify({ bpm: clampBpm(s.bpm), meter: s.meter, subdivision: s.subdivision, accent: s.accent, mode: s.mode });
 }

@@ -6,6 +6,8 @@ const nextConfig: NextConfig = {
     return [
       { source: "/app", destination: "/learn", permanent: true },
       { source: "/app/:path*", destination: "/learn/:path*", permanent: true },
+      // The speed trainer became the metronome's "Speed up" mode in 0.10.0.
+      { source: "/learn/speed-trainer", destination: "/learn/metronome", permanent: true },
       // diesis.es (and www) is the address to share in Spanish: it links in any chat app,
       // where .app often does not. It lands on the Spanish site; deeper paths keep going.
       ...["diesis.es", "www.diesis.es"].flatMap((host) => [

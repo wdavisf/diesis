@@ -3,6 +3,14 @@
 Written for the people using it, not for the code. Newest first. Version matches
 `package.json`.
 
+## 0.10.0 — 25 September 2026, one metronome, typed tempos
+
+- The speed trainer is now part of the metronome: switch between **Steady tempo** and
+  **Speed up** at the top. Speed up shows the start, the target, the step and the bars, exactly
+  as before. One place for keeping time and building speed.
+- Type the tempo: tap the big number and write it, and the same for the start and the target.
+  Enter or tapping elsewhere applies it. The buttons still work too.
+
 ## 0.9.2 — 25 September 2026, on Instagram
 
 - Diesis is on Instagram as @diesis.app; the link is at the foot of every page.

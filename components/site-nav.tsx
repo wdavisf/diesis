@@ -12,7 +12,7 @@ import type { Strings } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 
 /** The tools, in the order of `nav.tools` in lib/i18n.ts. */
-export const TOOL_HREFS = ["/learn", "/learn/name-the-note", "/learn/find-the-note", "/learn/metronome", "/learn/speed-trainer"] as const;
+export const TOOL_HREFS = ["/learn", "/learn/name-the-note", "/learn/find-the-note", "/learn/metronome"] as const;
 
 /** The same page in the other language: the web has /es twins; the app keeps its path (the
  *  language lives in a cookie there). */

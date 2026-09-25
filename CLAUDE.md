@@ -86,14 +86,20 @@ Todoist project records what is still to do.
   keeps time, and lights the beat on screen by checking the audio clock (a fresh context's
   clock runs slow at first, so a precomputed timer lit beat one early). Settings live in
   localStorage `diesis_metronome` (`lib/game/use-metronome.ts`), which also holds a screen
-  wake lock while it runs. The speed trainer runs on the same engine.
-- **Speed trainer** (built 2026-09-25): open `/learn/speed-trainer`. Start/Stop sits right under the tempo in both tools, above
-  the settings (Will, 2026-09-25: it must be above the fold on a phone). The metronome with a
-  plan: start tempo, target, step (+1/2/5/10 BPM) every 1/2/4/8 bars, then stay at the target
-  or start over (the target gets its own bars, then back to the start). Meter and subdivision
-  are the metronome's own settings (shared `diesis_metronome`); the plan is in `diesis_speed`.
-  Rules in `lib/core/speed.ts` (tests); the engine asks `setPlan`'s function for each bar's
-  tempo as it books the bar's first click, so every bar is played at one tempo.
+  wake lock while it runs. Its Speed up mode (below) runs on the same engine.
+- **Speed trainer = the metronome's "Speed up" mode (Will, 2026-09-25: "combina el metrónomo y
+  el entrenador de velocidad en la misma feature").** One tool at `/learn/metronome` with a
+  mode switch on top, Steady tempo / Speed up (`MetronomeSettings.mode`, stored with the rest in
+  `diesis_metronome`). Speed up shows the plan: start, target, step (+1/2/5/10 BPM) every
+  1/2/4/8 bars, then stay or start over (the target gets its own bars, then back to the
+  start); the plan is in `diesis_speed`. Rules in `lib/core/speed.ts` (tests); the engine asks
+  `setPlan`'s function for each bar's tempo as it books the bar's first click, so every bar is
+  played at one tempo; `useMetronome(plan)` passes the plan only in Speed up. `/learn/speed-
+  trainer` (0.9.x) redirects here. Start/Stop sits right under the tempo, above the settings
+  (Will: above the fold on a phone). **Tempos are typed as well as stepped (Will, 2026-09-25):**
+  the big number and the start and target are `BpmInput`s (digits only, applied on Enter or
+  blur, clamped 20–300, Escape cancels); in Speed up the big number edits the start while
+  stopped and is read-only while running.
 - **Top bar (Will, 2026-09-25: "una barra arriba del todo que se mantiene constante entre la
   web y la app, pero que en la app tiene las diferentes modalidades").** One component,
   `components/site-nav.tsx`, on the landing, privacy and every `/learn` screen (it lives in
@@ -208,13 +214,13 @@ points to it and keeps `/lang/` out. Add new public pages to the sitemap.
 ## Layout of the repo
 
 - `app/` — routes: `page.tsx` and `es/page.tsx` (landing), `privacy/` and `es/privacy/`,
-  `learn/` (mode picker), `learn/name-the-note/`, `learn/find-the-note/`, `learn/metronome/`, `learn/speed-trainer/`, `lang/[code]/` (cookie setter).
+  `learn/` (mode picker), `learn/name-the-note/`, `learn/find-the-note/`, `learn/metronome/`, `lang/[code]/` (cookie setter).
   `layout.tsx` holds fonts and metadata; `globals.css` the theme tokens.
 - `components/` — `landing`, `privacy-page`, `logo`, `screen` (animated hero), `footer`,
   `lang-switch`, `fretboard` (SVG, marks and tap targets), `note-panel`, `game-frame`
   (`GameShell`: sideways treatment, gate, header; `GameFrame`: the board inside it),
   `setup-screen` (before a round), `challenge-card` (result card, header status, `Chip`),
-  `game` (Mode A), `find-game` (Mode B), `metronome`, `speed-trainer`, `site-nav` (the top bar), `how-figures` and `open-app` (landing), `ui/`.
+  `game` (Mode A), `find-game` (Mode B), `metronome` (both modes), `site-nav` (the top bar), `how-figures` and `open-app` (landing), `ui/`.
 - `lib/i18n.ts` — every string, EN and ES. `lib/lang.ts` — reads the language cookie.
 - `lib/core/` — note model (`notes.ts`), question generator (`quiz.ts`), tests. Pure TS.
 - `lib/core/challenge.ts` — challenge rules. `lib/audio/note-player.ts` — Web Audio sampler.

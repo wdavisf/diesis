@@ -87,7 +87,7 @@ describe('metronome', () => {
   });
 
   it('round-trips settings and survives bad storage', () => {
-    const st = s({ bpm: 132, meter: '7/8', subdivision: 3, accent: false });
+    const st = s({ bpm: 132, meter: '7/8', subdivision: 3, accent: false, mode: 'speed' });
     expect(decodeMetronome(encodeMetronome(st))).toEqual(st);
     expect(decodeMetronome('nonsense')).toEqual(DEFAULT_METRONOME);
     expect(decodeMetronome('{"bpm":1000,"meter":"9/8","subdivision":5}')).toEqual({ ...DEFAULT_METRONOME, bpm: BPM_MAX });
