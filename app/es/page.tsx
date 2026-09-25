@@ -11,7 +11,7 @@ export const metadata: Metadata = {
     description: t.meta.description,
     siteName: "Diesis",
     locale: "es_ES",
-    images: [{ url: "/og-es.png?v=2", width: 1200, height: 630 }],
+    images: [{ url: "/og-es.png?v=3", width: 1200, height: 630 }],
   },
   alternates: { canonical: "/es", languages: { en: "/", es: "/es", "x-default": "/" } },
 };

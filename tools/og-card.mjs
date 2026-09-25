@@ -20,8 +20,8 @@ const c = {
 };
 
 const copy = {
-  en: { question: 'Which note is it?', tagline: 'Know every note on the guitar neck.', names: ['C', 'D', 'E', 'F', 'G', 'A', 'B'] },
-  es: { question: '¿Qué nota es?', tagline: 'Aprende todas las notas del mástil.', names: ['Do', 'Re', 'Mi', 'Fa', 'Sol', 'La', 'Si'] },
+  en: { question: 'Which note is it?', tagline: 'Everything you need to master the guitar.', names: ['C', 'D', 'E', 'F', 'G', 'A', 'B'] },
+  es: { question: '¿Qué nota es?', tagline: 'Todo lo que necesitas para dominar la guitarra.', names: ['Do', 'Re', 'Mi', 'Fa', 'Sol', 'La', 'Si'] },
 };
 
 function mark(size, delta) {

@@ -12,7 +12,7 @@ const display = Fraunces({
 });
 
 const description =
-  "A spot lights up on the guitar neck and you hear it. Name it. Diesis teaches the fretboard, then scales, then reading music, as games you play with the guitar on your lap.";
+  "Everything you need to master the guitar, in one place. Learn every note on the neck today; scales, reading music, a metronome and tools for your own guitar come next. Free, in the browser.";
 
 export const metadata: Metadata = {
   title: { default: "Diesis", template: "%s · Diesis" },
@@ -20,10 +20,10 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://diesis.app"),
   icons: { icon: "/favicon.svg", apple: "/icon.png" },
   openGraph: {
-    title: "Diesis — know every note on the guitar neck",
+    title: "Diesis — everything you need to master the guitar",
     description,
     siteName: "Diesis",
-    images: [{ url: "/og.png?v=2", width: 1200, height: 630 }],
+    images: [{ url: "/og.png?v=3", width: 1200, height: 630 }],
   },
   twitter: { card: "summary_large_image" },
 };

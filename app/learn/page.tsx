@@ -5,8 +5,8 @@ import { LangSwitch } from "@/components/lang-switch";
 import { currentStrings } from "@/lib/lang";
 import { cn } from "@/lib/utils";
 
-const hrefs = ["/app/name-the-note", "/app/find-the-note", null, null, null] as const;
-const tags = ["play", "play", "next", "later", "later"] as const;
+const hrefs = ["/learn/name-the-note", "/learn/find-the-note", null, null, null] as const;
+const tags = ["now", "now", "next", "later", "later"] as const;
 
 export default async function AppHome() {
   const t = await currentStrings();
@@ -21,7 +21,7 @@ export default async function AppHome() {
           <Link href={t.base || "/"} className="text-sm text-dim hover:text-ink">
             {h.about}
           </Link>
-          <LangSwitch t={t} next="/app" />
+          <LangSwitch t={t} next="/learn" />
         </div>
       </header>
       <h1 className="mt-10 font-display text-3xl font-semibold tracking-tight sm:text-4xl">{h.h1}</h1>
@@ -29,7 +29,7 @@ export default async function AppHome() {
       <ul className="mt-8 grid gap-4 sm:grid-cols-2">
         {h.modes.map((m, i) => {
           const href = hrefs[i];
-          const tag = tags[i] === "play" ? h.play : tags[i] === "next" ? h.next : h.later;
+          const tag = tags[i] === "now" ? h.start : tags[i] === "next" ? h.next : h.later;
           const enter = "animate-in fade-in slide-in-from-bottom-3 fill-mode-both duration-500 motion-reduce:animate-none";
           const delay = { animationDelay: `${i * 70}ms` };
           return href ? (

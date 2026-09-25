@@ -1,7 +1,7 @@
 # Diesis — project context
 
 Guitar trainer: notes on the neck first, then scales, then reading music (score) for classical
-guitar, all as games. A web app first; a native app only if it earns one. Name from Greek δίεσις,
+guitar, and the tools a guitarist practices with: a learning tool, not a game. A web app first; a native app only if it earns one. Name from Greek δίεσις,
 the semitone, one fret. Domain diesis.app (Namecheap, DNS on Vercel). Repo `wdavisf/diesis` on
 GitHub (public).
 
@@ -16,6 +16,15 @@ Todoist project records what is still to do.
 
 ## Decisions
 
+- **Positioning (Will, 2026-09-25): a learning tool, never "a game".** Promise: everything you
+  need to master the guitar, to become the best guitarist you can be. No "game", "play",
+  "round", «juego», «jugar», «ronda» or «partida» in user-facing copy (playing the guitar is
+  fine); say practice, exercise, session, start. The trainer lives at `/learn` (Will disliked
+  diesis.app/app); code identifiers like `GameShell` stay.
+- **Market (decided 2026-09-25, Claude's call when Will asked):** English is the main market for
+  the future premium plan; Spanish is a full second language at `/es`, and Spain is where the
+  first users and feedback come from. diesis.app stays the main domain; diesis.es, if bought,
+  only redirects to `/es`.
 - **Vision (Will, 2026-09-25): the one guitar app you need.** Diesis grows from a fretboard
   trainer into the standalone software a guitarist keeps open, replacing the separate tools Will
   uses today: fretboard games, every scale, reading music, a metronome and a speed trainer
@@ -27,7 +36,7 @@ Todoist project records what is still to do.
   or is next; add the tools there when they are built.
 
 - **2026-09-23, rebuilt as a web app, Tabula-style (Will).** One Next.js 16 app at the repo root:
-  the landing page at `/`, the trainer under `/app`. The Expo
+  the landing page at `/`, the trainer under `/learn` (was `/app` until 0.7.0; `next.config.ts` redirects). The Expo
   shell, the native audio player and the separate Astro site are gone (git history has them). No
   mobile app for now; "we'll see" later. The pure game logic survived the move unchanged.
 - **Stack**: Next.js 16 (app router, `proxy.ts` not middleware), React 19, Tailwind v4, shadcn
@@ -43,11 +52,11 @@ Todoist project records what is still to do.
   name the degree), Reading music (later, for classical guitar: note on the staff to name or
   neck, neck to staff, short reading passages). Keep the page and the app home in step with what
   exists.
-- **Mode A** as built: open `/app/name-the-note`, board in landscape, one position lit and
+- **Mode A** as built: open `/learn/name-the-note`, board in landscape, one position lit and
   played, twelve buttons, "Wrong" keeps the question, "Correct" shows the name on the board and
   moves on. Frets 0–12, six strings, all twelve notes. Desktop keys: C D E F G A B pick a note,
   Shift for the sharp, Space or Enter replays (or starts).
-- **Mode B, Find the note** (built 2026-09-24): open `/app/find-the-note`. A note name is
+- **Mode B, Find the note** (built 2026-09-24): open `/learn/find-the-note`. A note name is
   shown under the board; the player taps every position of that pitch class in frets 0–12,
   six strings. Every tap plays the note tapped. Partial-answer rules (decided when building,
   Will can overrule): a right tap stays green with the name; a wrong tap flashes red with its
@@ -124,13 +133,13 @@ Todoist project records what is still to do.
   in Will's first person, linking willdafer.es and Instagram `@willdafer.es`. Copy in
   `t.maker`; keep it true to what he actually does.
 - **Motion and navigation (Will, 2026-09-24: "navigation is clunky, add animations").** No
-  React/Next view transitions (not stable here); everything is CSS. `app/app/template.tsx` fades
-  every screen under `/app` in (opacity only: a transform there would become the containing
-  block of the fixed sideways game shell). Mode cards stagger in (`app/app/page.tsx`), the
+  React/Next view transitions (not stable here); everything is CSS. `app/learn/template.tsx` fades
+  every screen under `/learn` in (opacity only: a transform there would become the containing
+  block of the fixed sideways game shell). Mode cards stagger in (`app/learn/page.tsx`), the
   start and result cards zoom in (`challenge-card.tsx`), board marks pop in and ease amber to
   green (`.mark` in `globals.css`), note buttons press (`active:scale-95`), the verdict pops.
   Utilities come from `tw-animate-css`; every animation carries `motion-reduce:animate-none`.
-  The landing's "Open the app" is `components/open-app.tsx`: a prefetched `Link` to `/app`
+  The landing's "Open the app" is `components/open-app.tsx`: a prefetched `Link` to `/learn`
   that writes the `diesis_lang` cookie on click, instead of the `/lang` redirect hop. The
   language switch itself still goes through `/lang` (a real navigation, on purpose).
 - **Logo (Will, 2026-09-23)**: a real lowercase delta, δ, set on five staff lines like a note
@@ -164,7 +173,7 @@ points to it and keeps `/lang/` out. Add new public pages to the sitemap.
 ## Layout of the repo
 
 - `app/` — routes: `page.tsx` and `es/page.tsx` (landing), `privacy/` and `es/privacy/`,
-  `app/` (mode picker), `app/name-the-note/`, `app/find-the-note/`, `lang/[code]/` (cookie setter).
+  `learn/` (mode picker), `learn/name-the-note/`, `learn/find-the-note/`, `lang/[code]/` (cookie setter).
   `layout.tsx` holds fonts and metadata; `globals.css` the theme tokens.
 - `components/` — `landing`, `privacy-page`, `logo`, `screen` (animated hero), `footer`,
   `lang-switch`, `fretboard` (SVG, marks and tap targets), `note-panel`, `game-frame`

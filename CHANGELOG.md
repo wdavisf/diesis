@@ -3,6 +3,13 @@
 Written for the people using it, not for the code. Newest first. Version matches
 `package.json`.
 
+## 0.7.0 — 25 September 2026, a tool for mastering the guitar
+
+- Diesis now says what it is: everything you need to master the guitar, in one place. It
+  starts with the neck; scales, reading music, a metronome, a speed trainer and tools for
+  your own guitar (strings, tuning, setup) are on the way, and the home page shows them.
+- The trainer moved to diesis.app/learn. Old links still work.
+
 ## 0.6.8 — 25 September 2026, easier to find
 
 - Search engines get a map of the site, English and Spanish pages paired, so the Spanish

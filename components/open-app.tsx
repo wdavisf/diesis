@@ -13,7 +13,7 @@ import { LANG_COOKIE, type Lang } from "@/lib/i18n";
 export function OpenApp({ lang, onClick, ...props }: Omit<ComponentProps<typeof Link>, "href"> & { lang: Lang }) {
   return (
     <Link
-      href="/app"
+      href="/learn"
       onClick={(e) => {
         document.cookie = `${LANG_COOKIE}=${lang}; path=/; max-age=${60 * 60 * 24 * 365}; samesite=lax`;
         onClick?.(e);

@@ -39,7 +39,7 @@ export function Consent() {
   const t = strings[lang].consent;
   const privacyHref = `${strings[lang].base}/privacy`;
   // Game screens keep the note buttons along the bottom edge, so the banner goes to the top there.
-  const inGame = pathname.startsWith("/app/");
+  const inGame = pathname.startsWith("/learn/");
 
   return (
     <>

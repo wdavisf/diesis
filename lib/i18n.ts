@@ -33,7 +33,7 @@ export interface Strings {
   closing: { h2: string; lede: string };
   screen: { score: string; feedback: string; hearAgain: string; aria: string };
   footer: { tagline: string; made: string };
-  home: { title: string; h1: string; lede: string; about: string; play: string; next: string; later: string; modes: { title: string; body: string }[] };
+  home: { title: string; h1: string; lede: string; about: string; start: string; next: string; later: string; modes: { title: string; body: string }[] };
   game: {
     title: string;
     back: string;
@@ -105,17 +105,17 @@ const en: Strings = {
   otherLabel: "ES",
   otherName: "Español",
   meta: {
-    title: "Diesis — know every note on the guitar neck",
+    title: "Diesis — everything you need to master the guitar",
     description:
-      "A spot lights up on the guitar neck and you hear it. Name it. Diesis teaches the fretboard, then scales, then reading music, as games you play with the guitar on your lap.",
+      "Everything you need to master the guitar, in one place. Learn every note on the neck today; scales, reading music, a metronome and tools for your own guitar come next. Free, in the browser.",
     privacyTitle: "Privacy",
-    privacyDescription: "What Diesis does with your data: no account, no ads, nothing from the game leaves your browser. Visit counting with Google Analytics only if you allow it.",
+    privacyDescription: "What Diesis does with your data: no account, no ads, nothing you do in Diesis leaves your browser. Visit counting with Google Analytics only if you allow it.",
   },
   nav: { how: "How it works", learn: "What you learn", faq: "FAQ", cta: "Open the app", privacy: "Privacy", about: "About Diesis" },
   hero: {
-    eyebrow: "Guitar fretboard trainer",
-    h1: "Know every note on the neck.",
-    lede: "A spot lights up on the fretboard and you hear it. Name it. Or turn it around: get a name and find every place it lives. A few minutes a day with the guitar on your lap, and the neck stops being a mystery.",
+    eyebrow: "The guitar learning tool",
+    h1: "Everything you need to master the guitar.",
+    lede: "One place to learn the guitar properly and become the best guitarist you can be. It starts with the neck: a note lights up and sounds, and you name it, or find every place it lives. Scales, reading music, a metronome and tools for your own guitar come next.",
     cta: "Open the app",
     secondary: "How it works",
     trust: ["Free in preview", "No account", "Phone or laptop, in the browser"],
@@ -123,7 +123,7 @@ const en: Strings = {
   how: {
     eyebrow: "How it works",
     h2: "See the note. Name it. Know at once.",
-    lede: "One thing at a time, the way a teacher would do it across the table. Nothing to set up. Play for as long as you like, against the clock, or without a single mistake.",
+    lede: "One thing at a time, the way a teacher would do it across the table. Nothing to set up. Practice for as long as you like, against the clock, or without a single mistake.",
     steps: [
       { title: "A position lights up", body: "One spot on the neck turns amber and the note plays. Frets 0 to 12, all six strings, every one of the twelve notes." },
       { title: "Name it", body: "Twelve buttons along the bottom, C to B, sharps written as ♯. On a laptop, just press the letter." },
@@ -132,9 +132,9 @@ const en: Strings = {
   },
   learn: {
     eyebrow: "What you learn",
-    h2: "Notes first. Then scales. Then the page.",
-    lede: "Diesis grows in the order a player learns: first where the notes are, then the shapes built from them, then reading them off a score, for anyone heading toward classical guitar.",
-    when: { now: "Playable now", next: "Coming next", later: "Later" },
+    h2: "From the first note to mastering the neck.",
+    lede: "Diesis grows in the order a guitarist learns: where the notes are, the scales built from them, reading them off a score, and the tools you practice with every day.",
+    when: { now: "Available now", next: "Coming next", later: "Later" },
     tracks: [
       {
         title: "Notes",
@@ -152,7 +152,7 @@ const en: Strings = {
         lede: "Any scale on the whole neck, then the shapes inside it.",
         items: [
           { title: "Explore a scale", body: "Pick a root and a scale and see every position lit, the root in its own color. The study screen, not a quiz.", when: "later" },
-          { title: "Build the scale", body: "Given a root and a scale name, tap every note of it within the range. Same game as Find the note, bigger target.", when: "later" },
+          { title: "Build the scale", body: "Given a root and a scale name, tap every note of it within the range. Same exercise as Find the note, bigger target.", when: "later" },
           { title: "Name the scale, name the degree", body: "A shape lights and you say which scale or mode it is. A note lights inside a scale and you say which degree. Major and its modes, pentatonics, blues, the minors.", when: "later" },
         ],
       },
@@ -163,6 +163,15 @@ const en: Strings = {
           { title: "Read the note", body: "A note appears on the treble staff. Name it, or find it on the neck. Guitar clef, guitar range, ledger lines included.", when: "later" },
           { title: "Read the position", body: "A spot lights on the neck and you place it on the staff. The other direction, so both stick.", when: "later" },
           { title: "Rhythm and reading practice", body: "Short passages to read at a click, the way a teacher would hand you a line. Later, once the notes are solid.", when: "later" },
+        ],
+      },
+      {
+        title: "Tools",
+        lede: "What you keep open while you practice, set up for your own guitar.",
+        items: [
+          { title: "Metronome and speed trainer", body: "A metronome with accents and subdivisions, and one that raises the tempo on its own, step by step, up to your target.", when: "later" },
+          { title: "Your guitar", body: "Six, seven or eight strings, your tuning and your scale length. All of Diesis adapts to it.", when: "later" },
+          { title: "Strings and setup", body: "Work out each string’s tension, pick the gauges that suit your guitar, and set action and intonation after a string change.", when: "later" },
         ],
       },
     ],
@@ -178,19 +187,19 @@ const en: Strings = {
     eyebrow: "Pricing",
     h2: "Free while it is in preview.",
     price: "Free",
-    sub: "The browser version costs nothing and asks for nothing. Open it and play.",
+    sub: "The browser version costs nothing and asks for nothing. Open it and start.",
     list: ["Every mode that exists", "No account, no sign-up", "Phone or laptop", "No ads"],
     contactTitle: "Say what you play",
     contact: "Diesis is being built in the open with a handful of players. Write to",
-    contactAfter: "and say what you play, or what you would like to see next. Extra fretboards and sounds may become small one-off purchases later; the game itself stays free.",
+    contactAfter: "and say what you play, or what you would like to see next. Extra fretboards and sounds may become small one-off purchases later; Diesis itself stays free.",
   },
   faq: {
     eyebrow: "FAQ",
     h2: "Questions",
     items: [
-      { q: "Do I need an account?", a: "No. Open the app and play. Scores live in your browser and nowhere else." },
+      { q: "Do I need an account?", a: "No. Open the app and start. Scores live in your browser and nowhere else." },
       { q: "Is there sound?", a: "Yes. Tap once to start (browsers require it) and each position plays as it lights. “Hear again” repeats it. The sound is a synthesised nylon pluck for now; recordings of a real guitar will replace it." },
-      { q: "Sharps or flats?", a: "Sharps, written as ♯. F♯ and G♭ are the same place on the neck, and the game never asks which spelling you prefer. A flats setting is planned." },
+      { q: "Sharps or flats?", a: "Sharps, written as ♯. F♯ and G♭ are the same place on the neck, and Diesis never asks which spelling you prefer. A flats setting is planned." },
       { q: "Which frets?", a: "Frets 0 to 12 on all six strings, standard tuning. A range picker (say, frets 5 to 9 only) is one of the next things to arrive." },
       { q: "Phone or laptop?", a: "Either, in a browser. The neck is long and thin, so on a phone Diesis asks you to turn it sideways. On a laptop it fills the window and the letter keys pick the note." },
       { q: "Left-handed?", a: "Not yet. The board is drawn the way chord books draw it, nut on the left, high E on top. A mirrored board is on the list." },
@@ -202,20 +211,20 @@ const en: Strings = {
     h2: "Built by one guitarist in Cáceres.",
     p: [
       "I’m Will. As WILLDAFER I write, record and produce punk and modern metal from home, mostly on seven-string guitars in low tunings.",
-      "Diesis is the trainer I wanted for myself: short games that teach the neck one fret at a time. It is a side project, and it grows a little every week, in the open.",
+      "Diesis is the tool I wanted for myself: one place with everything I need to keep getting better on the guitar. It starts with the neck, one fret at a time, and grows every week, in the open.",
     ],
     site: "My music at willdafer.es",
     instagram: "@willdafer.es on Instagram",
   },
-  closing: { h2: "Guitar on your lap?", lede: "Play a round. It takes a minute." },
-  screen: { score: "7 right · 1 wrong", feedback: "Correct", hearAgain: "Hear again", aria: "Game screen: one lit position on the fretboard and twelve note-name buttons" },
-  footer: { tagline: "Guitar notes, scales and reading, as games.", made: "Made in Cáceres, Spain. “Diesis” is Greek for the semitone: one fret." },
+  closing: { h2: "Guitar on your lap?", lede: "Start with the neck. A few minutes a day is enough." },
+  screen: { score: "7 right · 1 wrong", feedback: "Correct", hearAgain: "Hear again", aria: "Practice screen: one lit position on the fretboard and twelve note-name buttons" },
+  footer: { tagline: "Everything you need to master the guitar.", made: "Made in Cáceres, Spain. “Diesis” is Greek for the semitone: one fret." },
   home: {
-    title: "Play",
-    h1: "Pick a mode",
+    title: "Learn",
+    h1: "What do you want to work on?",
     lede: "Guitar on your lap, screen sideways if it is a phone.",
     about: "About Diesis",
-    play: "Play",
+    start: "Start",
     next: "Coming next",
     later: "Later",
     modes: [
@@ -238,7 +247,7 @@ const en: Strings = {
     hearAgain: "Hear again",
     keys: "Keys: C D E F G A B pick a note, Shift for ♯, Space to hear again.",
     rotate: "Make the window wider",
-    rotateSub: "Diesis plays in landscape, like a guitar neck.",
+    rotateSub: "Diesis works in landscape, like a guitar neck.",
     board: "Guitar fretboard",
     notes: "Note names",
     noteNames: ["C", "C♯", "D", "D♯", "E", "F", "F♯", "G", "G♯", "A", "A♯", "B"],
@@ -253,7 +262,7 @@ const en: Strings = {
     keys: "Click every place on the neck that sounds the note. Each spot plays as you click it.",
   },
   challenge: {
-    heading: "How do you want to play?",
+    heading: "How do you want to practice?",
     practice: "Practice",
     practiceSub: "No clock, no end. Stop when you like.",
     timed: "Against the clock",
@@ -267,7 +276,7 @@ const en: Strings = {
     result: "{n} right",
     best: "Your best: {n}",
     newBest: "New personal best",
-    again: "Play again",
+    again: "Again",
     change: "Change",
     streakNow: "{n} in a row",
     rightNow: "{r} right",
@@ -284,10 +293,10 @@ const en: Strings = {
   privacy: {
     eyebrow: "Privacy",
     h1: "Privacy policy",
-    updated: "Last updated 24 September 2026",
-    summary: "Diesis has no account and no advertising. Nothing you do in the game leaves your browser. The only thing we measure is visits to the site, with Google Analytics, and only if you allow it.",
+    updated: "Last updated 25 September 2026",
+    summary: "Diesis has no account and no advertising. Nothing you do in Diesis leaves your browser. The only thing we measure is visits to the site, with Google Analytics, and only if you allow it.",
     sections: [
-      { h: "The game", p: ["Diesis runs entirely in your browser. It does not ask who you are, does not create an account, and does not send anything you do in the game to us or to anyone else.", "Your score for a round is held in memory and disappears when you close the tab. Your personal best for each challenge, the challenge you last picked and the start-card settings (note names, naturals only) are kept in your browser's local storage, on your device only. They are never sent anywhere; clearing the site's data removes them."] },
+      { h: "The app", p: ["Diesis runs entirely in your browser. It does not ask who you are, does not create an account, and does not send anything you do in it to us or to anyone else.", "Your score for a session is held in memory and disappears when you close the tab. Your personal best for each challenge, the challenge you last picked and the start-card settings (note names, naturals only) are kept in your browser's local storage, on your device only. They are never sent anywhere; clearing the site's data removes them."] },
       { h: "Cookies", p: ["Diesis sets two cookies. One remembers the language you picked; the other remembers your answer to the analytics banner. Neither holds anything about you."] },
       { h: "This website", p: ["diesis.app is hosted by Vercel, which keeps standard server logs (IP address, browser, pages requested) for a short time to run the service and keep it safe.", "If you allow it in the banner, the site loads Google Analytics 4 to count visits and see which pages are read. Google sets its own cookies for that and processes the data under its own privacy policy. If you decline, nothing from Google is loaded, and you can change your mind by clearing the site's cookies."] },
       { h: "Children", p: ["Diesis collects no personal data from anyone, of any age."] },
@@ -305,17 +314,17 @@ const es: Strings = {
   otherLabel: "EN",
   otherName: "English",
   meta: {
-    title: "Diesis — aprende todas las notas del mástil de la guitarra",
+    title: "Diesis — todo lo que necesitas para dominar la guitarra",
     description:
-      "Se ilumina un punto en el mástil y suena la nota. Tú dices cuál es. Diesis enseña el mástil de la guitarra, después las escalas y después a leer partituras, en forma de juego y con la guitarra encima.",
+      "Todo lo que necesitas para dominar la guitarra, en un solo sitio. Hoy, todas las notas del mástil; después, escalas, lectura de partituras, metrónomo y herramientas para tu propia guitarra. Gratis y en el navegador.",
     privacyTitle: "Privacidad",
-    privacyDescription: "Qué hace Diesis con tus datos: sin cuenta, sin anuncios y sin que nada del juego salga de tu navegador. Contamos visitas con Google Analytics solo si tú lo permites.",
+    privacyDescription: "Qué hace Diesis con tus datos: sin cuenta, sin anuncios y sin que nada de lo que haces en Diesis salga de tu navegador. Contamos visitas con Google Analytics solo si tú lo permites.",
   },
   nav: { how: "Cómo funciona", learn: "Qué aprendes", faq: "Preguntas", cta: "Abrir la app", privacy: "Privacidad", about: "Sobre Diesis" },
   hero: {
-    eyebrow: "El mástil de la guitarra, como un juego",
-    h1: "Aprende todas las notas del mástil.",
-    lede: "Se ilumina un punto en el mástil y suena la nota. Tú dices cuál es. O al revés: te dan el nombre y la buscas por todo el mástil. Unos minutos al día con la guitarra encima y el mástil deja de ser un misterio.",
+    eyebrow: "La herramienta para aprender guitarra",
+    h1: "Todo lo que necesitas para dominar la guitarra.",
+    lede: "Un solo sitio para aprender guitarra en serio y llegar a ser el mejor guitarrista que puedas ser. Empieza por el mástil: se enciende una nota y suena, y tú dices cuál es o la buscas en todos los sitios donde está. Después llegan las escalas, la lectura, el metrónomo y herramientas para tu propia guitarra.",
     cta: "Abrir la app",
     secondary: "Cómo funciona",
     trust: ["Gratis durante la beta", "Sin registro", "En el navegador, móvil u ordenador"],
@@ -323,7 +332,7 @@ const es: Strings = {
   how: {
     eyebrow: "Cómo funciona",
     h2: "Ves la nota. Dices cuál es. Sabes al instante si has acertado.",
-    lede: "De una en una, como haría un profesor sentado enfrente. No hay nada que configurar. Juega sin límite, contrarreloj o sin permitirte ni un fallo.",
+    lede: "De una en una, como haría un profesor sentado enfrente. No hay nada que configurar. Practica sin límite, contrarreloj o sin permitirte ni un fallo.",
     steps: [
       { title: "Se ilumina una posición", body: "Un punto del mástil se enciende en ámbar y suena la nota. Del traste 0 al 12, las seis cuerdas, las doce notas." },
       { title: "Di cuál es", body: "Doce botones en la parte de abajo, de Do a Si, con los sostenidos escritos como ♯. En el ordenador basta con pulsar la tecla de la nota." },
@@ -332,8 +341,8 @@ const es: Strings = {
   },
   learn: {
     eyebrow: "Qué aprendes",
-    h2: "Primero las notas. Luego las escalas. Luego la partitura.",
-    lede: "Diesis sigue el orden en que se aprende de verdad: primero dónde está cada nota, después las formas que se construyen con ellas y, por último, leerlas en una partitura, para quien quiera llegar a la guitarra clásica.",
+    h2: "De la primera nota a dominar el mástil.",
+    lede: "Diesis crece en el orden en que se aprende de verdad: dónde está cada nota, las escalas que se construyen con ellas, leerlas en una partitura y las herramientas con las que practicas cada día.",
     when: { now: "Ya disponible", next: "Próximamente", later: "Más adelante" },
     tracks: [
       {
@@ -343,15 +352,15 @@ const es: Strings = {
           { title: "Nombra la nota", body: "Se ilumina una posición y tú dices qué nota es.", when: "now" },
           { title: "Encuentra la nota", body: "Te dan una nota y tienes que tocarla en todos los sitios del mástil donde esté, dentro del rango de trastes que hayas elegido.", when: "now" },
           { title: "Escucha la nota", body: "Suena una nota sin que se ilumine nada. Tócala en algún sitio del mástil donde pueda estar.", when: "next" },
-          { title: "Retos", body: "Juego libre sin final, contrarreloj de uno, dos o cinco minutos, o a ver cuántas encadenas sin fallar ni una. Tu mejor marca se queda guardada.", when: "now" },
-          { title: "Ajustes", body: "Antes de cada ronda: solo naturales o las doce notas, y los nombres como Do Re Mi o C D E. El rango de trastes y jugar cuerda a cuerda llegarán después.", when: "now" },
+          { title: "Retos", body: "Práctica libre sin final, contrarreloj de uno, dos o cinco minutos, o a ver cuántas encadenas sin fallar ni una. Tu mejor marca se queda guardada.", when: "now" },
+          { title: "Ajustes", body: "Antes de empezar: solo naturales o las doce notas, y los nombres como Do Re Mi o C D E. El rango de trastes y practicar cuerda a cuerda llegarán después.", when: "now" },
         ],
       },
       {
         title: "Escalas",
         lede: "Cualquier escala a lo largo de todo el mástil, y después las posiciones.",
         items: [
-          { title: "Explora una escala", body: "Elige tónica y escala y verás todas sus notas iluminadas, con la tónica en otro color. Para estudiar, no para jugar.", when: "later" },
+          { title: "Explora una escala", body: "Elige tónica y escala y verás todas sus notas iluminadas, con la tónica en otro color. Para estudiar, sin preguntas.", when: "later" },
           { title: "Construye la escala", body: "Te dan una tónica y una escala; toca todas sus notas dentro del rango. Como Encuentra la nota, pero con más notas que buscar.", when: "later" },
           { title: "Nombra la escala, nombra el grado", body: "Se ilumina una forma y dices qué escala o modo es. O se ilumina una nota dentro de una escala y dices qué grado es. Mayor y sus modos, pentatónicas, blues y las menores.", when: "later" },
         ],
@@ -363,6 +372,15 @@ const es: Strings = {
           { title: "Lee la nota", body: "Aparece una nota en el pentagrama. Di cuál es o tócala en el mástil. Clave de sol, el registro de la guitarra y líneas adicionales incluidas.", when: "later" },
           { title: "Lee la posición", body: "Se ilumina un punto del mástil y tú lo colocas en el pentagrama. El camino inverso, para que se fijen los dos.", when: "later" },
           { title: "Ritmo y lectura", body: "Pasajes cortos para leer a primera vista, como cuando un profesor te pone una línea delante. Más adelante, cuando las notas estén bien asentadas.", when: "later" },
+        ],
+      },
+      {
+        title: "Herramientas",
+        lede: "Lo que tienes abierto mientras practicas, pensado para tu guitarra.",
+        items: [
+          { title: "Metrónomo y entrenador de velocidad", body: "Un metrónomo con acentos y subdivisiones, y otro que sube el tempo solo, poco a poco, hasta tu objetivo.", when: "later" },
+          { title: "Tu guitarra", body: "Seis, siete u ocho cuerdas, tu afinación y la escala de tu mástil. Todo Diesis se adapta a ella.", when: "later" },
+          { title: "Cuerdas y ajuste", body: "Calcula la tensión de cada cuerda, elige los calibres que le van a tu guitarra y ajusta la altura y la octavación cuando cambies las cuerdas.", when: "later" },
         ],
       },
     ],
@@ -378,19 +396,19 @@ const es: Strings = {
     eyebrow: "Precio",
     h2: "Gratis mientras dure la beta.",
     price: "Gratis",
-    sub: "La versión web no cuesta nada y no pide nada. Entras y juegas.",
+    sub: "La versión web no cuesta nada y no pide nada. Entras y empiezas.",
     list: ["Todos los modos disponibles", "Sin cuenta ni registro", "Móvil u ordenador", "Sin anuncios"],
     contactTitle: "Cuéntanos qué tocas",
     contact: "Diesis se está construyendo con un grupo pequeño de guitarristas. Escribe a",
-    contactAfter: "y cuéntanos qué tocas o qué te gustaría que llegara antes. Más adelante puede que los mástiles y sonidos extra sean pequeñas compras únicas; el juego seguirá siendo gratis.",
+    contactAfter: "y cuéntanos qué tocas o qué te gustaría que llegara antes. Más adelante puede que los mástiles y sonidos extra sean pequeñas compras únicas; Diesis seguirá siendo gratis.",
   },
   faq: {
     eyebrow: "Preguntas",
     h2: "Preguntas frecuentes",
     items: [
-      { q: "¿Hace falta registrarse?", a: "No. Entras y juegas. Las puntuaciones se quedan en tu navegador y no salen de ahí." },
+      { q: "¿Hace falta registrarse?", a: "No. Entras y empiezas. Las puntuaciones se quedan en tu navegador y no salen de ahí." },
       { q: "¿Tiene sonido?", a: "Sí. Toca una vez para empezar (el navegador lo exige) y cada posición suena al iluminarse. «Oír otra vez» la repite. De momento el sonido es una cuerda de nailon sintetizada; más adelante lo sustituirán grabaciones de una guitarra de verdad." },
-      { q: "¿Sostenidos o bemoles?", a: "Sostenidos, escritos con ♯. Fa♯ y Sol♭ están en el mismo sitio del mástil, y el juego nunca te pregunta cómo prefieres escribirlo. Un ajuste para bemoles está previsto." },
+      { q: "¿Sostenidos o bemoles?", a: "Sostenidos, escritos con ♯. Fa♯ y Sol♭ están en el mismo sitio del mástil, y Diesis nunca te pregunta cómo prefieres escribirlo. Un ajuste para bemoles está previsto." },
       { q: "¿Qué trastes entran?", a: "Del 0 al 12 en las seis cuerdas, con afinación estándar. Poder elegir un rango (por ejemplo, solo del 5 al 9) es de lo próximo que llegará." },
       { q: "¿Móvil u ordenador?", a: "Los dos, desde el navegador. El mástil es largo y estrecho, así que en el móvil Diesis te pide que lo pongas en horizontal. En el ordenador ocupa toda la ventana y puedes responder con el teclado." },
       { q: "¿Y si soy zurdo?", a: "Todavía no hay opción. El mástil se dibuja como en los libros de acordes: cejuela a la izquierda y la cuerda aguda arriba. Un mástil en espejo está en la lista." },
@@ -402,20 +420,20 @@ const es: Strings = {
     h2: "Lo hace un guitarrista desde Cáceres.",
     p: [
       "Soy Will. Como WILLDAFER escribo, grabo y produzco punk y metal moderno desde casa, casi siempre con guitarras de siete cuerdas y afinaciones graves.",
-      "Diesis es el entrenador que me hacía falta a mí: partidas cortas para aprenderse el mástil traste a traste. Es un proyecto personal y va creciendo semana a semana, a la vista de todos.",
+      "Diesis es la herramienta que me hacía falta a mí: un solo sitio con todo lo que necesito para seguir mejorando con la guitarra. Empieza por el mástil, traste a traste, y crece cada semana, a la vista de todos.",
     ],
     site: "Mi música en willdafer.es",
     instagram: "@willdafer.es en Instagram",
   },
-  closing: { h2: "¿Tienes la guitarra a mano?", lede: "Échate una ronda. Un minuto y listo." },
-  screen: { score: "7 aciertos · 1 fallo", feedback: "¡Correcto!", hearAgain: "Oír otra vez", aria: "Pantalla del juego: una posición iluminada en el mástil y doce botones con los nombres de las notas" },
-  footer: { tagline: "Notas, escalas y lectura para guitarra, en forma de juego.", made: "Hecho en Cáceres. «Diesis» es semitono en griego: un traste." },
+  closing: { h2: "¿Tienes la guitarra a mano?", lede: "Empieza por el mástil. Con unos minutos al día basta." },
+  screen: { score: "7 aciertos · 1 fallo", feedback: "¡Correcto!", hearAgain: "Oír otra vez", aria: "Pantalla de práctica: una posición iluminada en el mástil y doce botones con los nombres de las notas" },
+  footer: { tagline: "Todo lo que necesitas para dominar la guitarra.", made: "Hecho en Cáceres. «Diesis» es semitono en griego: un traste." },
   home: {
-    title: "Jugar",
-    h1: "Elige un modo",
+    title: "Aprender",
+    h1: "¿Qué quieres trabajar hoy?",
     lede: "Con la guitarra encima y, si es un móvil, en horizontal.",
     about: "Sobre Diesis",
-    play: "Jugar",
+    start: "Empezar",
     next: "Próximamente",
     later: "Más adelante",
     modes: [
@@ -438,7 +456,7 @@ const es: Strings = {
     hearAgain: "Oír otra vez",
     keys: "Teclado: C D E F G A B para Do Re Mi Fa Sol La Si, Mayús para el sostenido, espacio para repetir la nota.",
     rotate: "Ensancha la ventana",
-    rotateSub: "Diesis se juega apaisado, como el mástil de una guitarra.",
+    rotateSub: "Diesis se usa en horizontal, como el mástil de una guitarra.",
     board: "Mástil de guitarra",
     notes: "Nombres de las notas",
     noteNames: ["Do", "Do♯", "Re", "Re♯", "Mi", "Fa", "Fa♯", "Sol", "Sol♯", "La", "La♯", "Si"],
@@ -453,7 +471,7 @@ const es: Strings = {
     keys: "Haz clic en cada sitio del mástil donde suene esa nota. Cada punto suena al tocarlo.",
   },
   challenge: {
-    heading: "¿Cómo quieres jugar?",
+    heading: "¿Cómo quieres practicar?",
     practice: "Libre",
     practiceSub: "Sin reloj y sin final. Paras cuando quieras.",
     timed: "Contrarreloj",
@@ -484,10 +502,10 @@ const es: Strings = {
   privacy: {
     eyebrow: "Privacidad",
     h1: "Política de privacidad",
-    updated: "Última actualización: 24 de septiembre de 2026",
-    summary: "Diesis no tiene cuentas ni publicidad. Nada de lo que haces en el juego sale de tu navegador. Lo único que medimos son las visitas a la web, con Google Analytics, y solo si tú lo permites.",
+    updated: "Última actualización: 25 de septiembre de 2026",
+    summary: "Diesis no tiene cuentas ni publicidad. Nada de lo que haces en Diesis sale de tu navegador. Lo único que medimos son las visitas a la web, con Google Analytics, y solo si tú lo permites.",
     sections: [
-      { h: "El juego", p: ["Diesis funciona por completo en tu navegador. No te pregunta quién eres, no crea ninguna cuenta y no envía nada de lo que haces a nadie, ni a nosotros ni a terceros.", "La puntuación de cada ronda se guarda en memoria y desaparece al cerrar la pestaña. Tu mejor marca en cada reto, el último reto que elegiste y los ajustes de la tarjeta de inicio (nombres de las notas, solo naturales) se guardan en el almacenamiento local de tu navegador, solo en tu dispositivo. No se envían a ningún sitio; si borras los datos de la web, desaparecen."] },
+      { h: "La app", p: ["Diesis funciona por completo en tu navegador. No te pregunta quién eres, no crea ninguna cuenta y no envía nada de lo que haces a nadie, ni a nosotros ni a terceros.", "La puntuación de cada sesión se guarda en memoria y desaparece al cerrar la pestaña. Tu mejor marca en cada reto, el último reto que elegiste y los ajustes de la tarjeta de inicio (nombres de las notas, solo naturales) se guardan en el almacenamiento local de tu navegador, solo en tu dispositivo. No se envían a ningún sitio; si borras los datos de la web, desaparecen."] },
       { h: "Cookies", p: ["Diesis guarda dos cookies: una recuerda el idioma que has elegido y la otra, lo que respondiste al aviso de analítica. Ninguna contiene datos sobre ti."] },
       { h: "Esta web", p: ["diesis.app está alojada en Vercel, que conserva durante poco tiempo los registros habituales de cualquier servidor (dirección IP, navegador, páginas solicitadas) para que el servicio funcione y esté protegido.", "Si lo permites en el aviso, la web carga Google Analytics 4 para contar visitas y ver qué páginas se leen. Google instala sus propias cookies para ello y trata los datos según su política de privacidad. Si dices que no, no se carga nada de Google; puedes cambiar de opinión borrando las cookies de la web."] },
       { h: "Menores", p: ["Diesis no recoge datos personales de nadie, tenga la edad que tenga."] },
