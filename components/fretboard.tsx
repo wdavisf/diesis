@@ -31,11 +31,13 @@ export interface FretboardProps {
 const board = {
   wood: "#5a3a2b",
   woodEdge: "#3d271c",
-  fret: "#c9c6bd",
-  fretShadow: "#7d7a72",
+  fret: "#8f8a80",
+  fretShadow: "#3d2f26",
   nut: "#e9e2cf",
-  string: "#d8d4c8",
-  stringShadow: "#6b6558",
+  string: "#f4f1e8",
+  stringWound: "#d6b98a",
+  stringWinding: "#8a7250",
+  stringShadow: "#1f150f",
   inlay: "#e8e2d3",
   fretNumber: "#a39c8e",
   highlight: "#e0a63a",
@@ -144,7 +146,7 @@ export function Fretboard({ width, height, minFret, maxFret, marks, onPick, labe
         return (
           <g key={`fret-${n}`}>
             <line x1={x + 1} y1={layout.boardTop} x2={x + 1} y2={layout.boardBottom} stroke={board.fretShadow} strokeWidth={2} />
-            <line x1={x} y1={layout.boardTop} x2={x} y2={layout.boardBottom} stroke={board.fret} strokeWidth={2.5} />
+            <line x1={x} y1={layout.boardTop} x2={x} y2={layout.boardBottom} stroke={board.fret} strokeWidth={2} />
           </g>
         );
       })}
@@ -152,10 +154,16 @@ export function Fretboard({ width, height, minFret, maxFret, marks, onPick, labe
       {Array.from({ length: strings }, (_, i) => i + 1).map((s) => {
         const y = layout.stringY(s);
         const gauge = board.stringGauges[s - 1];
+        // Strings 4 and lower are wound: warmer, with a fine winding texture, so they never read
+        // as frets. Plain strings are nearly white. Each casts a shadow onto the wood.
+        const wound = s >= 4;
         return (
           <g key={`string-${s}`}>
-            <line x1={0} y1={y + gauge * 0.6} x2={width} y2={y + gauge * 0.6} stroke={board.stringShadow} strokeWidth={gauge} />
-            <line x1={0} y1={y} x2={width} y2={y} stroke={board.string} strokeWidth={gauge} />
+            <line x1={0} y1={y + gauge * 0.8} x2={width} y2={y + gauge * 0.8} stroke={board.stringShadow} strokeWidth={gauge} opacity={0.55} />
+            <line x1={0} y1={y} x2={width} y2={y} stroke={wound ? board.stringWound : board.string} strokeWidth={gauge} />
+            {wound ? (
+              <line x1={0} y1={y} x2={width} y2={y} stroke={board.stringWinding} strokeWidth={gauge * 0.9} strokeDasharray="0.9 1.6" />
+            ) : null}
           </g>
         );
       })}

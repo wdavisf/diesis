@@ -28,6 +28,7 @@ import { useSettings } from "@/lib/game/use-settings";
 import { useStrings } from "@/lib/game/use-strings";
 import type { Strings } from "@/lib/i18n";
 import { Chip } from "@/components/challenge-card";
+import { GuitarArt } from "@/components/guitar-art";
 import { cn } from "@/lib/utils";
 
 const field =
@@ -115,25 +116,32 @@ export function StringsSetup({ t, tp, lang, base }: { t: Strings["setup"]; tp: S
       </div>
 
       <Section title={t.guitar} lede={t.guitarLede}>
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-          <label className="flex flex-col gap-1.5 text-sm font-medium text-dim">
-            {t.type}
-            <select
-              className={field}
-              value={type.id}
-              onChange={(e) => {
-                const next = guitarType(e.target.value);
-                set({ type: next.id, scale: next.scale });
-                if (next.strings !== count) guitar.setTuning(tuningsFor(next.strings)[0].id);
-              }}
-            >
-              {GUITAR_TYPES.map((g) => (
-                <option key={g.id} value={g.id}>
-                  {t.types[g.id]}
-                </option>
-              ))}
-            </select>
-          </label>
+        <p className="text-sm font-medium text-dim">{t.type}</p>
+        <div role="radiogroup" aria-label={t.type} className="mt-1.5 grid grid-cols-2 gap-2 sm:grid-cols-3">
+          {GUITAR_TYPES.map((g) => {
+            const on = g.id === type.id;
+            return (
+              <button
+                key={g.id}
+                type="button"
+                role="radio"
+                aria-checked={on}
+                onClick={() => {
+                  set({ type: g.id, scale: g.scale });
+                  if (g.strings !== count) guitar.setTuning(tuningsFor(g.strings)[0].id);
+                }}
+                className={cn(
+                  "flex min-w-0 flex-col items-stretch rounded-xl border p-2 text-left outline-none transition-colors focus-visible:ring-3 focus-visible:ring-ring/50",
+                  on ? "border-amber bg-amber/10" : "border-line hover:bg-surface",
+                )}
+              >
+                <GuitarArt type={g.id} className="h-auto w-full" />
+                <span className={cn("mt-1 px-1 text-xs font-medium sm:text-sm", on ? "text-amber-text" : "text-ink")}>{t.types[g.id]}</span>
+              </button>
+            );
+          })}
+        </div>
+        <div className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2">
           <label className="flex flex-col gap-1.5 text-sm font-medium text-dim">
             {t.scale}
             <div className="flex items-center gap-2">

@@ -15,8 +15,8 @@ const fonts = [font('Fraunces', 'Fraunces-600.ttf', 600), font('Geist', 'Geist-4
 
 const c = {
   bg: '#14120f', raised: '#2e2a24', border: '#3a352d', ink: '#f3efe6', muted: '#a39c8e', accent: '#e0a63a',
-  correct: '#4caf6b', wood: '#5a3a2b', woodEdge: '#3d271c', fret: '#c9c6bd', fretShadow: '#7d7a72',
-  nut: '#e9e2cf', string: '#d8d4c8', stringShadow: '#6b6558', inlay: '#e8e2d3', markInk: '#14120f',
+  correct: '#4caf6b', wood: '#5a3a2b', woodEdge: '#3d271c', fret: '#8f8a80', fretShadow: '#3d2f26',
+  nut: '#e9e2cf', string: '#f4f1e8', stringWound: '#d6b98a', stringShadow: '#1f150f', inlay: '#e8e2d3', markInk: '#14120f',
 };
 
 const copy = {
@@ -61,7 +61,7 @@ function neck(w, ht, maxFret, asked) {
   for (let s = 1; s <= 6; s++) {
     const g = gauges[s - 1];
     kids.push(h('line', { x1: 0, y1: sy(s) + g * 0.6, x2: w, y2: sy(s) + g * 0.6, stroke: c.stringShadow, strokeWidth: g }));
-    kids.push(h('line', { x1: 0, y1: sy(s), x2: w, y2: sy(s), stroke: c.string, strokeWidth: g }));
+    kids.push(h('line', { x1: 0, y1: sy(s), x2: w, y2: sy(s), stroke: s >= 4 ? c.stringWound : c.string, strokeWidth: g }));
   }
   const r = 28, ring = 7;
   return h('div', { style: { position: 'relative', display: 'flex', width: w, height: ht } },

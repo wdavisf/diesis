@@ -32,8 +32,8 @@ with a 22% corner radius. Source: `public/favicon.svg`, mirrored in `components/
 | correct | #4caf6b | right answer, on the board and the button |
 | wrong | #d64545 | wrong button |
 
-Fretboard: wood #5a3a2b with a darker edge #3d271c, frets #c9c6bd over a shadow #7d7a72, bone
-nut #e9e2cf, strings #d8d4c8 over #6b6558 with gauges from 1.2 (high E) to 3.6 (low E), pearl
+Fretboard: wood #5a3a2b with a darker edge #3d271c, frets #8f8a80 (dim nickel, so they never compete with the strings) over a shadow #3d2f26, bone
+nut #e9e2cf, plain strings #f4f1e8 and wound strings (4 and lower) #d6b98a with a dashed winding #8a7250, each over a shadow #1f150f at 55%, with gauges from 1.2 (high E) to 3.6 (low E), pearl
 inlays #e8e2d3 at 3 5 7 9 12 15 17 19 21 24, doubled at 12 and 24.
 
 Color never carries meaning alone: the lit position is also larger than an inlay and carries a

@@ -3,6 +3,12 @@
 Written for the people using it, not for the code. Newest first. Version matches
 `package.json`.
 
+## 0.20.0 — 26 September 2026, strings you can tell from frets
+
+- On every neck in Diesis the strings now look like strings: the plain ones bright, the wound
+  ones warm with their winding, and the frets quieter behind them.
+- In Strings and setup you pick your type of guitar from drawings of each one.
+
 ## 0.19.1 — 26 September 2026, fits on an iPhone again
 
 - On iPhone, the tool cards on the home page ran off the right edge of the screen and cut

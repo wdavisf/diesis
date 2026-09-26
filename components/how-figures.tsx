@@ -9,10 +9,12 @@ const H = 120;
 
 const wood = "#5a3a2b";
 const woodEdge = "#3d271c";
-const fretColor = "#c9c6bd";
-const fretShadow = "#7d7a72";
-const stringColor = "#d8d4c8";
-const stringShadow = "#6b6558";
+const fretColor = "#8f8a80";
+const fretShadow = "#3d2f26";
+const stringColor = "#f4f1e8";
+const stringWound = "#d6b98a";
+const stringWinding = "#8a7250";
+const stringShadow = "#1f150f";
 const inlay = "#e8e2d3";
 const amber = "#e0a63a";
 const amberLight = "#f0c46a";
@@ -62,8 +64,9 @@ function Board({ x, y, w, h, from, to, marks }: { x: number; y: number; w: numbe
       ))}
       {gauges.map((g, i) => (
         <g key={i}>
-          <line x1={x} x2={x + w} y1={sy(i + 1) + g * 0.6} y2={sy(i + 1) + g * 0.6} stroke={stringShadow} strokeWidth={g} />
-          <line x1={x} x2={x + w} y1={sy(i + 1)} y2={sy(i + 1)} stroke={stringColor} strokeWidth={g} />
+          <line x1={x} x2={x + w} y1={sy(i + 1) + g * 0.8} y2={sy(i + 1) + g * 0.8} stroke={stringShadow} strokeWidth={g} opacity={0.55} />
+          <line x1={x} x2={x + w} y1={sy(i + 1)} y2={sy(i + 1)} stroke={i >= 3 ? stringWound : stringColor} strokeWidth={g} />
+          {i >= 3 ? <line x1={x} x2={x + w} y1={sy(i + 1)} y2={sy(i + 1)} stroke={stringWinding} strokeWidth={g * 0.9} strokeDasharray="0.9 1.6" /> : null}
         </g>
       ))}
       {cells.map((n) => (

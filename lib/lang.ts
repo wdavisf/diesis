@@ -34,7 +34,7 @@ export async function appMetadata(path: string, title?: string): Promise<Metadat
       description: t.meta.description,
       siteName: "Diesis",
       locale: t.code === "es" ? "es_ES" : "en_US",
-      images: [{ url: t.code === "es" ? "/og-es.png?v=3" : "/og.png?v=3", width: 1200, height: 630 }],
+      images: [{ url: t.code === "es" ? "/og-es.png?v=4" : "/og.png?v=4", width: 1200, height: 630 }],
     },
   };
 }

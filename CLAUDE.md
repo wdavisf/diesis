@@ -166,7 +166,9 @@ Todoist project records what is still to do.
   skin on the web needs an account first.
 - Note names use ♯ (U+266F). Sharps by default; a flat spelling exists in the core for a future
   setting. Enharmonics are one pitch class; the quiz never asks for a spelling.
-- Fretboard drawing: nut on the left, string 1 (high E) at the top, fret numbers under the
+- Fretboard drawing (strings restyled 2026-09-26, Will: "the strings kind of look like the frets"):
+  plain strings near white, wound strings (4 and lower) warm #d6b98a with a dashed winding
+  texture, a shadow on the wood; frets a dim nickel #8f8a80 so they recede. Nut on the left, string 1 (high E) at the top, fret numbers under the
   board, real logarithmic fret spacing scaled to the range, open strings get a zone left of the
   nut. The landing's `TryIt` and tool cards draw with this same `Fretboard`.
 - Audio: placeholder samples synthesised by `tools/gen-samples.mjs` (Karplus-Strong, one WAV per
@@ -248,7 +250,9 @@ Todoist project records what is still to do.
   on the lowest, plain on the top three). Nylon is not modelled (sold by tension). Setup numbers
   are typical factory starting points, said so on the page; then six steps after a string change.
   Core `lib/core/strings.ts`, storage `diesis_strings` (`lib/game/use-strings.ts`). No octave
-  numbers on note names (EN and ES count octaves differently).
+  numbers on note names (EN and ES count octaves differently). The guitar type is picked from
+  cards with a drawing of each (`components/guitar-art.tsx`: generic silhouettes, the guitar
+  lying face up, never a maker's logo), Will 2026-09-26.
 - **Amazon affiliate links (Will, 2026-09-26; store id `willdafer-21`, Amazon.es).** Search
   links, not product links (`amazonSearch` in `lib/core/shop.ts`): no per-product codes, never
   stale. Today only in Setup → Strings and setup: "Find {set} strings on Amazon.es" for the
