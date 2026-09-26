@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { ArrowRight, Globe } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { LogoMark } from "@/components/logo";
@@ -64,6 +65,53 @@ export function Landing({ t }: { t: Strings }) {
           </h2>
           <p className="mt-4 max-w-2xl text-lg text-dim">{t.tools.lede}</p>
           <ToolShowcase t={t} />
+        </div>
+      </section>
+
+      {/* Who makes it: Will, with his photo, high on the page (Will, 2026-09-26) */}
+      <section id="maker" className="border-t border-line bg-surface/40">
+        <div className="mx-auto grid w-full max-w-6xl items-center gap-8 px-4 py-14 sm:py-24 lg:grid-cols-[1fr_1.1fr] lg:gap-14">
+          <figure className="relative">
+            <Image
+              src="/will.jpg"
+              alt={t.maker.photoAlt}
+              width={1200}
+              height={1200}
+              sizes="(min-width: 1024px) 520px, 100vw"
+              className="aspect-square w-full rounded-2xl object-cover shadow-[0_30px_60px_rgba(0,0,0,0.5)] ring-1 ring-white/10"
+            />
+            <figcaption className="absolute bottom-4 left-4 rounded-full bg-stage/80 px-3 py-1.5 text-sm font-medium backdrop-blur-sm">
+              Will · WILLDAFER
+            </figcaption>
+          </figure>
+          <div>
+            <p className="text-sm font-medium tracking-wide text-amber-text uppercase">{t.maker.eyebrow}</p>
+            <h2 className="mt-3 font-display text-3xl font-semibold tracking-tight text-balance sm:text-5xl">{t.maker.h2}</h2>
+            <div className="mt-6">
+              {t.maker.p.map((p, i) => (
+                <p key={i} className={i === 0 ? "text-lg text-dim" : "mt-3 text-lg text-dim"}>
+                  {p}
+                </p>
+              ))}
+              <div className="mt-6 flex flex-wrap gap-3">
+                <Button asChild variant="outline" className="border-line bg-surface text-ink hover:bg-surface-raised hover:text-ink">
+                  <a href="https://willdafer.es" target="_blank" rel="noopener">
+                    <Globe className="size-4" /> {t.maker.site}
+                  </a>
+                </Button>
+                <Button asChild variant="outline" className="border-line bg-surface text-ink hover:bg-surface-raised hover:text-ink">
+                  <a href="https://instagram.com/willdafer.es" target="_blank" rel="noopener">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" className="size-4" aria-hidden>
+                      <rect x="2.5" y="2.5" width="19" height="19" rx="5.5" />
+                      <circle cx="12" cy="12" r="4.2" />
+                      <circle cx="17.6" cy="6.4" r="1" fill="currentColor" stroke="none" />
+                    </svg>
+                    {t.maker.instagram}
+                  </a>
+                </Button>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -193,38 +241,6 @@ export function Landing({ t }: { t: Strings }) {
                 <p className="mt-3 text-dim">{f.a}</p>
               </details>
             ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Who makes it */}
-      <section id="maker" className="mx-auto grid w-full max-w-6xl gap-6 px-4 pt-14 sm:pt-24 lg:grid-cols-[1fr_1.2fr] lg:gap-12">
-        <div>
-          <p className="text-sm font-medium tracking-wide text-amber-text uppercase">{t.maker.eyebrow}</p>
-          <h2 className="mt-3 font-display text-3xl font-semibold tracking-tight text-balance sm:text-5xl">{t.maker.h2}</h2>
-        </div>
-        <div>
-          {t.maker.p.map((p, i) => (
-            <p key={i} className={i === 0 ? "text-lg text-dim lg:mt-2" : "mt-3 text-lg text-dim"}>
-              {p}
-            </p>
-          ))}
-          <div className="mt-6 flex flex-wrap gap-3">
-            <Button asChild variant="outline" className="border-line bg-surface text-ink hover:bg-surface-raised hover:text-ink">
-              <a href="https://willdafer.es" target="_blank" rel="noopener">
-                <Globe className="size-4" /> {t.maker.site}
-              </a>
-            </Button>
-            <Button asChild variant="outline" className="border-line bg-surface text-ink hover:bg-surface-raised hover:text-ink">
-              <a href="https://instagram.com/willdafer.es" target="_blank" rel="noopener">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" className="size-4" aria-hidden>
-                  <rect x="2.5" y="2.5" width="19" height="19" rx="5.5" />
-                  <circle cx="12" cy="12" r="4.2" />
-                  <circle cx="17.6" cy="6.4" r="1" fill="currentColor" stroke="none" />
-                </svg>
-                {t.maker.instagram}
-              </a>
-            </Button>
           </div>
         </div>
       </section>

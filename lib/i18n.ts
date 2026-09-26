@@ -43,8 +43,13 @@ export interface Strings {
   name: { eyebrow: string; p: string[] };
   pricing: { eyebrow: string; h2: string; price: string; sub: string; list: string[]; contactTitle: string; contact: string; contactAfter: string };
   faq: { eyebrow: string; h2: string; items: { q: string; a: string }[] };
-  maker: { eyebrow: string; h2: string; p: string[]; site: string; instagram: string };
+  maker: { eyebrow: string; h2: string; p: string[]; site: string; instagram: string; photoAlt: string };
   closing: { h2: string; lede: string };
+  /** The feedback form (components/feedback.tsx). */
+  feedback: {
+    open: string; title: string; lede: string; name: string; message: string; messageHint: string; contact: string; optional: string;
+    send: string; sending: string; privacy: string; sentTitle: string; sent: string; error: string; empty: string; close: string;
+  };
   /** The playable Name the note in the landing's hero (components/try-it.tsx). {n} in streak. */
   tryIt: { prompt: string; hint: string; streak: string; doneTitle: string; doneBody: string; doneCta: string; again: string };
   /** The landing's tool cards (components/tool-showcase.tsx), in the order of its HREFS. */
@@ -310,8 +315,27 @@ const en: Strings = {
     ],
     site: "My music at willdafer.es",
     instagram: "@willdafer.es on Instagram",
+    photoAlt: "Will playing a black electric guitar",
   },
   closing: { h2: "Guitar on your lap?", lede: "Start with the neck. A few minutes a day is enough." },
+  feedback: {
+    open: "Feedback",
+    title: "What do you need?",
+    lede: "Something missing, something broken, a tool you would use every day. It comes straight to me, Will, and I read all of it.",
+    name: "Your name",
+    message: "What do you need?",
+    messageHint: "A tuner, drop C, the note names in German…",
+    contact: "Your email",
+    optional: "(optional, if you want an answer)",
+    send: "Send",
+    sending: "Sending…",
+    privacy: "Emailed to me, stored nowhere else.",
+    sentTitle: "Thanks!",
+    sent: "It is on its way to me. If you left an email, I will answer there.",
+    error: "It did not go through. Try again in a moment, or message @diesis.app on Instagram.",
+    empty: "Write what you need first.",
+    close: "Close",
+  },
   tryIt: {
     prompt: "Which note is lit?",
     hint: "Sound on, tap a note.",
@@ -520,6 +544,7 @@ const en: Strings = {
       { h: "Cookies", p: ["Diesis sets two cookies. One remembers the language you picked; the other remembers your answer to the analytics banner. Neither holds anything about you."] },
       { h: "This website", p: ["diesis.app is hosted by Vercel, which keeps standard server logs (IP address, browser, pages requested) for a short time to run the service and keep it safe.", "If you allow it in the banner, the site loads Google Analytics 4 to count visits and see which pages are read. Google sets its own cookies for that and processes the data under its own privacy policy. If you decline, nothing from Google is loaded, and you can change your mind by clearing the site's cookies."] },
       { h: "Backing tracks", p: ["The backing tracks page shows thumbnails served by YouTube (i.ytimg.com), so YouTube sees your IP address when the page loads. The video player comes from youtube-nocookie.com and loads only when you press play on a track; from then on YouTube's privacy policy applies to that video. Diesis sends YouTube nothing about you."] },
+      { h: "Feedback", p: ["If you send the feedback form, what you write (your name, your message and your email if you give one) is emailed to me through Resend, together with the page you sent it from, the language, your guitar setting and your browser. It is not kept anywhere else: it stays in my inbox and I use it only to improve Diesis and to answer you."] },
       { h: "Children", p: ["Diesis collects no personal data from anyone, of any age."] },
       { h: "Changes", p: ["If this policy changes, the new version is published here with a new date. It will never quietly start collecting data."] },
     ],
@@ -646,8 +671,27 @@ const es: Strings = {
     ],
     site: "Mi música en willdafer.es",
     instagram: "@willdafer.es en Instagram",
+    photoAlt: "Will tocando una guitarra eléctrica negra",
   },
   closing: { h2: "¿Tienes la guitarra a mano?", lede: "Empieza por el mástil. Con unos minutos al día basta." },
+  feedback: {
+    open: "Sugerencias",
+    title: "¿Qué necesitas?",
+    lede: "Algo que falta, algo que falla, una herramienta que usarías cada día. Me llega directamente a mí, Will, y lo leo todo.",
+    name: "Tu nombre",
+    message: "¿Qué necesitas?",
+    messageHint: "Un afinador, drop C, que suene más como una eléctrica…",
+    contact: "Tu email",
+    optional: "(opcional, si quieres respuesta)",
+    send: "Enviar",
+    sending: "Enviando…",
+    privacy: "Me llega por email y no se guarda en ningún otro sitio.",
+    sentTitle: "¡Gracias!",
+    sent: "Ya me ha llegado. Si has dejado tu email, te contesto por ahí.",
+    error: "No se ha podido enviar. Prueba otra vez en un momento o escríbeme por Instagram a @diesis.app.",
+    empty: "Escribe primero qué necesitas.",
+    close: "Cerrar",
+  },
   tryIt: {
     prompt: "¿Qué nota es?",
     hint: "Sube el volumen y elige.",
@@ -856,6 +900,7 @@ const es: Strings = {
       { h: "Cookies", p: ["Diesis guarda dos cookies: una recuerda el idioma que has elegido y la otra, lo que respondiste al aviso de analítica. Ninguna contiene datos sobre ti."] },
       { h: "Esta web", p: ["diesis.app está alojada en Vercel, que conserva durante poco tiempo los registros habituales de cualquier servidor (dirección IP, navegador, páginas solicitadas) para que el servicio funcione y esté protegido.", "Si lo permites en el aviso, la web carga Google Analytics 4 para contar visitas y ver qué páginas se leen. Google instala sus propias cookies para ello y trata los datos según su política de privacidad. Si dices que no, no se carga nada de Google; puedes cambiar de opinión borrando las cookies de la web."] },
       { h: "Backing tracks", p: ["La página de backing tracks muestra miniaturas que sirve YouTube (i.ytimg.com), así que YouTube ve tu dirección IP al cargarla. El reproductor viene de youtube-nocookie.com y solo se carga cuando pulsas play en una base; a partir de ahí, a ese vídeo se le aplica la política de privacidad de YouTube. Diesis no le envía a YouTube nada sobre ti."] },
+      { h: "Sugerencias", p: ["Si envías el formulario de sugerencias, lo que escribes (tu nombre, tu mensaje y tu email si lo dejas) me llega por email a través de Resend, junto con la página desde la que lo envías, el idioma, la guitarra de tu perfil y tu navegador. No se guarda en ningún otro sitio: se queda en mi correo y solo lo uso para mejorar Diesis y contestarte."] },
       { h: "Menores", p: ["Diesis no recoge datos personales de nadie, tenga la edad que tenga."] },
       { h: "Cambios", p: ["Si esta política cambia, la nueva versión se publicará aquí con su fecha. Nunca empezará a recoger datos sin avisar."] },
     ],

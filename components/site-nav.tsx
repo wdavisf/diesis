@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Logo } from "@/components/logo";
 import { LangSwitch } from "@/components/lang-switch";
 import { OpenApp } from "@/components/open-app";
+import { Feedback } from "@/components/feedback";
 import type { Strings } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 
@@ -91,6 +92,7 @@ export function SiteNav({ t, area }: { t: Strings; area: "site" | "app" }) {
         ) : null}
 
         <div className="flex shrink-0 items-center gap-1">
+          {area === "app" ? <Feedback t={t} variant="bar" /> : null}
           {area === "app" ? (
             <Link
               href={`${t.base}/profile`}
@@ -112,6 +114,9 @@ export function SiteNav({ t, area }: { t: Strings; area: "site" | "app" }) {
               </Button>
               <Button asChild variant="ghost" size="sm" className="hidden text-dim hover:bg-white/5 hover:text-ink sm:inline-flex">
                 <a href={`${home}#faq`}>{t.nav.faq}</a>
+              </Button>
+              <Button asChild variant="ghost" size="sm" className="hidden text-dim hover:bg-white/5 hover:text-ink lg:inline-flex">
+                <a href={`${home}#maker`}>{t.maker.eyebrow}</a>
               </Button>
             </>
           ) : null}

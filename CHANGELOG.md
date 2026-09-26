@@ -3,6 +3,12 @@
 Written for the people using it, not for the code. Newest first. Version matches
 `package.json`.
 
+## 0.16.0 — 26 September 2026, tell me what you need
+
+- New: **Feedback** («Sugerencias»), in the top bar of the app and at the foot of every page.
+  Your name, what you need and, if you want an answer, your email. It comes straight to me.
+- The home page now shows who makes Diesis, with a photo, right after the tools.
+
 ## 0.15.1 — 26 September 2026, honest contact
 
 - To get in touch, message **@diesis.app on Instagram**. The email address shown before did

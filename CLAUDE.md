@@ -229,6 +229,18 @@ Todoist project records what is still to do.
   never "we", "a team" or "a group of players". There is no working email: hello@diesis.app
   does not exist, so contact is Instagram @diesis.app (landing pricing box, privacy page,
   footer). Diesis will be paid at some point: say "free while in preview", never "stays free".
+- **Feedback form (Will, 2026-09-26: "muy sencillo y que me llegue al correo como con
+  jeremy.es").** `components/feedback.tsx`: "Feedback" / «Sugerencias», an icon button in the
+  app's top bar and a link in the footer, opening a native `<dialog>`: name, what do you need
+  (required), email (optional, becomes Reply-To). Page, language and the `diesis_guitar` preset go
+  as hidden fields. `app/actions/feedback.ts` emails it through Resend (same pattern as jeremy.es:
+  honeypot `website`, 5 per hour per IP per instance, values echoed back on failure); nothing is
+  stored. Env `RESEND_API_KEY`, `FEEDBACK_FROM_EMAIL`, `FEEDBACK_TO_EMAIL` (see `.env.example`);
+  without them the form says it failed and points to Instagram. The privacy page has a
+  "Feedback" section; keep it true.
+- **Will's photo (Will, 2026-09-26: "dale más visibilidad").** `public/will.jpg` (1200², from
+  `~/Downloads/WDF.png`) leads the "Who makes it" section, which now sits right after the tool
+  cards and has a link in the landing's top bar (`#maker`, from `lg`).
 - **Who makes it (Will, 2026-09-25)**: a landing section (`#maker`, before the closing card)
   in Will's first person, linking willdafer.es and Instagram `@willdafer.es`. Copy in
   `t.maker`; keep it true to what he actually does.
@@ -268,8 +280,9 @@ Todoist project records what is still to do.
 ## Hosting
 
 Vercel project `diesis-site` (team wdavisf-gmailcoms-projects), Git integration from
-`wdavisf/diesis` main, framework Next.js at the repo root, no environment variables (the old
-`DIESIS_ACCESS_CODE` is no longer read and can be deleted from the project settings). Domains
+`wdavisf/diesis` main, framework Next.js at the repo root. Environment variables: only the
+feedback form's three (`RESEND_API_KEY`, `FEEDBACK_FROM_EMAIL`, `FEEDBACK_TO_EMAIL`); the old
+`DIESIS_ACCESS_CODE` is no longer read and can be deleted from the project settings. Domains
 diesis.app and www (redirects to the apex); DNS at Namecheap. Live since 2026-09-23. diesis.es and www.diesis.es
 (registered 2026-09-25 at dominios.es by Will, nameservers ns1/ns2.vercel-dns.com) are on the
 same project and redirect (307, `next.config.ts`) to the Spanish twin of the same path:
@@ -312,7 +325,7 @@ points to it and keeps `/lang/` out. Add new public pages to the sitemap.
 - `npm run dev` — dev server on 3000 (also `.claude/launch.json` → `diesis-dev`).
 - `npm test` — core tests (Vitest). `npm run typecheck` — tsc (run `npm run build` once first so
   Next generates its route types). `npm run lint`. `npm run build` — production build.
-- Env: none. A clone runs as is.
+- Env: none needed to run. The feedback form sends only with the Resend variables in `.env.local` (`.env.example`).
 - Deploy: push to `main` (Vercel Git integration) or `npx vercel deploy --prod`.
 - Every release: bump `version` in `package.json`, write the CHANGELOG entry, commit **and push
   to `main` in the same session, without asking** (Will, 2026-09-24: any change he asks for in

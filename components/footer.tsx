@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { OpenApp } from "@/components/open-app";
+import { Feedback } from "@/components/feedback";
 import { Logo } from "@/components/logo";
 import type { Strings } from "@/lib/i18n";
 
@@ -15,6 +16,7 @@ export function Footer({ t }: { t: Strings }) {
         <nav className="flex flex-wrap gap-x-5 gap-y-2">
           <OpenApp lang={t.code} className="hover:text-ink">{t.nav.cta}</OpenApp>
           <Link href={`${t.base}/privacy`} className="hover:text-ink">{t.nav.privacy}</Link>
+          <Feedback t={t} variant="link" />
           <a href="https://instagram.com/diesis.app" target="_blank" rel="noopener" className="hover:text-ink">
             Instagram
           </a>
