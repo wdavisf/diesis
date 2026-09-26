@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowRight, GraduationCap, Timer } from "lucide-react";
+import { ArrowRight, GraduationCap, Timer, Wrench } from "lucide-react";
 import { appMetadata, currentStrings } from "@/lib/lang";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -8,19 +8,20 @@ export async function generateMetadata(): Promise<Metadata> {
   return appMetadata("/start", t.home.title);
 }
 
-/** The app's front door (Will, 2026-09-26): "What do you want to do today?", Learn or Practice. */
+/** The app's front door (Will, 2026-09-26): "What do you want to do today?", Learn, Practice or Setup. */
 export default async function Start() {
   const t = await currentStrings();
   const h = t.home;
   const doors = [
     { href: `${t.base}/learn`, title: t.nav.areas.learn, body: h.learn, tools: t.nav.learnTools, Icon: GraduationCap },
     { href: `${t.base}/practice`, title: t.nav.areas.practice, body: h.practice, tools: t.nav.practiceTools, Icon: Timer },
+    { href: `${t.base}/setup`, title: t.nav.areas.setup, body: h.setup, tools: t.nav.setupTools, Icon: Wrench },
   ];
   return (
-    <main className="mx-auto flex w-full max-w-4xl flex-1 flex-col px-4 py-6 sm:py-10">
+    <main className="mx-auto flex w-full max-w-5xl flex-1 flex-col px-4 py-6 sm:py-10">
       <h1 className="mt-4 font-display text-3xl font-semibold tracking-tight sm:text-5xl">{h.h1}</h1>
       <p className="mt-2 text-dim">{h.lede}</p>
-      <ul className="mt-8 grid gap-4 sm:grid-cols-2">
+      <ul className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {doors.map(({ href, title, body, tools, Icon }, i) => (
           <li
             key={href}

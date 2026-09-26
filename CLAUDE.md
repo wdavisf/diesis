@@ -31,6 +31,11 @@ Todoist project records what is still to do.
   (`LEARN_ITEMS`/`PRACTICE_ITEMS`, copy in `learnMenu`/`practiceMenu`); all app routes live in
   the route group `app/(app)/`. Old `/practice/neck`, `/practice/metronome`, `/profile` and
   their `/es` twins redirect (`next.config.ts`; redirects run before `proxy.ts`).
+- **A third side, Setup (Will, 2026-09-26: strings and setup "no es practicar, es otra cosa";
+  "guitar setup en inglés").** `/setup`, «Ajuste» in Spanish: the guitar itself (strings,
+  tension, setup). `/start` shows three doors; the top bar three sides (`nav.areas.setup`,
+  `nav.setupTools`/`SETUP_HREFS`, `SETUP_ITEMS`, `setupMenu`). When a tool arrives, ask which of
+  the three sides it belongs to rather than defaulting to Practice.
 - **Market (decided 2026-09-25, Claude's call when Will asked):** English is the main market for
   the future premium plan; Spanish is a full second language at `/es`, and Spain is where the
   first users and feedback come from. diesis.app stays the main domain; diesis.es only redirects to `/es`.
@@ -229,8 +234,8 @@ Todoist project records what is still to do.
   never "we", "a team" or "a group of players". There is no working email: hello@diesis.app
   does not exist, so contact is Instagram @diesis.app (landing pricing box, privacy page,
   footer). Diesis will be paid at some point: say "free while in preview", never "stays free".
-- **Strings and setup (Will, 2026-09-26: "mete el calculador de cuerdas y tal").** Practice
-  side, `/practice/strings`; covers the three Todoist tasks of section 12 in one screen. Guitar
+- **Strings and setup (Will, 2026-09-26: "mete el calculador de cuerdas y tal").** Setup
+  side, `/setup/strings` (opened in Practice in 0.17.0; `/practice/strings` redirects); covers the three Todoist tasks of section 12 in one screen. Guitar
   type (Strat, Tele, Les Paul/SG, PRS, superstrat, baritone, 7 at 25.5/26.5, 8 at 27, acoustic,
   classical) sets the scale length (editable, 22–30″) and the setup numbers; strings and tuning
   are the profile's `diesis_guitar`, changeable here. Tension per string from physics, not a

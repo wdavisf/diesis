@@ -4,7 +4,7 @@ import { appMetadata, currentStrings } from "@/lib/lang";
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await currentStrings();
-  return appMetadata("/practice/strings", t.setup.title);
+  return appMetadata("/setup/strings", t.setup.title);
 }
 
 export default async function StringsPage() {

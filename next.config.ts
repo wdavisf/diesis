@@ -14,6 +14,8 @@ const nextConfig: NextConfig = {
         { source: `${es}/learn/metronome`, destination: `${es}/practice/metronome`, permanent: true },
         { source: `${es}/learn/neck`, destination: `${es}/practice/neck`, permanent: true },
         { source: `${es}/learn/profile`, destination: `${es}/profile`, permanent: true },
+        // Strings and setup opened in Practice (0.17.0) and moved to its own side, Setup, in 0.18.0.
+        { source: `${es}/practice/strings`, destination: `${es}/setup/strings`, permanent: true },
       ]),
       // diesis.es (and www) is the address to share in Spanish: it links in any chat app,
       // where .app often does not. Every path lands on its Spanish twin (every page has one):

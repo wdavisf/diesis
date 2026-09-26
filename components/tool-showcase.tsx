@@ -11,7 +11,7 @@ import type { Strings } from "@/lib/i18n";
 /* The landing's "Open a tool" cards: each draws a still of the tool as it looks when you open it,
    and links straight into it. Hrefs in the order of `t.tools.items`. */
 
-const HREFS = ["/learn/name-the-note", "/learn/find-the-note", "/practice/neck", "/practice/metronome", "/practice/backing-tracks", "/practice/strings"];
+const HREFS = ["/learn/name-the-note", "/learn/find-the-note", "/practice/neck", "/practice/metronome", "/practice/backing-tracks", "/setup/strings"];
 const W = 520;
 const H = 190;
 

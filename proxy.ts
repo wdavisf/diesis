@@ -7,7 +7,7 @@ export const LANG_HEADER = "x-diesis-lang";
 /**
  * The app speaks the language of its address, like the landing: /learn/… is English and
  * /es/learn/… Spanish, so a shared link opens (and previews) in the language it was shared in.
- * The same for every app root: /start, /learn, /practice, /profile. The /es
+ * The same for every app root: /start, /learn, /practice, /setup, /profile. The /es
  * addresses are served by the same pages, told the language by a header. Someone who picked
  * Spanish and lands on an English app address (an old bookmark, the menu of an older page) goes
  * to the /es twin. The matcher lists the app roots.
@@ -41,12 +41,16 @@ export const config = {
     "/learn/:path*",
     "/practice",
     "/practice/:path*",
+    "/setup",
+    "/setup/:path*",
     "/profile",
     "/es/start",
     "/es/learn",
     "/es/learn/:path*",
     "/es/practice",
     "/es/practice/:path*",
+    "/es/setup",
+    "/es/setup/:path*",
     "/es/profile",
   ],
 };

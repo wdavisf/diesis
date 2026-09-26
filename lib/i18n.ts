@@ -27,9 +27,10 @@ export interface Strings {
   nav: {
     how: string; learn: string; faq: string; cta: string; privacy: string; about: string;
     /** The two sides of the app, and their tools in the order of the hrefs in components/site-nav.tsx. */
-    areas: { learn: string; practice: string };
+    areas: { learn: string; practice: string; setup: string };
     learnTools: string[];
     practiceTools: string[];
+    setupTools: string[];
   };
   hero: { eyebrow: string; h1: string; lede: string; cta: string; secondary: string; trust: string[] };
   how: { eyebrow: string; h2: string; lede: string; steps: { title: string; body: string }[] };
@@ -64,10 +65,11 @@ export interface Strings {
   tools: { eyebrow: string; h2: string; lede: string; open: string; items: { side: string; title: string; body: string }[] };
   footer: { tagline: string; made: string };
   /** /start: "What do you want to do today?", Learn or Practice. */
-  home: { title: string; h1: string; lede: string; about: string; start: string; next: string; later: string; learn: string; practice: string };
+  home: { title: string; h1: string; lede: string; about: string; start: string; next: string; later: string; learn: string; practice: string; setup: string };
   /** The menus of the two sides, cards in the order of their hrefs in components/tool-menu.tsx. */
   learnMenu: Menu;
   practiceMenu: Menu;
+  setupMenu: Menu;
   game: {
     title: string;
     back: string;
@@ -218,7 +220,7 @@ const en: Strings = {
     privacyTitle: "Privacy",
     privacyDescription: "What Diesis does with your data: no account, no ads, nothing you do in Diesis leaves your browser. Visit counting with Google Analytics only if you allow it.",
   },
-  nav: { how: "How it works", learn: "What you learn", faq: "FAQ", cta: "Open the app", privacy: "Privacy", about: "About Diesis", areas: { learn: "Learn", practice: "Practice" }, learnTools: ["Name the note", "Find the note"], practiceTools: ["The neck", "Metronome", "Backing tracks", "Strings"] },
+  nav: { how: "How it works", learn: "What you learn", faq: "FAQ", cta: "Open the app", privacy: "Privacy", about: "About Diesis", areas: { learn: "Learn", practice: "Practice", setup: "Setup" }, learnTools: ["Name the note", "Find the note"], practiceTools: ["The neck", "Metronome", "Backing tracks"], setupTools: ["Strings"] },
   hero: {
     eyebrow: "The guitar learning tool",
     h1: "Everything you need to master the guitar.",
@@ -240,7 +242,7 @@ const en: Strings = {
   learn: {
     eyebrow: "What you learn",
     h2: "From the first note to mastering the neck.",
-    lede: "Diesis has two sides. Learn: exercises for where the notes are, the scales built from them and reading them off a score. Practice: the tools you keep open every day.",
+    lede: "Diesis has three sides. Learn: exercises for where the notes are, the scales built from them and reading them off a score. Practice: the tools you keep open every day. Setup: the guitar itself, its strings and its setup.",
     when: { now: "Available now", next: "Coming next", later: "Later" },
     tracks: [
       {
@@ -278,6 +280,12 @@ const en: Strings = {
         items: [
           { title: "Metronome and speed trainer", body: "Tempo from 20 to 300, 2/4 to 7/8 with the accents where they belong, subdivisions up to sextuplets, tap tempo. Turn on Speed up and it climbs on its own: pick the start, the target, the step and the bars at each tempo.", when: "now" },
           { title: "Backing tracks", body: "Tracks to jam over: blues, rock, metal, funk, bossa, modal jams, flamenco and more. Each shows its key and a scale that fits, and opens that scale on the neck.", when: "now" },
+        ],
+      },
+      {
+        title: "Setup",
+        lede: "The guitar itself: set up for the way you tune it and play it.",
+        items: [
           { title: "Your guitar", body: "In your profile: six, seven or eight strings and your tuning (standard, drop D, E♭, DADGAD, open G, drop A…). The exercises and the neck draw and play that guitar.", when: "now" },
           { title: "Strings and setup", body: "Each string’s tension for your tuning and scale length, common sets or a balanced one worked out for you, and the setup numbers for your type of guitar: action, relief, radius, pickup height, then intonation step by step.", when: "now" },
         ],
@@ -405,12 +413,12 @@ const en: Strings = {
       { side: "Practice", title: "The neck", body: "Any scale on any root, across the whole fretboard. Here, A minor pentatonic." },
       { side: "Practice", title: "Metronome", body: "20 to 300 BPM, odd meters, tap tempo, and a Speed up mode that climbs to your target." },
       { side: "Practice", title: "Backing tracks", body: "Jam over tracks in every style, with the key and the scale to play shown on each." },
-      { side: "Practice", title: "Strings and setup", body: "Every string's tension for your tuning, a balanced set worked out for you, and the setup numbers for your guitar." },
+      { side: "Setup", title: "Strings and setup", body: "Every string's tension for your tuning, a balanced set worked out for you, and the setup numbers for your guitar." },
     ],
   },
   footer: { tagline: "Everything you need to master the guitar.", made: "Made in Cáceres, Spain. “Diesis” is Greek for the semitone: one fret." },
   home: {
-    title: "Learn or practice",
+    title: "Learn, practice, set up",
     h1: "What do you want to do today?",
     lede: "Guitar on your lap, screen sideways if it is a phone.",
     about: "About Diesis",
@@ -418,7 +426,8 @@ const en: Strings = {
     next: "Coming next",
     later: "Later",
     learn: "Exercises that teach you the guitar: every note on the neck first, then scales and reading music.",
-    practice: "The tools you play with: the neck with any scale on it, and a metronome that builds your speed.",
+    practice: "The tools you play with: the neck with any scale on it, a metronome that builds your speed and backing tracks.",
+    setup: "Your guitar itself: the right strings for your tuning, and the numbers to set it up after a string change.",
   },
   learnMenu: {
     title: "Learn",
@@ -439,8 +448,14 @@ const en: Strings = {
       { title: "The neck", body: "Every note on the fretboard, or a scale on the root you pick: pentatonics, blues, major, the minors, the modes." },
       { title: "Metronome", body: "A steady tempo, or one that climbs a step every few bars up to your target. Time signatures, accents, subdivisions, tap tempo." },
       { title: "Backing tracks", body: "Jam over a band in any style, with the key and a scale that fits, shown on the neck in one tap." },
-      { title: "Strings and setup", body: "Each string's tension, the gauges that suit your guitar and tuning, and the setup numbers for your type of guitar." },
       { title: "Tuner", body: "Tune through the microphone, in your guitar's own tuning." },
+    ],
+  },
+  setupMenu: {
+    title: "Setup",
+    lede: "Look after the guitar itself: strings, tension and setup.",
+    modes: [
+      { title: "Strings and setup", body: "Each string's tension, the gauges that suit your guitar and tuning, and the setup numbers for your type of guitar." },
     ],
   },
   game: {
@@ -616,7 +631,7 @@ const es: Strings = {
     privacyTitle: "Privacidad",
     privacyDescription: "Qué hace Diesis con tus datos: sin cuenta, sin anuncios y sin que nada de lo que haces en Diesis salga de tu navegador. Contamos visitas con Google Analytics solo si tú lo permites.",
   },
-  nav: { how: "Cómo funciona", learn: "Qué aprendes", faq: "Preguntas", cta: "Abrir la app", privacy: "Privacidad", about: "Sobre Diesis", areas: { learn: "Aprender", practice: "Practicar" }, learnTools: ["Nombra la nota", "Encuentra la nota"], practiceTools: ["El mástil", "Metrónomo", "Backing tracks", "Cuerdas"] },
+  nav: { how: "Cómo funciona", learn: "Qué aprendes", faq: "Preguntas", cta: "Abrir la app", privacy: "Privacidad", about: "Sobre Diesis", areas: { learn: "Aprender", practice: "Practicar", setup: "Ajuste" }, learnTools: ["Nombra la nota", "Encuentra la nota"], practiceTools: ["El mástil", "Metrónomo", "Backing tracks"], setupTools: ["Cuerdas"] },
   hero: {
     eyebrow: "La herramienta para aprender guitarra",
     h1: "Todo lo que necesitas para dominar la guitarra.",
@@ -638,7 +653,7 @@ const es: Strings = {
   learn: {
     eyebrow: "Qué aprendes",
     h2: "De la primera nota a dominar el mástil.",
-    lede: "Diesis tiene dos partes. Aprender: ejercicios para saber dónde está cada nota, las escalas que se construyen con ellas y cómo leerlas en una partitura. Practicar: las herramientas que tienes abiertas cada día.",
+    lede: "Diesis tiene tres partes. Aprender: ejercicios para saber dónde está cada nota, las escalas que se construyen con ellas y cómo leerlas en una partitura. Practicar: las herramientas que tienes abiertas cada día. Ajuste: la guitarra en sí, sus cuerdas y su puesta a punto.",
     when: { now: "Ya disponible", next: "Próximamente", later: "Más adelante" },
     tracks: [
       {
@@ -676,6 +691,12 @@ const es: Strings = {
         items: [
           { title: "Metrónomo y entrenador de velocidad", body: "Tempo de 20 a 300, compases de 2/4 a 7/8 con los acentos donde tocan, subdivisiones hasta seisillos y tap tempo. Activa la subida de tempo y sube solo: eliges inicio, objetivo, cuánto sube y cuántos compases en cada tempo.", when: "now" },
           { title: "Backing tracks", body: "Bases para improvisar encima: blues, rock, metal, funk, bossa, jams modales, flamenco y más. Cada una dice su tonalidad y una escala que encaja, y te la abre en el mástil.", when: "now" },
+        ],
+      },
+      {
+        title: "Ajuste",
+        lede: "La guitarra en sí: preparada para cómo la afinas y cómo tocas.",
+        items: [
           { title: "Tu guitarra", body: "En tu perfil: seis, siete u ocho cuerdas y tu afinación (estándar, drop D, Mi♭, DADGAD, Sol abierta, drop A…). Los ejercicios y el mástil dibujan y suenan con esa guitarra.", when: "now" },
           { title: "Cuerdas y ajuste", body: "La tensión de cada cuerda con tu afinación y tu tiro, juegos habituales o uno equilibrado calculado para ti, y las medidas de ajuste de tu tipo de guitarra: altura de cuerdas, curvatura del mástil, radio, altura de pastillas y, paso a paso, la octavación.", when: "now" },
         ],
@@ -803,12 +824,12 @@ const es: Strings = {
       { side: "Practicar", title: "El mástil", body: "Cualquier escala sobre cualquier tónica, por todo el mástil. Aquí, la pentatónica menor de La." },
       { side: "Practicar", title: "Metrónomo", body: "De 20 a 300 BPM, compases de amalgama, tap tempo y una subida de tempo que te lleva hasta tu objetivo." },
       { side: "Practicar", title: "Backing tracks", body: "Bases de todos los estilos para improvisar encima, cada una con su tonalidad y la escala que encaja." },
-      { side: "Practicar", title: "Cuerdas y ajuste", body: "La tensión de cada cuerda con tu afinación, un juego equilibrado calculado para ti y las medidas de ajuste de tu guitarra." },
+      { side: "Ajuste", title: "Cuerdas y ajuste", body: "La tensión de cada cuerda con tu afinación, un juego equilibrado calculado para ti y las medidas de ajuste de tu guitarra." },
     ],
   },
   footer: { tagline: "Todo lo que necesitas para dominar la guitarra.", made: "Hecho en Cáceres. «Diesis» es semitono en griego: un traste." },
   home: {
-    title: "Aprender o practicar",
+    title: "Aprender, practicar, ajustar",
     h1: "¿Qué quieres hacer hoy?",
     lede: "Con la guitarra encima y, si es un móvil, en horizontal.",
     about: "Sobre Diesis",
@@ -816,7 +837,8 @@ const es: Strings = {
     next: "Próximamente",
     later: "Más adelante",
     learn: "Ejercicios que te enseñan la guitarra: primero todas las notas del mástil, luego las escalas y la lectura de partituras.",
-    practice: "Las herramientas con las que tocas: el mástil con la escala que quieras y un metrónomo que te va subiendo la velocidad.",
+    practice: "Las herramientas con las que tocas: el mástil con la escala que quieras, un metrónomo que te va subiendo la velocidad y backing tracks.",
+    setup: "Tu guitarra en sí: las cuerdas que le van a tu afinación y las medidas para ajustarla después de cambiarlas.",
   },
   learnMenu: {
     title: "Aprender",
@@ -837,8 +859,14 @@ const es: Strings = {
       { title: "El mástil", body: "Todas las notas del mástil, o una escala sobre la tónica que elijas: pentatónicas, blues, mayor, las menores y los modos." },
       { title: "Metrónomo", body: "Tempo fijo, o uno que sube solo cada pocos compases hasta tu objetivo. Compases, acentos, subdivisiones y tap tempo." },
       { title: "Backing tracks", body: "Improvisa con una banda detrás, del estilo que quieras, con su tonalidad y una escala que encaja, que ves en el mástil con un toque." },
-      { title: "Cuerdas y ajuste", body: "La tensión de cada cuerda, los calibres que le van a tu guitarra y tu afinación, y las medidas de ajuste para tu tipo de guitarra." },
       { title: "Afinador", body: "Afina con el micrófono, en la afinación de tu guitarra." },
+    ],
+  },
+  setupMenu: {
+    title: "Ajuste",
+    lede: "Cuida la guitarra en sí: cuerdas, tensión y ajuste.",
+    modes: [
+      { title: "Cuerdas y ajuste", body: "La tensión de cada cuerda, los calibres que le van a tu guitarra y tu afinación, y las medidas de ajuste para tu tipo de guitarra." },
     ],
   },
   game: {

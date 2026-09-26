@@ -14,7 +14,8 @@ import { cn } from "@/lib/utils";
 
 /** The tools of each side, in the order of `nav.learnTools` and `nav.practiceTools` in lib/i18n.ts. */
 export const LEARN_HREFS = ["/learn/name-the-note", "/learn/find-the-note"] as const;
-export const PRACTICE_HREFS = ["/practice/neck", "/practice/metronome", "/practice/backing-tracks", "/practice/strings"] as const;
+export const PRACTICE_HREFS = ["/practice/neck", "/practice/metronome", "/practice/backing-tracks"] as const;
+export const SETUP_HREFS = ["/setup/strings"] as const;
 
 /** The same page in the other language: every page has an /es twin, the app included. */
 function otherLangPath(pathname: string, t: Strings): string {
@@ -39,8 +40,8 @@ export function SiteNav({ t, area }: { t: Strings; area: "site" | "app" }) {
     row.current?.querySelector<HTMLElement>('[aria-current="page"]')?.scrollIntoView({ block: "nearest", inline: "center" });
   }, [pathname]);
   const inArea = (root: string) => pathname === `${t.base}${root}` || pathname.startsWith(`${t.base}${root}/`);
-  const side = inArea("/learn") ? "learn" : inArea("/practice") ? "practice" : null;
-  const areas = (["learn", "practice"] as const).map((a) => {
+  const side = inArea("/learn") ? "learn" : inArea("/practice") ? "practice" : inArea("/setup") ? "setup" : null;
+  const areas = (["learn", "practice", "setup"] as const).map((a) => {
     const href = `${t.base}/${a}`;
     const on = side === a;
     return (
@@ -54,8 +55,8 @@ export function SiteNav({ t, area }: { t: Strings; area: "site" | "app" }) {
       </Link>
     );
   });
-  const hrefs = side === "learn" ? LEARN_HREFS : side === "practice" ? PRACTICE_HREFS : [];
-  const names = side === "learn" ? t.nav.learnTools : t.nav.practiceTools;
+  const hrefs = side === "learn" ? LEARN_HREFS : side === "practice" ? PRACTICE_HREFS : side === "setup" ? SETUP_HREFS : [];
+  const names = side === "learn" ? t.nav.learnTools : side === "practice" ? t.nav.practiceTools : t.nav.setupTools;
   const tools = hrefs.map((path, i) => {
     const href = `${t.base}${path}`;
     const on = pathname.startsWith(href);

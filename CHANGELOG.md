@@ -3,6 +3,11 @@
 Written for the people using it, not for the code. Newest first. Version matches
 `package.json`.
 
+## 0.18.0 — 26 September 2026, a third side: Setup
+
+- The app now has three sides: **Learn**, **Practice** and **Setup**. Setup is for the guitar
+  itself, and Strings and setup lives there now. Old links still work.
+
 ## 0.17.0 — 26 September 2026, strings and setup
 
 - New in Practice: **Strings and setup.** Pick your type of guitar (Strat, Tele, Les Paul,
