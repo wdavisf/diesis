@@ -89,23 +89,16 @@
   }
 }
 
-/* The animated game screen in the hero (components/screen.tsx). Two questions loop: G lights,
-   turns green with its name, then C. Under Reduce Motion the first answered frame stays put. */
-.screen .q { opacity: 0; }
-.screen .q1-ok, .screen .fb { opacity: 1; }
+/* The landing's tool cards (components/tool-showcase.tsx): the metronome's four beats light in
+   turn at 120 BPM, the one in amber; the backing-track bars bounce. Still under Reduce Motion. */
 @media (prefers-reduced-motion: no-preference) {
-  .screen .q { animation: 8s infinite; }
-  .screen .q1-ask { animation-name: q1ask; }
-  .screen .q1-ok { animation-name: q1ok; }
-  .screen .q2-ask { animation-name: q2ask; }
-  .screen .q2-ok { animation-name: q2ok; }
-  .screen .fb { animation-name: fb; }
+  .beat { animation: beat 2s steps(1, end) infinite; }
+  .beat[data-one] { animation-name: beat-one; }
+  .eq { transform-origin: bottom; animation: eq 1.1s ease-in-out infinite alternate; }
 }
-@keyframes q1ask { 0% { opacity: 0 } 3%, 32% { opacity: 1 } 32.1%, 100% { opacity: 0 } }
-@keyframes q1ok  { 0%, 32% { opacity: 0 } 33%, 50% { opacity: 1 } 50.1%, 100% { opacity: 0 } }
-@keyframes q2ask { 0%, 50% { opacity: 0 } 53%, 82% { opacity: 1 } 82.1%, 100% { opacity: 0 } }
-@keyframes q2ok  { 0%, 82% { opacity: 0 } 83%, 100% { opacity: 1 } }
-@keyframes fb    { 0%, 32% { opacity: 0 } 33%, 50% { opacity: 1 } 50.1%, 82% { opacity: 0 } 83%, 100% { opacity: 1 } }
+@keyframes beat { 0% { background: var(--color-correct) } 25%, 100% { background: rgb(255 255 255 / 0.1) } }
+@keyframes beat-one { 0% { background: var(--color-amber) } 25%, 100% { background: rgb(255 255 255 / 0.1) } }
+@keyframes eq { from { transform: scaleY(0.35) } to { transform: scaleY(1) } }
 
 /* The play screen arriving: a quick zoom in from the setup screen (components/game-frame.tsx). */
 .game-enter {

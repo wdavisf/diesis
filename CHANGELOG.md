@@ -3,6 +3,18 @@
 Written for the people using it, not for the code. Newest first. Version matches
 `package.json`.
 
+## 0.15.0 — 26 September 2026, try it on the home page, and backing tracks
+
+- **Try it before you open anything:** the home page now has a real neck you can answer on.
+  A note lights, you pick its name, you hear it. Five in a row and it offers you the full
+  exercise.
+- The home page shows **every tool as a card** with a picture of it (the neck with A minor
+  pentatonic, the metronome ticking) that takes you straight into it.
+- New in Practice: **backing tracks.** Thirteen tracks to jam over: blues, rock, metal, funk,
+  bossa, modal jams, flamenco, country, a ballad, neo-soul. Each says its key and a scale that
+  fits, and "Show on the neck" opens that scale on the neck. The videos play from YouTube; the
+  privacy page says what that means.
+
 ## 0.14.0 — 26 September 2026, learn or practice
 
 - The app now opens with one question: **what do you want to do today?** Two doors.

@@ -13,7 +13,7 @@ import { cn } from "@/lib/utils";
 
 /** The tools of each side, in the order of `nav.learnTools` and `nav.practiceTools` in lib/i18n.ts. */
 export const LEARN_HREFS = ["/learn/name-the-note", "/learn/find-the-note"] as const;
-export const PRACTICE_HREFS = ["/practice/neck", "/practice/metronome"] as const;
+export const PRACTICE_HREFS = ["/practice/neck", "/practice/metronome", "/practice/backing-tracks"] as const;
 
 /** The same page in the other language: every page has an /es twin, the app included. */
 function otherLangPath(pathname: string, t: Strings): string {

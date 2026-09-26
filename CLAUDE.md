@@ -160,7 +160,7 @@ Todoist project records what is still to do.
   setting. Enharmonics are one pitch class; the quiz never asks for a spelling.
 - Fretboard drawing: nut on the left, string 1 (high E) at the top, fret numbers under the
   board, real logarithmic fret spacing scaled to the range, open strings get a zone left of the
-  nut. The hero animation in `components/screen.tsx` uses the same geometry.
+  nut. The landing's `TryIt` and tool cards draw with this same `Fretboard`.
 - Audio: placeholder samples synthesised by `tools/gen-samples.mjs` (Karplus-Strong, one WAV per
   MIDI pitch 40–88) in `public/samples/nylon/`, committed. Real nylon and electric samples with
   clear licensing are a Todoist task. Web Audio unlocks on the "Tap to start" gesture.
@@ -205,11 +205,26 @@ Todoist project records what is still to do.
   preview in their language (og-es.png for Spanish). Values in the strings file must be plain
   data (no functions): they cross into client components.
 - **Landing on phones (Will, 2026-09-24: "only text").** The hero is a grid: headline, then the
-  animated `Screen`, then the lede, CTAs and trust line; from `lg` the screen takes the right
+  playable `TryIt`, then the lede, CTAs and trust line; from `lg` the screen takes the right
   column against the whole text block. The hero lede stays at three or four short sentences;
   detail goes to "How it works" and "What you learn". Each "How it works" step carries a drawn
   figure (`components/how-figures.tsx`: neck slice, button row, green/red verdict, in the game's
   colors, note names per language). Section padding is `py-14 sm:py-24`.
+- **Landing made playable (Will, 2026-09-26: "more exciting for first visitors").** The hero's
+  looping animation (`components/screen.tsx`, gone) is now `components/try-it.tsx`: a real Name
+  the note in first position (frets 0–5, naturals, seven buttons in a row under the board, the
+  first question fixed on C so server and client agree), sound on the first tap, five dots for a
+  streak, and at five a card that links to the full exercise. Under the hero, `#tools`
+  (`components/tool-showcase.tsx`, copy in `t.tools`): one card per built tool with a still of
+  it, linking straight into it; add a card (and its `HREFS` entry) when a tool is built.
+- **Backing tracks (Will, 2026-09-26: "a section in the app with backing tracks with embedded
+  youtube videos").** Practice side, `/practice/backing-tracks`. Data in
+  `lib/core/backing-tracks.ts` (video id, title, channel, style, key, a fitting scale from
+  `scales.ts` with its root, optional BPM; tests); every id was checked embeddable through
+  YouTube oEmbed when added, do the same for new ones. Style chips filter. A card shows YouTube's
+  thumbnail (i.ytimg.com) and loads the youtube-nocookie.com player only on play, one at a time;
+  "Show on the neck" writes root and scale into `diesis_neck` and opens the neck. The privacy page
+  has a "Backing tracks" section saying so; keep it true.
 - **Who makes it (Will, 2026-09-25)**: a landing section (`#maker`, before the closing card)
   in Will's first person, linking willdafer.es and Instagram `@willdafer.es`. Copy in
   `t.maker`; keep it true to what he actually does.
@@ -268,14 +283,14 @@ points to it and keeps `/lang/` out. Add new public pages to the sitemap.
 
 - `app/` — routes: `page.tsx` and `es/page.tsx` (landing), `privacy/` and `es/privacy/`,
   `(app)/` (route group, the app: `layout.tsx` with the top bar, `template.tsx`, `start/`,
-  `learn/` with `name-the-note/` and `find-the-note/`, `practice/` with `neck/` and
-  `metronome/`, `profile/`), `lang/[code]/` (cookie setter).
+  `learn/` with `name-the-note/` and `find-the-note/`, `practice/` with `neck/`,
+  `metronome/` and `backing-tracks/`, `profile/`), `lang/[code]/` (cookie setter).
   `layout.tsx` holds fonts and metadata; `globals.css` the theme tokens.
-- `components/` — `landing`, `privacy-page`, `logo`, `screen` (animated hero), `footer`,
+- `components/` — `landing`, `privacy-page`, `logo`, `footer`,
   `lang-switch`, `fretboard` (SVG, marks and tap targets), `note-panel`, `game-frame`
   (`GameShell`: sideways treatment, gate, header; `GameFrame`: the board inside it),
   `setup-screen` (before a round), `challenge-card` (result card, header status, `Chip`),
-  `game` (Mode A), `find-game` (Mode B), `metronome` (both modes), `neck` (scale explorer), `profile`, `site-nav` (the top bar), `how-figures` and `open-app` (landing), `ui/`.
+  `game` (Mode A), `find-game` (Mode B), `metronome` (both modes), `neck` (scale explorer), `backing-tracks`, `profile`, `site-nav` (the top bar), `try-it`, `tool-showcase`, `how-figures` and `open-app` (landing), `ui/`.
 - `lib/i18n.ts` — every string, EN and ES. `lib/lang.ts` — reads the language cookie.
 - `lib/core/` — note model (`notes.ts`), question generator (`quiz.ts`), tests. Pure TS.
 - `lib/core/challenge.ts` — challenge rules. `lib/audio/note-player.ts` — Web Audio sampler.

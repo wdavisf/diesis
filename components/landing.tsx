@@ -1,7 +1,8 @@
 import { ArrowRight, Globe } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { LogoMark } from "@/components/logo";
-import { Screen } from "@/components/screen";
+import { TryIt } from "@/components/try-it";
+import { ToolShowcase } from "@/components/tool-showcase";
 import { Footer } from "@/components/footer";
 import { SiteNav } from "@/components/site-nav";
 import { HowFigure } from "@/components/how-figures";
@@ -19,7 +20,7 @@ export function Landing({ t }: { t: Strings }) {
     <main className="flex-1">
       <SiteNav t={t} area="site" />
 
-      {/* Hero. On a phone the game screen sits right under the headline, before any paragraph;
+      {/* Hero. On a phone the playable neck sits right under the headline, before any paragraph;
           from lg up it takes the right column against the whole text block. */}
       <section className="mx-auto grid w-full max-w-6xl gap-x-12 gap-y-7 px-4 pt-10 pb-16 lg:grid-cols-[1.05fr_1fr] lg:grid-rows-[auto_auto] lg:items-center lg:gap-y-6 lg:pt-24 lg:pb-28">
         <div className="lg:col-start-1 lg:row-start-1 lg:self-end">
@@ -28,7 +29,7 @@ export function Landing({ t }: { t: Strings }) {
             {t.hero.h1}
           </h1>
         </div>
-        <Screen t={t} className="lg:col-start-2 lg:row-span-2 lg:row-start-1 drop-shadow-[0_30px_60px_rgba(0,0,0,0.55)]" />
+        <TryIt t={t} className="lg:col-start-2 lg:row-span-2 lg:row-start-1 shadow-[0_30px_60px_rgba(0,0,0,0.55)] ring-1 ring-amber/20" />
         <div className="lg:col-start-1 lg:row-start-2 lg:self-start">
           <p className="max-w-xl text-lg text-pretty text-dim">
             {t.hero.lede}
@@ -40,7 +41,7 @@ export function Landing({ t }: { t: Strings }) {
               </OpenApp>
             </Button>
             <Button asChild size="lg" variant="outline" className="h-11 border-line bg-surface px-5 text-base text-ink hover:bg-surface-raised hover:text-ink">
-              <a href="#how">{t.hero.secondary}</a>
+              <a href="#tools">{t.hero.secondary}</a>
             </Button>
           </div>
           <ul className="mt-8 flex flex-wrap gap-x-6 gap-y-2 text-sm text-dim">
@@ -51,6 +52,18 @@ export function Landing({ t }: { t: Strings }) {
               </li>
             ))}
           </ul>
+        </div>
+      </section>
+
+      {/* The tools, each card opening its tool */}
+      <section id="tools" className="border-t border-line">
+        <div className="mx-auto w-full max-w-6xl px-4 py-14 sm:py-24">
+          <p className="text-sm font-medium tracking-wide text-amber-text uppercase">{t.tools.eyebrow}</p>
+          <h2 className="mt-3 max-w-2xl font-display text-3xl font-semibold tracking-tight text-balance sm:text-5xl">
+            {t.tools.h2}
+          </h2>
+          <p className="mt-4 max-w-2xl text-lg text-dim">{t.tools.lede}</p>
+          <ToolShowcase t={t} />
         </div>
       </section>
 

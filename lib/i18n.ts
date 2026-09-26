@@ -3,6 +3,8 @@
  * pages live at `/` and `/es`; the mode picker and game read the `diesis_lang` cookie,
  * which the switcher sets through `/lang/[code]`.
  */
+import type { Style } from "./core/backing-tracks";
+
 export type Lang = "en" | "es";
 export const LANGS: Lang[] = ["en", "es"];
 export const LANG_COOKIE = "diesis_lang";
@@ -43,7 +45,10 @@ export interface Strings {
   faq: { eyebrow: string; h2: string; items: { q: string; a: string }[] };
   maker: { eyebrow: string; h2: string; p: string[]; site: string; instagram: string };
   closing: { h2: string; lede: string };
-  screen: { score: string; feedback: string; hearAgain: string; aria: string };
+  /** The playable Name the note in the landing's hero (components/try-it.tsx). {n} in streak. */
+  tryIt: { prompt: string; hint: string; streak: string; doneTitle: string; doneBody: string; doneCta: string; again: string };
+  /** The landing's tool cards (components/tool-showcase.tsx), in the order of its HREFS. */
+  tools: { eyebrow: string; h2: string; lede: string; open: string; items: { side: string; title: string; body: string }[] };
   footer: { tagline: string; made: string };
   /** /start: "What do you want to do today?", Learn or Practice. */
   home: { title: string; h1: string; lede: string; about: string; start: string; next: string; later: string; learn: string; practice: string };
@@ -150,6 +155,12 @@ export interface Strings {
     erase: string;
     eraseConfirm: string;
   };
+  /** /practice/backing-tracks. {n} a note name, {root}/{scale} names, {t} a video title, {c} a channel. */
+  backing: {
+    title: string; lede: string; style: string; all: string;
+    styles: Record<Style, string>;
+    major: string; minor: string; playOver: string; scaleOn: string; play: string; by: string; onNeck: string; note: string;
+  };
   neck: {
     title: string;
     root: string;
@@ -194,13 +205,13 @@ const en: Strings = {
     privacyTitle: "Privacy",
     privacyDescription: "What Diesis does with your data: no account, no ads, nothing you do in Diesis leaves your browser. Visit counting with Google Analytics only if you allow it.",
   },
-  nav: { how: "How it works", learn: "What you learn", faq: "FAQ", cta: "Open the app", privacy: "Privacy", about: "About Diesis", areas: { learn: "Learn", practice: "Practice" }, learnTools: ["Name the note", "Find the note"], practiceTools: ["The neck", "Metronome"] },
+  nav: { how: "How it works", learn: "What you learn", faq: "FAQ", cta: "Open the app", privacy: "Privacy", about: "About Diesis", areas: { learn: "Learn", practice: "Practice" }, learnTools: ["Name the note", "Find the note"], practiceTools: ["The neck", "Metronome", "Backing tracks"] },
   hero: {
     eyebrow: "The guitar learning tool",
     h1: "Everything you need to master the guitar.",
-    lede: "Become the best guitarist you can be. Today, every note and scale on the neck and a metronome that builds your speed; next, scale exercises, reading and tools for your own guitar.",
+    lede: "Become the best guitarist you can be. Try it now on the neck: name the note that lights up. In the app, the whole fretboard, every scale, a metronome that builds your speed and backing tracks to jam over.",
     cta: "Open the app",
-    secondary: "How it works",
+    secondary: "See the tools",
     trust: ["Free in preview", "No account", "Phone or laptop, in the browser"],
   },
   how: {
@@ -253,6 +264,7 @@ const en: Strings = {
         lede: "What you keep open while you practice, set up for your own guitar.",
         items: [
           { title: "Metronome and speed trainer", body: "Tempo from 20 to 300, 2/4 to 7/8 with the accents where they belong, subdivisions up to sextuplets, tap tempo. Turn on Speed up and it climbs on its own: pick the start, the target, the step and the bars at each tempo.", when: "now" },
+          { title: "Backing tracks", body: "Tracks to jam over: blues, rock, metal, funk, bossa, modal jams, flamenco and more. Each shows its key and a scale that fits, and opens that scale on the neck.", when: "now" },
           { title: "Your guitar", body: "In your profile: six, seven or eight strings and your tuning (standard, drop D, E♭, DADGAD, open G, drop A…). The exercises and the neck draw and play that guitar.", when: "now" },
           { title: "Strings and setup", body: "Work out each string’s tension, pick the gauges that suit your guitar, and set action and intonation after a string change.", when: "later" },
         ],
@@ -300,7 +312,28 @@ const en: Strings = {
     instagram: "@willdafer.es on Instagram",
   },
   closing: { h2: "Guitar on your lap?", lede: "Start with the neck. A few minutes a day is enough." },
-  screen: { score: "7 right · 1 wrong", feedback: "Correct", hearAgain: "Hear again", aria: "Practice screen: one lit position on the fretboard and twelve note-name buttons" },
+  tryIt: {
+    prompt: "Which note is lit?",
+    hint: "Sound on, tap a note.",
+    streak: "{n} in a row",
+    doneTitle: "Five in a row.",
+    doneBody: "That was Name the note, in first position. The app has the whole neck, the sharps, the clock and your best scores.",
+    doneCta: "The full exercise",
+    again: "Another five",
+  },
+  tools: {
+    eyebrow: "Inside",
+    h2: "Open a tool and start playing.",
+    lede: "No sign-up, nothing to install. Every card takes you straight into the tool.",
+    open: "Open",
+    items: [
+      { side: "Learn", title: "Name the note", body: "A position lights and plays. Say which note it is, against the clock if you dare." },
+      { side: "Learn", title: "Find the note", body: "You get a name. Tap every place it lives on the neck." },
+      { side: "Practice", title: "The neck", body: "Any scale on any root, across the whole fretboard. Here, A minor pentatonic." },
+      { side: "Practice", title: "Metronome", body: "20 to 300 BPM, odd meters, tap tempo, and a Speed up mode that climbs to your target." },
+      { side: "Practice", title: "Backing tracks", body: "Jam over tracks in every style, with the key and the scale to play shown on each." },
+    ],
+  },
   footer: { tagline: "Everything you need to master the guitar.", made: "Made in Cáceres, Spain. “Diesis” is Greek for the semitone: one fret." },
   home: {
     title: "Learn or practice",
@@ -331,6 +364,7 @@ const en: Strings = {
     modes: [
       { title: "The neck", body: "Every note on the fretboard, or a scale on the root you pick: pentatonics, blues, major, the minors, the modes." },
       { title: "Metronome", body: "A steady tempo, or one that climbs a step every few bars up to your target. Time signatures, accents, subdivisions, tap tempo." },
+      { title: "Backing tracks", body: "Jam over a band in any style, with the key and a scale that fits, shown on the neck in one tap." },
       { title: "Tuner", body: "Tune through the microphone, in your guitar's own tuning." },
       { title: "Strings and setup", body: "Each string's tension, the gauges that suit your guitar, action and intonation after a string change." },
     ],
@@ -431,6 +465,21 @@ const en: Strings = {
     erase: "Erase my data",
     eraseConfirm: "Erase your records, achievements and settings from this browser?",
   },
+  backing: {
+    title: "Backing tracks",
+    lede: "Put one on and play over it. Each track says its key and a scale that fits; open that scale on the neck if you need a map.",
+    style: "Style",
+    all: "All",
+    styles: { blues: "Blues", rock: "Rock", metal: "Metal", funk: "Funk", jazz: "Jazz and bossa", modal: "Modal", spanish: "Flamenco", country: "Country", ballad: "Ballad", neosoul: "Neo-soul" },
+    major: "{n} major",
+    minor: "{n} minor",
+    playOver: "Play:",
+    scaleOn: "{root} {scale}",
+    play: "Play {t}",
+    by: "By {c}, on YouTube",
+    onNeck: "Show on the neck",
+    note: "The videos are YouTube's and their makers'. The player loads from YouTube only when you press play.",
+  },
   neck: {
     title: "The neck",
     root: "Root",
@@ -464,12 +513,13 @@ const en: Strings = {
   privacy: {
     eyebrow: "Privacy",
     h1: "Privacy policy",
-    updated: "Last updated 25 September 2026",
+    updated: "Last updated 26 September 2026",
     summary: "Diesis has no account and no advertising. Nothing you do in Diesis leaves your browser. The only thing we measure is visits to the site, with Google Analytics, and only if you allow it.",
     sections: [
       { h: "The app", p: ["Diesis runs entirely in your browser. It does not ask who you are, does not create an account, and does not send anything you do in it to us or to anyone else.", "Your score for a session is held in memory and disappears when you close the tab. Everything else you choose or earn stays in your browser's local storage, on your device only: your guitar (strings and tuning), how notes are named, your personal bests and the challenge you last picked, the metronome's settings (including a speed-up plan) and what you last picked on the neck. None of it is ever sent anywhere. The Erase my data button in your profile removes it, and so does clearing the site's data."] },
       { h: "Cookies", p: ["Diesis sets two cookies. One remembers the language you picked; the other remembers your answer to the analytics banner. Neither holds anything about you."] },
       { h: "This website", p: ["diesis.app is hosted by Vercel, which keeps standard server logs (IP address, browser, pages requested) for a short time to run the service and keep it safe.", "If you allow it in the banner, the site loads Google Analytics 4 to count visits and see which pages are read. Google sets its own cookies for that and processes the data under its own privacy policy. If you decline, nothing from Google is loaded, and you can change your mind by clearing the site's cookies."] },
+      { h: "Backing tracks", p: ["The backing tracks page shows thumbnails served by YouTube (i.ytimg.com), so YouTube sees your IP address when the page loads. The video player comes from youtube-nocookie.com and loads only when you press play on a track; from then on YouTube's privacy policy applies to that video. Diesis sends YouTube nothing about you."] },
       { h: "Children", p: ["Diesis collects no personal data from anyone, of any age."] },
       { h: "Changes", p: ["If this policy changes, the new version is published here with a new date. It will never quietly start collecting data."] },
     ],
@@ -491,13 +541,13 @@ const es: Strings = {
     privacyTitle: "Privacidad",
     privacyDescription: "Qué hace Diesis con tus datos: sin cuenta, sin anuncios y sin que nada de lo que haces en Diesis salga de tu navegador. Contamos visitas con Google Analytics solo si tú lo permites.",
   },
-  nav: { how: "Cómo funciona", learn: "Qué aprendes", faq: "Preguntas", cta: "Abrir la app", privacy: "Privacidad", about: "Sobre Diesis", areas: { learn: "Aprender", practice: "Practicar" }, learnTools: ["Nombra la nota", "Encuentra la nota"], practiceTools: ["El mástil", "Metrónomo"] },
+  nav: { how: "Cómo funciona", learn: "Qué aprendes", faq: "Preguntas", cta: "Abrir la app", privacy: "Privacidad", about: "Sobre Diesis", areas: { learn: "Aprender", practice: "Practicar" }, learnTools: ["Nombra la nota", "Encuentra la nota"], practiceTools: ["El mástil", "Metrónomo", "Backing tracks"] },
   hero: {
     eyebrow: "La herramienta para aprender guitarra",
     h1: "Todo lo que necesitas para dominar la guitarra.",
-    lede: "Llega a ser el mejor guitarrista que puedas ser. Hoy, todas las notas y escalas del mástil y un metrónomo que te hace ganar velocidad; después, ejercicios de escalas, lectura y herramientas para tu guitarra.",
+    lede: "Llega a ser el mejor guitarrista que puedas ser. Pruébalo ya en el mástil: di qué nota se ilumina. En la app tienes el mástil entero, todas las escalas, un metrónomo que te hace ganar velocidad y bases para improvisar encima.",
     cta: "Abrir la app",
-    secondary: "Cómo funciona",
+    secondary: "Ver las herramientas",
     trust: ["Gratis durante la beta", "Sin registro", "En el navegador, móvil u ordenador"],
   },
   how: {
@@ -550,6 +600,7 @@ const es: Strings = {
         lede: "Lo que tienes abierto mientras practicas, pensado para tu guitarra.",
         items: [
           { title: "Metrónomo y entrenador de velocidad", body: "Tempo de 20 a 300, compases de 2/4 a 7/8 con los acentos donde tocan, subdivisiones hasta seisillos y tap tempo. Activa la subida de tempo y sube solo: eliges inicio, objetivo, cuánto sube y cuántos compases en cada tempo.", when: "now" },
+          { title: "Backing tracks", body: "Bases para improvisar encima: blues, rock, metal, funk, bossa, jams modales, flamenco y más. Cada una dice su tonalidad y una escala que encaja, y te la abre en el mástil.", when: "now" },
           { title: "Tu guitarra", body: "En tu perfil: seis, siete u ocho cuerdas y tu afinación (estándar, drop D, Mi♭, DADGAD, Sol abierta, drop A…). Los ejercicios y el mástil dibujan y suenan con esa guitarra.", when: "now" },
           { title: "Cuerdas y ajuste", body: "Calcula la tensión de cada cuerda, elige los calibres que le van a tu guitarra y ajusta la altura y la octavación cuando cambies las cuerdas.", when: "later" },
         ],
@@ -597,7 +648,28 @@ const es: Strings = {
     instagram: "@willdafer.es en Instagram",
   },
   closing: { h2: "¿Tienes la guitarra a mano?", lede: "Empieza por el mástil. Con unos minutos al día basta." },
-  screen: { score: "7 aciertos · 1 fallo", feedback: "¡Correcto!", hearAgain: "Oír otra vez", aria: "Pantalla de práctica: una posición iluminada en el mástil y doce botones con los nombres de las notas" },
+  tryIt: {
+    prompt: "¿Qué nota es?",
+    hint: "Sube el volumen y elige.",
+    streak: "{n} seguidas",
+    doneTitle: "Cinco seguidas.",
+    doneBody: "Eso era «Nombra la nota» en primera posición. En la app tienes el mástil entero, los sostenidos, el cronómetro y tus récords.",
+    doneCta: "El ejercicio completo",
+    again: "Otras cinco",
+  },
+  tools: {
+    eyebrow: "Dentro",
+    h2: "Abre una herramienta y ponte a tocar.",
+    lede: "Sin registro y sin instalar nada. Cada tarjeta te lleva directo a la herramienta.",
+    open: "Abrir",
+    items: [
+      { side: "Aprender", title: "Nombra la nota", body: "Se ilumina una posición y suena. Di qué nota es, y contrarreloj si te atreves." },
+      { side: "Aprender", title: "Encuentra la nota", body: "Te dan una nota. Tócala en todos los sitios del mástil donde esté." },
+      { side: "Practicar", title: "El mástil", body: "Cualquier escala sobre cualquier tónica, por todo el mástil. Aquí, la pentatónica menor de La." },
+      { side: "Practicar", title: "Metrónomo", body: "De 20 a 300 BPM, compases de amalgama, tap tempo y una subida de tempo que te lleva hasta tu objetivo." },
+      { side: "Practicar", title: "Backing tracks", body: "Bases de todos los estilos para improvisar encima, cada una con su tonalidad y la escala que encaja." },
+    ],
+  },
   footer: { tagline: "Todo lo que necesitas para dominar la guitarra.", made: "Hecho en Cáceres. «Diesis» es semitono en griego: un traste." },
   home: {
     title: "Aprender o practicar",
@@ -628,6 +700,7 @@ const es: Strings = {
     modes: [
       { title: "El mástil", body: "Todas las notas del mástil, o una escala sobre la tónica que elijas: pentatónicas, blues, mayor, las menores y los modos." },
       { title: "Metrónomo", body: "Tempo fijo, o uno que sube solo cada pocos compases hasta tu objetivo. Compases, acentos, subdivisiones y tap tempo." },
+      { title: "Backing tracks", body: "Improvisa con una banda detrás, del estilo que quieras, con su tonalidad y una escala que encaja, que ves en el mástil con un toque." },
       { title: "Afinador", body: "Afina con el micrófono, en la afinación de tu guitarra." },
       { title: "Cuerdas y ajuste", body: "La tensión de cada cuerda, los calibres que le van a tu guitarra, y la acción y la octavación después de cambiar cuerdas." },
     ],
@@ -728,6 +801,21 @@ const es: Strings = {
     erase: "Borrar mis datos",
     eraseConfirm: "¿Borrar tus récords, logros y ajustes de este navegador?",
   },
+  backing: {
+    title: "Backing tracks",
+    lede: "Pon una y toca encima. Cada base dice su tonalidad y una escala que encaja; si te hace falta el mapa, ábrela en el mástil.",
+    style: "Estilo",
+    all: "Todas",
+    styles: { blues: "Blues", rock: "Rock", metal: "Metal", funk: "Funk", jazz: "Jazz y bossa", modal: "Modal", spanish: "Flamenco", country: "Country", ballad: "Balada", neosoul: "Neo-soul" },
+    major: "{n} mayor",
+    minor: "{n} menor",
+    playOver: "Toca:",
+    scaleOn: "{scale} de {root}",
+    play: "Reproducir {t}",
+    by: "De {c}, en YouTube",
+    onNeck: "Ver en el mástil",
+    note: "Los vídeos son de YouTube y de quienes los hicieron. El reproductor de YouTube solo se carga cuando pulsas play.",
+  },
   neck: {
     title: "El mástil",
     root: "Tónica",
@@ -761,12 +849,13 @@ const es: Strings = {
   privacy: {
     eyebrow: "Privacidad",
     h1: "Política de privacidad",
-    updated: "Última actualización: 25 de septiembre de 2026",
+    updated: "Última actualización: 26 de septiembre de 2026",
     summary: "Diesis no tiene cuentas ni publicidad. Nada de lo que haces en Diesis sale de tu navegador. Lo único que medimos son las visitas a la web, con Google Analytics, y solo si tú lo permites.",
     sections: [
       { h: "La app", p: ["Diesis funciona por completo en tu navegador. No te pregunta quién eres, no crea ninguna cuenta y no envía nada de lo que haces a nadie, ni a nosotros ni a terceros.", "La puntuación de cada sesión se guarda en memoria y desaparece al cerrar la pestaña. Todo lo demás que eliges o consigues se queda en el almacenamiento local de tu navegador, solo en tu dispositivo: tu guitarra (cuerdas y afinación), cómo se nombran las notas, tus mejores marcas y el último reto que elegiste, los ajustes del metrónomo (con el plan de subida de tempo) y lo último que elegiste en el mástil. Nada de eso se envía nunca a ningún sitio. El botón «Borrar mis datos» de tu perfil lo elimina, y también borrar los datos de la web."] },
       { h: "Cookies", p: ["Diesis guarda dos cookies: una recuerda el idioma que has elegido y la otra, lo que respondiste al aviso de analítica. Ninguna contiene datos sobre ti."] },
       { h: "Esta web", p: ["diesis.app está alojada en Vercel, que conserva durante poco tiempo los registros habituales de cualquier servidor (dirección IP, navegador, páginas solicitadas) para que el servicio funcione y esté protegido.", "Si lo permites en el aviso, la web carga Google Analytics 4 para contar visitas y ver qué páginas se leen. Google instala sus propias cookies para ello y trata los datos según su política de privacidad. Si dices que no, no se carga nada de Google; puedes cambiar de opinión borrando las cookies de la web."] },
+      { h: "Backing tracks", p: ["La página de backing tracks muestra miniaturas que sirve YouTube (i.ytimg.com), así que YouTube ve tu dirección IP al cargarla. El reproductor viene de youtube-nocookie.com y solo se carga cuando pulsas play en una base; a partir de ahí, a ese vídeo se le aplica la política de privacidad de YouTube. Diesis no le envía a YouTube nada sobre ti."] },
       { h: "Menores", p: ["Diesis no recoge datos personales de nadie, tenga la edad que tenga."] },
       { h: "Cambios", p: ["Si esta política cambia, la nueva versión se publicará aquí con su fecha. Nunca empezará a recoger datos sin avisar."] },
     ],
