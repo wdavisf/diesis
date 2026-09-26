@@ -229,6 +229,18 @@ Todoist project records what is still to do.
   never "we", "a team" or "a group of players". There is no working email: hello@diesis.app
   does not exist, so contact is Instagram @diesis.app (landing pricing box, privacy page,
   footer). Diesis will be paid at some point: say "free while in preview", never "stays free".
+- **Strings and setup (Will, 2026-09-26: "mete el calculador de cuerdas y tal").** Practice
+  side, `/practice/strings`; covers the three Todoist tasks of section 12 in one screen. Guitar
+  type (Strat, Tele, Les Paul/SG, PRS, superstrat, baritone, 7 at 25.5/26.5, 8 at 27, acoustic,
+  classical) sets the scale length (editable, 22–30″) and the setup numbers; strings and tuning
+  are the profile's `diesis_guitar`, changeable here. Tension per string from physics, not a
+  maker's table (no licensing question): plain = steel density × cross-section, wound = 0.84 ×
+  that, within 5% of published 10–46 figures (tests). Feel bands: slack < 12 lb, tight > 21 lb.
+  Common sets as chips, "Suggest a balanced set" (`suggestGauges`: 16 lb on top rising to 18 lb
+  on the lowest, plain on the top three). Nylon is not modelled (sold by tension). Setup numbers
+  are typical factory starting points, said so on the page; then six steps after a string change.
+  Core `lib/core/strings.ts`, storage `diesis_strings` (`lib/game/use-strings.ts`). No octave
+  numbers on note names (EN and ES count octaves differently).
 - **Feedback form (Will, 2026-09-26: "muy sencillo y que me llegue al correo como con
   jeremy.es").** `components/feedback.tsx`: "Feedback" / «Sugerencias», an icon button in the
   app's top bar and a link in the footer, opening a native `<dialog>`: name, what do you need

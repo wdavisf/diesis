@@ -3,6 +3,17 @@
 Written for the people using it, not for the code. Newest first. Version matches
 `package.json`.
 
+## 0.17.0 — 26 September 2026, strings and setup
+
+- New in Practice: **Strings and setup.** Pick your type of guitar (Strat, Tele, Les Paul,
+  superstrat, baritone, seven and eight strings, acoustic, classical) and see how tight each
+  string is in your tuning, in pounds and kilos, green when it is comfortable.
+- Load a common set (10–46, 11–56, 10–59, 10–74…) or press **Suggest a balanced set** and
+  Diesis works out the gauges for your tuning and scale length: drop A on seven strings gets a
+  heavier low string than standard B.
+- The setup numbers for your guitar (action, neck relief, radius, pickup height) and the steps
+  after a string change, in order, down to the intonation.
+
 ## 0.16.0 — 26 September 2026, tell me what you need
 
 - New: **Feedback** («Sugerencias»), in the top bar of the app and at the foot of every page.

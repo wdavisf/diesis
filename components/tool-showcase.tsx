@@ -11,7 +11,7 @@ import type { Strings } from "@/lib/i18n";
 /* The landing's "Open a tool" cards: each draws a still of the tool as it looks when you open it,
    and links straight into it. Hrefs in the order of `t.tools.items`. */
 
-const HREFS = ["/learn/name-the-note", "/learn/find-the-note", "/practice/neck", "/practice/metronome", "/practice/backing-tracks"];
+const HREFS = ["/learn/name-the-note", "/learn/find-the-note", "/practice/neck", "/practice/metronome", "/practice/backing-tracks", "/practice/strings"];
 const W = 520;
 const H = 190;
 
@@ -52,6 +52,22 @@ function Figure({ i, t }: { i: number; t: Strings }) {
       </div>
     );
   }
+  if (i === 5) {
+    // Strings: six tension bars, 10–46 in standard at 25.5", one string slack in amber.
+    const bars = [16.2, 15.4, 16.6, 18.4, 19.5, 10.8];
+    return (
+      <div className="flex aspect-[520/190] flex-col justify-center gap-2 rounded-lg bg-stage px-6" aria-hidden>
+        {bars.map((lb, k) => (
+          <div key={k} className="flex items-center gap-3">
+            <span className="w-8 text-right text-xs text-dim tabular-nums">{[".010", ".013", ".017", ".026", ".036", ".036"][k]}</span>
+            <span className="h-2 flex-1 overflow-hidden rounded-full bg-white/5">
+              <span className={`block h-full rounded-full ${lb < 12 ? "bg-amber" : "bg-correct"}`} style={{ width: `${(lb / 25) * 100}%` }} />
+            </span>
+          </div>
+        ))}
+      </div>
+    );
+  }
   return (
     <div className="relative flex aspect-[520/190] items-center justify-center overflow-hidden rounded-lg bg-[radial-gradient(circle_at_30%_40%,#3a2a1c,#14120f_70%)]">
       <div className="flex items-end gap-1" aria-hidden>
@@ -67,7 +83,7 @@ export function ToolShowcase({ t }: { t: Strings }) {
   return (
     <ul className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
       {t.tools.items.map((tool, i) => (
-        <li key={tool.title} className={i === 0 ? "sm:col-span-2 lg:col-span-1" : undefined}>
+        <li key={tool.title}>
           <Link
             href={`${t.base}${HREFS[i]}`}
             className="group flex h-full flex-col rounded-2xl border border-line bg-stage p-4 transition-[border-color,transform] duration-200 hover:-translate-y-0.5 hover:border-amber/60 motion-reduce:transition-none sm:p-5"
