@@ -364,6 +364,10 @@ points to it and keeps `/lang/` out. Add new public pages to the sitemap.
 
 - Same working style as Akoe and Tabula: this file is the living spec, `CHANGELOG.md` is written
   for users (newest first), design tokens before screens.
+- **Grids always name their mobile column: `grid grid-cols-1 sm:grid-cols-2…`**, never a bare
+  `grid` with only `sm:`/`lg:` columns. Without it the implicit column takes the content's
+  min-content width, and iOS Safari reads an SVG's `width` attribute (the fretboards are 520 px)
+  as that, pushing cards off the screen (Will's iPhone, 0.19.1). Chrome does not show it.
 - American English in code and docs. UI copy in English and Spanish, both in `lib/i18n.ts`.
 - Do not import React under `lib/core`.
 - Keep `app/globals.css` and `components/fretboard.tsx` colors in step with `design/tokens.json`.

@@ -69,7 +69,7 @@ export function Profile({ t }: { t: Strings }) {
           </div>
           <div className="flex flex-col gap-1.5">
             <span className="text-sm font-medium text-dim">{p.tuning}</span>
-            <div role="radiogroup" aria-label={p.tuning} className="grid gap-2 sm:grid-cols-2">
+            <div role="radiogroup" aria-label={p.tuning} className="grid grid-cols-1 gap-2 sm:grid-cols-2">
               {tuningsFor(count).map((tu) => {
                 const on = guitar.preset.id === tu.id;
                 return (
@@ -129,7 +129,7 @@ export function Profile({ t }: { t: Strings }) {
         title={p.achievements}
         aside={<span className="text-sm text-dim tabular-nums">{p.achievementsCount.replace("{e}", String(earned.size)).replace("{t}", String(ACHIEVEMENTS.length))}</span>}
       >
-        <ul className="grid gap-2 sm:grid-cols-2">
+        <ul className="grid grid-cols-1 gap-2 sm:grid-cols-2">
           {ACHIEVEMENTS.map((a) => {
             const on = earned.has(a.id);
             const text = p.achievementList[a.id];

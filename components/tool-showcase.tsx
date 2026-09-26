@@ -17,7 +17,9 @@ const H = 190;
 
 function Board({ marks, maxFret = 12 }: { marks: Mark[]; maxFret?: number }) {
   return (
-    <div className="[&>svg]:h-auto [&>svg]:w-full">
+    // min-w-0 and max-w-full: Safari sizes a grid column by the SVG's width attribute (520 px)
+    // unless told the cell may shrink, which pushed the cards off the side of an iPhone.
+    <div className="min-w-0 [&>svg]:h-auto [&>svg]:w-full [&>svg]:max-w-full">
       <Fretboard width={W} height={H} minFret={0} maxFret={maxFret} marks={marks} label="" />
     </div>
   );
@@ -81,12 +83,12 @@ function Figure({ i, t }: { i: number; t: Strings }) {
 
 export function ToolShowcase({ t }: { t: Strings }) {
   return (
-    <ul className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+    <ul className="mt-12 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
       {t.tools.items.map((tool, i) => (
-        <li key={tool.title}>
+        <li key={tool.title} className="min-w-0">
           <Link
             href={`${t.base}${HREFS[i]}`}
-            className="group flex h-full flex-col rounded-2xl border border-line bg-stage p-4 transition-[border-color,transform] duration-200 hover:-translate-y-0.5 hover:border-amber/60 motion-reduce:transition-none sm:p-5"
+            className="group flex h-full min-w-0 flex-col rounded-2xl border border-line bg-stage p-4 transition-[border-color,transform] duration-200 hover:-translate-y-0.5 hover:border-amber/60 motion-reduce:transition-none sm:p-5"
           >
             <Figure i={i} t={t} />
             <span className="mt-4 text-xs font-semibold tracking-wide text-amber-text uppercase">{tool.side}</span>

@@ -108,7 +108,7 @@ export function TryIt({ t, className }: { t: Strings; className?: string }) {
   ];
 
   return (
-    <div className={cn("relative overflow-hidden rounded-[22px] border border-line bg-[#14120f] p-3 sm:p-4", className)}>
+    <div className={cn("relative min-w-0 overflow-hidden rounded-[22px] border border-line bg-[#14120f] p-3 sm:p-4", className)}>
       <div className="flex items-center justify-between gap-3 px-1">
         <p className="font-display text-lg font-semibold sm:text-xl">{t.tryIt.prompt}</p>
         <div className="flex shrink-0 items-center gap-1.5" aria-label={t.tryIt.streak.replace("{n}", String(streak))} role="status">
@@ -122,7 +122,7 @@ export function TryIt({ t, className }: { t: Strings; className?: string }) {
         </div>
       </div>
 
-      <div className="mt-3 [&>svg]:h-auto [&>svg]:w-full">
+      <div className="mt-3 min-w-0 [&>svg]:h-auto [&>svg]:w-full [&>svg]:max-w-full">
         <Fretboard width={W} height={H} minFret={0} maxFret={5} marks={marks} label={t.game.board} />
       </div>
 

@@ -23,7 +23,7 @@ export function Landing({ t }: { t: Strings }) {
 
       {/* Hero. On a phone the playable neck sits right under the headline, before any paragraph;
           from lg up it takes the right column against the whole text block. */}
-      <section className="mx-auto grid w-full max-w-6xl gap-x-12 gap-y-7 px-4 pt-10 pb-16 lg:grid-cols-[1.05fr_1fr] lg:grid-rows-[auto_auto] lg:items-center lg:gap-y-6 lg:pt-24 lg:pb-28">
+      <section className="mx-auto grid grid-cols-1 w-full max-w-6xl gap-x-12 gap-y-7 px-4 pt-10 pb-16 lg:grid-cols-[1.05fr_1fr] lg:grid-rows-[auto_auto] lg:items-center lg:gap-y-6 lg:pt-24 lg:pb-28">
         <div className="lg:col-start-1 lg:row-start-1 lg:self-end">
           <p className="text-sm font-medium tracking-wide text-amber-text uppercase">{t.hero.eyebrow}</p>
           <h1 className="mt-4 font-display text-[2.6rem] leading-[1.02] font-semibold text-balance sm:text-6xl lg:text-7xl">
@@ -70,7 +70,7 @@ export function Landing({ t }: { t: Strings }) {
 
       {/* Who makes it: Will, with his photo, high on the page (Will, 2026-09-26) */}
       <section id="maker" className="border-t border-line bg-surface/40">
-        <div className="mx-auto grid w-full max-w-6xl items-center gap-8 px-4 py-14 sm:py-24 lg:grid-cols-[1fr_1.1fr] lg:gap-14">
+        <div className="mx-auto grid grid-cols-1 w-full max-w-6xl items-center gap-8 px-4 py-14 sm:py-24 lg:grid-cols-[1fr_1.1fr] lg:gap-14">
           <figure className="relative">
             <Image
               src="/will.jpg"
@@ -123,7 +123,7 @@ export function Landing({ t }: { t: Strings }) {
             {t.how.h2}
           </h2>
           <p className="mt-4 max-w-2xl text-lg text-dim">{t.how.lede}</p>
-          <ol className="mt-12 grid gap-6 sm:grid-cols-3">
+          <ol className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-3">
             {t.how.steps.map((s, i) => (
               <li key={s.title} className="flex flex-col rounded-2xl border border-line bg-stage p-5 sm:p-6">
                 <HowFigure step={i} t={t} className="mb-5 h-auto w-full" />
@@ -143,14 +143,14 @@ export function Landing({ t }: { t: Strings }) {
           {t.learn.h2}
         </h2>
         <p className="mt-4 max-w-2xl text-lg text-dim">{t.learn.lede}</p>
-        <div className="mt-12 grid gap-10">
+        <div className="mt-12 grid grid-cols-1 gap-10">
           {t.learn.tracks.map((tr) => (
-            <div key={tr.title} className="grid gap-6 lg:grid-cols-[260px_1fr]">
+            <div key={tr.title} className="grid grid-cols-1 gap-6 lg:grid-cols-[260px_1fr]">
               <div>
                 <h3 className="font-display text-2xl font-semibold">{tr.title}</h3>
                 <p className="mt-2 text-sm text-dim">{tr.lede}</p>
               </div>
-              <ul className="grid gap-4 sm:grid-cols-2">
+              <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 {tr.items.map((m) => (
                   <li key={m.title} className="rounded-2xl border border-line bg-surface p-5">
                     <span className={`inline-block rounded-full px-2.5 py-0.5 text-xs font-semibold ${whenClass[m.when]}`}>
@@ -168,7 +168,7 @@ export function Landing({ t }: { t: Strings }) {
 
       {/* The name */}
       <section className="border-y border-line bg-surface/40">
-        <div className="mx-auto grid w-full max-w-6xl items-center gap-10 px-4 py-14 sm:py-24 lg:grid-cols-[auto_1fr]">
+        <div className="mx-auto grid grid-cols-1 w-full max-w-6xl items-center gap-10 px-4 py-14 sm:py-24 lg:grid-cols-[auto_1fr]">
           <LogoMark size={150} className="rounded-[22%] ring-1 ring-white/10" />
           <div>
             <p className="text-sm font-medium tracking-wide text-amber-text uppercase">{t.name.eyebrow}</p>
@@ -190,7 +190,7 @@ export function Landing({ t }: { t: Strings }) {
         <h2 className="mt-3 max-w-2xl font-display text-3xl font-semibold tracking-tight text-balance sm:text-5xl">
           {t.pricing.h2}
         </h2>
-        <div className="mt-8 grid gap-6 lg:grid-cols-[1.2fr_1fr]">
+        <div className="mt-8 grid grid-cols-1 gap-6 lg:grid-cols-[1.2fr_1fr]">
           <div className="rounded-2xl border border-line bg-surface p-6 sm:p-8">
             <p className="font-display text-5xl font-semibold">{t.pricing.price}</p>
             <p className="mt-2 text-dim">{t.pricing.sub}</p>

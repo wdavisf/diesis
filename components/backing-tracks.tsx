@@ -52,7 +52,7 @@ export function BackingTracks({ t, neck, base, lang }: { t: Strings["backing"]; 
         ))}
       </div>
 
-      <ul className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      <ul className="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {tracksOf(style).map((tr, i) => (
           <li
             key={tr.id}

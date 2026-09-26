@@ -115,7 +115,7 @@ export function StringsSetup({ t, tp, lang, base }: { t: Strings["setup"]; tp: S
       </div>
 
       <Section title={t.guitar} lede={t.guitarLede}>
-        <div className="grid gap-4 sm:grid-cols-2">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <label className="flex flex-col gap-1.5 text-sm font-medium text-dim">
             {t.type}
             <select

@@ -3,6 +3,11 @@
 Written for the people using it, not for the code. Newest first. Version matches
 `package.json`.
 
+## 0.19.1 — 26 September 2026, fits on an iPhone again
+
+- On iPhone, the tool cards on the home page ran off the right edge of the screen and cut
+  their text. They fit now, and so do the other grids in the app.
+
 ## 0.19.0 — 26 September 2026, what comes next in Setup, and where to buy
 
 - The Setup menu now shows what is coming: a tuner that helps you set the intonation, several
