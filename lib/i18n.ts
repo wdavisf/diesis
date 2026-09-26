@@ -201,7 +201,7 @@ const en: Strings = {
   meta: {
     title: "Diesis — everything you need to master the guitar",
     description:
-      "Everything you need to master the guitar, in one place. See every note and scale on the neck, learn the notes and build speed with the metronome today; scale exercises, reading music and tools for your own guitar come next. Free, in the browser.",
+      "Everything you need to master the guitar, in one place. See every note and scale on the neck, learn the notes and build speed with the metronome today; scale exercises, reading music and tools for your own guitar come next. Free while in preview, in the browser.",
     privacyTitle: "Privacy",
     privacyDescription: "What Diesis does with your data: no account, no ads, nothing you do in Diesis leaves your browser. Visit counting with Google Analytics only if you allow it.",
   },
@@ -282,11 +282,11 @@ const en: Strings = {
     eyebrow: "Pricing",
     h2: "Free while it is in preview.",
     price: "Free",
-    sub: "The browser version costs nothing and asks for nothing. Open it and start.",
+    sub: "For now the browser version costs nothing and asks for nothing. Open it and start.",
     list: ["Every mode that exists", "No account, no sign-up", "Phone or laptop", "No ads"],
-    contactTitle: "Say what you play",
-    contact: "Diesis is being built in the open with a handful of players. Write to",
-    contactAfter: "and say what you play, or what you would like to see next. Extra fretboards and sounds may become small one-off purchases later; Diesis itself stays free.",
+    contactTitle: "Tell me what you play",
+    contact: "I build Diesis on my own, and what players tell me decides what comes first. Message me on Instagram at",
+    contactAfter: "and tell me what you play, or what you would like to see next. A paid plan will come later; while Diesis is in preview, everything is free.",
   },
   faq: {
     eyebrow: "FAQ",
@@ -524,7 +524,7 @@ const en: Strings = {
       { h: "Changes", p: ["If this policy changes, the new version is published here with a new date. It will never quietly start collecting data."] },
     ],
     contactHeading: "Contact",
-    contact: "Questions about privacy, or about Diesis in general:",
+    contact: "Questions about privacy, or about Diesis in general: message me on Instagram at",
   },
 };
 
@@ -537,7 +537,7 @@ const es: Strings = {
   meta: {
     title: "Diesis — todo lo que necesitas para dominar la guitarra",
     description:
-      "Todo lo que necesitas para dominar la guitarra, en un solo sitio. Hoy, todas las notas y escalas del mástil y un metrónomo que te hace ganar velocidad; después, ejercicios de escalas, lectura de partituras y herramientas para tu propia guitarra. Gratis y en el navegador.",
+      "Todo lo que necesitas para dominar la guitarra, en un solo sitio. Hoy, todas las notas y escalas del mástil y un metrónomo que te hace ganar velocidad; después, ejercicios de escalas, lectura de partituras y herramientas para tu propia guitarra. Gratis durante la beta y en el navegador.",
     privacyTitle: "Privacidad",
     privacyDescription: "Qué hace Diesis con tus datos: sin cuenta, sin anuncios y sin que nada de lo que haces en Diesis salga de tu navegador. Contamos visitas con Google Analytics solo si tú lo permites.",
   },
@@ -618,11 +618,11 @@ const es: Strings = {
     eyebrow: "Precio",
     h2: "Gratis mientras dure la beta.",
     price: "Gratis",
-    sub: "La versión web no cuesta nada y no pide nada. Entras y empiezas.",
+    sub: "Por ahora la versión web no cuesta nada y no pide nada. Entras y empiezas.",
     list: ["Todos los modos disponibles", "Sin cuenta ni registro", "Móvil u ordenador", "Sin anuncios"],
-    contactTitle: "Cuéntanos qué tocas",
-    contact: "Diesis se está construyendo con un grupo pequeño de guitarristas. Escribe a",
-    contactAfter: "y cuéntanos qué tocas o qué te gustaría que llegara antes. Más adelante puede que los mástiles y sonidos extra sean pequeñas compras únicas; Diesis seguirá siendo gratis.",
+    contactTitle: "Cuéntame qué tocas",
+    contact: "Diesis lo hago yo solo, y lo que me contáis los que tocáis decide qué llega antes. Escríbeme por Instagram a",
+    contactAfter: "y dime qué tocas o qué te gustaría ver. Más adelante habrá un plan de pago; mientras dure la beta, todo es gratis.",
   },
   faq: {
     eyebrow: "Preguntas",
@@ -860,7 +860,7 @@ const es: Strings = {
       { h: "Cambios", p: ["Si esta política cambia, la nueva versión se publicará aquí con su fecha. Nunca empezará a recoger datos sin avisar."] },
     ],
     contactHeading: "Contacto",
-    contact: "Para cualquier duda sobre privacidad, o sobre Diesis en general:",
+    contact: "Para cualquier duda sobre privacidad, o sobre Diesis en general, escríbeme por Instagram a",
   },
 };
 

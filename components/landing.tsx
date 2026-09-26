@@ -167,8 +167,8 @@ export function Landing({ t }: { t: Strings }) {
             </p>
             <p className="mt-3 text-dim">
               {t.pricing.contact}{" "}
-              <a href="mailto:hello@diesis.app" className="text-ink underline underline-offset-4">
-                hello@diesis.app
+              <a href="https://instagram.com/diesis.app" target="_blank" rel="noopener" className="text-ink underline underline-offset-4">
+                @diesis.app
               </a>{" "}
               {t.pricing.contactAfter}
             </p>

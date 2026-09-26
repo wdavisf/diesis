@@ -225,6 +225,10 @@ Todoist project records what is still to do.
   thumbnail (i.ytimg.com) and loads the youtube-nocookie.com player only on play, one at a time;
   "Show on the neck" writes root and scale into `diesis_neck` and opens the neck. The privacy page
   has a "Backing tracks" section saying so; keep it true.
+- **Contact and price, only what is true (Will, 2026-09-26).** Diesis is made by Will alone:
+  never "we", "a team" or "a group of players". There is no working email: hello@diesis.app
+  does not exist, so contact is Instagram @diesis.app (landing pricing box, privacy page,
+  footer). Diesis will be paid at some point: say "free while in preview", never "stays free".
 - **Who makes it (Will, 2026-09-25)**: a landing section (`#maker`, before the closing card)
   in Will's first person, linking willdafer.es and Instagram `@willdafer.es`. Copy in
   `t.maker`; keep it true to what he actually does.

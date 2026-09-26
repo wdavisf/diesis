@@ -3,6 +3,13 @@
 Written for the people using it, not for the code. Newest first. Version matches
 `package.json`.
 
+## 0.15.1 — 26 September 2026, honest contact
+
+- To get in touch, message **@diesis.app on Instagram**. The email address shown before did
+  not work.
+- The home page no longer says Diesis will stay free: it is free while in preview, and a paid
+  plan will come later.
+
 ## 0.15.0 — 26 September 2026, try it on the home page, and backing tracks
 
 - **Try it before you open anything:** the home page now has a real neck you can answer on.

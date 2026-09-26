@@ -26,9 +26,10 @@ export function PrivacyPage({ t }: { t: Strings }) {
           <h2 className="font-display text-2xl font-semibold">{p.contactHeading}</h2>
           <p className="mt-3 text-dim">
             {p.contact}{" "}
-            <a href="mailto:hello@diesis.app" className="text-ink underline underline-offset-4">
-              hello@diesis.app
+            <a href="https://instagram.com/diesis.app" target="_blank" rel="noopener" className="text-ink underline underline-offset-4">
+              @diesis.app
             </a>
+            .
           </p>
         </section>
       </article>
