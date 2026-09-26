@@ -3,11 +3,15 @@
 Written for the people using it, not for the code. Newest first. Version matches
 `package.json`.
 
+## 0.20.1 — 26 September 2026
+
+- The guitar types in Strings and setup are plain cards again, each with its scale length and
+  number of strings. Photos of each type are on the way.
+
 ## 0.20.0 — 26 September 2026, strings you can tell from frets
 
 - On every neck in Diesis the strings now look like strings: the plain ones bright, the wound
   ones warm with their winding, and the frets quieter behind them.
-- In Strings and setup you pick your type of guitar from drawings of each one.
 
 ## 0.19.1 — 26 September 2026, fits on an iPhone again
 

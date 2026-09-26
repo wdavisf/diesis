@@ -251,8 +251,9 @@ Todoist project records what is still to do.
   are typical factory starting points, said so on the page; then six steps after a string change.
   Core `lib/core/strings.ts`, storage `diesis_strings` (`lib/game/use-strings.ts`). No octave
   numbers on note names (EN and ES count octaves differently). The guitar type is picked from
-  cards with a drawing of each (`components/guitar-art.tsx`: generic silhouettes, the guitar
-  lying face up, never a maker's logo), Will 2026-09-26.
+  text cards (name, scale, strings). Hand-drawn SVG silhouettes were tried and rejected by Will
+  (2026-09-26, "qué basura"): do not draw guitars in code. Will is sending photos of each type;
+  when they come, they go on these cards.
 - **Amazon affiliate links (Will, 2026-09-26; store id `willdafer-21`, Amazon.es).** Search
   links, not product links (`amazonSearch` in `lib/core/shop.ts`): no per-product codes, never
   stale. Today only in Setup → Strings and setup: "Find {set} strings on Amazon.es" for the

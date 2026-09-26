@@ -28,7 +28,6 @@ import { useSettings } from "@/lib/game/use-settings";
 import { useStrings } from "@/lib/game/use-strings";
 import type { Strings } from "@/lib/i18n";
 import { Chip } from "@/components/challenge-card";
-import { GuitarArt } from "@/components/guitar-art";
 import { cn } from "@/lib/utils";
 
 const field =
@@ -131,12 +130,12 @@ export function StringsSetup({ t, tp, lang, base }: { t: Strings["setup"]; tp: S
                   if (g.strings !== count) guitar.setTuning(tuningsFor(g.strings)[0].id);
                 }}
                 className={cn(
-                  "flex min-w-0 flex-col items-stretch rounded-xl border p-2 text-left outline-none transition-colors focus-visible:ring-3 focus-visible:ring-ring/50",
+                  "flex min-w-0 flex-col rounded-xl border px-3.5 py-2.5 text-left outline-none transition-colors focus-visible:ring-3 focus-visible:ring-ring/50",
                   on ? "border-amber bg-amber/10" : "border-line hover:bg-surface",
                 )}
               >
-                <GuitarArt type={g.id} className="h-auto w-full" />
-                <span className={cn("mt-1 px-1 text-xs font-medium sm:text-sm", on ? "text-amber-text" : "text-ink")}>{t.types[g.id]}</span>
+                <span className={cn("text-sm font-medium", on ? "text-amber-text" : "text-ink")}>{t.types[g.id]}</span>
+                <span className="mt-0.5 text-xs text-dim tabular-nums">{t.typeSpec.replace("{scale}", String(g.scale).replace(".", t.decimal)).replace("{n}", String(g.strings))}</span>
               </button>
             );
           })}
