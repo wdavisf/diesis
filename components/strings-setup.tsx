@@ -2,7 +2,7 @@
 
 import type { ReactNode } from "react";
 import Link from "next/link";
-import { Sparkles } from "lucide-react";
+import { ExternalLink, Sparkles } from "lucide-react";
 import { namesFor, pitchClassOf, STRING_COUNTS, tuningsFor } from "@/lib/core/notes";
 import {
   feelOf,
@@ -22,6 +22,7 @@ import {
   windingOf,
   type Feel,
 } from "@/lib/core/strings";
+import { amazonSearch, setName } from "@/lib/core/shop";
 import { useGuitar } from "@/lib/game/use-guitar";
 import { useSettings } from "@/lib/game/use-settings";
 import { useStrings } from "@/lib/game/use-strings";
@@ -45,6 +46,20 @@ function Section({ title, lede, children }: { title: string; lede?: string; chil
       {lede ? <p className="mt-1 text-sm text-dim">{lede}</p> : null}
       <div className="mt-5">{children}</div>
     </section>
+  );
+}
+
+/** An Amazon.es search link with the affiliate tag: a new tab, marked sponsored. */
+function Shop({ href, children, className }: { href: string; children: ReactNode; className?: string }) {
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="sponsored noopener"
+      className={cn("inline-flex items-center gap-1.5 rounded-lg border border-line px-3 py-2 text-sm font-medium text-ink transition-colors hover:bg-surface-raised", className)}
+    >
+      {children} <ExternalLink className="size-3.5 text-dim" aria-hidden />
+    </a>
   );
 }
 
@@ -86,6 +101,9 @@ export function StringsSetup({ t, tp, lang, base }: { t: Strings["setup"]; tp: S
   const noteName = (midi: number) => names[pitchClassOf(midi)];
   const activeSet = setsFor(count).find((s) => s.gauges.every((g, i) => g === gauges[i]))?.id;
   const s = type.setup;
+  const stringsQuery =
+    (type.id === "acoustic" ? t.query.acoustic : t.query.electric).replace("{set}", setName(gauges)) +
+    (count > 6 ? t.query.extended.replace("{n}", String(count)) : "");
   const mmIn = (v: number) => `${v.toFixed(1)} mm`;
   const inSub = (v: number) => `${(v / 25.4).toFixed(3).replace(/^0/, "")}″`;
 
@@ -171,7 +189,13 @@ export function StringsSetup({ t, tp, lang, base }: { t: Strings["setup"]; tp: S
 
       <Section title={t.tension} lede={type.nylon ? undefined : t.tensionLede}>
         {type.nylon ? (
-          <p className="text-dim">{t.nylon}</p>
+          <>
+            <p className="text-dim">{t.nylon}</p>
+            <Shop href={amazonSearch(t.query.nylon)} className="mt-4">
+              {t.buyNylon}
+            </Shop>
+            <p className="mt-2 text-xs text-dim">{t.affiliate}</p>
+          </>
         ) : (
           <>
             <div className="flex flex-wrap items-center gap-2">
@@ -235,6 +259,10 @@ export function StringsSetup({ t, tp, lang, base }: { t: Strings["setup"]; tp: S
               {t.total} <span className="font-semibold text-ink">{total.toFixed(0)} lb</span> · {(total * LB_TO_KG).toFixed(0)} kg
             </p>
             <p className="mt-2 text-xs text-dim">{t.estimate}</p>
+            <Shop href={amazonSearch(stringsQuery)} className="mt-5">
+              {t.buy.replace("{set}", setName(gauges).replace("-", "–"))}
+            </Shop>
+            <p className="mt-2 text-xs text-dim">{t.affiliate}</p>
           </>
         )}
       </Section>
@@ -253,6 +281,15 @@ export function StringsSetup({ t, tp, lang, base }: { t: Strings["setup"]; tp: S
           ) : null}
         </div>
         <p className="mt-3 text-xs text-dim">{t.setupNote}</p>
+        <h3 className="mt-6 text-sm font-semibold">{t.gearTitle}</h3>
+        <div className="mt-3 flex flex-wrap gap-2">
+          {t.gear.map((g) => (
+            <Shop key={g.label} href={amazonSearch(g.query)}>
+              {g.label}
+            </Shop>
+          ))}
+        </div>
+        <p className="mt-2 text-xs text-dim">{t.affiliate}</p>
       </Section>
 
       <Section title={t.stepsTitle} lede={t.stepsLede}>

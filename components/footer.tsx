@@ -27,6 +27,7 @@ export function Footer({ t }: { t: Strings }) {
       </div>
       <div className="mx-auto w-full max-w-6xl px-4 pb-8 text-xs text-dim">
         © {new Date().getFullYear()} Diesis. {t.footer.made}
+        <p className="mt-1">{t.footer.affiliate}</p>
       </div>
     </footer>
   );

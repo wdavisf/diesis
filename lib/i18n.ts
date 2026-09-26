@@ -53,6 +53,9 @@ export interface Strings {
     feel: Record<"slack" | "balanced" | "tight", string>; total: string; estimate: string;
     setupTitle: string; setupLede: string; actionBass: string; actionTreble: string; relief: string; radius: string; flat: string;
     pickupBass: string; pickupTreble: string; setupNote: string; stepsTitle: string; stepsLede: string; steps: { title: string; body: string }[];
+    /** Amazon.es links (lib/core/shop.ts). {set} a set name like "10-46", {n} a string count. */
+    buy: string; buyNylon: string; query: { electric: string; acoustic: string; nylon: string; extended: string };
+    gearTitle: string; gear: { label: string; query: string }[]; affiliate: string;
   };
   /** The feedback form (components/feedback.tsx). */
   feedback: {
@@ -63,7 +66,7 @@ export interface Strings {
   tryIt: { prompt: string; hint: string; streak: string; doneTitle: string; doneBody: string; doneCta: string; again: string };
   /** The landing's tool cards (components/tool-showcase.tsx), in the order of its HREFS. */
   tools: { eyebrow: string; h2: string; lede: string; open: string; items: { side: string; title: string; body: string }[] };
-  footer: { tagline: string; made: string };
+  footer: { tagline: string; made: string; affiliate: string };
   /** /start: "What do you want to do today?", Learn or Practice. */
   home: { title: string; h1: string; lede: string; about: string; start: string; next: string; later: string; learn: string; practice: string; setup: string };
   /** The menus of the two sides, cards in the order of their hrefs in components/tool-menu.tsx. */
@@ -380,6 +383,17 @@ const en: Strings = {
       { title: "Set the intonation", body: "Tune the open string, then play it at the 12th fret. Sharp: move the saddle away from the neck. Flat: towards it. Retune after every move, string by string." },
       { title: "Tune and play", body: "A new setup settles over a day or two. Check the tuning and the relief again after that." },
     ],
+    buy: "Find {set} strings on Amazon.es",
+    buyNylon: "Find classical strings on Amazon.es",
+    query: { electric: "electric guitar strings {set}", acoustic: "acoustic guitar strings {set}", nylon: "classical guitar strings normal tension", extended: " {n} string" },
+    gearTitle: "What you need for a setup",
+    gear: [
+      { label: "String action ruler", query: "guitar string action ruler" },
+      { label: "Feeler gauges", query: "feeler gauges set" },
+      { label: "String winder and cutter", query: "guitar string winder cutter" },
+      { label: "Clip-on tuner", query: "clip on guitar tuner" },
+    ],
+    affiliate: "As an Amazon Associate I earn from qualifying purchases. It costs you nothing and helps keep Diesis going.",
   },
   feedback: {
     open: "Feedback",
@@ -422,7 +436,7 @@ const en: Strings = {
       { side: "Setup", title: "Strings and setup", body: "Every string's tension for your tuning, a balanced set worked out for you, and the setup numbers for your guitar." },
     ],
   },
-  footer: { tagline: "Everything you need to master the guitar.", made: "Made in Cáceres, Spain. “Diesis” is Greek for the semitone: one fret." },
+  footer: { tagline: "Everything you need to master the guitar.", made: "Made in Cáceres, Spain. “Diesis” is Greek for the semitone: one fret.", affiliate: "As an Amazon Associate I earn from qualifying purchases." },
   home: {
     title: "Learn, practice, set up",
     h1: "What do you want to do today?",
@@ -620,6 +634,7 @@ const en: Strings = {
       { h: "Cookies", p: ["Diesis sets two cookies. One remembers the language you picked; the other remembers your answer to the analytics banner. Neither holds anything about you."] },
       { h: "This website", p: ["diesis.app is hosted by Vercel, which keeps standard server logs (IP address, browser, pages requested) for a short time to run the service and keep it safe.", "If you allow it in the banner, the site loads Google Analytics 4 to count visits and see which pages are read. Google sets its own cookies for that and processes the data under its own privacy policy. If you decline, nothing from Google is loaded, and you can change your mind by clearing the site's cookies."] },
       { h: "Backing tracks", p: ["The backing tracks page shows thumbnails served by YouTube (i.ytimg.com), so YouTube sees your IP address when the page loads. The video player comes from youtube-nocookie.com and loads only when you press play on a track; from then on YouTube's privacy policy applies to that video. Diesis sends YouTube nothing about you."] },
+      { h: "Links to Amazon", p: ["Some pages link to searches on Amazon.es with my Associates store id, so Amazon can tell the visit came from Diesis. Nothing is loaded from Amazon until you click, and Diesis sends Amazon nothing about you; once you are on Amazon, its own privacy policy and cookies apply. As an Amazon Associate I earn from qualifying purchases."] },
       { h: "Feedback", p: ["If you send the feedback form, what you write (your name, your message and your email if you give one) is emailed to me through Resend, together with the page you sent it from, the language, your guitar setting and your browser. It is not kept anywhere else: it stays in my inbox and I use it only to improve Diesis and to answer you."] },
       { h: "Children", p: ["Diesis collects no personal data from anyone, of any age."] },
       { h: "Changes", p: ["If this policy changes, the new version is published here with a new date. It will never quietly start collecting data."] },
@@ -802,6 +817,17 @@ const es: Strings = {
       { title: "Ajusta la octavación", body: "Afina la cuerda al aire y tócala en el traste 12. Si sale alta, aleja la selleta del mástil; si sale baja, acércala. Vuelve a afinar después de cada cambio, cuerda a cuerda." },
       { title: "Afina y toca", body: "Un ajuste nuevo se asienta en un día o dos. Revisa después la afinación y la curvatura." },
     ],
+    buy: "Buscar cuerdas {set} en Amazon.es",
+    buyNylon: "Buscar cuerdas de clásica en Amazon.es",
+    query: { electric: "cuerdas guitarra eléctrica {set}", acoustic: "cuerdas guitarra acústica {set}", nylon: "cuerdas guitarra clásica tensión normal", extended: " {n} cuerdas" },
+    gearTitle: "Lo que necesitas para ajustarla",
+    gear: [
+      { label: "Regla para la altura de cuerdas", query: "regla altura cuerdas guitarra" },
+      { label: "Galgas de espesores", query: "galgas de espesores" },
+      { label: "Enrollador y cortacuerdas", query: "enrollador cuerdas guitarra cortador" },
+      { label: "Afinador de pinza", query: "afinador de pinza guitarra" },
+    ],
+    affiliate: "En calidad de Afiliado de Amazon, obtengo ingresos por las compras adscritas que cumplen los requisitos aplicables. A ti no te cuesta nada y ayuda a mantener Diesis.",
   },
   feedback: {
     open: "Sugerencias",
@@ -844,7 +870,7 @@ const es: Strings = {
       { side: "Ajuste", title: "Cuerdas y ajuste", body: "La tensión de cada cuerda con tu afinación, un juego equilibrado calculado para ti y las medidas de ajuste de tu guitarra." },
     ],
   },
-  footer: { tagline: "Todo lo que necesitas para dominar la guitarra.", made: "Hecho en Cáceres. «Diesis» es semitono en griego: un traste." },
+  footer: { tagline: "Todo lo que necesitas para dominar la guitarra.", made: "Hecho en Cáceres. «Diesis» es semitono en griego: un traste.", affiliate: "En calidad de Afiliado de Amazon, obtengo ingresos por las compras adscritas que cumplen los requisitos aplicables." },
   home: {
     title: "Aprender, practicar, ajustar",
     h1: "¿Qué quieres hacer hoy?",
@@ -1042,6 +1068,7 @@ const es: Strings = {
       { h: "Cookies", p: ["Diesis guarda dos cookies: una recuerda el idioma que has elegido y la otra, lo que respondiste al aviso de analítica. Ninguna contiene datos sobre ti."] },
       { h: "Esta web", p: ["diesis.app está alojada en Vercel, que conserva durante poco tiempo los registros habituales de cualquier servidor (dirección IP, navegador, páginas solicitadas) para que el servicio funcione y esté protegido.", "Si lo permites en el aviso, la web carga Google Analytics 4 para contar visitas y ver qué páginas se leen. Google instala sus propias cookies para ello y trata los datos según su política de privacidad. Si dices que no, no se carga nada de Google; puedes cambiar de opinión borrando las cookies de la web."] },
       { h: "Backing tracks", p: ["La página de backing tracks muestra miniaturas que sirve YouTube (i.ytimg.com), así que YouTube ve tu dirección IP al cargarla. El reproductor viene de youtube-nocookie.com y solo se carga cuando pulsas play en una base; a partir de ahí, a ese vídeo se le aplica la política de privacidad de YouTube. Diesis no le envía a YouTube nada sobre ti."] },
+      { h: "Enlaces a Amazon", p: ["Algunas páginas enlazan a búsquedas en Amazon.es con mi identificador de afiliado, para que Amazon sepa que la visita viene de Diesis. No se carga nada de Amazon hasta que haces clic, y Diesis no le envía nada sobre ti; una vez en Amazon, se aplican su política de privacidad y sus cookies. En calidad de Afiliado de Amazon, obtengo ingresos por las compras adscritas que cumplen los requisitos aplicables."] },
       { h: "Sugerencias", p: ["Si envías el formulario de sugerencias, lo que escribes (tu nombre, tu mensaje y tu email si lo dejas) me llega por email a través de Resend, junto con la página desde la que lo envías, el idioma, la guitarra de tu perfil y tu navegador. No se guarda en ningún otro sitio: se queda en mi correo y solo lo uso para mejorar Diesis y contestarte."] },
       { h: "Menores", p: ["Diesis no recoge datos personales de nadie, tenga la edad que tenga."] },
       { h: "Cambios", p: ["Si esta política cambia, la nueva versión se publicará aquí con su fecha. Nunca empezará a recoger datos sin avisar."] },

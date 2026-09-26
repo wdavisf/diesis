@@ -249,6 +249,14 @@ Todoist project records what is still to do.
   are typical factory starting points, said so on the page; then six steps after a string change.
   Core `lib/core/strings.ts`, storage `diesis_strings` (`lib/game/use-strings.ts`). No octave
   numbers on note names (EN and ES count octaves differently).
+- **Amazon affiliate links (Will, 2026-09-26; store id `willdafer-21`, Amazon.es).** Search
+  links, not product links (`amazonSearch` in `lib/core/shop.ts`): no per-product codes, never
+  stale. Today only in Setup → Strings and setup: "Find {set} strings on Amazon.es" for the
+  gauges in use (or classical strings), and the setup gear (action ruler, feeler gauges, winder,
+  clip-on tuner). `rel="sponsored"`, new tab. Amazon's required disclosure sits under every
+  group of links and in the footer; the privacy page has "Links to Amazon". Amazon.es only:
+  English visitors abroad would need Will to join their marketplace (OneLink). Any new shop link
+  goes through `amazonSearch` and carries the disclosure.
 - **Feedback form (Will, 2026-09-26: "muy sencillo y que me llegue al correo como con
   jeremy.es").** `components/feedback.tsx`: "Feedback" / «Sugerencias», an icon button in the
   app's top bar and a link in the footer, opening a native `<dialog>`: name, what do you need

@@ -3,6 +3,14 @@
 Written for the people using it, not for the code. Newest first. Version matches
 `package.json`.
 
+## 0.19.0 — 26 September 2026, what comes next in Setup, and where to buy
+
+- The Setup menu now shows what is coming: a tuner that helps you set the intonation, several
+  guitars of your own, what changes when you change tuning, why a guitar buzzes, a log of
+  string changes, and care and humidity. The tuner moved here from Practice.
+- Strings and setup links to the strings you picked, and to the tools a setup needs, on
+  Amazon.es. Diesis earns a small commission if you buy; it costs you nothing.
+
 ## 0.18.0 — 26 September 2026, a third side: Setup
 
 - The app now has three sides: **Learn**, **Practice** and **Setup**. Setup is for the guitar
