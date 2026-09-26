@@ -41,6 +41,7 @@ const columns: { title: string; tone: string; dot: string; items: Item[] }[] = [
       { title: "Perfil: 6, 7 u 8 cuerdas y afinaciones", note: "Los ejercicios y el mástil lo usan", track: "Plataforma" },
       { title: "Botones de notas a la derecha", track: "Mástil" },
       { title: "Web EN/ES, diesis.es, barra común", track: "Plataforma" },
+      { title: "App en dos puertas: Aprender o Practicar", note: "/start, /learn, /practice", track: "Plataforma" },
     ],
   },
   {
@@ -48,7 +49,6 @@ const columns: { title: string; tone: string; dot: string; items: Item[] }[] = [
     tone: "border-amber/50",
     dot: "bg-amber",
     items: [
-      { title: "App en dos puertas: Aprender o Practicar", note: "En curso en otra sesión", track: "Plataforma" },
       { title: "Medir el uso", note: "Primer ejercicio, vuelta a los 7 días, herramientas", track: "Negocio" },
       { title: "Lista de correo / espera de Pro", track: "Negocio" },
       { title: "Tu vídeo personal en la portada", note: "YouTube, se carga al pulsar", track: "Negocio" },
@@ -89,7 +89,7 @@ const columns: { title: string; tone: string; dot: string; items: Item[] }[] = [
 
 const phases = [
   { n: "1", title: "Medir y crear audiencia", when: "Estas semanas", items: ["Eventos de uso en GA4", "Lista de correo / espera de Pro", "Vídeos: «¿Qué nota es?», retos, riffs con la subida de tempo", "Tu vídeo en la portada"] },
-  { n: "2", title: "Cuentas y contenido que atrae", when: "Después", items: ["Cuentas opcionales y sincronización", "Glosario (SEO en los dos idiomas)", "Ejercicios de escalas", "Aprender / Practicar"] },
+  { n: "2", title: "Cuentas y contenido que atrae", when: "Después", items: ["Cuentas opcionales y sincronización", "Glosario (SEO en los dos idiomas)", "Ejercicios de escalas", "Escucha la nota y rango de trastes"] },
   { n: "3", title: "Lanzar Pro", when: "Con usuarios que vuelven cada semana", items: ["Stripe, precio de fundador", "Afiliados de Amazon", "Profesores y academias"] },
 ];
 
@@ -137,7 +137,7 @@ export default function RoadmapPage() {
       <header className="mb-14">
         <p className="inline-flex items-center gap-2 rounded-full border border-line px-3 py-1 text-xs text-dim">
           <span className="size-1.5 rounded-full bg-amber" aria-hidden />
-          Privado · solo con este enlace · 26 sept 2026 · versión 0.13
+          Privado · solo con este enlace · 26 sept 2026 · versión 0.14
         </p>
         <h1 className="mt-5 font-display text-5xl font-semibold tracking-tight sm:text-6xl">Roadmap y estrategia</h1>
         <p className="mt-4 max-w-2xl text-lg text-dim">
