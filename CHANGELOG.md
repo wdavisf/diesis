@@ -3,6 +3,11 @@
 Written for the people using it, not for the code. Newest first. Version matches
 `package.json`.
 
+## 0.13.1 — 26 September 2026, diesis.es is always Spanish
+
+- Any link on diesis.es now opens in Spanish, not only the home page: diesis.es/learn/metronome
+  takes you to the metronome in Spanish.
+
 ## 0.13.0 — 25 September 2026, your profile and your guitar
 
 - New: a **profile**, from the person icon in the top bar.

@@ -232,8 +232,8 @@ Vercel project `diesis-site` (team wdavisf-gmailcoms-projects), Git integration 
 `DIESIS_ACCESS_CODE` is no longer read and can be deleted from the project settings). Domains
 diesis.app and www (redirects to the apex); DNS at Namecheap. Live since 2026-09-23. diesis.es and www.diesis.es
 (registered 2026-09-25 at dominios.es by Will, nameservers ns1/ns2.vercel-dns.com) are on the
-same project and redirect (307, `next.config.ts`) to diesis.app/es; other paths keep their path
-on diesis.app. Share diesis.es in Spanish (chat apps link `.es`, often not `.app`) and
+same project and redirect (307, `next.config.ts`) to the Spanish twin of the same path:
+diesis.es/learn/metronome → diesis.app/es/learn/metronome (Will, 2026-09-26). Share diesis.es in Spanish (chat apps link `.es`, often not `.app`) and
 `www.diesis.app` in English. The old `diesis-play` project (play.diesis.app, Expo web export) is obsolete; its Git
 integration was disconnected 2026-09-24 (every push had been failing a build there and emailing
 Will), and it can be deleted in the dashboard. The repo folder is linked to `diesis-site` (`.vercel/`, ignored), so
