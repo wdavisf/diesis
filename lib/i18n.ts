@@ -288,6 +288,12 @@ const en: Strings = {
         items: [
           { title: "Your guitar", body: "In your profile: six, seven or eight strings and your tuning (standard, drop D, E♭, DADGAD, open G, drop A…). The exercises and the neck draw and play that guitar.", when: "now" },
           { title: "Strings and setup", body: "Each string’s tension for your tuning and scale length, common sets or a balanced one worked out for you, and the setup numbers for your type of guitar: action, relief, radius, pickup height, then intonation step by step.", when: "now" },
+          { title: "Tuner and intonation", body: "Tune through the microphone in your guitar's own tuning. Then play each string open and at the 12th fret, and it tells you which way to move the saddle, and how far.", when: "next" },
+          { title: "My guitars", body: "More than one guitar, each with its type, scale, tuning, strings and the setup you last gave it. Pick the one in your hands and the whole of Diesis uses it.", when: "next" },
+          { title: "Changing tuning", body: "Going from standard to drop C? What each string's tension does, whether your set still works, and what to check after: the truss rod and the intonation.", when: "later" },
+          { title: "Why does it buzz?", body: "Pick what is wrong (buzz on the low frets, buzz up the neck, notes going sharp up the neck, a string catching in the nut) and get the likely cause and the order to fix it.", when: "later" },
+          { title: "String log", body: "When you last changed strings and which set. Diesis knows how much you practice, so it tells you when they are due.", when: "later" },
+          { title: "Care and humidity", body: "Cleaning the fretboard (oil on rosewood and ebony, never on maple), the frets, humidity for acoustics and classicals (45–55%), travel and changes of season.", when: "later" },
         ],
       },
     ],
@@ -448,7 +454,6 @@ const en: Strings = {
       { title: "The neck", body: "Every note on the fretboard, or a scale on the root you pick: pentatonics, blues, major, the minors, the modes." },
       { title: "Metronome", body: "A steady tempo, or one that climbs a step every few bars up to your target. Time signatures, accents, subdivisions, tap tempo." },
       { title: "Backing tracks", body: "Jam over a band in any style, with the key and a scale that fits, shown on the neck in one tap." },
-      { title: "Tuner", body: "Tune through the microphone, in your guitar's own tuning." },
     ],
   },
   setupMenu: {
@@ -456,6 +461,12 @@ const en: Strings = {
     lede: "Look after the guitar itself: strings, tension and setup.",
     modes: [
       { title: "Strings and setup", body: "Each string's tension, the gauges that suit your guitar and tuning, and the setup numbers for your type of guitar." },
+      { title: "Tuner and intonation", body: "Tune through the microphone in your guitar's own tuning. Then play each string open and at the 12th fret, and it tells you which way to move the saddle, and how far." },
+      { title: "My guitars", body: "More than one guitar, each with its type, scale, tuning, strings and the setup you last gave it. Pick the one in your hands and the whole of Diesis uses it." },
+      { title: "Changing tuning", body: "Going from standard to drop C? What each string's tension does, whether your set still works, and what to check after: the truss rod and the intonation." },
+      { title: "Why does it buzz?", body: "Pick what is wrong (buzz on the low frets, buzz up the neck, notes going sharp up the neck, a string catching in the nut) and get the likely cause and the order to fix it." },
+      { title: "String log", body: "When you last changed strings and which set. Diesis knows how much you practice, so it tells you when they are due." },
+      { title: "Care and humidity", body: "Cleaning the fretboard (oil on rosewood and ebony, never on maple), the frets, humidity for acoustics and classicals (45–55%), travel and changes of season." },
     ],
   },
   game: {
@@ -699,6 +710,12 @@ const es: Strings = {
         items: [
           { title: "Tu guitarra", body: "En tu perfil: seis, siete u ocho cuerdas y tu afinación (estándar, drop D, Mi♭, DADGAD, Sol abierta, drop A…). Los ejercicios y el mástil dibujan y suenan con esa guitarra.", when: "now" },
           { title: "Cuerdas y ajuste", body: "La tensión de cada cuerda con tu afinación y tu tiro, juegos habituales o uno equilibrado calculado para ti, y las medidas de ajuste de tu tipo de guitarra: altura de cuerdas, curvatura del mástil, radio, altura de pastillas y, paso a paso, la octavación.", when: "now" },
+          { title: "Afinador y octavación", body: "Afina con el micrófono en la afinación de tu guitarra. Después tocas cada cuerda al aire y en el traste 12, y te dice hacia dónde mover la selleta y cuánto.", when: "next" },
+          { title: "Mis guitarras", body: "Más de una guitarra, cada una con su tipo, tiro, afinación, cuerdas y el último ajuste que le hiciste. Eliges la que tienes en las manos y todo Diesis la usa.", when: "next" },
+          { title: "Cambio de afinación", body: "¿Pasas de estándar a drop C? Qué le pasa a la tensión de cada cuerda, si tu juego sigue valiendo y qué revisar después: el alma y la octavación.", when: "later" },
+          { title: "¿Por qué trastea?", body: "Eliges lo que te pasa (trastea en los primeros trastes, trastea arriba del mástil, desafina al subir, una cuerda se engancha en la cejuela) y te dice la causa probable y en qué orden arreglarlo.", when: "later" },
+          { title: "Registro de cuerdas", body: "Cuándo cambiaste las cuerdas y qué juego pusiste. Diesis sabe cuánto practicas, así que te avisa cuando toca cambiarlas.", when: "later" },
+          { title: "Cuidado y humedad", body: "Limpiar el diapasón (aceite en palosanto y ébano, nunca en arce), los trastes, la humedad en acústicas y clásicas (45–55 %), los viajes y los cambios de estación.", when: "later" },
         ],
       },
     ],
@@ -859,7 +876,6 @@ const es: Strings = {
       { title: "El mástil", body: "Todas las notas del mástil, o una escala sobre la tónica que elijas: pentatónicas, blues, mayor, las menores y los modos." },
       { title: "Metrónomo", body: "Tempo fijo, o uno que sube solo cada pocos compases hasta tu objetivo. Compases, acentos, subdivisiones y tap tempo." },
       { title: "Backing tracks", body: "Improvisa con una banda detrás, del estilo que quieras, con su tonalidad y una escala que encaja, que ves en el mástil con un toque." },
-      { title: "Afinador", body: "Afina con el micrófono, en la afinación de tu guitarra." },
     ],
   },
   setupMenu: {
@@ -867,6 +883,12 @@ const es: Strings = {
     lede: "Cuida la guitarra en sí: cuerdas, tensión y ajuste.",
     modes: [
       { title: "Cuerdas y ajuste", body: "La tensión de cada cuerda, los calibres que le van a tu guitarra y tu afinación, y las medidas de ajuste para tu tipo de guitarra." },
+      { title: "Afinador y octavación", body: "Afina con el micrófono en la afinación de tu guitarra. Después tocas cada cuerda al aire y en el traste 12, y te dice hacia dónde mover la selleta y cuánto." },
+      { title: "Mis guitarras", body: "Más de una guitarra, cada una con su tipo, tiro, afinación, cuerdas y el último ajuste que le hiciste. Eliges la que tienes en las manos y todo Diesis la usa." },
+      { title: "Cambio de afinación", body: "¿Pasas de estándar a drop C? Qué le pasa a la tensión de cada cuerda, si tu juego sigue valiendo y qué revisar después: el alma y la octavación." },
+      { title: "¿Por qué trastea?", body: "Eliges lo que te pasa (trastea en los primeros trastes, trastea arriba del mástil, desafina al subir, una cuerda se engancha en la cejuela) y te dice la causa probable y en qué orden arreglarlo." },
+      { title: "Registro de cuerdas", body: "Cuándo cambiaste las cuerdas y qué juego pusiste. Diesis sabe cuánto practicas, así que te avisa cuando toca cambiarlas." },
+      { title: "Cuidado y humedad", body: "Limpiar el diapasón (aceite en palosanto y ébano, nunca en arce), los trastes, la humedad en acústicas y clásicas (45–55 %), los viajes y los cambios de estación." },
     ],
   },
   game: {

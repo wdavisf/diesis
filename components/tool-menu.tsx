@@ -19,10 +19,17 @@ export const PRACTICE_ITEMS: MenuItem[] = [
   { href: "/practice/neck", when: "now" },
   { href: "/practice/metronome", when: "now" },
   { href: "/practice/backing-tracks", when: "now" },
-  { href: null, when: "later" },
 ];
 
-export const SETUP_ITEMS: MenuItem[] = [{ href: "/setup/strings", when: "now" }];
+export const SETUP_ITEMS: MenuItem[] = [
+  { href: "/setup/strings", when: "now" },
+  { href: null, when: "next" },
+  { href: null, when: "next" },
+  { href: null, when: "later" },
+  { href: null, when: "later" },
+  { href: null, when: "later" },
+  { href: null, when: "later" },
+];
 
 /** A side of the app, Learn or Practice: its tools as cards, the built ones first and linked. */
 export function ToolMenu({ t, menu, items }: { t: Strings; menu: Menu; items: MenuItem[] }) {

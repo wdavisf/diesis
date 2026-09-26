@@ -36,6 +36,9 @@ Todoist project records what is still to do.
   tension, setup). `/start` shows three doors; the top bar three sides (`nav.areas.setup`,
   `nav.setupTools`/`SETUP_HREFS`, `SETUP_ITEMS`, `setupMenu`). When a tool arrives, ask which of
   the three sides it belongs to rather than defaulting to Practice.
+  Upcoming Setup tools, shown as cards (Will, 2026-09-26): tuner and intonation, my guitars
+  (next); changing tuning, why does it buzz, string log, care and humidity (later). The tuner
+  moved here from Practice.
 - **Market (decided 2026-09-25, Claude's call when Will asked):** English is the main market for
   the future premium plan; Spanish is a full second language at `/es`, and Spain is where the
   first users and feedback come from. diesis.app stays the main domain; diesis.es only redirects to `/es`.
