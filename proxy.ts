@@ -7,16 +7,17 @@ export const LANG_HEADER = "x-diesis-lang";
 /**
  * The app speaks the language of its address, like the landing: /learn/… is English and
  * /es/learn/… Spanish, so a shared link opens (and previews) in the language it was shared in.
- * /es/learn/… is served by the same pages under /learn, told the language by a header. Someone
- * who picked Spanish and lands on /learn/… (an old bookmark, the menu of an older page) goes to
- * the /es twin.
+ * The same for every app root: /start, /learn, /practice, /profile. The /es
+ * addresses are served by the same pages, told the language by a header. Someone who picked
+ * Spanish and lands on an English app address (an old bookmark, the menu of an older page) goes
+ * to the /es twin. The matcher lists the app roots.
  */
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const headers = new Headers(request.headers);
   headers.delete(LANG_HEADER);
 
-  if (pathname === "/es/learn" || pathname.startsWith("/es/learn/")) {
+  if (pathname.startsWith("/es/")) {
     const url = request.nextUrl.clone();
     url.pathname = pathname.slice(3);
     headers.set(LANG_HEADER, "es");
@@ -32,4 +33,20 @@ export function proxy(request: NextRequest) {
   return NextResponse.next({ request: { headers } });
 }
 
-export const config = { matcher: ["/learn", "/learn/:path*", "/es/learn", "/es/learn/:path*"] };
+// Every app root, English and Spanish (Next wants the matcher as literals).
+export const config = {
+  matcher: [
+    "/start",
+    "/learn",
+    "/learn/:path*",
+    "/practice",
+    "/practice/:path*",
+    "/profile",
+    "/es/start",
+    "/es/learn",
+    "/es/learn/:path*",
+    "/es/practice",
+    "/es/practice/:path*",
+    "/es/profile",
+  ],
+};

@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
-import { Game } from "@/components/game";
+import { LEARN_ITEMS, ToolMenu } from "@/components/tool-menu";
 import { appMetadata, currentStrings } from "@/lib/lang";
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await currentStrings();
-  return appMetadata("/name-the-note", t.game.title);
+  return appMetadata("/learn", t.learnMenu.title);
 }
 
-export default async function NameTheNotePage() {
+export default async function LearnMenu() {
   const t = await currentStrings();
-  return <Game t={t.game} tc={t.challenge} ts={t.settings} lang={t.code} />;
+  return <ToolMenu t={t} menu={t.learnMenu} items={LEARN_ITEMS} />;
 }

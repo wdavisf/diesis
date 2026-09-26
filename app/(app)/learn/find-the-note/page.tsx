@@ -4,7 +4,7 @@ import { appMetadata, currentStrings } from "@/lib/lang";
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await currentStrings();
-  return appMetadata("/find-the-note", t.find.title);
+  return appMetadata("/learn/find-the-note", t.find.title);
 }
 
 export default async function FindTheNotePage() {

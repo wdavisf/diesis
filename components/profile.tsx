@@ -106,7 +106,7 @@ export function Profile({ t }: { t: Strings }) {
         </div>
       </Section>
 
-      <Section title={p.language} aside={<LangSwitch t={t} next={`${t.otherLang === "es" ? "/es" : ""}/learn/profile`} />}>
+      <Section title={p.language} aside={<LangSwitch t={t} next={`${t.otherLang === "es" ? "/es" : ""}/profile`} />}>
         <p className="text-sm text-dim">{t.code === "es" ? "Español" : "English"}</p>
       </Section>
 

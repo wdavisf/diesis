@@ -2,8 +2,8 @@ import type { MetadataRoute } from "next";
 
 const base = "https://diesis.app";
 
-/** The public pages, each with its other-language twin: the landing, the app's menu and tools
- *  (/learn and /es/learn since 0.11.0), and the privacy page. */
+/** The public pages, each with its other-language twin: the landing, the app (its front door,
+ *  the Learn and Practice menus and their tools, the profile), and the privacy page. */
 export default function sitemap(): MetadataRoute.Sitemap {
   const pair = (en: string, es: string, priority: number) =>
     [en, es].map((path) => ({
@@ -14,8 +14,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     }));
   return [
     ...pair("/", "/es", 1),
-    ...pair("/learn", "/es/learn", 0.8),
-    ...["/neck", "/name-the-note", "/find-the-note", "/metronome", "/profile"].flatMap((p) => pair(`/learn${p}`, `/es/learn${p}`, 0.7)),
+    ...["/start", "/learn", "/practice"].flatMap((p) => pair(p, `/es${p}`, 0.8)),
+    ...["/learn/name-the-note", "/learn/find-the-note", "/practice/neck", "/practice/metronome", "/profile"].flatMap((p) => pair(p, `/es${p}`, 0.7)),
     ...pair("/privacy", "/es/privacy", 0.3),
   ];
 }

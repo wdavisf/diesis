@@ -1,22 +1,39 @@
 import Link from "next/link";
 import { ArrowRight, Lock } from "lucide-react";
-import { currentStrings } from "@/lib/lang";
+import type { Menu, Strings, When } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 
-const hrefs = ["/learn/neck", "/learn/name-the-note", "/learn/find-the-note", "/learn/metronome", null, null, null] as const;
-const tags = ["now", "now", "now", "now", "next", "later", "later"] as const;
+/** One card per entry of `menu.modes`, in the same order: where it goes (null while it is not built) and when it comes. */
+export type MenuItem = { href: string | null; when: When };
 
-export default async function AppHome() {
-  const t = await currentStrings();
+export const LEARN_ITEMS: MenuItem[] = [
+  { href: "/learn/name-the-note", when: "now" },
+  { href: "/learn/find-the-note", when: "now" },
+  { href: null, when: "next" },
+  { href: null, when: "later" },
+  { href: null, when: "later" },
+  { href: null, when: "later" },
+];
+
+export const PRACTICE_ITEMS: MenuItem[] = [
+  { href: "/practice/neck", when: "now" },
+  { href: "/practice/metronome", when: "now" },
+  { href: null, when: "later" },
+  { href: null, when: "later" },
+];
+
+/** A side of the app, Learn or Practice: its tools as cards, the built ones first and linked. */
+export function ToolMenu({ t, menu, items }: { t: Strings; menu: Menu; items: MenuItem[] }) {
   const h = t.home;
   return (
     <main className="mx-auto flex w-full max-w-4xl flex-1 flex-col px-4 py-6 sm:py-10">
-      <h1 className="mt-4 font-display text-3xl font-semibold tracking-tight sm:text-4xl">{h.h1}</h1>
-      <p className="mt-2 text-dim">{h.lede}</p>
+      <h1 className="mt-4 font-display text-3xl font-semibold tracking-tight sm:text-4xl">{menu.title}</h1>
+      <p className="mt-2 text-dim">{menu.lede}</p>
       <ul className="mt-8 grid gap-4 sm:grid-cols-2">
-        {h.modes.map((m, i) => {
-          const href = hrefs[i] ? `${t.base}${hrefs[i]}` : null;
-          const tag = tags[i] === "now" ? h.start : tags[i] === "next" ? h.next : h.later;
+        {menu.modes.map((m, i) => {
+          const { href: path, when } = items[i];
+          const href = path ? `${t.base}${path}` : null;
+          const tag = when === "now" ? h.start : when === "next" ? h.next : h.later;
           const enter = "animate-in fade-in slide-in-from-bottom-3 fill-mode-both duration-500 motion-reduce:animate-none";
           const delay = { animationDelay: `${i * 70}ms` };
           return href ? (

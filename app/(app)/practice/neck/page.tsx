@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
-import { Metronome } from "@/components/metronome";
+import { Neck } from "@/components/neck";
 import { appMetadata, currentStrings } from "@/lib/lang";
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await currentStrings();
-  return appMetadata("/metronome", t.metronome.title);
+  return appMetadata("/practice/neck", t.neck.title);
 }
 
-export default async function MetronomePage() {
+export default async function NeckPage() {
   const t = await currentStrings();
-  return <Metronome t={t.metronome} ts={t.speed} tg={t.game} />;
+  return <Neck t={t.neck} tg={t.game} lang={t.code} />;
 }

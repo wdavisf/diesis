@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import { headers } from "next/headers";
 import { strings, type Lang, type Strings } from "@/lib/i18n";
 
-/** Language of an app page (/learn/… English, /es/learn/… Spanish). proxy.ts rewrites the
+/** Language of an app page (/learn/… English, /es/learn/… Spanish; the same for /start,
+ *  /practice and /profile). proxy.ts rewrites the
  *  Spanish addresses onto the same pages and says so in a header. */
 export async function currentLang(): Promise<Lang> {
   return (await headers()).get("x-diesis-lang") === "es" ? "es" : "en";
@@ -15,7 +16,7 @@ export async function currentStrings(): Promise<Strings> {
 /**
  * Metadata for an app page in its language: the page title, and a link preview (title,
  * description, the card for that language) so a shared /es/learn/… link previews in Spanish.
- * `path` is the page under /learn ("" for the menu), for the canonical and hreflang links.
+ * `path` is the page's English address ("/learn", "/practice/metronome"), for the canonical and hreflang links.
  */
 export async function appMetadata(path: string, title?: string): Promise<Metadata> {
   const t = await currentStrings();
@@ -25,8 +26,8 @@ export async function appMetadata(path: string, title?: string): Promise<Metadat
     title: title ?? { default: t.home.title, template: "%s · Diesis" },
     description: t.meta.description,
     alternates: {
-      canonical: `${t.base}/learn${path}`,
-      languages: { en: `/learn${path}`, es: `/es/learn${path}`, "x-default": `/learn${path}` },
+      canonical: `${t.base}${path}`,
+      languages: { en: path, es: `/es${path}`, "x-default": path },
     },
     openGraph: {
       title: full,

@@ -38,8 +38,8 @@ export function Consent() {
   const lang: Lang = pathname === "/es" || pathname.startsWith("/es/") ? "es" : cookieLang;
   const t = strings[lang].consent;
   const privacyHref = `${strings[lang].base}/privacy`;
-  // Game screens keep the note buttons along the bottom edge, so the banner goes to the top there.
-  const inGame = /^(\/es)?\/learn\//.test(pathname);
+  // On the exercise and tool screens the controls sit low, so the banner goes to the top there.
+  const inGame = /^(\/es)?\/(learn|practice)\//.test(pathname);
 
   return (
     <>

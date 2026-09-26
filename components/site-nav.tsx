@@ -11,8 +11,9 @@ import { OpenApp } from "@/components/open-app";
 import type { Strings } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 
-/** The tools, in the order of `nav.tools` in lib/i18n.ts. */
-export const TOOL_HREFS = ["/learn", "/learn/neck", "/learn/name-the-note", "/learn/find-the-note", "/learn/metronome"] as const;
+/** The tools of each side, in the order of `nav.learnTools` and `nav.practiceTools` in lib/i18n.ts. */
+export const LEARN_HREFS = ["/learn/name-the-note", "/learn/find-the-note"] as const;
+export const PRACTICE_HREFS = ["/practice/neck", "/practice/metronome"] as const;
 
 /** The same page in the other language: every page has an /es twin, the app included. */
 function otherLangPath(pathname: string, t: Strings): string {
@@ -24,8 +25,8 @@ const link = "inline-flex h-8 shrink-0 items-center rounded-lg px-3 text-sm whit
 
 /**
  * The one bar at the top of every page, web and app alike: the logo (back to the landing), then
- * on the web the page sections and "Open the app", in the app the tools with the current one
- * lit. On a phone the tools drop to a second row that scrolls sideways. While an exercise is
+ * on the web the page sections and "Open the app"; in the app the two sides, Learn and Practice,
+ * and the tools of the side you are on, the current one lit (on /start and /profile, the sides only). On a phone the tools drop to a second row that scrolls sideways. While an exercise is
  * being played sideways on a phone, or on a short screen, globals.css hides it (`.site-nav`).
  */
 export function SiteNav({ t, area }: { t: Strings; area: "site" | "app" }) {
@@ -36,9 +37,27 @@ export function SiteNav({ t, area }: { t: Strings; area: "site" | "app" }) {
   useEffect(() => {
     row.current?.querySelector<HTMLElement>('[aria-current="page"]')?.scrollIntoView({ block: "nearest", inline: "center" });
   }, [pathname]);
-  const tools = TOOL_HREFS.map((path, i) => {
+  const inArea = (root: string) => pathname === `${t.base}${root}` || pathname.startsWith(`${t.base}${root}/`);
+  const side = inArea("/learn") ? "learn" : inArea("/practice") ? "practice" : null;
+  const areas = (["learn", "practice"] as const).map((a) => {
+    const href = `${t.base}/${a}`;
+    const on = side === a;
+    return (
+      <Link
+        key={a}
+        href={href}
+        aria-current={pathname === href ? "page" : undefined}
+        className={cn(link, "font-medium", on ? "bg-amber/15 text-amber-text" : "text-dim hover:bg-white/5 hover:text-ink")}
+      >
+        {t.nav.areas[a]}
+      </Link>
+    );
+  });
+  const hrefs = side === "learn" ? LEARN_HREFS : side === "practice" ? PRACTICE_HREFS : [];
+  const names = side === "learn" ? t.nav.learnTools : t.nav.practiceTools;
+  const tools = hrefs.map((path, i) => {
     const href = `${t.base}${path}`;
-    const on = path === "/learn" ? pathname === href : pathname.startsWith(href);
+    const on = pathname.startsWith(href);
     return (
       <Link
         key={href}
@@ -46,10 +65,17 @@ export function SiteNav({ t, area }: { t: Strings; area: "site" | "app" }) {
         aria-current={on ? "page" : undefined}
         className={cn(link, on ? "bg-surface-raised font-medium text-ink" : "text-dim hover:bg-white/5 hover:text-ink")}
       >
-        {t.nav.tools[i]}
+        {names[i]}
       </Link>
     );
   });
+  const bar = (
+    <>
+      {areas}
+      {tools.length ? <span className="mx-1 h-5 w-px shrink-0 bg-line" aria-hidden /> : null}
+      {tools}
+    </>
+  );
 
   return (
     <header className="site-nav sticky top-0 z-30 border-b border-line/80 bg-stage/85 backdrop-blur-md">
@@ -60,17 +86,17 @@ export function SiteNav({ t, area }: { t: Strings; area: "site" | "app" }) {
 
         {area === "app" ? (
           <nav aria-label={t.home.title} className="hidden min-w-0 flex-1 items-center gap-1 overflow-x-auto md:flex">
-            {tools}
+            {bar}
           </nav>
         ) : null}
 
         <div className="flex shrink-0 items-center gap-1">
           {area === "app" ? (
             <Link
-              href={`${t.base}/learn/profile`}
-              aria-current={pathname.endsWith("/learn/profile") ? "page" : undefined}
+              href={`${t.base}/profile`}
+              aria-current={pathname === `${t.base}/profile` ? "page" : undefined}
               aria-label={t.profile.title}
-              className={cn(link, "gap-1.5 px-2.5", pathname.endsWith("/learn/profile") ? "bg-surface-raised font-medium text-ink" : "text-dim hover:bg-white/5 hover:text-ink")}
+              className={cn(link, "gap-1.5 px-2.5", pathname === `${t.base}/profile` ? "bg-surface-raised font-medium text-ink" : "text-dim hover:bg-white/5 hover:text-ink")}
             >
               <UserRound className="size-4" aria-hidden />
               <span className="hidden sm:inline">{t.profile.title}</span>
@@ -102,7 +128,7 @@ export function SiteNav({ t, area }: { t: Strings; area: "site" | "app" }) {
 
       {area === "app" ? (
         <nav ref={row} aria-label={t.home.title} className="flex gap-1 overflow-x-auto px-3 pb-2 [scrollbar-width:none] md:hidden">
-          {tools}
+          {bar}
         </nav>
       ) : null}
     </header>

@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
-import { Neck } from "@/components/neck";
+import { Game } from "@/components/game";
 import { appMetadata, currentStrings } from "@/lib/lang";
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await currentStrings();
-  return appMetadata("/neck", t.neck.title);
+  return appMetadata("/learn/name-the-note", t.game.title);
 }
 
-export default async function NeckPage() {
+export default async function NameTheNotePage() {
   const t = await currentStrings();
-  return <Neck t={t.neck} tg={t.game} lang={t.code} />;
+  return <Game t={t.game} tc={t.challenge} ts={t.settings} lang={t.code} />;
 }

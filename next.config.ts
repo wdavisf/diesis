@@ -1,13 +1,20 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  // The trainer lived under /app until 0.7.0; old links and bookmarks keep working.
+  // The trainer lived under /app until 0.7.0 (its menu is /start now); old links and bookmarks keep working.
   async redirects() {
     return [
-      { source: "/app", destination: "/learn", permanent: true },
+      { source: "/app", destination: "/start", permanent: true },
       { source: "/app/:path*", destination: "/learn/:path*", permanent: true },
-      // The speed trainer became the metronome's "Speed up" mode in 0.10.0.
-      { source: "/learn/speed-trainer", destination: "/learn/metronome", permanent: true },
+      // 0.14.0 split the app into Learn and Practice: the tools moved to /practice and the
+      // profile to /profile. The speed trainer became the metronome's "Speed up" mode in 0.10.0.
+      // Redirects run before proxy.ts, so the /es addresses need their own.
+      ...(["", "/es"] as const).flatMap((es) => [
+        { source: `${es}/learn/speed-trainer`, destination: `${es}/practice/metronome`, permanent: true },
+        { source: `${es}/learn/metronome`, destination: `${es}/practice/metronome`, permanent: true },
+        { source: `${es}/learn/neck`, destination: `${es}/practice/neck`, permanent: true },
+        { source: `${es}/learn/profile`, destination: `${es}/profile`, permanent: true },
+      ]),
       // diesis.es (and www) is the address to share in Spanish: it links in any chat app,
       // where .app often does not. Every path lands on its Spanish twin (every page has one):
       // diesis.es/learn/metronome goes to diesis.app/es/learn/metronome. A path that already

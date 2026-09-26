@@ -3,6 +3,16 @@
 Written for the people using it, not for the code. Newest first. Version matches
 `package.json`.
 
+## 0.14.0 — 26 September 2026, learn or practice
+
+- The app now opens with one question: **what do you want to do today?** Two doors.
+- **Learn:** the exercises that teach you the neck, Name the note and Find the note. Hear the
+  note, scale exercises, reading music and a glossary of techniques come here next.
+- **Practice:** the tools you play with, the neck with any scale on it and the metronome. A
+  tuner and strings and setup come here later.
+- The top bar shows both sides and the tools of the one you are on. Old links to the
+  metronome, the neck and your profile still work.
+
 ## 0.13.2 — 26 September 2026, note buttons beside the neck
 
 - In Name the note, the note buttons now sit in a column to the right of the neck, where your

@@ -20,8 +20,17 @@ Todoist project records what is still to do.
 - **Positioning (Will, 2026-09-25): a learning tool, never "a game".** Promise: everything you
   need to master the guitar, to become the best guitarist you can be. No "game", "play",
   "round", «juego», «jugar», «ronda» or «partida» in user-facing copy (playing the guitar is
-  fine); say practice, exercise, session, start. The trainer lives at `/learn` (Will disliked
+  fine); say practice, exercise, session, start. The app opens at `/start` (Will disliked
   diesis.app/app); code identifiers like `GameShell` stay.
+- **Learn or Practice (Will, 2026-09-26: "what do you want to do today, learn or practice?").**
+  The app has two sides. `/start` (what "Open the app" opens) asks the question with two
+  doors. **Learn** (`/learn`): the exercises that teach (Name the note, Find the note; later
+  Hear the note, scale exercises, reading music, the glossary). **Practice** (`/practice`): the
+  tools you play with (the neck, the metronome; later the tuner, strings and setup). The
+  profile is at `/profile`, on neither side. Menus are `components/tool-menu.tsx`
+  (`LEARN_ITEMS`/`PRACTICE_ITEMS`, copy in `learnMenu`/`practiceMenu`); all app routes live in
+  the route group `app/(app)/`. Old `/practice/neck`, `/practice/metronome`, `/profile` and
+  their `/es` twins redirect (`next.config.ts`; redirects run before `proxy.ts`).
 - **Market (decided 2026-09-25, Claude's call when Will asked):** English is the main market for
   the future premium plan; Spanish is a full second language at `/es`, and Spain is where the
   first users and feedback come from. diesis.app stays the main domain; diesis.es only redirects to `/es`.
@@ -78,7 +87,7 @@ Todoist project records what is still to do.
   `lib/game/use-challenge.ts`. Personal bests in localStorage `diesis_best:<mode>:<challenge>`
   (per browser, never sent; the privacy page says so), last pick in `diesis_challenge`. The
   Todoist "note-count challenge" (fixed number of notes, timed) is not built.
-- **Metronome** (built 2026-09-25, Will: "empieza con el metrónomo"): open `/learn/metronome`,
+- **Metronome** (built 2026-09-25, Will: "empieza con el metrónomo"): open `/practice/metronome`,
   an upright screen (no neck, never sideways). Tempo 20–300 with ±1/±5, a slider and tap tempo
   (average of the last five taps, a 2 s pause starts over); the Italian marking under the
   number; meters 2/4, 3/4, 4/4, 5/4 (3+2), 6/8 (3+3), 7/8 (2+2+3), group starts get a second
@@ -91,7 +100,7 @@ Todoist project records what is still to do.
   localStorage `diesis_metronome` (`lib/game/use-metronome.ts`), which also holds a screen
   wake lock while it runs. Its Speed up mode (below) runs on the same engine.
 - **Speed trainer = the metronome's "Speed up" mode (Will, 2026-09-25: "combina el metrónomo y
-  el entrenador de velocidad en la misma feature").** One tool at `/learn/metronome`. The climb
+  el entrenador de velocidad en la misma feature").** One tool at `/practice/metronome`. The climb
   is a section of the settings with an on/off switch, "Speed up" / «Subida de tempo» (Will,
   2026-09-25: "no pongas ir subiendo así, pon simplemente un toggle de la sección de subida"):
   `MetronomeSettings.mode` "steady" | "speed", stored with the rest in `diesis_metronome`. On,
@@ -100,13 +109,13 @@ Todoist project records what is still to do.
   start); the plan is in `diesis_speed`. Rules in `lib/core/speed.ts` (tests); the engine asks
   `setPlan`'s function for each bar's tempo as it books the bar's first click, so every bar is
   played at one tempo; `useMetronome(plan)` passes the plan only in Speed up. `/learn/speed-
-  trainer` (0.9.x) redirects here. Start/Stop sits right under the tempo, above the settings
+  trainer` (0.9.x) and `/learn/metronome` (to 0.13.x) redirect here. Start/Stop sits right under the tempo, above the settings
   (Will: above the fold on a phone). **Tempos are typed as well as stepped (Will, 2026-09-25):**
   the big number and the start and target are `BpmInput`s (digits only, applied on Enter or
   blur, clamped 20–300, Escape cancels); in Speed up the big number edits the start while
   stopped and is read-only while running.
 - **Profile (Will, 2026-09-25: "a profile page where I can put all the settings… seven string,
-  six string… and the achievements, records").** `/learn/profile`, linked from the top bar (an
+  six string… and the achievements, records").** `/profile`, linked from the top bar (an
   icon beside EN/ES, app only). Sections: your guitar (6/7/8 strings and a tuning preset:
   `TUNINGS` in `lib/core/notes.ts`, stored as the preset id in localStorage `diesis_guitar`,
   `lib/game/use-guitar.ts`), note names (the same `diesis_names` setting the start card sets),
@@ -120,16 +129,19 @@ Todoist project records what is still to do.
   unchanged. No account: if one ever comes, this page is where it lives.
 - **Top bar (Will, 2026-09-25: "una barra arriba del todo que se mantiene constante entre la
   web y la app, pero que en la app tiene las diferentes modalidades").** One component,
-  `components/site-nav.tsx`, on the landing, privacy and every `/learn` screen (it lives in
-  `app/learn/layout.tsx`, outside the fading template, so it stays put). Web: sections, EN/ES,
-  Open the app. App: the tools (`nav.tools`, hrefs in `TOOL_HREFS`) with the current one lit;
-  on phones they drop to a second row that scrolls to the current tool. The logo always goes
+  `components/site-nav.tsx`, on the landing, privacy and every app screen (it lives in
+  `app/(app)/layout.tsx`, outside the fading template, so it stays put). Web: sections, EN/ES,
+  Open the app. App: Learn and Practice (`nav.areas`), then the tools of the side you are on
+  (`nav.learnTools`/`LEARN_HREFS`, `nav.practiceTools`/`PRACTICE_HREFS`) with the current one
+  lit; on `/start` and `/profile` only the two sides. On phones they drop to a second row that
+  scrolls to the current tool. The logo always goes
   to the landing. The bar hides while an exercise is played sideways on a phone or on a short
   screen (`.site-nav` rules in globals.css); the exercise header keeps its back arrow for that
-  case only. Upright screens have no header of their own. **Every new tool gets a place in
-  `nav.tools`/`TOOL_HREFS`, the menu cards and the landing.**
+  case only; it goes back to its side's menu. Upright screens have no header of their own.
+  **Every new tool picks a side and gets a place in that side's nav list and hrefs, its menu
+  cards, the sitemap and the landing.**
 - **The neck (scale explorer), built 2026-09-25** (Will: "see all the notes in the fretboard,
-  and then select things like a pentatonic scale, selecting the root note"): `/learn/neck`,
+  and then select things like a pentatonic scale, selecting the root note"): `/practice/neck`,
   first tool in the bar. Opens on every note (scale "all"); pick a root (12 buttons) and a
   scale (scrolling chips) and the neck shows that scale, root in amber (`MarkState` "root"),
   other notes cream ("note", `highlightNote` in tokens). Header toggles: names (the player's
@@ -183,9 +195,10 @@ Todoist project records what is still to do.
   update the landing page, the app home and the privacy page in the same session.** All copy,
   EN and ES, is in `lib/i18n.ts`; edit both languages together. Every page has an `/es`
   twin, the app included (Will, 2026-09-25: a shared app link opened in the wrong language):
-  `/learn/…` is English, `/es/learn/…` Spanish. `proxy.ts` rewrites `/es/learn/…` onto the same
+  `/learn/…` is English, `/es/learn/…` Spanish (the same for `/start`, `/practice`,
+  `/profile`; the matcher in `proxy.ts` lists them). `proxy.ts` rewrites `/es/…` onto the same
   pages with an `x-diesis-lang: es` header (`currentLang` in `lib/lang.ts` reads only that),
-  and sends a visitor whose `diesis_lang` cookie says Spanish from `/learn/…` to the `/es`
+  and sends a visitor whose `diesis_lang` cookie says Spanish from an English app address to the `/es`
   twin. The cookie is still set by `/lang/[code]` (the switcher) and by Open the app. App
   links are built from `t.base` (site-nav, the menu cards, the exercise's back arrow reads the
   path). `appMetadata` in `lib/lang.ts` gives app pages their title, hreflang and a link
@@ -201,13 +214,13 @@ Todoist project records what is still to do.
   in Will's first person, linking willdafer.es and Instagram `@willdafer.es`. Copy in
   `t.maker`; keep it true to what he actually does.
 - **Motion and navigation (Will, 2026-09-24: "navigation is clunky, add animations").** No
-  React/Next view transitions (not stable here); everything is CSS. `app/learn/template.tsx` fades
-  every screen under `/learn` in (opacity only: a transform there would become the containing
-  block of the fixed sideways game shell). Mode cards stagger in (`app/learn/page.tsx`), the
+  React/Next view transitions (not stable here); everything is CSS. `app/(app)/template.tsx` fades
+  every app screen in (opacity only: a transform there would become the containing
+  block of the fixed sideways game shell). Menu cards stagger in (`components/tool-menu.tsx`), the
   start and result cards zoom in (`challenge-card.tsx`), board marks pop in and ease amber to
   green (`.mark` in `globals.css`), note buttons press (`active:scale-95`), the verdict pops.
   Utilities come from `tw-animate-css`; every animation carries `motion-reduce:animate-none`.
-  The landing's "Open the app" is `components/open-app.tsx`: a prefetched `Link` to `/learn`
+  The landing's "Open the app" is `components/open-app.tsx`: a prefetched `Link` to `/start`
   that writes the `diesis_lang` cookie on click, instead of the `/lang` redirect hop. The
   language switch itself still goes through `/lang` (a real navigation, on purpose).
 - **Instagram @diesis.app (Will, 2026-09-25)**: linked in the footer. Profile picture is
@@ -235,7 +248,7 @@ Vercel project `diesis-site` (team wdavisf-gmailcoms-projects), Git integration 
 diesis.app and www (redirects to the apex); DNS at Namecheap. Live since 2026-09-23. diesis.es and www.diesis.es
 (registered 2026-09-25 at dominios.es by Will, nameservers ns1/ns2.vercel-dns.com) are on the
 same project and redirect (307, `next.config.ts`) to the Spanish twin of the same path:
-diesis.es/learn/metronome → diesis.app/es/learn/metronome (Will, 2026-09-26). Share diesis.es in Spanish (chat apps link `.es`, often not `.app`) and
+diesis.es/practice/metronome → diesis.app/es/practice/metronome (Will, 2026-09-26). Share diesis.es in Spanish (chat apps link `.es`, often not `.app`) and
 `www.diesis.app` in English. The old `diesis-play` project (play.diesis.app, Expo web export) is obsolete; its Git
 integration was disconnected 2026-09-24 (every push had been failing a build there and emailing
 Will), and it can be deleted in the dashboard. The repo folder is linked to `diesis-site` (`.vercel/`, ignored), so
@@ -248,7 +261,9 @@ points to it and keeps `/lang/` out. Add new public pages to the sitemap.
 ## Layout of the repo
 
 - `app/` — routes: `page.tsx` and `es/page.tsx` (landing), `privacy/` and `es/privacy/`,
-  `learn/` (mode picker), `learn/name-the-note/`, `learn/find-the-note/`, `learn/metronome/`, `learn/neck/`, `learn/profile/`, `lang/[code]/` (cookie setter).
+  `(app)/` (route group, the app: `layout.tsx` with the top bar, `template.tsx`, `start/`,
+  `learn/` with `name-the-note/` and `find-the-note/`, `practice/` with `neck/` and
+  `metronome/`, `profile/`), `lang/[code]/` (cookie setter).
   `layout.tsx` holds fonts and metadata; `globals.css` the theme tokens.
 - `components/` — `landing`, `privacy-page`, `logo`, `screen` (animated hero), `footer`,
   `lang-switch`, `fretboard` (SVG, marks and tap targets), `note-panel`, `game-frame`

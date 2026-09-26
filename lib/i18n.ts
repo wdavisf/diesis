@@ -9,6 +9,12 @@ export const LANG_COOKIE = "diesis_lang";
 
 export type When = "now" | "next" | "later";
 
+export interface Menu {
+  title: string;
+  lede: string;
+  modes: { title: string; body: string }[];
+}
+
 export interface Strings {
   code: Lang;
   base: string; // "" for en, "/es" for es
@@ -16,7 +22,13 @@ export interface Strings {
   otherLabel: string;
   otherName: string;
   meta: { title: string; description: string; privacyTitle: string; privacyDescription: string };
-  nav: { how: string; learn: string; faq: string; cta: string; privacy: string; about: string; tools: string[] };
+  nav: {
+    how: string; learn: string; faq: string; cta: string; privacy: string; about: string;
+    /** The two sides of the app, and their tools in the order of the hrefs in components/site-nav.tsx. */
+    areas: { learn: string; practice: string };
+    learnTools: string[];
+    practiceTools: string[];
+  };
   hero: { eyebrow: string; h1: string; lede: string; cta: string; secondary: string; trust: string[] };
   how: { eyebrow: string; h2: string; lede: string; steps: { title: string; body: string }[] };
   learn: {
@@ -33,7 +45,11 @@ export interface Strings {
   closing: { h2: string; lede: string };
   screen: { score: string; feedback: string; hearAgain: string; aria: string };
   footer: { tagline: string; made: string };
-  home: { title: string; h1: string; lede: string; about: string; start: string; next: string; later: string; modes: { title: string; body: string }[] };
+  /** /start: "What do you want to do today?", Learn or Practice. */
+  home: { title: string; h1: string; lede: string; about: string; start: string; next: string; later: string; learn: string; practice: string };
+  /** The menus of the two sides, cards in the order of their hrefs in components/tool-menu.tsx. */
+  learnMenu: Menu;
+  practiceMenu: Menu;
   game: {
     title: string;
     back: string;
@@ -178,7 +194,7 @@ const en: Strings = {
     privacyTitle: "Privacy",
     privacyDescription: "What Diesis does with your data: no account, no ads, nothing you do in Diesis leaves your browser. Visit counting with Google Analytics only if you allow it.",
   },
-  nav: { how: "How it works", learn: "What you learn", faq: "FAQ", cta: "Open the app", privacy: "Privacy", about: "About Diesis", tools: ["All tools", "The neck", "Name the note", "Find the note", "Metronome"] },
+  nav: { how: "How it works", learn: "What you learn", faq: "FAQ", cta: "Open the app", privacy: "Privacy", about: "About Diesis", areas: { learn: "Learn", practice: "Practice" }, learnTools: ["Name the note", "Find the note"], practiceTools: ["The neck", "Metronome"] },
   hero: {
     eyebrow: "The guitar learning tool",
     h1: "Everything you need to master the guitar.",
@@ -200,7 +216,7 @@ const en: Strings = {
   learn: {
     eyebrow: "What you learn",
     h2: "From the first note to mastering the neck.",
-    lede: "Diesis grows in the order a guitarist learns: where the notes are, the scales built from them, reading them off a score, and the tools you practice with every day.",
+    lede: "Diesis has two sides. Learn: exercises for where the notes are, the scales built from them and reading them off a score. Practice: the tools you keep open every day.",
     when: { now: "Available now", next: "Coming next", later: "Later" },
     tracks: [
       {
@@ -287,21 +303,36 @@ const en: Strings = {
   screen: { score: "7 right · 1 wrong", feedback: "Correct", hearAgain: "Hear again", aria: "Practice screen: one lit position on the fretboard and twelve note-name buttons" },
   footer: { tagline: "Everything you need to master the guitar.", made: "Made in Cáceres, Spain. “Diesis” is Greek for the semitone: one fret." },
   home: {
-    title: "Learn",
-    h1: "What do you want to work on?",
+    title: "Learn or practice",
+    h1: "What do you want to do today?",
     lede: "Guitar on your lap, screen sideways if it is a phone.",
     about: "About Diesis",
     start: "Start",
     next: "Coming next",
     later: "Later",
+    learn: "Exercises that teach you the guitar: every note on the neck first, then scales and reading music.",
+    practice: "The tools you play with: the neck with any scale on it, and a metronome that builds your speed.",
+  },
+  learnMenu: {
+    title: "Learn",
+    lede: "Short exercises that tell you at once if you got it right. A few minutes a day is enough.",
     modes: [
-      { title: "The neck", body: "Every note on the fretboard, or a scale on the root you pick: pentatonics, blues, major, the minors, the modes." },
       { title: "Name the note", body: "A position lights and plays. Say which note it is." },
       { title: "Find the note", body: "You get a name. Tap every place it lives." },
-      { title: "Metronome", body: "A steady tempo, or one that climbs a step every few bars up to your target. Time signatures, accents, subdivisions, tap tempo." },
       { title: "Hear the note", body: "A note plays with nothing lit. Find it on the neck." },
       { title: "Scale exercises", body: "Build the scale, name the scale, name the degree." },
       { title: "Reading music", body: "The note on the staff, the place on the neck." },
+      { title: "Glossary and technique", body: "What down picking, a hammer-on or a rest stroke is, and how to do it. Electric and classical." },
+    ],
+  },
+  practiceMenu: {
+    title: "Practice",
+    lede: "What you keep open while you play.",
+    modes: [
+      { title: "The neck", body: "Every note on the fretboard, or a scale on the root you pick: pentatonics, blues, major, the minors, the modes." },
+      { title: "Metronome", body: "A steady tempo, or one that climbs a step every few bars up to your target. Time signatures, accents, subdivisions, tap tempo." },
+      { title: "Tuner", body: "Tune through the microphone, in your guitar's own tuning." },
+      { title: "Strings and setup", body: "Each string's tension, the gauges that suit your guitar, action and intonation after a string change." },
     ],
   },
   game: {
@@ -460,7 +491,7 @@ const es: Strings = {
     privacyTitle: "Privacidad",
     privacyDescription: "Qué hace Diesis con tus datos: sin cuenta, sin anuncios y sin que nada de lo que haces en Diesis salga de tu navegador. Contamos visitas con Google Analytics solo si tú lo permites.",
   },
-  nav: { how: "Cómo funciona", learn: "Qué aprendes", faq: "Preguntas", cta: "Abrir la app", privacy: "Privacidad", about: "Sobre Diesis", tools: ["Todo", "El mástil", "Nombra la nota", "Encuentra la nota", "Metrónomo"] },
+  nav: { how: "Cómo funciona", learn: "Qué aprendes", faq: "Preguntas", cta: "Abrir la app", privacy: "Privacidad", about: "Sobre Diesis", areas: { learn: "Aprender", practice: "Practicar" }, learnTools: ["Nombra la nota", "Encuentra la nota"], practiceTools: ["El mástil", "Metrónomo"] },
   hero: {
     eyebrow: "La herramienta para aprender guitarra",
     h1: "Todo lo que necesitas para dominar la guitarra.",
@@ -482,7 +513,7 @@ const es: Strings = {
   learn: {
     eyebrow: "Qué aprendes",
     h2: "De la primera nota a dominar el mástil.",
-    lede: "Diesis crece en el orden en que se aprende de verdad: dónde está cada nota, las escalas que se construyen con ellas, leerlas en una partitura y las herramientas con las que practicas cada día.",
+    lede: "Diesis tiene dos partes. Aprender: ejercicios para saber dónde está cada nota, las escalas que se construyen con ellas y cómo leerlas en una partitura. Practicar: las herramientas que tienes abiertas cada día.",
     when: { now: "Ya disponible", next: "Próximamente", later: "Más adelante" },
     tracks: [
       {
@@ -569,21 +600,36 @@ const es: Strings = {
   screen: { score: "7 aciertos · 1 fallo", feedback: "¡Correcto!", hearAgain: "Oír otra vez", aria: "Pantalla de práctica: una posición iluminada en el mástil y doce botones con los nombres de las notas" },
   footer: { tagline: "Todo lo que necesitas para dominar la guitarra.", made: "Hecho en Cáceres. «Diesis» es semitono en griego: un traste." },
   home: {
-    title: "Aprender",
-    h1: "¿Qué quieres trabajar hoy?",
+    title: "Aprender o practicar",
+    h1: "¿Qué quieres hacer hoy?",
     lede: "Con la guitarra encima y, si es un móvil, en horizontal.",
     about: "Sobre Diesis",
     start: "Empezar",
     next: "Próximamente",
     later: "Más adelante",
+    learn: "Ejercicios que te enseñan la guitarra: primero todas las notas del mástil, luego las escalas y la lectura de partituras.",
+    practice: "Las herramientas con las que tocas: el mástil con la escala que quieras y un metrónomo que te va subiendo la velocidad.",
+  },
+  learnMenu: {
+    title: "Aprender",
+    lede: "Ejercicios cortos que te dicen al momento si has acertado. Con unos minutos al día basta.",
     modes: [
-      { title: "El mástil", body: "Todas las notas del mástil, o una escala sobre la tónica que elijas: pentatónicas, blues, mayor, las menores y los modos." },
       { title: "Nombra la nota", body: "Se ilumina una posición y suena. Di qué nota es." },
       { title: "Encuentra la nota", body: "Te dan una nota. Tócala en todos los sitios donde esté." },
-      { title: "Metrónomo", body: "Tempo fijo, o uno que sube solo cada pocos compases hasta tu objetivo. Compases, acentos, subdivisiones y tap tempo." },
       { title: "Escucha la nota", body: "Suena una nota sin iluminar nada. Encuéntrala en el mástil." },
       { title: "Ejercicios de escalas", body: "Constrúyelas, reconócelas y di el grado." },
       { title: "Leer partituras", body: "De la nota en el pentagrama a la posición en el mástil." },
+      { title: "Glosario y técnica", body: "Qué es el down picking, un hammer-on o el apoyando, y cómo se hacen. Guitarra eléctrica y clásica." },
+    ],
+  },
+  practiceMenu: {
+    title: "Practicar",
+    lede: "Lo que tienes abierto mientras tocas.",
+    modes: [
+      { title: "El mástil", body: "Todas las notas del mástil, o una escala sobre la tónica que elijas: pentatónicas, blues, mayor, las menores y los modos." },
+      { title: "Metrónomo", body: "Tempo fijo, o uno que sube solo cada pocos compases hasta tu objetivo. Compases, acentos, subdivisiones y tap tempo." },
+      { title: "Afinador", body: "Afina con el micrófono, en la afinación de tu guitarra." },
+      { title: "Cuerdas y ajuste", body: "La tensión de cada cuerda, los calibres que le van a tu guitarra, y la acción y la octavación después de cambiar cuerdas." },
     ],
   },
   game: {

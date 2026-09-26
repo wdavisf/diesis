@@ -43,7 +43,8 @@ export function GameShell({
   sideways?: boolean;
   children: ReactNode;
 }) {
-  const home = usePathname()?.startsWith("/es/") ? "/es/learn" : "/learn";
+  // Back to the menu of the side this screen is on: /learn or /practice, in its language.
+  const home = usePathname()?.match(/^(\/es)?\/(learn|practice)/)?.[0] ?? "/start";
   return (
     <>
       {sideways ? (
