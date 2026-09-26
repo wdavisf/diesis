@@ -193,7 +193,7 @@ const en: Strings = {
     lede: "One thing at a time, the way a teacher would do it across the table. Nothing to set up. Practice for as long as you like, against the clock, or without a single mistake.",
     steps: [
       { title: "A position lights up", body: "One spot on the neck turns amber and the note plays. Frets 0 to 12, all six strings, every one of the twelve notes." },
-      { title: "Name it", body: "Twelve buttons along the bottom, C to B, sharps written as ♯. On a laptop, just press the letter." },
+      { title: "Name it", body: "Twelve buttons beside the neck, C to B, each sharp next to its note, written as ♯. On a laptop, just press the letter." },
       { title: "Green or red, then the next one", body: "Right: the spot turns green with the name written on it and the next note lights a moment later. Wrong: the button flashes red and the same note waits for you." },
     ],
   },
@@ -475,7 +475,7 @@ const es: Strings = {
     lede: "De una en una, como haría un profesor sentado enfrente. No hay nada que configurar. Practica sin límite, contrarreloj o sin permitirte ni un fallo.",
     steps: [
       { title: "Se ilumina una posición", body: "Un punto del mástil se enciende en ámbar y suena la nota. Del traste 0 al 12, las seis cuerdas, las doce notas." },
-      { title: "Di cuál es", body: "Doce botones en la parte de abajo, de Do a Si, con los sostenidos escritos como ♯. En el ordenador basta con pulsar la tecla de la nota." },
+      { title: "Di cuál es", body: "Doce botones al lado del mástil, de Do a Si, cada sostenido junto a su nota y escrito como ♯. En el ordenador basta con pulsar la tecla de la nota." },
       { title: "Verde o rojo, y a por la siguiente", body: "Si aciertas, el punto se pone verde con el nombre encima y enseguida se enciende la siguiente nota. Si fallas, el botón parpadea en rojo y la nota se queda esperando." },
     ],
   },

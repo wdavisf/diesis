@@ -3,6 +3,11 @@
 Written for the people using it, not for the code. Newest first. Version matches
 `package.json`.
 
+## 0.13.2 — 26 September 2026, note buttons beside the neck
+
+- In Name the note, the note buttons now sit in a column to the right of the neck, where your
+  thumb is, instead of a row along the bottom. Each sharp is next to its note, C at the top.
+
 ## 0.13.1 — 26 September 2026, diesis.es is always Spanish
 
 - Any link on diesis.es now opens in Spanish, not only the home page: diesis.es/learn/metronome

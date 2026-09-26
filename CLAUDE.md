@@ -53,7 +53,9 @@ Todoist project records what is still to do.
   neck, neck to staff, short reading passages). Keep the page and the app home in step with what
   exists.
 - **Mode A** as built: open `/learn/name-the-note`, board in landscape, one position lit and
-  played, twelve buttons, "Wrong" keeps the question, "Correct" shows the name on the board and
+  played, twelve buttons in a column right of the board (Will, 2026-09-26: a row under the
+  board was hard to reach; `GameFrame`'s `aside`), one row per natural with its sharp beside
+  it, C at the top, "Wrong" keeps the question, "Correct" shows the name on the board and
   moves on. Frets 0–12, six strings, all twelve notes. Desktop keys: C D E F G A B pick a note,
   Shift for the sharp, Space or Enter replays (or starts).
 - **Mode B, Find the note** (built 2026-09-24): open `/learn/find-the-note`. A note name is

@@ -86,18 +86,25 @@ export interface GameFrameProps {
   overlay?: ReactNode;
   /** Everything under the board. */
   children: ReactNode;
+  /** A column right of the board, the full height of the screen: the note buttons. */
+  aside?: ReactNode;
 }
 
-/** The play screen: the board filling the space it has, and the controls underneath. */
-export function GameFrame({ t, title, status, board, overlay, children }: GameFrameProps) {
+/** The play screen: the board filling the space it has, the controls underneath and, if given, a column on the right. */
+export function GameFrame({ t, title, status, board, overlay, children, aside }: GameFrameProps) {
   const { ref, size } = useSize<HTMLDivElement>();
   return (
     <GameShell t={t} title={title} status={status} sideways>
-      <div ref={ref} className="relative mx-3 min-h-0 flex-1">
-        {size.width > 0 ? board(size) : null}
-        {overlay ? <div className="absolute inset-0 flex items-center justify-center overflow-auto py-1">{overlay}</div> : null}
+      <div className="flex min-h-0 flex-1">
+        <div className="flex min-w-0 flex-1 flex-col">
+          <div ref={ref} className="relative mx-3 min-h-0 flex-1">
+            {size.width > 0 ? board(size) : null}
+            {overlay ? <div className="absolute inset-0 flex items-center justify-center overflow-auto py-1">{overlay}</div> : null}
+          </div>
+          {children}
+        </div>
+        {aside ? <div className="flex shrink-0 flex-col pr-3 pb-3 md:pb-4">{aside}</div> : null}
       </div>
-      {children}
     </GameShell>
   );
 }

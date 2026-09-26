@@ -118,6 +118,17 @@ export function Game({ t, tc, ts, lang }: { t: Strings["game"]; tc: Strings["cha
         />
       )}
       overlay={over ? <ChallengeResult t={tc} state={run} onAgain={() => void begin()} onChange={change} /> : null}
+      aside={
+        <NotePanel
+          label={t.notes}
+          names={names}
+          pitchClasses={naturalsOnly ? NATURAL_PITCH_CLASSES : undefined}
+          onPick={game.pick}
+          disabled={game.phase !== "asking" || over}
+          correctPick={game.phase === "correct" && game.question ? game.question.answer : null}
+          wrongPick={game.wrongPick}
+        />
+      }
     >
       <div className="relative flex h-11 items-center justify-center">
         <p className={cn("text-xl font-semibold", game.phase === "correct" ? "text-correct" : "text-wrong")} aria-live="assertive">
@@ -139,15 +150,6 @@ export function Game({ t, tc, ts, lang }: { t: Strings["game"]; tc: Strings["cha
         ) : null}
       </div>
 
-      <NotePanel
-        label={t.notes}
-        names={names}
-        pitchClasses={naturalsOnly ? NATURAL_PITCH_CLASSES : undefined}
-        onPick={game.pick}
-        disabled={game.phase !== "asking" || over}
-        correctPick={game.phase === "correct" && game.question ? game.question.answer : null}
-        wrongPick={game.wrongPick}
-      />
       <p className="hidden h-8 items-center justify-center text-xs text-dim pointer-fine:md:flex">{t.keys}</p>
       <div className="h-3 md:h-1" />
     </GameFrame>
