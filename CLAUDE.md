@@ -240,9 +240,9 @@ Todoist project records what is still to do.
   must repeat `images` (Next replaces the object, it does not merge): `/es` pages use
   `og-es.png`. Bump the `?v=` on the image URLs when the card changes.
 
-- **Private roadmap page (Will, 2026-09-26)**: `/roadmap-qrnvxkuvrjmy`, a visual roadmap plus
+- **Private roadmap page (Will, 2026-09-26)**: `/roadmap` (Will asked for exactly that path), a visual roadmap plus
   the monetization and go-to-market plan, Spanish, for Will only. Unlisted by choice (Will picked
-  "secret URL, no password"): no links to it, not in the sitemap or robots.txt, `noindex`. The
+  "no password"; the path is guessable, he knows): no links to it, not in the sitemap or robots.txt, `noindex`. The
   repo is public, so the page must hold nothing that cannot be public. Update it when the
   roadmap moves and Will asks.
 
