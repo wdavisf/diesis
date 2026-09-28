@@ -33,15 +33,18 @@ const columns: { title: string; tone: string; dot: string; items: Item[] }[] = [
     tone: "border-correct/40",
     dot: "bg-correct",
     items: [
-      { title: "Nombra la nota", track: "Mástil" },
-      { title: "Encuentra la nota", track: "Mástil" },
-      { title: "Retos, récords y logros", track: "Mástil" },
+      { title: "Nombra la nota y Encuentra la nota", note: "Retos, récords y logros", track: "Mástil" },
       { title: "El mástil: todas las notas y 13 escalas", note: "Tónica, notas o grados, toca para oír", track: "Mástil" },
       { title: "Metrónomo con subida de tempo", note: "2/4–7/8, subdivisiones hasta seisillos, tap", track: "Práctica" },
+      { title: "Backing tracks", note: "Por estilo, con tonalidad y escala en el mástil", track: "Práctica" },
+      { title: "Independencia de dedos", note: "Cuatro puntos, clic, ms de desvío, récord limpio", track: "Práctica" },
+      { title: "Cuerdas y ajuste", note: "Tensión por cuerda, juego equilibrado, números de ajuste por tipo de guitarra", track: "Equipo" },
+      { title: "Afiliados de Amazon.es", note: "Cuerdas y herramientas de ajuste, con aviso", track: "Negocio" },
       { title: "Perfil: 6, 7 u 8 cuerdas y afinaciones", note: "Los ejercicios y el mástil lo usan", track: "Plataforma" },
-      { title: "Botones de notas a la derecha", track: "Mástil" },
+      { title: "Tres lados: Aprender, Practicar, Ajuste", note: "/start, /learn, /practice, /setup", track: "Plataforma" },
+      { title: "Portada con ejercicio jugable y tus herramientas", note: "Con tu foto en «Quién lo hace»", track: "Plataforma" },
+      { title: "Formulario de sugerencias", note: "Llega a tu correo por Resend", track: "Plataforma" },
       { title: "Web EN/ES, diesis.es, barra común", track: "Plataforma" },
-      { title: "App en dos puertas: Aprender o Practicar", note: "/start, /learn, /practice", track: "Plataforma" },
     ],
   },
   {
@@ -49,9 +52,11 @@ const columns: { title: string; tone: string; dot: string; items: Item[] }[] = [
     tone: "border-amber/50",
     dot: "bg-amber",
     items: [
-      { title: "Medir el uso", note: "Primer ejercicio, vuelta a los 7 días, herramientas", track: "Negocio" },
+      { title: "Medir el uso", note: "Primer ejercicio, vuelta a los 7 días, herramientas. ¿GA4 o PostHog?", track: "Negocio" },
+      { title: "SEO de Diesis", note: "Títulos, textos y enlaces en los dos idiomas", track: "Negocio" },
       { title: "Lista de correo / espera de Pro", track: "Negocio" },
       { title: "Tu vídeo personal en la portada", note: "YouTube, se carga al pulsar", track: "Negocio" },
+      { title: "Probar Dedos en tu iPhone", note: "Latencia real al tocar la pantalla", track: "Práctica" },
       { title: "Decidir posiciones de escala", note: "CAGED o tres notas por cuerda", track: "Mástil" },
     ],
   },
@@ -60,13 +65,18 @@ const columns: { title: string; tone: string; dot: string; items: Item[] }[] = [
     tone: "border-sky-400/40",
     dot: "bg-sky-400",
     items: [
-      { title: "Glosario de técnicas", note: "Down picking, hammer-on, sweep… una página cada una", track: "Aprender" },
-      { title: "Técnica de guitarra clásica", note: "Apoyando, tirando, p-i-m-a, rasgueado, trémolo", track: "Aprender" },
-      { title: "Cuentas opcionales", note: "Supabase UE, enlace mágico, Google, Apple", track: "Plataforma" },
-      { title: "Privacidad RGPD para cuentas", track: "Plataforma" },
+      { title: "Afinador y entonación", note: "Micrófono, y también de oído", track: "Equipo" },
+      { title: "Mis guitarras", note: "Varias guitarras en el perfil", track: "Equipo" },
+      { title: "Dedos: carril tipo Guitar Hero", note: "Ver las notas que vienen; más ejercicios de golpeo con la izquierda", track: "Práctica" },
+      { title: "Calentamiento y estiramientos", track: "Práctica" },
+      { title: "Ejercicios de técnica con tabs", note: "Púa y dedos, con un vídeo tuyo en cada uno", track: "Aprender" },
+      { title: "Teoría de escalas y modos", note: "Por qué cada escala es como es", track: "Aprender" },
+      { title: "Glosario de técnicas", note: "Eléctrica y clásica, una página cada una", track: "Aprender" },
+      { title: "Récords y logros a la vista mientras practicas", track: "Mástil" },
       { title: "Ejercicios de escalas", note: "Construir, reconocer, grados", track: "Mástil" },
-      { title: "Escucha la nota", track: "Mástil" },
-      { title: "Rango de trastes y cuerda a cuerda", track: "Mástil" },
+      { title: "Escucha la nota", note: "Y rango de trastes, cuerda a cuerda", track: "Mástil" },
+      { title: "Cuentas opcionales", note: "Supabase UE, enlace mágico, Google, Apple; códigos de invitación para seguir a los primeros usuarios", track: "Plataforma" },
+      { title: "Privacidad RGPD para cuentas", track: "Plataforma" },
     ],
   },
   {
@@ -75,32 +85,41 @@ const columns: { title: string; tone: string; dot: string; items: Item[] }[] = [
     dot: "bg-dim",
     items: [
       { title: "Plan Pro con Stripe", track: "Negocio" },
-      { title: "Calculadora de ajuste por modelo", note: "Les Paul, Tele, Strat, SG, RG, clásica…", track: "Equipo" },
-      { title: "Tensión y calibre de cuerdas", track: "Equipo" },
+      { title: "Comparar puntuaciones con otros", note: "Necesita cuentas", track: "Negocio" },
+      { title: "Afiliados fuera de España", note: "OneLink para Amazon .com, .co.uk…", track: "Negocio" },
       { title: "Comparativa de púas", note: "Material, grosor, estilo", track: "Equipo" },
-      { title: "Tienda con afiliados de Amazon", track: "Negocio" },
+      { title: "Cambio de afinación, por qué zumba, registro de cuerdas, cuidado", track: "Equipo" },
       { title: "Inspiración: vídeos de guitarristas", track: "Aprender" },
-      { title: "Afinador", track: "Práctica" },
       { title: "Leer partituras (clásica)", track: "Aprender" },
-      { title: "Muestras reales, zurdos, app nativa", track: "Plataforma" },
+      { title: "Muestras reales, zurdos, skins", track: "Plataforma" },
+      { title: "App nativa: ¿pago o suscripción?", track: "Plataforma" },
     ],
   },
 ];
 
 const phases = [
-  { n: "1", title: "Medir y crear audiencia", when: "Estas semanas", items: ["Eventos de uso en GA4", "Lista de correo / espera de Pro", "Vídeos: «¿Qué nota es?», retos, riffs con la subida de tempo", "Tu vídeo en la portada"] },
-  { n: "2", title: "Cuentas y contenido que atrae", when: "Después", items: ["Cuentas opcionales y sincronización", "Glosario (SEO en los dos idiomas)", "Ejercicios de escalas", "Escucha la nota y rango de trastes"] },
-  { n: "3", title: "Lanzar Pro", when: "Con usuarios que vuelven cada semana", items: ["Stripe, precio de fundador", "Afiliados de Amazon", "Profesores y academias"] },
+  { n: "1", title: "Medir y crear audiencia", when: "Estas semanas", items: ["Eventos de uso (GA4 o PostHog)", "SEO en los dos idiomas", "Lista de correo / espera de Pro", "Vídeos: «¿Qué nota es?», retos, riffs con la subida de tempo, tu récord en Dedos", "Tu vídeo en la portada"] },
+  { n: "2", title: "Cuentas y contenido que atrae", when: "Después", items: ["Cuentas opcionales y sincronización", "Glosario, teoría y ejercicios de técnica (SEO)", "Afinador y Mis guitarras", "Ejercicios de escalas y Escucha la nota"] },
+  { n: "3", title: "Lanzar Pro", when: "Con usuarios que vuelven cada semana", items: ["Stripe, precio de fundador", "Afiliados más allá de España", "Profesores y academias", "Si lo pide el uso: app nativa"] },
 ];
 
-const free = ["Nombra y Encuentra la nota, con retos", "Metrónomo con subida de tempo", "El mástil con pentatónicas, mayor y menor", "Perfil con 6/7/8 cuerdas y afinaciones", "Glosario de técnicas"];
-const pro = ["Todas las escalas y modos, y sus ejercicios", "Estadísticas: qué posiciones fallas y cómo mejoras", "Sincronización entre dispositivos", "Calculadora de ajuste completa", "Rutinas de práctica guardadas"];
+const free = ["Nombra y Encuentra la nota, con retos", "Metrónomo con subida de tempo", "El mástil con pentatónicas, mayor y menor", "Backing tracks", "Independencia de dedos", "Calculadora de cuerdas", "Perfil con 6/7/8 cuerdas y afinaciones", "Glosario de técnicas"];
+const pro = ["Todas las escalas y modos, y sus ejercicios", "Estadísticas: qué posiciones fallas, cómo mejoras, tu tempo limpio en Dedos", "Sincronización entre dispositivos y varias guitarras", "Ejercicios de técnica con tus vídeos", "Rutinas de práctica guardadas", "Comparar tu progreso con otros"];
 
 const channels = [
-  { title: "Tu contenido", body: "Instagram, TikTok y Shorts: «¿Qué nota es?», retos contra el reloj, tus riffs con la subida de tempo. Gratis y lo que más te diferencia de una app hecha por IA." },
-  { title: "SEO con el glosario", body: "Una página por técnica («qué es palm mute», «cómo hacer hammer-on») en los dos idiomas: tráfico todo el año." },
+  { title: "Tu contenido", body: "Instagram, TikTok y Shorts: «¿Qué nota es?», retos contra el reloj, tus riffs con la subida de tempo, tu récord en Dedos. Gratis y lo que más te diferencia de una app hecha por IA." },
+  { title: "SEO con el glosario", body: "Una página por técnica («qué es palm mute», «cómo hacer hammer-on») y por escala, en los dos idiomas: tráfico todo el año." },
   { title: "Comunidades", body: "r/guitarlessons, r/SevenString, foros y grupos en español. Aportar, no hacer spam." },
   { title: "Profesores y academias", body: "Un profesor que lo recomienda trae alumnos fieles. Más adelante, un plan para profesores." },
+];
+
+/** Will's question (2026-09-27): how to keep a moat if the app can be copied in a day. */
+const moat = [
+  { title: "Tú", body: "Un guitarrista real, con cara, vídeos y tu música. El código se copia; tu voz y tus ejercicios grabados no." },
+  { title: "El historial del usuario", body: "Récords, tempos limpios, posiciones que falla, sus guitarras. Con cuentas, cambiarse a otra app es empezar de cero." },
+  { title: "Profundidad en un nicho", body: "Español nativo y 7/8 cuerdas con afinaciones graves hechos bien, no traducidos ni añadidos al final." },
+  { title: "Comunidad y profesores", body: "Profesores que mandan a sus alumnos, retos compartidos y puntuaciones comparadas: eso no se copia con un prompt." },
+  { title: "Ritmo", body: "Una mejora a la semana que alguien pidió. Quien copia va siempre por detrás." },
 ];
 
 const funnel = [
@@ -112,10 +131,12 @@ const funnel = [
 ];
 
 const decisions = [
-  "¿Suscripción, pago único o las dos?",
+  "¿Suscripción, pago único o las dos? ¿Y en una app nativa?",
+  "¿Qué hace que merezca la pena pagar? (el Pro de arriba es la propuesta)",
+  "¿GA4 o PostHog para medir el uso?",
   "¿Cuánto tiempo a la semana para contenido?",
-  "¿Qué va en Aprender y qué en Practicar?",
-  "¿Métodos de acceso de las cuentas y si son opcionales?",
+  "¿Métodos de acceso de las cuentas, y códigos de invitación?",
+  "¿CAGED o tres notas por cuerda para las posiciones?",
 ];
 
 function Tag({ track }: { track: Track }) {
@@ -137,7 +158,7 @@ export default function RoadmapPage() {
       <header className="mb-14">
         <p className="inline-flex items-center gap-2 rounded-full border border-line px-3 py-1 text-xs text-dim">
           <span className="size-1.5 rounded-full bg-amber" aria-hidden />
-          Privado · solo con este enlace · 26 sept 2026 · versión 0.14
+          Privado · solo con este enlace · 28 sept 2026 · versión 0.21
         </p>
         <h1 className="mt-5 font-display text-5xl font-semibold tracking-tight sm:text-6xl">Roadmap y estrategia</h1>
         <p className="mt-4 max-w-2xl text-lg text-dim">
@@ -147,7 +168,7 @@ export default function RoadmapPage() {
 
       <section className="mb-20">
         <H2 eyebrow="Producto">El roadmap</H2>
-        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
           {columns.map((c) => (
             <div key={c.title} className={`flex flex-col rounded-2xl border-t-4 bg-surface/50 p-4 ${c.tone}`}>
               <div className="mb-4 flex items-center justify-between">
@@ -175,7 +196,7 @@ export default function RoadmapPage() {
 
       <section className="mb-20">
         <H2 eyebrow="Plan">Tres fases</H2>
-        <ol className="relative grid gap-4 lg:grid-cols-3">
+        <ol className="relative grid grid-cols-1 gap-4 lg:grid-cols-3">
           {phases.map((p, i) => (
             <li key={p.n} className="relative rounded-2xl border border-line bg-surface/50 p-5">
               <div className="flex items-center gap-3">
@@ -201,7 +222,7 @@ export default function RoadmapPage() {
 
       <section className="mb-20">
         <H2 eyebrow="Monetización">Freemium con un plan Pro</H2>
-        <div className="grid gap-4 md:grid-cols-2">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           <div className="rounded-2xl border border-line bg-surface/50 p-6">
             <p className="font-display text-2xl font-semibold">Gratis</p>
             <p className="mt-1 text-sm text-dim">Para siempre. Lo que engancha y hace que te recomienden.</p>
@@ -232,7 +253,7 @@ export default function RoadmapPage() {
             </ul>
           </div>
         </div>
-        <div className="mt-4 grid gap-4 md:grid-cols-3">
+        <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-3">
           <div className="rounded-2xl border border-line p-5">
             <p className="text-sm font-semibold">Ingresos secundarios</p>
             <p className="mt-1 text-sm text-dim">Afiliados de Amazon desde la calculadora de cuerdas y la comparativa de púas. Poco dinero, sin molestar.</p>
@@ -250,7 +271,7 @@ export default function RoadmapPage() {
 
       <section className="mb-20">
         <H2 eyebrow="Salida al mercado">Por dónde entrar</H2>
-        <div className="grid gap-4 md:grid-cols-2">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           <div className="rounded-2xl border border-line bg-surface/50 p-6">
             <p className="text-xs font-semibold text-amber-text uppercase">Nicho 1</p>
             <p className="mt-1 font-display text-xl font-semibold">Guitarristas hispanohablantes</p>
@@ -262,7 +283,7 @@ export default function RoadmapPage() {
             <p className="mt-2 text-sm text-dim">Tu mundo como WILLDAFER, y casi ninguna app los trata bien.</p>
           </div>
         </div>
-        <ol className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <ol className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {channels.map((c, i) => (
             <li key={c.title} className="rounded-2xl border border-line p-5">
               <span className="font-display text-3xl font-semibold text-amber">{i + 1}</span>
@@ -288,12 +309,24 @@ export default function RoadmapPage() {
             </div>
           ))}
         </div>
-        <p className="mt-4 text-sm text-dim">Hoy GA4 solo cuenta visitas. Medir cada escalón es lo primero de la fase 1.</p>
+        <p className="mt-4 text-sm text-dim">Hoy GA4 solo cuenta visitas (y solo de quien acepta el aviso). Medir cada escalón es lo primero de la fase 1.</p>
+      </section>
+
+      <section className="mb-20">
+        <H2 eyebrow="Foso">Si se puede copiar en un día, ¿qué no se copia?</H2>
+        <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+          {moat.map((m) => (
+            <li key={m.title} className="rounded-2xl border border-line bg-surface/50 p-5">
+              <p className="font-display text-lg font-semibold">{m.title}</p>
+              <p className="mt-1 text-sm text-dim">{m.body}</p>
+            </li>
+          ))}
+        </ul>
       </section>
 
       <section>
         <H2 eyebrow="Pendiente">Decisiones tuyas</H2>
-        <ul className="grid gap-3 sm:grid-cols-2">
+        <ul className="grid grid-cols-1 gap-3 sm:grid-cols-2">
           {decisions.map((d) => (
             <li key={d} className="flex items-center gap-3 rounded-xl border border-dashed border-amber/50 p-4 text-sm">
               <span className="flex size-6 shrink-0 items-center justify-center rounded-full border border-amber/60 text-xs text-amber-text">?</span>
