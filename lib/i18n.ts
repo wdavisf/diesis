@@ -149,6 +149,18 @@ export interface Strings {
     faster: string;
     keys: string;
   };
+  /** /practice/fingers (components/fingers.tsx). {ms}, {g}, {n}, {k}, {p}, {bpm}, {w}, {m} as named. */
+  fingers: {
+    title: string; lede: string; tempo: string; pattern: string; random: string; notes: string; hand: string; left: string; right: string;
+    /** Index, middle, ring, pinky: fingers 1 to 4. */
+    fingerNames: string[];
+    start: string; stop: string; again: string; change: string; ready: string; howTo: string; next: string; progress: string; onTimeNow: string;
+    verdict: { good: string; early: string; late: string; wrong: string; missed: string };
+    result: string; resultSub: string; lean: { early: string; late: string; on: string }; spread: string; mistakes: string;
+    best: string; noBest: string; newBest: string; tip: string; keysLeft: string; keysRight: string;
+    /** The key right of L: ; on an English keyboard, Ñ on a Spanish one. */
+    semicolonKey: string;
+  };
   profile: {
     title: string;
     guitar: string;
@@ -223,7 +235,7 @@ const en: Strings = {
     privacyTitle: "Privacy",
     privacyDescription: "What Diesis does with your data: no account, no ads, nothing you do in Diesis leaves your browser. Visit counting with Google Analytics only if you allow it.",
   },
-  nav: { how: "How it works", learn: "What you learn", faq: "FAQ", cta: "Open the app", privacy: "Privacy", about: "About Diesis", areas: { learn: "Learn", practice: "Practice", setup: "Setup" }, learnTools: ["Name the note", "Find the note"], practiceTools: ["The neck", "Metronome", "Backing tracks"], setupTools: ["Strings"] },
+  nav: { how: "How it works", learn: "What you learn", faq: "FAQ", cta: "Open the app", privacy: "Privacy", about: "About Diesis", areas: { learn: "Learn", practice: "Practice", setup: "Setup" }, learnTools: ["Name the note", "Find the note"], practiceTools: ["The neck", "Metronome", "Backing tracks", "Fingers"], setupTools: ["Strings"] },
   hero: {
     eyebrow: "The guitar learning tool",
     h1: "Everything you need to master the guitar.",
@@ -283,6 +295,7 @@ const en: Strings = {
         items: [
           { title: "Metronome and speed trainer", body: "Tempo from 20 to 300, 2/4 to 7/8 with the accents where they belong, subdivisions up to sextuplets, tap tempo. Turn on Speed up and it climbs on its own: pick the start, the target, the step and the bars at each tempo.", when: "now" },
           { title: "Backing tracks", body: "Tracks to jam over: blues, rock, metal, funk, bossa, modal jams, flamenco and more. Each shows its key and a scale that fits, and opens that scale on the neck.", when: "now" },
+          { title: "Finger independence", body: "Four dots, one per finger, and a click. Hit the one that lights, on the click: green when you are on time, red when you are not, and by how many milliseconds.", when: "now" },
         ],
       },
       {
@@ -435,6 +448,7 @@ const en: Strings = {
       { side: "Practice", title: "The neck", body: "Any scale on any root, across the whole fretboard. Here, A minor pentatonic." },
       { side: "Practice", title: "Metronome", body: "20 to 300 BPM, odd meters, tap tempo, and a Speed up mode that climbs to your target." },
       { side: "Practice", title: "Backing tracks", body: "Jam over tracks in every style, with the key and the scale to play shown on each." },
+      { side: "Practice", title: "Finger independence", body: "Four dots, one per finger. Hit the lit one on the click and see how close you were." },
       { side: "Setup", title: "Strings and setup", body: "Every string's tension for your tuning, a balanced set worked out for you, and the setup numbers for your guitar." },
     ],
   },
@@ -448,7 +462,7 @@ const en: Strings = {
     next: "Coming next",
     later: "Later",
     learn: "Exercises that teach you the guitar: every note on the neck first, then scales and reading music.",
-    practice: "The tools you play with: the neck with any scale on it, a metronome that builds your speed and backing tracks.",
+    practice: "The tools you play with: the neck with any scale on it, a metronome that builds your speed, backing tracks and a finger independence drill.",
     setup: "Your guitar itself: the right strings for your tuning, and the numbers to set it up after a string change.",
   },
   learnMenu: {
@@ -470,6 +484,7 @@ const en: Strings = {
       { title: "The neck", body: "Every note on the fretboard, or a scale on the root you pick: pentatonics, blues, major, the minors, the modes." },
       { title: "Metronome", body: "A steady tempo, or one that climbs a step every few bars up to your target. Time signatures, accents, subdivisions, tap tempo." },
       { title: "Backing tracks", body: "Jam over a band in any style, with the key and a scale that fits, shown on the neck in one tap." },
+      { title: "Finger independence", body: "Four dots, one per finger, lit in turn on a click. Train each finger to move on its own, in time." },
     ],
   },
   setupMenu: {
@@ -550,6 +565,40 @@ const en: Strings = {
     faster: "Faster",
     keys: "Keys: Space starts and stops, ← → change the tempo (Shift for 5 at a time), T taps it.",
   },
+  fingers: {
+    title: "Finger independence",
+    lede: "Four dots, one per finger. On every click, hit the one that is lit. Phone flat on the table and your fingers on the dots, or the keyboard on a computer.",
+    tempo: "Tempo",
+    pattern: "Order",
+    random: "Random",
+    notes: "Notes",
+    hand: "Hand",
+    left: "Left",
+    right: "Right",
+    fingerNames: ["Index", "Middle", "Ring", "Pinky"],
+    start: "Start",
+    stop: "Stop",
+    again: "Again",
+    change: "Change settings",
+    ready: "Get ready",
+    howTo: "Hit the lit dot on the next click.",
+    next: "Then",
+    progress: "{k} of {n}",
+    onTimeNow: "{g} on time",
+    verdict: { good: "{ms} ms", early: "{ms} ms early", late: "{ms} ms late", wrong: "Wrong finger", missed: "Missed" },
+    result: "{p}% on time",
+    resultSub: "{g} of {n} notes on time, at {bpm} BPM.",
+    lean: { early: "You play {ms} ms ahead of the click on average.", late: "You play {ms} ms behind the click on average.", on: "Right on the click, on average." },
+    spread: "Average distance from the click: {ms} ms.",
+    mistakes: "Wrong finger: {w}. Missed: {m}.",
+    best: "Fastest clean run: {bpm} BPM",
+    noBest: "No clean run yet with this order and length. A run is clean at 90% on time or better.",
+    newBest: "New record: your fastest clean run.",
+    tip: "Start slow. When a run comes out clean, go up five.",
+    keysLeft: "Keys: A S D F, pinky to index. Space starts and stops.",
+    keysRight: "Keys: J K L ;, index to pinky. Space starts and stops.",
+    semicolonKey: ";",
+  },
   profile: {
     title: "Profile",
     guitar: "Your guitar",
@@ -629,10 +678,10 @@ const en: Strings = {
   privacy: {
     eyebrow: "Privacy",
     h1: "Privacy policy",
-    updated: "Last updated 26 September 2026",
+    updated: "Last updated 28 September 2026",
     summary: "Diesis has no account and no advertising. Nothing you do in Diesis leaves your browser. The only thing we measure is visits to the site, with Google Analytics, and only if you allow it.",
     sections: [
-      { h: "The app", p: ["Diesis runs entirely in your browser. It does not ask who you are, does not create an account, and does not send anything you do in it to us or to anyone else.", "Your score for a session is held in memory and disappears when you close the tab. Everything else you choose or earn stays in your browser's local storage, on your device only: your guitar (strings and tuning), how notes are named, your personal bests and the challenge you last picked, the metronome's settings (including a speed-up plan), what you last picked on the neck and your guitar type, scale length and string gauges. None of it is ever sent anywhere. The Erase my data button in your profile removes it, and so does clearing the site's data."] },
+      { h: "The app", p: ["Diesis runs entirely in your browser. It does not ask who you are, does not create an account, and does not send anything you do in it to us or to anyone else.", "Your score for a session is held in memory and disappears when you close the tab. Everything else you choose or earn stays in your browser's local storage, on your device only: your guitar (strings and tuning), how notes are named, your personal bests and the challenge you last picked, the metronome's settings (including a speed-up plan), the finger exercise's settings and your fastest clean runs in it, what you last picked on the neck and your guitar type, scale length and string gauges. None of it is ever sent anywhere. The Erase my data button in your profile removes it, and so does clearing the site's data."] },
       { h: "Cookies", p: ["Diesis sets two cookies. One remembers the language you picked; the other remembers your answer to the analytics banner. Neither holds anything about you."] },
       { h: "This website", p: ["diesis.app is hosted by Vercel, which keeps standard server logs (IP address, browser, pages requested) for a short time to run the service and keep it safe.", "If you allow it in the banner, the site loads Google Analytics 4 to count visits and see which pages are read. Google sets its own cookies for that and processes the data under its own privacy policy. If you decline, nothing from Google is loaded, and you can change your mind by clearing the site's cookies."] },
       { h: "Backing tracks", p: ["The backing tracks page shows thumbnails served by YouTube (i.ytimg.com), so YouTube sees your IP address when the page loads. The video player comes from youtube-nocookie.com and loads only when you press play on a track; from then on YouTube's privacy policy applies to that video. Diesis sends YouTube nothing about you."] },
@@ -659,7 +708,7 @@ const es: Strings = {
     privacyTitle: "Privacidad",
     privacyDescription: "Qué hace Diesis con tus datos: sin cuenta, sin anuncios y sin que nada de lo que haces en Diesis salga de tu navegador. Contamos visitas con Google Analytics solo si tú lo permites.",
   },
-  nav: { how: "Cómo funciona", learn: "Qué aprendes", faq: "Preguntas", cta: "Abrir la app", privacy: "Privacidad", about: "Sobre Diesis", areas: { learn: "Aprender", practice: "Practicar", setup: "Ajuste" }, learnTools: ["Nombra la nota", "Encuentra la nota"], practiceTools: ["El mástil", "Metrónomo", "Backing tracks"], setupTools: ["Cuerdas"] },
+  nav: { how: "Cómo funciona", learn: "Qué aprendes", faq: "Preguntas", cta: "Abrir la app", privacy: "Privacidad", about: "Sobre Diesis", areas: { learn: "Aprender", practice: "Practicar", setup: "Ajuste" }, learnTools: ["Nombra la nota", "Encuentra la nota"], practiceTools: ["El mástil", "Metrónomo", "Backing tracks", "Dedos"], setupTools: ["Cuerdas"] },
   hero: {
     eyebrow: "La herramienta para aprender guitarra",
     h1: "Todo lo que necesitas para dominar la guitarra.",
@@ -719,6 +768,7 @@ const es: Strings = {
         items: [
           { title: "Metrónomo y entrenador de velocidad", body: "Tempo de 20 a 300, compases de 2/4 a 7/8 con los acentos donde tocan, subdivisiones hasta seisillos y tap tempo. Activa la subida de tempo y sube solo: eliges inicio, objetivo, cuánto sube y cuántos compases en cada tempo.", when: "now" },
           { title: "Backing tracks", body: "Bases para improvisar encima: blues, rock, metal, funk, bossa, jams modales, flamenco y más. Cada una dice su tonalidad y una escala que encaja, y te la abre en el mástil.", when: "now" },
+          { title: "Independencia de dedos", body: "Cuatro puntos, uno por dedo, y un clic. Pulsa el que se enciende, justo en el clic: verde si vas a tiempo, rojo si no, y por cuántos milisegundos.", when: "now" },
         ],
       },
       {
@@ -871,6 +921,7 @@ const es: Strings = {
       { side: "Practicar", title: "El mástil", body: "Cualquier escala sobre cualquier tónica, por todo el mástil. Aquí, la pentatónica menor de La." },
       { side: "Practicar", title: "Metrónomo", body: "De 20 a 300 BPM, compases de amalgama, tap tempo y una subida de tempo que te lleva hasta tu objetivo." },
       { side: "Practicar", title: "Backing tracks", body: "Bases de todos los estilos para improvisar encima, cada una con su tonalidad y la escala que encaja." },
+      { side: "Practicar", title: "Independencia de dedos", body: "Cuatro puntos, uno por dedo. Pulsa el encendido en el clic y mira lo cerca que has quedado." },
       { side: "Ajuste", title: "Cuerdas y ajuste", body: "La tensión de cada cuerda con tu afinación, un juego equilibrado calculado para ti y las medidas de ajuste de tu guitarra." },
     ],
   },
@@ -884,7 +935,7 @@ const es: Strings = {
     next: "Próximamente",
     later: "Más adelante",
     learn: "Ejercicios que te enseñan la guitarra: primero todas las notas del mástil, luego las escalas y la lectura de partituras.",
-    practice: "Las herramientas con las que tocas: el mástil con la escala que quieras, un metrónomo que te va subiendo la velocidad y backing tracks.",
+    practice: "Las herramientas con las que tocas: el mástil con la escala que quieras, un metrónomo que te va subiendo la velocidad, backing tracks y un ejercicio de independencia de dedos.",
     setup: "Tu guitarra en sí: las cuerdas que le van a tu afinación y las medidas para ajustarla después de cambiarlas.",
   },
   learnMenu: {
@@ -906,6 +957,7 @@ const es: Strings = {
       { title: "El mástil", body: "Todas las notas del mástil, o una escala sobre la tónica que elijas: pentatónicas, blues, mayor, las menores y los modos." },
       { title: "Metrónomo", body: "Tempo fijo, o uno que sube solo cada pocos compases hasta tu objetivo. Compases, acentos, subdivisiones y tap tempo." },
       { title: "Backing tracks", body: "Improvisa con una banda detrás, del estilo que quieras, con su tonalidad y una escala que encaja, que ves en el mástil con un toque." },
+      { title: "Independencia de dedos", body: "Cuatro puntos, uno por dedo, que se encienden al ritmo de un clic. Para que cada dedo vaya por su cuenta, y a tiempo." },
     ],
   },
   setupMenu: {
@@ -986,6 +1038,40 @@ const es: Strings = {
     faster: "Más rápido",
     keys: "Teclado: espacio para empezar o parar, ← → cambian el tempo (con Mayús, de 5 en 5), T para marcarlo.",
   },
+  fingers: {
+    title: "Independencia de dedos",
+    lede: "Cuatro puntos, uno por dedo. En cada clic, pulsa el que esté encendido. Con el móvil apoyado en la mesa y los dedos encima, o con el teclado en el ordenador.",
+    tempo: "Tempo",
+    pattern: "Orden",
+    random: "Al azar",
+    notes: "Notas",
+    hand: "Mano",
+    left: "Izquierda",
+    right: "Derecha",
+    fingerNames: ["Índice", "Medio", "Anular", "Meñique"],
+    start: "Empezar",
+    stop: "Parar",
+    again: "Otra vez",
+    change: "Cambiar ajustes",
+    ready: "Prepárate",
+    howTo: "Pulsa el punto encendido en el siguiente clic.",
+    next: "Luego",
+    progress: "{k} de {n}",
+    onTimeNow: "{g} a tiempo",
+    verdict: { good: "{ms} ms", early: "{ms} ms antes", late: "{ms} ms tarde", wrong: "Dedo equivocado", missed: "Se te pasó" },
+    result: "{p} % a tiempo",
+    resultSub: "{g} de {n} notas a tiempo, a {bpm} BPM.",
+    lean: { early: "De media vas {ms} ms por delante del clic.", late: "De media vas {ms} ms por detrás del clic.", on: "De media, clavado en el clic." },
+    spread: "Distancia media al clic: {ms} ms.",
+    mistakes: "Dedo equivocado: {w}. Sin tocar: {m}.",
+    best: "Tu pasada limpia más rápida: {bpm} BPM",
+    noBest: "Aún no tienes una pasada limpia con este orden y estas notas. Cuenta como limpia a partir del 90 % a tiempo.",
+    newBest: "Récord: tu pasada limpia más rápida.",
+    tip: "Empieza despacio. Cuando te salga limpia, sube cinco.",
+    keysLeft: "Teclas: A S D F, del meñique al índice. Espacio empieza y para.",
+    keysRight: "Teclas: J K L Ñ, del índice al meñique. Espacio empieza y para.",
+    semicolonKey: "Ñ",
+  },
   profile: {
     title: "Perfil",
     guitar: "Tu guitarra",
@@ -1065,10 +1151,10 @@ const es: Strings = {
   privacy: {
     eyebrow: "Privacidad",
     h1: "Política de privacidad",
-    updated: "Última actualización: 26 de septiembre de 2026",
+    updated: "Última actualización: 28 de septiembre de 2026",
     summary: "Diesis no tiene cuentas ni publicidad. Nada de lo que haces en Diesis sale de tu navegador. Lo único que medimos son las visitas a la web, con Google Analytics, y solo si tú lo permites.",
     sections: [
-      { h: "La app", p: ["Diesis funciona por completo en tu navegador. No te pregunta quién eres, no crea ninguna cuenta y no envía nada de lo que haces a nadie, ni a nosotros ni a terceros.", "La puntuación de cada sesión se guarda en memoria y desaparece al cerrar la pestaña. Todo lo demás que eliges o consigues se queda en el almacenamiento local de tu navegador, solo en tu dispositivo: tu guitarra (cuerdas y afinación), cómo se nombran las notas, tus mejores marcas y el último reto que elegiste, los ajustes del metrónomo (con el plan de subida de tempo), lo último que elegiste en el mástil y tu tipo de guitarra, tiro y calibres de cuerda. Nada de eso se envía nunca a ningún sitio. El botón «Borrar mis datos» de tu perfil lo elimina, y también borrar los datos de la web."] },
+      { h: "La app", p: ["Diesis funciona por completo en tu navegador. No te pregunta quién eres, no crea ninguna cuenta y no envía nada de lo que haces a nadie, ni a nosotros ni a terceros.", "La puntuación de cada sesión se guarda en memoria y desaparece al cerrar la pestaña. Todo lo demás que eliges o consigues se queda en el almacenamiento local de tu navegador, solo en tu dispositivo: tu guitarra (cuerdas y afinación), cómo se nombran las notas, tus mejores marcas y el último reto que elegiste, los ajustes del metrónomo (con el plan de subida de tempo), los ajustes del ejercicio de dedos y tus pasadas limpias más rápidas, lo último que elegiste en el mástil y tu tipo de guitarra, tiro y calibres de cuerda. Nada de eso se envía nunca a ningún sitio. El botón «Borrar mis datos» de tu perfil lo elimina, y también borrar los datos de la web."] },
       { h: "Cookies", p: ["Diesis guarda dos cookies: una recuerda el idioma que has elegido y la otra, lo que respondiste al aviso de analítica. Ninguna contiene datos sobre ti."] },
       { h: "Esta web", p: ["diesis.app está alojada en Vercel, que conserva durante poco tiempo los registros habituales de cualquier servidor (dirección IP, navegador, páginas solicitadas) para que el servicio funcione y esté protegido.", "Si lo permites en el aviso, la web carga Google Analytics 4 para contar visitas y ver qué páginas se leen. Google instala sus propias cookies para ello y trata los datos según su política de privacidad. Si dices que no, no se carga nada de Google; puedes cambiar de opinión borrando las cookies de la web."] },
       { h: "Backing tracks", p: ["La página de backing tracks muestra miniaturas que sirve YouTube (i.ytimg.com), así que YouTube ve tu dirección IP al cargarla. El reproductor viene de youtube-nocookie.com y solo se carga cuando pulsas play en una base; a partir de ahí, a ese vídeo se le aplica la política de privacidad de YouTube. Diesis no le envía a YouTube nada sobre ti."] },

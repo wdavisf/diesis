@@ -235,6 +235,22 @@ Todoist project records what is still to do.
   thumbnail (i.ytimg.com) and loads the youtube-nocookie.com player only on play, one at a time;
   "Show on the neck" writes root and scale into `diesis_neck` and opens the neck. The privacy page
   has a "Backing tracks" section saying so; keep it true.
+- **Finger independence (Will, 2026-09-27/28; built 2026-09-28, Practice side, screen and
+  keyboard input, both his picks).** `/practice/fingers`, nav «Dedos» / "Fingers". Four dots, one per
+  finger, laid out as the hand lies (left hand 4 3 2 1 from left to right, keys A S D F; right
+  hand 1 2 3 4, keys J K L ;/Ñ by `KeyboardEvent.code`). One bar of count-in, then one target per
+  click in 4/4; the dot lit is the one due on the **next** click (a beat to get ready). Orders:
+  random (never the same finger twice in a row), 1234, 4321, 1324, 2413, 1423; 16/32/64 notes;
+  tempo 20–300. A tap belongs to the nearest click within half a gap; the first tap decides it;
+  on time within min(100 ms, a quarter of the gap); verdicts good/off/wrong/missed with the
+  offset. Taps are timed on `performance.now()` against when each click is heard: the metronome
+  engine now reports `count` and `heardAt` (via `getOutputTimestamp`) and takes an `onBook`
+  callback at booking time. Record: the fastest clean run (≥ 90% on time) per order and length,
+  localStorage `diesis_fingers_best` (outside `diesis_best:*`, so not yet in the profile's
+  records); settings in `diesis_fingers`. Core `lib/core/fingers.ts` (tests), hook
+  `lib/game/use-fingers.ts`, screen `components/fingers.tsx`. Not built yet (Todoist section
+  14): the Guitar Hero style lane of upcoming notes, comparing scores with others, a latency
+  calibration for Bluetooth audio or slow touch screens.
 - **Contact and price, only what is true (Will, 2026-09-26).** Diesis is made by Will alone:
   never "we", "a team" or "a group of players". There is no working email: hello@diesis.app
   does not exist, so contact is Instagram @diesis.app (landing pricing box, privacy page,
@@ -334,7 +350,7 @@ points to it and keeps `/lang/` out. Add new public pages to the sitemap.
 - `app/` — routes: `page.tsx` and `es/page.tsx` (landing), `privacy/` and `es/privacy/`,
   `(app)/` (route group, the app: `layout.tsx` with the top bar, `template.tsx`, `start/`,
   `learn/` with `name-the-note/` and `find-the-note/`, `practice/` with `neck/`,
-  `metronome/` and `backing-tracks/`, `profile/`), `lang/[code]/` (cookie setter).
+  `metronome/`, `backing-tracks/` and `fingers/`, `profile/`), `lang/[code]/` (cookie setter).
   `layout.tsx` holds fonts and metadata; `globals.css` the theme tokens.
 - `components/` — `landing`, `privacy-page`, `logo`, `footer`,
   `lang-switch`, `fretboard` (SVG, marks and tap targets), `note-panel`, `game-frame`

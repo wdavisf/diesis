@@ -21,10 +21,14 @@ const VOICE: Record<ClickKind, { freq: number; gain: number }> = {
   sub: { freq: 880, gain: 0.3 },
 };
 
-/** Where a heard click sits: the bar since start (from 0) and the tempo it is played at. */
+/** Where a heard click sits: the bar since start (from 0), the tempo it is played at, the
+ *  click's number since start (from 0) and when it is heard, on the page's clock
+ *  (performance.now() milliseconds). */
 export interface Beat {
   bar: number;
   bpm: number;
+  count: number;
+  heardAt: number;
 }
 
 export interface MetronomeEngine {
@@ -75,7 +79,12 @@ function createTicker(onWake: () => void): { start(): void; stop(): void; dispos
   };
 }
 
-export function createMetronomeEngine(onClick: (click: Click, beat: Beat) => void): MetronomeEngine {
+/**
+ * `onClick` hears about a click when it sounds (to light the screen); `onBook`, if given, as soon
+ * as it is booked, up to 120 ms before, for anything that must know where a click falls before
+ * it is heard (the finger exercise judges taps that land just ahead of the click).
+ */
+export function createMetronomeEngine(onClick: (click: Click, beat: Beat) => void, onBook?: (click: Click, beat: Beat) => void): MetronomeEngine {
   let ctx: AudioContext | null = null;
   let settings: MetronomeSettings | null = null;
   let running = false;
@@ -85,6 +94,7 @@ export function createMetronomeEngine(onClick: (click: Click, beat: Beat) => voi
   /** Bars begun since start; the bar being booked is `bar - 1`. */
   let bar = 0;
   let barBpm = 0;
+  let count = 0;
   const timeouts = new Set<ReturnType<typeof setTimeout>>();
   const ticker = createTicker(schedule);
 
@@ -114,6 +124,14 @@ export function createMetronomeEngine(onClick: (click: Click, beat: Beat) => voi
   /** Audio time the listener is hearing now: the clock minus the output latency, if known. */
   function heardNow(): number {
     return ctx ? ctx.currentTime - (ctx.outputLatency || 0) : 0;
+  }
+
+  /** When audio time `at` reaches the ears, on the page's clock. getOutputTimestamp pairs the
+   *  sample being played now with its performance.now() time; without it, the latency guess. */
+  function heardAtPage(at: number): number {
+    const ts = ctx?.getOutputTimestamp?.();
+    if (ts && ts.performanceTime && ts.contextTime !== undefined) return ts.performanceTime + (at - ts.contextTime) * 1000;
+    return performance.now() + (at - heardNow()) * 1000;
   }
 
   /**
@@ -153,7 +171,10 @@ export function createMetronomeEngine(onClick: (click: Click, beat: Beat) => voi
       const bpm = plan ? barBpm : settings.bpm;
       const click = clickAt(index, settings);
       blip(nextTime, click.kind);
-      announce(nextTime, click, { bar: bar - 1, bpm });
+      const b: Beat = { bar: bar - 1, bpm, count, heardAt: heardAtPage(nextTime) };
+      count += 1;
+      onBook?.(click, b);
+      announce(nextTime, click, b);
       nextTime += secondsPerClick({ ...settings, bpm });
       index = (index + 1) % clicksPerBar(settings);
     }
@@ -171,6 +192,7 @@ export function createMetronomeEngine(onClick: (click: Click, beat: Beat) => voi
       settings = next;
       index = 0;
       bar = 0;
+      count = 0;
       nextTime = c.currentTime + 0.06;
       running = true;
       schedule();

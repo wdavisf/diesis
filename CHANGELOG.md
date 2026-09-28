@@ -3,6 +3,17 @@
 Written for the people using it, not for the code. Newest first. Version matches
 `package.json`.
 
+## 0.21.0 — 28 September 2026, finger independence
+
+- New in Practice: **Finger independence.** Four dots, one per finger, and a click. On every
+  click, hit the dot that is lit: green when you are on time, red when you are early, late,
+  on the wrong finger or miss it, with how many milliseconds you were off.
+- Lay your phone flat and put your fingers on the dots, or use the keyboard on a computer
+  (A S D F for the left hand, J K L ; for the right). Pick the tempo, the order (random, or
+  1 2 3 4, 4 3 2 1 and other patterns) and 16, 32 or 64 notes.
+- At the end you see how much was on time and whether you tend to rush or drag. Your fastest
+  clean run (90% on time or better) is kept for each order and length, in this browser only.
+
 ## 0.20.1 — 26 September 2026
 
 - The guitar types in Strings and setup are plain cards again, each with its scale length and

@@ -15,7 +15,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   return [
     ...pair("/", "/es", 1),
     ...["/start", "/learn", "/practice", "/setup"].flatMap((p) => pair(p, `/es${p}`, 0.8)),
-    ...["/learn/name-the-note", "/learn/find-the-note", "/practice/neck", "/practice/metronome", "/practice/backing-tracks", "/setup/strings", "/profile"].flatMap((p) => pair(p, `/es${p}`, 0.7)),
+    ...["/learn/name-the-note", "/learn/find-the-note", "/practice/neck", "/practice/metronome", "/practice/backing-tracks", "/practice/fingers", "/setup/strings", "/profile"].flatMap((p) => pair(p, `/es${p}`, 0.7)),
     ...pair("/privacy", "/es/privacy", 0.3),
   ];
 }

@@ -58,7 +58,7 @@ function Beats({ meterId, subdivision, accent, click }: { meterId: string; subdi
  * A tempo you can type. Tap it, write the number, and it applies on Enter or when you leave the
  * field, clamped to 20–300; Escape puts the old value back. Digits only, three at most.
  */
-function BpmInput({ value, onCommit, label, className, readOnly = false }: { value: number; onCommit: (bpm: number) => void; label: string; className?: string; readOnly?: boolean }) {
+export function BpmInput({ value, onCommit, label, className, readOnly = false }: { value: number; onCommit: (bpm: number) => void; label: string; className?: string; readOnly?: boolean }) {
   const [draft, setDraft] = useState<string | null>(null);
   const cancelled = useRef(false);
   return (
@@ -108,7 +108,7 @@ function Field({ label, children }: { label: string; children: ReactNode }) {
 }
 
 /** −5 −1 [typed tempo] +1 +5, for the start and target of a climb. */
-function Stepper({ value, onChange, label, t }: { value: number; onChange: (v: number) => void; label: string; t: Strings["metronome"] }) {
+export function Stepper({ value, onChange, label, t }: { value: number; onChange: (v: number) => void; label: string; t: Strings["metronome"] }) {
   return (
     <>
       <button type="button" className={smallStep} onClick={() => onChange(clampBpm(value - 5))} aria-label={`${label}: ${t.slower} 5`}>

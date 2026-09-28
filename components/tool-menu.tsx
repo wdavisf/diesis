@@ -19,6 +19,7 @@ export const PRACTICE_ITEMS: MenuItem[] = [
   { href: "/practice/neck", when: "now" },
   { href: "/practice/metronome", when: "now" },
   { href: "/practice/backing-tracks", when: "now" },
+  { href: "/practice/fingers", when: "now" },
 ];
 
 export const SETUP_ITEMS: MenuItem[] = [

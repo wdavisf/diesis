@@ -11,7 +11,7 @@ import type { Strings } from "@/lib/i18n";
 /* The landing's "Open a tool" cards: each draws a still of the tool as it looks when you open it,
    and links straight into it. Hrefs in the order of `t.tools.items`. */
 
-const HREFS = ["/learn/name-the-note", "/learn/find-the-note", "/practice/neck", "/practice/metronome", "/practice/backing-tracks", "/setup/strings"];
+const HREFS = ["/learn/name-the-note", "/learn/find-the-note", "/practice/neck", "/practice/metronome", "/practice/backing-tracks", "/practice/fingers", "/setup/strings"];
 const W = 520;
 const H = 190;
 
@@ -55,6 +55,21 @@ function Figure({ i, t }: { i: number; t: Strings }) {
     );
   }
   if (i === 5) {
+    // Finger independence: four dots, the ring finger's lit, the one before it just hit on time.
+    return (
+      <div className="flex aspect-[520/190] items-center justify-center gap-3 rounded-lg bg-stage sm:gap-4" aria-hidden>
+        {[4, 3, 2, 1].map((f) => (
+          <span
+            key={f}
+            className={`flex size-12 items-center justify-center rounded-full border-2 font-display text-xl font-semibold sm:size-14 ${f === 3 ? "border-amber bg-amber text-stage" : f === 2 ? "border-correct text-correct" : "border-line text-dim"}`}
+          >
+            {f}
+          </span>
+        ))}
+      </div>
+    );
+  }
+  if (i === 6) {
     // Strings: six tension bars, 10–46 in standard at 25.5", one string slack in amber.
     const bars = [16.2, 15.4, 16.6, 18.4, 19.5, 10.8];
     return (
