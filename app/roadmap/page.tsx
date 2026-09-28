@@ -53,7 +53,9 @@ const columns: { title: string; tone: string; dot: string; items: Item[] }[] = [
     dot: "bg-amber",
     items: [
       { title: "Medir el uso", note: "Primer ejercicio, vuelta a los 7 días, herramientas. ¿GA4 o PostHog?", track: "Negocio" },
-      { title: "SEO de Diesis", note: "Títulos, textos y enlaces en los dos idiomas", track: "Negocio" },
+      { title: "SEO: arreglos rápidos", note: "Título y descripción propios en cada página, lang=\"es\" en las páginas en español, diesis.es con redirección permanente, datos estructurados", track: "Negocio" },
+      { title: "Un texto bajo cada herramienta", note: "Qué es, cómo se usa y las dudas que la gente busca, en los dos idiomas", track: "Negocio" },
+      { title: "Bing, Search Console y enlaces", note: "Tuyo: dar de alta en Bing, mirar qué está indexado, compartir en Reddit y foros", track: "Negocio" },
       { title: "Lista de correo / espera de Pro", track: "Negocio" },
       { title: "Tu vídeo personal en la portada", note: "YouTube, se carga al pulsar", track: "Negocio" },
       { title: "Probar Dedos en tu iPhone", note: "Latencia real al tocar la pantalla", track: "Práctica" },
@@ -65,6 +67,7 @@ const columns: { title: string; tone: string; dot: string; items: Item[] }[] = [
     tone: "border-sky-400/40",
     dot: "bg-sky-400",
     items: [
+      { title: "Páginas de escalas", note: "Una por tónica y escala, 144 por idioma: el mástil, las notas, los grados y un backing track", track: "Mástil" },
       { title: "Afinador y entonación", note: "Micrófono, y también de oído", track: "Equipo" },
       { title: "Mis guitarras", note: "Varias guitarras en el perfil", track: "Equipo" },
       { title: "Dedos: carril tipo Guitar Hero", note: "Ver las notas que vienen; más ejercicios de golpeo con la izquierda", track: "Práctica" },
@@ -87,6 +90,7 @@ const columns: { title: string; tone: string; dot: string; items: Item[] }[] = [
       { title: "Plan Pro con Stripe", track: "Negocio" },
       { title: "Comparar puntuaciones con otros", note: "Necesita cuentas", track: "Negocio" },
       { title: "Afiliados fuera de España", note: "OneLink para Amazon .com, .co.uk…", track: "Negocio" },
+      { title: "Más páginas para buscadores", note: "Notas del mástil, afinaciones, tensión por juego de cuerdas, backing tracks por tonalidad", track: "Negocio" },
       { title: "Comparativa de púas", note: "Material, grosor, estilo", track: "Equipo" },
       { title: "Cambio de afinación, por qué zumba, registro de cuerdas, cuidado", track: "Equipo" },
       { title: "Inspiración: vídeos de guitarristas", track: "Aprender" },
@@ -98,8 +102,8 @@ const columns: { title: string; tone: string; dot: string; items: Item[] }[] = [
 ];
 
 const phases = [
-  { n: "1", title: "Medir y crear audiencia", when: "Estas semanas", items: ["Eventos de uso (GA4 o PostHog)", "SEO en los dos idiomas", "Lista de correo / espera de Pro", "Vídeos: «¿Qué nota es?», retos, riffs con la subida de tempo, tu récord en Dedos", "Tu vídeo en la portada"] },
-  { n: "2", title: "Cuentas y contenido que atrae", when: "Después", items: ["Cuentas opcionales y sincronización", "Glosario, teoría y ejercicios de técnica (SEO)", "Afinador y Mis guitarras", "Ejercicios de escalas y Escucha la nota"] },
+  { n: "1", title: "Medir y crear audiencia", when: "Estas semanas", items: ["Eventos de uso (GA4 o PostHog)", "SEO: títulos, textos y lang en los dos idiomas", "Lista de correo / espera de Pro", "Vídeos: «¿Qué nota es?», retos, riffs con la subida de tempo, tu récord en Dedos", "Tu vídeo en la portada"] },
+  { n: "2", title: "Cuentas y contenido que atrae", when: "Después", items: ["Cuentas opcionales y sincronización", "Páginas de escalas (SEO)", "Glosario, teoría y ejercicios de técnica (SEO)", "Afinador y Mis guitarras", "Ejercicios de escalas y Escucha la nota"] },
   { n: "3", title: "Lanzar Pro", when: "Con usuarios que vuelven cada semana", items: ["Stripe, precio de fundador", "Afiliados más allá de España", "Profesores y academias", "Si lo pide el uso: app nativa"] },
 ];
 
@@ -108,7 +112,7 @@ const pro = ["Todas las escalas y modos, y sus ejercicios", "Estadísticas: qué
 
 const channels = [
   { title: "Tu contenido", body: "Instagram, TikTok y Shorts: «¿Qué nota es?», retos contra el reloj, tus riffs con la subida de tempo, tu récord en Dedos. Gratis y lo que más te diferencia de una app hecha por IA." },
-  { title: "SEO con el glosario", body: "Una página por técnica («qué es palm mute», «cómo hacer hammer-on») y por escala, en los dos idiomas: tráfico todo el año." },
+  { title: "Buscadores", body: "Una página por escala («pentatónica menor de la»), por técnica («qué es palm mute») y por afinación, en los dos idiomas y con el mástil dibujado: tráfico todo el año." },
   { title: "Comunidades", body: "r/guitarlessons, r/SevenString, foros y grupos en español. Aportar, no hacer spam." },
   { title: "Profesores y academias", body: "Un profesor que lo recomienda trae alumnos fieles. Más adelante, un plan para profesores." },
 ];
@@ -137,6 +141,7 @@ const decisions = [
   "¿Cuánto tiempo a la semana para contenido?",
   "¿Métodos de acceso de las cuentas, y códigos de invitación?",
   "¿CAGED o tres notas por cuerda para las posiciones?",
+  "¿Páginas de escalas fuera de la app (/scales, /es/escalas) o dentro de Aprender?",
 ];
 
 function Tag({ track }: { track: Track }) {
