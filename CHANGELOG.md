@@ -3,6 +3,11 @@
 Written for the people using it, not for the code. Newest first. Version matches
 `package.json`.
 
+## 0.22.2 — 29 September 2026, smaller step pictures
+
+- Strings and setup: the pictures for the steps after a string change are small thumbnails
+  beside each step instead of full-width photos, so the steps fit next to the setup numbers.
+
 ## 0.22.1 — 29 September 2026, pictures on the setup page
 
 - Strings and setup: the strings and gear links (action ruler, feeler gauges, string winder,

@@ -319,16 +319,18 @@ export function StringsSetup({ t, tp, lang, base }: { t: Strings["setup"]; tp: S
           {t.steps.map((step, i) => (
             <li key={i} className="flex gap-3">
               <span className="flex size-7 shrink-0 items-center justify-center rounded-full bg-amber/15 text-sm font-semibold text-amber-text">{i + 1}</span>
-              <div className="min-w-0 flex-1">
-                <p className="font-medium">{step.title}</p>
-                <p className="mt-0.5 text-sm text-dim">{step.body}</p>
+              <div className="flex min-w-0 flex-1 flex-col gap-3 sm:flex-row sm:items-start sm:gap-4">
+                <div className="min-w-0 flex-1">
+                  <p className="font-medium">{step.title}</p>
+                  <p className="mt-0.5 text-sm text-dim">{step.body}</p>
+                </div>
                 <Image
                   src={`/steps/step${i + 1}.webp`}
                   alt=""
                   width={720}
                   height={480}
-                  sizes="(min-width: 1024px) 480px, 90vw"
-                  className="mt-3 aspect-[3/2] w-full rounded-xl bg-[#1a1a1a] object-cover"
+                  sizes="160px"
+                  className="h-28 w-full shrink-0 rounded-xl bg-[#1a1a1a] object-cover sm:h-24 sm:w-36"
                 />
               </div>
             </li>
