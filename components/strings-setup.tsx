@@ -146,7 +146,7 @@ export function StringsSetup({ t, tp, lang, base }: { t: Strings["setup"]; tp: S
 
       <Section title={t.guitar} lede={t.guitarLede}>
         <p className="text-sm font-medium text-dim">{t.type}</p>
-        <div role="radiogroup" aria-label={t.type} className="mt-1.5 grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-6">
+        <div role="radiogroup" aria-label={t.type} className="mt-1.5 grid grid-cols-4 gap-2 sm:grid-cols-6 lg:grid-cols-11">
           {GUITAR_TYPES.map((g) => {
             const on = g.id === type.id;
             return (
@@ -155,35 +155,31 @@ export function StringsSetup({ t, tp, lang, base }: { t: Strings["setup"]; tp: S
                 type="button"
                 role="radio"
                 aria-checked={on}
+                aria-label={t.types[g.id]}
+                title={t.types[g.id]}
                 onClick={() => {
                   set({ type: g.id, scale: g.scale });
                   if (g.strings !== count) guitar.setTuning(tuningsFor(g.strings)[0].id);
                 }}
                 className={cn(
-                  "group relative aspect-[3/2] min-w-0 overflow-hidden rounded-xl border bg-[#1a1a1a] text-left outline-none transition-[border-color,transform] focus-visible:ring-3 focus-visible:ring-ring/50 active:scale-[0.98] motion-reduce:transition-none",
+                  "group relative aspect-[2/3] min-w-0 overflow-hidden rounded-xl border bg-[#1a1a1a] text-left outline-none transition-[border-color,transform] focus-visible:ring-3 focus-visible:ring-ring/50 active:scale-[0.98] motion-reduce:transition-none",
                   on ? "border-amber ring-2 ring-amber/60" : "border-line hover:border-dim",
                 )}
               >
                 <Image
-                  src={`/guitar-types/${g.id}.webp`}
+                  src={`/guitar-cards/${g.id}.webp`}
                   alt=""
                   fill
-                  sizes="(min-width: 1024px) 180px, (min-width: 640px) 33vw, 50vw"
+                  sizes="(min-width: 1024px) 100px, (min-width: 640px) 16vw, 25vw"
                   className="object-cover transition-transform duration-300 group-hover:scale-[1.03] motion-reduce:transition-none"
                 />
-                <span
-                  className={cn(
-                    "absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/85 via-black/50 to-transparent px-2.5 pb-1.5 pt-6 text-xs font-medium leading-tight",
-                    on ? "text-amber-text" : "text-ink",
-                  )}
-                >
-                  {t.types[g.id]}
-                </span>
+
               </button>
             );
           })}
         </div>
-        <div className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <p className="mt-2 text-sm font-medium text-amber-text">{t.types[type.id]}</p>
+        <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           <label className="flex flex-col gap-1.5 text-sm font-medium text-dim">
             {t.scale}
             <div className="flex items-center gap-2">

@@ -3,6 +3,11 @@
 Written for the people using it, not for the code. Newest first. Version matches
 `package.json`.
 
+## 0.23.5 — 29 September 2026, upright guitars in one row
+
+- Strings and setup: the guitar picker shows the guitars upright again, all eleven in a single
+  short row, with the name of the selected one underneath (hover a guitar for its name).
+
 ## 0.23.4 — 29 September 2026, Drop F♯ on seven strings
 
 - Seven strings now also offer Drop F♯ (F♯ C♯ F♯ B E G♯ C♯).
