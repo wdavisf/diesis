@@ -35,7 +35,7 @@ const copy = {
       neck: ['The neck', 'Any scale on any root, across the whole fretboard.'],
       metronome: ['Metronome', '20 to 300 BPM, odd meters, tap tempo, Speed up.'],
       'backing-tracks': ['Backing tracks', 'Jam over tracks in every style, key and scale shown.'],
-      fingers: ['Finger independence', 'Four dots, one per finger. Hit the lit one on the click.'],
+      fingers: ['Finger independence', 'Notes fall onto four pads, one per finger. Hit each on the click.'],
       strings: ['Strings and setup', 'Tension per string, a balanced set, your setup numbers.'],
     },
   },
@@ -48,7 +48,7 @@ const copy = {
       neck: ['El mástil', 'Cualquier escala sobre cualquier tónica, por todo el mástil.'],
       metronome: ['Metrónomo', 'De 20 a 300 BPM, amalgamas, tap tempo y subida de tempo.'],
       'backing-tracks': ['Backing tracks', 'Bases de todos los estilos, con su tonalidad y su escala.'],
-      fingers: ['Independencia de dedos', 'Cuatro puntos, uno por dedo. Pulsa el encendido en el clic.'],
+      fingers: ['Independencia de dedos', 'Caen notas sobre cuatro botones, uno por dedo. Púlsalos en el clic.'],
       strings: ['Cuerdas y ajuste', 'La tensión de cada cuerda, un juego equilibrado y tu ajuste.'],
     },
   },
@@ -188,13 +188,23 @@ function backingTracks(t) {
   return h('div', { style: { display: 'flex', gap: 32 } }, ...t.tracks.map(player));
 }
 
-/** Finger independence: four dots as the hand lies, the third due, the last tap on time. */
+/** Finger independence: four pads as the hand lies, notes falling down their columns, the one on
+ *  pad 3 landing now, the last tap on time. */
 function fingers(t) {
-  const dot = (n, lit, key) => h('div', { key: n, style: { display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 16 } },
-    h('div', { style: { display: 'flex', alignItems: 'center', justifyContent: 'center', width: 150, height: 150, borderRadius: 999, background: lit ? c.accent : c.raised, border: `3px solid ${lit ? c.accent : c.border}`, color: lit ? c.markInk : c.ink, fontFamily: 'Fraunces', fontWeight: 600, fontSize: 72 } }, String(n)),
-    h('div', { style: { fontSize: 28, color: c.muted, fontWeight: 600 } }, key));
-  return h('div', { style: { display: 'flex', alignItems: 'center', gap: 64 } },
-    h('div', { style: { display: 'flex', gap: 44 } }, ...[4, 3, 2, 1].map((n, i) => dot(n, n === 3, t.keys[i]))),
+  const W = 190, GAP = 28, H = 320, PAD = 150;
+  const note = (n, y, fill) => h('div', { style: { position: 'absolute', left: (W - 76) / 2, top: y, display: 'flex', alignItems: 'center', justifyContent: 'center', width: 76, height: 76, borderRadius: 999, background: fill ?? c.accent, color: c.markInk, fontFamily: 'Fraunces', fontWeight: 600, fontSize: 40, boxShadow: `0 0 26px ${c.accent}66` } }, String(n));
+  const column = (n, i, notes) => h('div', { key: n, style: { position: 'relative', display: 'flex', width: W, height: H } },
+    h('div', { style: { position: 'absolute', left: W / 2, top: 0, width: 2, height: H - PAD, background: c.border } }),
+    h('div', { style: { position: 'absolute', left: 0, top: H - PAD, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 6, width: W, height: PAD, borderRadius: 26, background: n === 3 ? '#3a3020' : c.raised, border: `3px solid ${n === 3 ? c.accent : c.border}`, color: c.ink } },
+      h('div', { style: { fontFamily: 'Fraunces', fontWeight: 600, fontSize: 64, lineHeight: 1 } }, String(n)),
+      h('div', { style: { fontSize: 24, color: c.muted, fontWeight: 600 } }, t.keys[i])),
+    ...notes.map(([y, fill]) => note(n, y, fill)));
+  return h('div', { style: { display: 'flex', alignItems: 'center', gap: 56 } },
+    h('div', { style: { display: 'flex', gap: GAP } },
+      column(4, 0, [[14]]),
+      column(3, 1, [[H - PAD + (PAD - 76) / 2 - 12]]),
+      column(2, 2, [[66]]),
+      column(1, 3, [[-16]])),
     chip(t.onTime, { fill: c.correct, ink: c.markInk, border: c.correct, size: 30 }));
 }
 

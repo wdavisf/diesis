@@ -5,9 +5,11 @@ import {
   decodeFingerBests,
   decodeFingers,
   DEFAULT_FINGERS,
+  drop,
   encodeFingers,
   expire,
   finished,
+  leadMs,
   newRun,
   padOrder,
   sequence,
@@ -46,6 +48,22 @@ describe('finger independence', () => {
   it('narrows the on-time window at fast tempos', () => {
     expect(windowMs(60)).toBe(100);
     expect(windowMs(240)).toBe(63);
+  });
+
+  it('keeps a note in the air two beats, and at least 1.2 s', () => {
+    expect(leadMs(60)).toBe(2000);
+    expect(leadMs(120)).toBe(1200);
+    expect(leadMs(200)).toBe(1200);
+    expect(leadMs(40)).toBe(3000);
+  });
+
+  it('drops a note from the top of the lane to the pad at the click', () => {
+    const r = run60(); // lead 2000 ms: target 1 is heard at 11 000, appears at 9 000
+    expect(drop(r, 1, 8000)).toBeLessThan(0);
+    expect(drop(r, 1, 9000)).toBe(0);
+    expect(drop(r, 1, 10000)).toBe(0.5);
+    expect(drop(r, 1, 11000)).toBe(1);
+    expect(drop(r, 1, 11500)).toBe(1.25);
   });
 
   it('gives a tap to the nearest click, within half a gap', () => {

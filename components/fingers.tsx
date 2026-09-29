@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, type PointerEvent as ReactPointerEvent } from "react";
+import { useEffect, useMemo, useRef, type PointerEvent as ReactPointerEvent, type RefObject } from "react";
 import { Play, Square, Trophy } from "lucide-react";
-import { bestKeyOf, COUNT_IN, LENGTHS, padOrder, PATTERNS, type Finger } from "@/lib/core/fingers";
+import { bestKeyOf, COUNT_IN, drop, LENGTHS, padOrder, PATTERNS, targetTime, type Finger, type Run } from "@/lib/core/fingers";
 import { useFingers, type Flash } from "@/lib/game/use-fingers";
 import type { Strings } from "@/lib/i18n";
 import { GameShell } from "@/components/game-frame";
@@ -38,23 +38,26 @@ function Pad({
   finger,
   name,
   keyLabel,
-  lit,
   flash,
   onPress,
+  padRef,
+  glowRef,
   t,
 }: {
   finger: Finger;
   name: string;
   keyLabel: string;
-  lit: boolean;
   flash: Flash | undefined;
   onPress: (finger: Finger, time: number) => void;
+  padRef: (el: HTMLButtonElement | null) => void;
+  glowRef: (el: HTMLSpanElement | null) => void;
   t: Strings["fingers"];
 }) {
   const good = flash?.verdict === "good";
   const bad = flash && !good;
   return (
     <button
+      ref={padRef}
       type="button"
       aria-label={`${finger}, ${name}`}
       onPointerDown={(e: ReactPointerEvent<HTMLButtonElement>) => {
@@ -63,15 +66,16 @@ function Pad({
       }}
       onContextMenu={(e) => e.preventDefault()}
       className={cn(
-        "relative flex min-h-40 flex-1 touch-none flex-col items-center justify-center gap-1 rounded-2xl border-2 outline-none select-none [-webkit-touch-callout:none] transition-[background-color,border-color,transform] duration-75 active:scale-[0.97] motion-reduce:active:scale-100 sm:min-h-52",
-        lit ? "border-amber bg-amber/85 text-stage" : "border-line bg-surface text-ink",
+        "relative flex min-h-36 flex-1 touch-none flex-col items-center justify-center gap-1 rounded-2xl border-2 border-line bg-surface text-ink outline-none select-none [-webkit-touch-callout:none] transition-[border-color,transform] duration-75 active:scale-[0.97] motion-reduce:active:scale-100 sm:min-h-44",
         good && "border-correct",
         bad && "border-wrong",
       )}
     >
+      {/* Lit by the lane as the note reaches this pad: the moment to hit it. */}
+      <span ref={glowRef} aria-hidden className="pointer-events-none absolute inset-0 rounded-[calc(1rem_-_2px)] bg-amber/20 opacity-0 ring-2 ring-amber ring-inset" />
       <span className="font-display text-4xl font-semibold sm:text-5xl">{finger}</span>
-      <span className={cn("text-xs", lit ? "text-stage/80" : "text-dim")}>{name}</span>
-      <span className={cn("hidden text-xs font-medium pointer-fine:block", lit ? "text-stage/70" : "text-dim/70")}>{keyLabel}</span>
+      <span className="text-xs text-dim">{name}</span>
+      <span className="hidden text-xs font-medium text-dim/70 pointer-fine:block">{keyLabel}</span>
       {flash ? (
         <span
           key={flash.id}
@@ -87,23 +91,185 @@ function Pad({
   );
 }
 
+/** How long a note stays on screen after it is hit or missed, bursting and fading. */
+const POP_MS = 320;
+
 /**
- * Finger independence (Practice): four dots, one per finger, laid out the way the hand lies on
- * them. A metronome counts in one bar, then on every click one dot is the one to hit; the lit
- * dot is the one due on the next click, so there is a beat to get ready. Each tap is judged
- * against when that click is heard: green on time (with the milliseconds), red early, late, wrong
- * finger or missed. At the end, how much was on time, the lean ahead of or behind the click, and
- * the fastest clean run (90% or better) kept per order and length.
+ * The lane: one note per target, falling down its finger's column and reaching the pad exactly
+ * as the click is heard, the way notes come down the highway in a rhythm game. Drawn straight
+ * to the DOM on every animation frame from the run as it stands (no React render per frame):
+ * a note's place is `drop()` from lib/core/fingers.ts, so it is always where the clock says,
+ * however the frames fall. A hit note freezes where it was tapped and bursts green or red; a
+ * missed one falls on through the pad and fades red. The pad glows as its note arrives.
+ */
+function Lane({
+  seq,
+  order,
+  getRun,
+  stage,
+  pads,
+  glows,
+}: {
+  seq: Finger[];
+  order: Finger[];
+  getRun: () => Run | null;
+  stage: RefObject<HTMLDivElement | null>;
+  pads: RefObject<(HTMLButtonElement | null)[]>;
+  glows: RefObject<(HTMLSpanElement | null)[]>;
+}) {
+  const notes = useRef<(HTMLDivElement | null)[]>([]);
+  const guides = useRef<(HTMLDivElement | null)[]>([]);
+
+  useEffect(() => {
+    const stageEl = stage.current;
+    if (!stageEl) return;
+    // A new run reuses the note elements of the last one: start them clean.
+    for (const el of notes.current) {
+      if (!el) continue;
+      el.dataset.verdict = "none";
+      el.style.visibility = "hidden";
+    }
+    // The column of each finger's pad (by finger number), and the height at which a note meets its pad.
+    const xs = [0, 0, 0, 0, 0];
+    let hitY = 0;
+    let radius = 0;
+    const measure = () => {
+      const s = stageEl.getBoundingClientRect();
+      order.forEach((f, i) => {
+        const r = pads.current[i]?.getBoundingClientRect();
+        if (!r) return;
+        xs[f] = r.left + r.width / 2 - s.left;
+        hitY = r.top + r.height / 2 - s.top;
+        const g = guides.current[i];
+        if (g) {
+          g.style.left = `${xs[f]}px`;
+          g.style.height = `${r.top - s.top}px`;
+        }
+      });
+      radius = (notes.current[0]?.offsetWidth ?? 0) / 2;
+    };
+    measure();
+    const ro = new ResizeObserver(measure);
+    ro.observe(stageEl);
+
+    const shown: boolean[] = seq.map(() => false);
+    const hitAt: (number | null)[] = seq.map(() => null);
+    const hide = (k: number) => {
+      if (!shown[k]) return;
+      shown[k] = false;
+      const el = notes.current[k];
+      if (el) el.style.visibility = "hidden";
+    };
+    const show = (k: number) => {
+      if (shown[k]) return;
+      shown[k] = true;
+      const el = notes.current[k];
+      if (el) el.style.visibility = "visible";
+    };
+
+    let frame = 0;
+    const tick = () => {
+      frame = requestAnimationFrame(tick);
+      const run = getRun();
+      const now = performance.now();
+      const near = [0, 0, 0, 0, 0];
+      if (run) {
+        for (let k = 0; k < run.seq.length; k++) {
+          const el = notes.current[k];
+          if (!el) continue;
+          const x = xs[run.seq[k]] - radius;
+          const hit = run.hits[k];
+          if (hit) {
+            if (hitAt[k] === null) {
+              hitAt[k] = now;
+              el.dataset.verdict = hit.verdict;
+            }
+            const since = now - (hitAt[k] as number);
+            if (since > POP_MS) {
+              hide(k);
+              continue;
+            }
+            // A tapped note stays where it was tapped; a missed one keeps falling.
+            const p = hit.offset !== null ? 1 + hit.offset / run.lead : drop(run, k, now);
+            const f = since / POP_MS;
+            el.style.transform = `translate(${x}px, ${hitY * p - radius}px) scale(${1 + 0.6 * f})`;
+            el.style.opacity = String(1 - f);
+            show(k);
+          } else {
+            const p = drop(run, k, now);
+            if (p < 0 || p > 1.8) {
+              hide(k);
+              continue;
+            }
+            el.style.transform = `translate(${x}px, ${hitY * p - radius}px)`;
+            el.style.opacity = "1";
+            show(k);
+            const away = Math.abs(targetTime(run, k) - now);
+            near[run.seq[k]] = Math.max(near[run.seq[k]], 1 - away / (run.window * 2));
+          }
+        }
+      } else {
+        for (let k = 0; k < seq.length; k++) hide(k);
+      }
+      order.forEach((f, i) => {
+        const g = glows.current[i];
+        if (g) g.style.opacity = String(Math.max(0, near[f]));
+      });
+    };
+    frame = requestAnimationFrame(tick);
+    return () => {
+      cancelAnimationFrame(frame);
+      ro.disconnect();
+    };
+  }, [seq, order, getRun, stage, pads, glows]);
+
+  return (
+    <div aria-hidden className="pointer-events-none absolute inset-0 z-10 overflow-hidden">
+      {order.map((f, i) => (
+        <div
+          key={f}
+          ref={(el) => {
+            guides.current[i] = el;
+          }}
+          className="absolute top-0 w-px -translate-x-1/2 bg-line/70"
+        />
+      ))}
+      {seq.map((f, k) => (
+        <div
+          key={k}
+          ref={(el) => {
+            notes.current[k] = el;
+          }}
+          data-verdict="none"
+          className="invisible absolute top-0 left-0 flex size-11 items-center justify-center rounded-full bg-amber font-display text-xl font-semibold text-stage shadow-[0_0_20px_rgba(224,166,58,0.35)] will-change-transform data-[verdict=good]:bg-correct data-[verdict=missed]:bg-wrong data-[verdict=off]:bg-wrong data-[verdict=wrong]:bg-wrong data-[verdict=missed]:text-white data-[verdict=off]:text-white data-[verdict=wrong]:text-white sm:size-14 sm:text-2xl"
+        >
+          {f}
+        </div>
+      ))}
+    </div>
+  );
+}
+
+/**
+ * Finger independence (Practice): four pads, one per finger, laid out the way the hand lies on
+ * them, and notes falling down each pad's column on a metronome, one per click. A note reaches
+ * its pad exactly on the click, and that is when to hit it. A metronome counts in one bar while
+ * the first notes are already on their way. Each tap is judged against when that click is
+ * heard: green on time (with the milliseconds), red early, late, wrong finger or missed. At the
+ * end, how much was on time, the lean ahead of or behind the click, and the fastest clean run
+ * (90% or better) kept per order and length.
  */
 export function Fingers({ t, tm, tg }: { t: Strings["fingers"]; tm: Strings["metronome"]; tg: Strings["game"] }) {
-  const { settings, set, bests, phase, seq, run, heard, flash, result, start, stop, press, back } = useFingers();
+  const { settings, set, bests, phase, seq, run, getRun, heard, flash, result, start, stop, press, back } = useFingers();
   const best = bests[bestKeyOf(settings)];
-  const order = padOrder(settings.hand);
+  // Stable while the hand is: the lane's animation loop is set up once per run, not per render.
+  const order = useMemo(() => padOrder(settings.hand), [settings.hand]);
   const keyLabels = settings.hand === "left" ? ["A", "S", "D", "F"] : ["J", "K", "L", t.semicolonKey];
 
-  // The target due on the next click, and the progress so far.
-  const due = heard - COUNT_IN + 1;
-  const lit = phase === "running" && due >= 0 && due < seq.length ? seq[due] : null;
+  const stage = useRef<HTMLDivElement | null>(null);
+  const pads = useRef<(HTMLButtonElement | null)[]>([]);
+  const glows = useRef<(HTMLSpanElement | null)[]>([]);
+
   const good = run?.hits.filter((h) => h?.verdict === "good").length ?? 0;
   const done = run?.hits.filter(Boolean).length ?? 0;
 
@@ -138,7 +304,7 @@ export function Fingers({ t, tm, tg }: { t: Strings["fingers"]; tm: Strings["met
   return (
     <GameShell t={tg} title={t.title} status={status}>
       <div className="flex min-h-0 flex-1 flex-col overflow-auto px-4 pb-6 animate-in fade-in fill-mode-both duration-300 motion-reduce:animate-none">
-        <div className="mx-auto flex w-full max-w-2xl flex-1 flex-col justify-center gap-6 py-4">
+        <div className={cn("mx-auto flex w-full max-w-2xl flex-1 flex-col gap-6 py-4", phase === "running" ? "gap-4" : "justify-center")}>
           {phase === "setup" ? (
             <>
               <p className="text-dim">{t.lede}</p>
@@ -189,25 +355,38 @@ export function Fingers({ t, tm, tg }: { t: Strings["fingers"]; tm: Strings["met
 
           {phase === "running" ? (
             <>
-              <div className="flex min-h-16 flex-col items-center justify-center gap-1 text-center">
-                {heard < COUNT_IN - 1 ? (
-                  <>
-                    <p className="font-display text-4xl font-semibold tabular-nums">{heard < 0 ? t.ready : COUNT_IN - heard}</p>
-                    <p className="text-sm text-dim">{t.howTo}</p>
-                  </>
-                ) : (
-                  <p className="text-sm text-dim" aria-live="off">
-                    {t.next}:{" "}
-                    <span className="font-display text-lg font-semibold tracking-widest text-ink tabular-nums">
-                      {seq.slice(due + 1, due + 5).join(" ") || "·"}
-                    </span>
-                  </p>
-                )}
-              </div>
-              <div className="flex gap-2 sm:gap-3">
-                {order.map((f, i) => (
-                  <Pad key={f} finger={f} name={t.fingerNames[f - 1]} keyLabel={keyLabels[i]} lit={lit === f} flash={flash[f]} onPress={press} t={t} />
-                ))}
+              <div ref={stage} className="relative flex min-h-0 flex-1 flex-col">
+                {/* The count-in, behind the first notes already on their way. */}
+                <div className="flex min-h-40 flex-1 flex-col items-center justify-center gap-1 text-center">
+                  {heard < COUNT_IN ? (
+                    <>
+                      <p className="font-display text-5xl font-semibold text-dim/70 tabular-nums" aria-live="polite">
+                        {heard < 0 ? t.ready : COUNT_IN - heard}
+                      </p>
+                      <p className="text-sm text-dim">{t.howTo}</p>
+                    </>
+                  ) : null}
+                </div>
+                <div className="flex gap-2 sm:gap-3">
+                  {order.map((f, i) => (
+                    <Pad
+                      key={f}
+                      finger={f}
+                      name={t.fingerNames[f - 1]}
+                      keyLabel={keyLabels[i]}
+                      flash={flash[f]}
+                      onPress={press}
+                      padRef={(el) => {
+                        pads.current[i] = el;
+                      }}
+                      glowRef={(el) => {
+                        glows.current[i] = el;
+                      }}
+                      t={t}
+                    />
+                  ))}
+                </div>
+                <Lane seq={seq} order={order} getRun={getRun} stage={stage} pads={pads} glows={glows} />
               </div>
               <button type="button" onClick={stop} className={cn(secondary, "mx-auto inline-flex items-center gap-2")}>
                 <Square className="size-4" aria-hidden />

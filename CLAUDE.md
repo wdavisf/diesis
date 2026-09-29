@@ -236,10 +236,18 @@ Todoist project records what is still to do.
   "Show on the neck" writes root and scale into `diesis_neck` and opens the neck. The privacy page
   has a "Backing tracks" section saying so; keep it true.
 - **Finger independence (Will, 2026-09-27/28; built 2026-09-28, Practice side, screen and
-  keyboard input, both his picks).** `/practice/fingers`, nav «Dedos» / "Fingers". Four dots, one per
+  keyboard input, both his picks).** `/practice/fingers`, nav «Dedos» / "Fingers". Four pads, one per
   finger, laid out as the hand lies (left hand 4 3 2 1 from left to right, keys A S D F; right
   hand 1 2 3 4, keys J K L ;/Ñ by `KeyboardEvent.code`). One bar of count-in, then one target per
-  click in 4/4; the dot lit is the one due on the **next** click (a beat to get ready). Orders:
+  click in 4/4. **Notes fall onto the pads, rhythm-game style (Will, 2026-09-29: the lit pad was
+  "super confusing", "just like in guitar hero").** Each target is a note that drops down its
+  finger's column and reaches the pad's centre exactly as the click is heard; the pad glows as it
+  arrives. Lead time `leadMs`: two beats, never under 1.2 s (`LEAD_BEATS`, `LEAD_MIN_MS`; position
+  by `drop()` in the core, `Run.lead`). The `Lane` in `components/fingers.tsx` writes transforms
+  straight to the DOM on every animation frame from the hook's `getRun()` (no React render per
+  frame), measuring pad centres with a ResizeObserver. A tapped note freezes where it was tapped
+  and bursts green/red for 320 ms; a missed one keeps falling and fades red. The count-in shows
+  4 3 2 1 behind the first notes. The link-preview card draws the same scene. Orders:
   random (never the same finger twice in a row), 1234, 4321, 1324, 2413, 1423; 16/32/64 notes;
   tempo 20–300. A tap belongs to the nearest click within half a gap; the first tap decides it;
   on time within min(100 ms, a quarter of the gap); verdicts good/off/wrong/missed with the
@@ -249,8 +257,8 @@ Todoist project records what is still to do.
   localStorage `diesis_fingers_best` (outside `diesis_best:*`, so not yet in the profile's
   records); settings in `diesis_fingers`. Core `lib/core/fingers.ts` (tests), hook
   `lib/game/use-fingers.ts`, screen `components/fingers.tsx`. Not built yet (Todoist section
-  14): the Guitar Hero style lane of upcoming notes, comparing scores with others, a latency
-  calibration for Bluetooth audio or slow touch screens.
+  14): comparing scores with others, a latency calibration for Bluetooth audio or slow touch
+  screens.
 - **Contact and price, only what is true (Will, 2026-09-26).** Diesis is made by Will alone:
   never "we", "a team" or "a group of players". There is no working email: hello@diesis.app
   does not exist, so contact is Instagram @diesis.app (landing pricing box, privacy page,

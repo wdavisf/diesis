@@ -159,7 +159,7 @@ export interface Strings {
     title: string; lede: string; tempo: string; pattern: string; random: string; notes: string; hand: string; left: string; right: string;
     /** Index, middle, ring, pinky: fingers 1 to 4. */
     fingerNames: string[];
-    start: string; stop: string; again: string; change: string; ready: string; howTo: string; next: string; progress: string; onTimeNow: string;
+    start: string; stop: string; again: string; change: string; ready: string; howTo: string; progress: string; onTimeNow: string;
     verdict: { good: string; early: string; late: string; wrong: string; missed: string };
     result: string; resultSub: string; lean: { early: string; late: string; on: string }; spread: string; mistakes: string;
     best: string; noBest: string; newBest: string; tip: string; keysLeft: string; keysRight: string;
@@ -300,7 +300,7 @@ const en: Strings = {
         items: [
           { title: "Metronome and speed trainer", body: "Tempo from 20 to 300, 2/4 to 7/8 with the accents where they belong, subdivisions up to sextuplets, tap tempo. Turn on Speed up and it climbs on its own: pick the start, the target, the step and the bars at each tempo.", when: "now" },
           { title: "Backing tracks", body: "Tracks to jam over: blues, rock, metal, funk, bossa, modal jams, flamenco and more. Each shows its key and a scale that fits, and opens that scale on the neck.", when: "now" },
-          { title: "Finger independence", body: "Four dots, one per finger, and a click. Hit the one that lights, on the click: green when you are on time, red when you are not, and by how many milliseconds.", when: "now" },
+          { title: "Finger independence", body: "Four pads, one per finger, and notes falling onto them to a click. Hit each pad as its note lands: green when you are on time, red when you are not, and by how many milliseconds.", when: "now" },
         ],
       },
       {
@@ -471,7 +471,7 @@ const en: Strings = {
       { side: "Practice", title: "The neck", body: "Any scale on any root, across the whole fretboard. Here, A minor pentatonic." },
       { side: "Practice", title: "Metronome", body: "20 to 300 BPM, odd meters, tap tempo, and a Speed up mode that climbs to your target." },
       { side: "Practice", title: "Backing tracks", body: "Jam over tracks in every style, with the key and the scale to play shown on each." },
-      { side: "Practice", title: "Finger independence", body: "Four dots, one per finger. Hit the lit one on the click and see how close you were." },
+      { side: "Practice", title: "Finger independence", body: "Four pads, one per finger, and notes falling onto them on the click. Hit each one as it lands and see how close you were." },
       { side: "Setup", title: "Strings and setup", body: "Every string's tension for your tuning, a balanced set worked out for you, and the setup numbers for your guitar." },
     ],
   },
@@ -507,7 +507,7 @@ const en: Strings = {
       { title: "The neck", body: "Every note on the fretboard, or a scale on the root you pick: pentatonics, blues, major, the minors, the modes." },
       { title: "Metronome", body: "A steady tempo, or one that climbs a step every few bars up to your target. Time signatures, accents, subdivisions, tap tempo." },
       { title: "Backing tracks", body: "Jam over a band in any style, with the key and a scale that fits, shown on the neck in one tap." },
-      { title: "Finger independence", body: "Four dots, one per finger, lit in turn on a click. Train each finger to move on its own, in time." },
+      { title: "Finger independence", body: "Four pads, one per finger, and notes falling onto them to a click. Train each finger to move on its own, in time." },
     ],
   },
   setupMenu: {
@@ -590,7 +590,7 @@ const en: Strings = {
   },
   fingers: {
     title: "Finger independence",
-    lede: "Four dots, one per finger. On every click, hit the one that is lit. Phone flat on the table and your fingers on the dots, or the keyboard on a computer.",
+    lede: "Four pads, one per finger. Notes fall down each pad's column to a metronome: hit the pad the moment its note lands on it, right on the click. Phone flat on the table and your fingers on the pads, or the keyboard on a computer.",
     tempo: "Tempo",
     pattern: "Order",
     random: "Random",
@@ -604,8 +604,7 @@ const en: Strings = {
     again: "Again",
     change: "Change settings",
     ready: "Get ready",
-    howTo: "Hit the lit dot on the next click.",
-    next: "Then",
+    howTo: "Hit each pad as its note lands on it.",
     progress: "{k} of {n}",
     onTimeNow: "{g} on time",
     verdict: { good: "{ms} ms", early: "{ms} ms early", late: "{ms} ms late", wrong: "Wrong finger", missed: "Missed" },
@@ -791,7 +790,7 @@ const es: Strings = {
         items: [
           { title: "Metrónomo y entrenador de velocidad", body: "Tempo de 20 a 300, compases de 2/4 a 7/8 con los acentos donde tocan, subdivisiones hasta seisillos y tap tempo. Activa la subida de tempo y sube solo: eliges inicio, objetivo, cuánto sube y cuántos compases en cada tempo.", when: "now" },
           { title: "Backing tracks", body: "Bases para improvisar encima: blues, rock, metal, funk, bossa, jams modales, flamenco y más. Cada una dice su tonalidad y una escala que encaja, y te la abre en el mástil.", when: "now" },
-          { title: "Independencia de dedos", body: "Cuatro puntos, uno por dedo, y un clic. Pulsa el que se enciende, justo en el clic: verde si vas a tiempo, rojo si no, y por cuántos milisegundos.", when: "now" },
+          { title: "Independencia de dedos", body: "Cuatro botones, uno por dedo, y notas que caen sobre ellos al ritmo de un clic. Pulsa cada botón cuando le llega su nota: verde si vas a tiempo, rojo si no, y por cuántos milisegundos.", when: "now" },
         ],
       },
       {
@@ -962,7 +961,7 @@ const es: Strings = {
       { side: "Practicar", title: "El mástil", body: "Cualquier escala sobre cualquier tónica, por todo el mástil. Aquí, la pentatónica menor de La." },
       { side: "Practicar", title: "Metrónomo", body: "De 20 a 300 BPM, compases de amalgama, tap tempo y una subida de tempo que te lleva hasta tu objetivo." },
       { side: "Practicar", title: "Backing tracks", body: "Bases de todos los estilos para improvisar encima, cada una con su tonalidad y la escala que encaja." },
-      { side: "Practicar", title: "Independencia de dedos", body: "Cuatro puntos, uno por dedo. Pulsa el encendido en el clic y mira lo cerca que has quedado." },
+      { side: "Practicar", title: "Independencia de dedos", body: "Cuatro botones, uno por dedo, y notas que caen sobre ellos en el clic. Pulsa cada uno cuando le llega la suya y mira lo cerca que has quedado." },
       { side: "Ajuste", title: "Cuerdas y ajuste", body: "La tensión de cada cuerda con tu afinación, un juego equilibrado calculado para ti y las medidas de ajuste de tu guitarra." },
     ],
   },
@@ -998,7 +997,7 @@ const es: Strings = {
       { title: "El mástil", body: "Todas las notas del mástil, o una escala sobre la tónica que elijas: pentatónicas, blues, mayor, las menores y los modos." },
       { title: "Metrónomo", body: "Tempo fijo, o uno que sube solo cada pocos compases hasta tu objetivo. Compases, acentos, subdivisiones y tap tempo." },
       { title: "Backing tracks", body: "Improvisa con una banda detrás, del estilo que quieras, con su tonalidad y una escala que encaja, que ves en el mástil con un toque." },
-      { title: "Independencia de dedos", body: "Cuatro puntos, uno por dedo, que se encienden al ritmo de un clic. Para que cada dedo vaya por su cuenta, y a tiempo." },
+      { title: "Independencia de dedos", body: "Cuatro botones, uno por dedo, y notas que caen sobre ellos al ritmo de un clic. Para que cada dedo vaya por su cuenta, y a tiempo." },
     ],
   },
   setupMenu: {
@@ -1081,7 +1080,7 @@ const es: Strings = {
   },
   fingers: {
     title: "Independencia de dedos",
-    lede: "Cuatro puntos, uno por dedo. En cada clic, pulsa el que esté encendido. Con el móvil apoyado en la mesa y los dedos encima, o con el teclado en el ordenador.",
+    lede: "Cuatro botones, uno por dedo. Las notas van cayendo por la columna de cada botón al ritmo del metrónomo: pulsa el botón justo cuando su nota llega a él, en el clic. Con el móvil apoyado en la mesa y los dedos encima, o con el teclado en el ordenador.",
     tempo: "Tempo",
     pattern: "Orden",
     random: "Al azar",
@@ -1095,8 +1094,7 @@ const es: Strings = {
     again: "Otra vez",
     change: "Cambiar ajustes",
     ready: "Prepárate",
-    howTo: "Pulsa el punto encendido en el siguiente clic.",
-    next: "Luego",
+    howTo: "Pulsa cada botón cuando le llegue su nota.",
     progress: "{k} de {n}",
     onTimeNow: "{g} a tiempo",
     verdict: { good: "{ms} ms", early: "{ms} ms antes", late: "{ms} ms tarde", wrong: "Dedo equivocado", missed: "Se te pasó" },

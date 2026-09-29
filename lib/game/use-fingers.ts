@@ -198,5 +198,8 @@ export function useFingers() {
     [show],
   );
 
-  return { settings, set, bests, phase, seq, run, heard, flash, result, start, stop, press, back: () => setPhase("setup") };
+  /** The run as it stands right now, for the lane's animation frames (no render per frame). */
+  const getRun = useCallback(() => runRef.current, []);
+
+  return { settings, set, bests, phase, seq, run, getRun, heard, flash, result, start, stop, press, back: () => setPhase("setup") };
 }

@@ -3,6 +3,18 @@
 Written for the people using it, not for the code. Newest first. Version matches
 `package.json`.
 
+## 0.25.0 — 29 September 2026, notes that fall onto the finger pads
+
+- Finger independence works like a rhythm game now. Instead of a pad lighting up for the next
+  click, notes fall down each pad's column and reach the pad exactly on the click: hit the pad
+  the moment its note lands. You see what is coming two beats ahead (never less than 1.2 s at
+  fast tempos), so the rhythm reads the same at any speed. The pad glows as its note arrives.
+- A note you hit freezes where you hit it and bursts green (on time) or red (early, late or the
+  wrong finger); one you miss falls on through the pad and fades red. The verdict with the
+  milliseconds still shows on the pad.
+- The count-in shows 4 3 2 1 while the first notes are already on their way.
+- The finger tool's link preview shows the falling notes.
+
 ## 0.24.1 — 29 September 2026, a link preview per tool
 
 - Share a tool and the chat shows that tool. Every page of the app now has its own link preview:

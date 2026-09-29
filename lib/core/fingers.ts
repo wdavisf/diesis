@@ -64,6 +64,15 @@ export function windowMs(bpm: number): number {
   return Math.round(Math.min(100, intervalMs(bpm) / 4));
 }
 
+/** A note is in the air for two beats before it must be hit, so the rhythm of what is coming
+ *  reads the same at any tempo, and never under 1.2 s so a fast tempo still shows it coming. */
+export const LEAD_BEATS = 2;
+export const LEAD_MIN_MS = 1200;
+
+export function leadMs(bpm: number): number {
+  return Math.max(LEAD_MIN_MS, LEAD_BEATS * intervalMs(bpm));
+}
+
 /** good: right finger, on time. off: right finger, too early or late. wrong: another finger.
  *  missed: no tap at all. */
 export type Verdict = 'good' | 'off' | 'wrong' | 'missed';
@@ -81,16 +90,27 @@ export interface Run {
   start: number;
   interval: number;
   window: number;
+  /** How long each note falls before it reaches its pad. */
+  lead: number;
   seq: Finger[];
   hits: (Hit | null)[];
 }
 
 export function newRun(seq: Finger[], start: number, bpm: number): Run {
-  return { start, interval: intervalMs(bpm), window: windowMs(bpm), seq, hits: seq.map(() => null) };
+  return { start, interval: intervalMs(bpm), window: windowMs(bpm), lead: leadMs(bpm), seq, hits: seq.map(() => null) };
 }
 
 export function targetTime(run: Run, k: number): number {
   return run.start + k * run.interval;
+}
+
+/**
+ * Where target `k`'s note is on its way down at `now`: 0 as it appears at the top of the lane,
+ * 1 as it reaches the pad (the click), past 1 once it has gone by. Below 0 it has not appeared
+ * yet. The fall is linear, so equal gaps in time are equal gaps on screen.
+ */
+export function drop(run: Run, k: number, now: number): number {
+  return 1 - (targetTime(run, k) - now) / run.lead;
 }
 
 /** Moves the run onto the clock: target `k` is heard at `time`. The audio clock and the page's
