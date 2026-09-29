@@ -51,6 +51,9 @@ function Section({ title, lede, children }: { title: string; lede?: string; chil
   );
 }
 
+/** Picture per step, in the order of `strings.setup.steps` (public/steps). Step 5 was redone with a new name so Next's image cache could not serve the old one. */
+const STEP_IMAGES = ["step1", "step2", "step3", "step4", "step5-intonation", "step6"];
+
 /** Picture per entry of `strings.setup.gear`, in the same order (public/gear). */
 const GEAR_IMAGES = ["ruler", "feeler", "winder", "tuner"];
 
@@ -348,7 +351,7 @@ export function StringsSetup({ t, tp, lang, base }: { t: Strings["setup"]; tp: S
           {t.steps.map((step, i) => (
             <li key={i} className="flex flex-col gap-3">
               <Image
-                src={`/steps/step${i + 1}.webp`}
+                src={`/steps/${STEP_IMAGES[i]}.webp`}
                 alt=""
                 width={720}
                 height={480}

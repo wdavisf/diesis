@@ -3,6 +3,11 @@
 Written for the people using it, not for the code. Newest first. Version matches
 `package.json`.
 
+## 0.23.6 — 29 September 2026, right picture for intonation
+
+- Strings and setup: the picture for "Set the intonation" now shows the intonation screw at the
+  back of the bridge, not the height screw.
+
 ## 0.23.5 — 29 September 2026, upright guitars in one row
 
 - Strings and setup: the guitar picker shows the guitars upright again, all eleven in a single
