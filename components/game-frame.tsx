@@ -28,26 +28,29 @@ function useSize<T extends HTMLElement>() {
  * upright, like any page. The play screen asks for `sideways`: on a phone held upright it is then
  * drawn rotated 90° (`.game-sideways` in globals.css) and swings into place as it arrives
  * (`.game-enter`), landscape whatever the rotation lock says; a web page cannot turn the phone
- * itself. Only a narrow desktop window sees the "widen it" gate, and only for play.
+ * itself. Only a narrow desktop window sees the "widen it" gate, and only for play; a screen
+ * that works upright in a narrow window too (the finger pads) passes `gate={false}`.
  */
 export function GameShell({
   t,
   title,
   status,
   sideways = false,
+  gate = true,
   children,
 }: {
   t: Strings["game"];
   title: string;
   status?: ReactNode;
   sideways?: boolean;
+  gate?: boolean;
   children: ReactNode;
 }) {
   // Back to the menu of the side this screen is on: /learn or /practice, in its language.
   const home = usePathname()?.match(/^(\/es)?\/(learn|practice)/)?.[0] ?? "/start";
   return (
     <>
-      {sideways ? (
+      {sideways && gate ? (
         /* A narrow, tall window on a desktop: the neck needs the long side and there is nothing to rotate. */
         <div className="hidden flex-1 flex-col items-center justify-center gap-3 px-6 text-center max-md:portrait:pointer-fine:flex">
           <RotateCw className="size-10 text-amber" aria-hidden />
@@ -56,7 +59,7 @@ export function GameShell({
         </div>
       ) : null}
 
-      <div className={sideways ? "game-sideways game-enter flex flex-1 flex-col max-md:portrait:pointer-fine:hidden" : "flex flex-1 flex-col"}>
+      <div className={cn("flex flex-1 flex-col", sideways && "game-sideways game-enter", sideways && gate && "max-md:portrait:pointer-fine:hidden")}>
         {/* Upright screens are named by the top bar already; the header is for the exercise itself
             (its score or clock) and for the way out when the bar is hidden. */}
         <header className={cn("h-11 shrink-0 items-center justify-between gap-3 px-4", sideways || status ? "flex" : "hidden")}>

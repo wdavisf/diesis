@@ -3,6 +3,11 @@
 Written for the people using it, not for the code. Newest first. Version matches
 `package.json`.
 
+## 0.25.2 — 29 September 2026
+
+- A narrow window on a computer plays Finger independence upright, as before, instead of asking
+  to be made wider: only phones turn it sideways.
+
 ## 0.25.1 — 29 September 2026, finger independence sideways on a phone
 
 - On a phone, Finger independence now turns sideways like the other exercises: the four pads
