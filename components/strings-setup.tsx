@@ -129,6 +129,12 @@ export function StringsSetup({ t, tp, lang, base }: { t: Strings["setup"]; tp: S
       </div>
     ) : null;
   const mmIn = (v: number) => `${v.toFixed(1)} mm`;
+  // The numbers each step aims for (steps 2, 3 and 4), from the same setup as the cards above.
+  const aims: Record<number, string | null> = {
+    1: t.aim.relief.replace("{v}", `${s.relief.toFixed(2)} mm`),
+    2: t.aim.action.replace("{bass}", mmIn(s.actionBass)).replace("{treble}", mmIn(s.actionTreble)),
+    3: s.pickupBass !== null && s.pickupTreble !== null ? t.aim.pickups.replace("{bass}", mmIn(s.pickupBass)).replace("{treble}", mmIn(s.pickupTreble)) : null,
+  };
   const inSub = (v: number) => `${(v / 25.4).toFixed(3).replace(/^0/, "")}″`;
 
   return (
@@ -358,6 +364,7 @@ export function StringsSetup({ t, tp, lang, base }: { t: Strings["setup"]; tp: S
                 <div>
                   <p className="text-lg font-medium leading-snug">{step.title}</p>
                   <p className="mt-1 text-sm text-dim">{step.body}</p>
+                  {aims[i] ? <p className="mt-2 inline-block rounded-lg border border-amber/40 bg-amber/10 px-2.5 py-1 text-sm font-semibold tabular-nums text-amber-text">{aims[i]}</p> : null}
                 </div>
               </div>
             </li>

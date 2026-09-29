@@ -3,6 +3,12 @@
 Written for the people using it, not for the code. Newest first. Version matches
 `package.json`.
 
+## 0.23.3 — 29 September 2026, the steps show your numbers
+
+- Strings and setup: the steps after a string change now tell you the number to aim for,
+  taken from your guitar and strings: the relief in step 2, the action in step 3 and the pickup
+  height in step 4. Change the guitar type or the gauges and they change with them.
+
 ## 0.23.2 — 29 September 2026, more tunings for seven and eight strings
 
 - Seven strings now offer standard, E♭ standard, D standard, Drop A and Drop G; eight strings
