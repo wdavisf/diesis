@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { STANDARD_TUNING, TUNINGS } from '../notes';
 import {
+  adjustSetup,
   decodeStrings,
   DEFAULT_STRINGS,
   feelOf,
@@ -91,5 +92,26 @@ describe('sets, types and settings', () => {
     expect(gaugesFor(DEFAULT_STRINGS, 6)).toEqual([10, 13, 17, 26, 36, 46]);
     expect(gaugesFor(DEFAULT_STRINGS, 7)).toHaveLength(7);
     expect(gaugesFor(DEFAULT_STRINGS, 8)).toHaveLength(8);
+  });
+});
+
+describe('adjustSetup', () => {
+  const base = GUITAR_TYPES[0].setup;
+  it('leaves the factory numbers at a balanced tension', () => {
+    expect(adjustSetup(base, 17)).toEqual(base);
+  });
+  it('gives a tight set more relief and less action', () => {
+    const s = adjustSetup(base, 21);
+    expect(s.relief).toBeGreaterThan(base.relief);
+    expect(s.actionBass).toBeLessThanOrEqual(base.actionBass);
+  });
+  it('gives a slack set more action and less relief', () => {
+    const s = adjustSetup(base, 12);
+    expect(s.actionBass).toBeGreaterThan(base.actionBass);
+    expect(s.relief).toBeLessThan(base.relief);
+  });
+  it('keeps radius and pickups, and nylon untouched', () => {
+    expect(adjustSetup(base, 12).radius).toBe(base.radius);
+    expect(adjustSetup(base, 12, true)).toBe(base);
   });
 });

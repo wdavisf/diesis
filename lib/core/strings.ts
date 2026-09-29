@@ -128,6 +128,28 @@ export const GUITAR_TYPES: readonly GuitarType[] = [
   { id: 'classical', scale: 25.6, strings: 6, nylon: true, setup: { actionBass: 4.0, actionTreble: 3.0, relief: 0.2, radius: null, pickupBass: null, pickupTreble: null } },
 ];
 
+/** Average string tension (lb) the factory numbers above assume: a balanced set. */
+const REFERENCE_TENSION = 17;
+
+/**
+ * The type's setup numbers moved for the strings actually on the guitar. A tighter set pulls
+ * the neck forward and wants more relief; a slacker one swings wider and wants more action
+ * (bass and treble both). Radius and pickup heights do not depend on the strings. Nylon is
+ * sold by tension, not gauge, so its numbers stay as they are.
+ */
+export function adjustSetup(base: Setup, avgTension: number, nylon = false): Setup {
+  if (nylon) return base;
+  const load = Math.min(Math.max(avgTension / REFERENCE_TENSION, 0.7), 1.4);
+  const slack = Math.min(Math.max(1 + 0.6 * (1 - avgTension / REFERENCE_TENSION), 0.9), 1.3);
+  const round = (v: number, step: number) => Math.round(v / step) * step;
+  return {
+    ...base,
+    actionBass: round(base.actionBass * slack, 0.1),
+    actionTreble: round(base.actionTreble * slack, 0.1),
+    relief: round(base.relief * load, 0.05),
+  };
+}
+
 export function guitarType(id: string | null | undefined): GuitarType {
   return GUITAR_TYPES.find((t) => t.id === id) ?? GUITAR_TYPES[0];
 }

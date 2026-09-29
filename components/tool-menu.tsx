@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import Link from "next/link";
 import { ArrowRight, Lock } from "lucide-react";
 import type { Menu, Strings, When } from "@/lib/i18n";
@@ -33,13 +34,13 @@ export const SETUP_ITEMS: MenuItem[] = [
 ];
 
 /** A side of the app, Learn or Practice: its tools as cards, the built ones first and linked. */
-export function ToolMenu({ t, menu, items }: { t: Strings; menu: Menu; items: MenuItem[] }) {
+export function ToolMenu({ t, menu, items, footer }: { t: Strings; menu: Menu; items: MenuItem[]; footer?: ReactNode }) {
   const h = t.home;
   return (
-    <main className="mx-auto flex w-full max-w-4xl flex-1 flex-col px-4 py-6 sm:py-10">
+    <main className="mx-auto flex w-full max-w-6xl flex-1 flex-col px-4 py-6 sm:py-10">
       <h1 className="mt-4 font-display text-3xl font-semibold tracking-tight sm:text-4xl">{menu.title}</h1>
       <p className="mt-2 text-dim">{menu.lede}</p>
-      <ul className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2">
+      <ul className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {menu.modes.map((m, i) => {
           const { href: path, when } = items[i];
           const href = path ? `${t.base}${path}` : null;
@@ -72,6 +73,7 @@ export function ToolMenu({ t, menu, items }: { t: Strings; menu: Menu; items: Me
           );
         })}
       </ul>
+      {footer}
     </main>
   );
 }

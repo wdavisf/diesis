@@ -386,7 +386,7 @@ const en: Strings = {
     flat: "Flat",
     pickupBass: "Pickup height, bass side",
     pickupTreble: "Pickup height, treble side",
-    setupNote: "Typical factory numbers, not rules: lower plays easier and buzzes sooner, higher rings clearer. Adjust to how you play.",
+    setupNote: "Typical factory numbers, adjusted to the tension of the strings you chose. Starting points, not rules: lower plays easier and buzzes sooner, higher rings clearer. Adjust to how you play.",
     stepsTitle: "After a string change",
     stepsLede: "In this order: each step changes the ones after it.",
     steps: [
@@ -858,7 +858,7 @@ const es: Strings = {
     flat: "Plano",
     pickupBass: "Altura de pastillas, lado grave",
     pickupTreble: "Altura de pastillas, lado agudo",
-    setupNote: "Son medidas habituales de fábrica, no reglas: más baja se toca más fácil y trastea antes; más alta suena más limpia. Ajústalas a cómo tocas.",
+    setupNote: "Medidas habituales de fábrica, ajustadas a la tensión de las cuerdas que has elegido. Son puntos de partida, no reglas: más baja se toca más fácil y trastea antes; más alta suena más limpia. Ajústalas a cómo tocas.",
     stepsTitle: "Después de cambiar cuerdas",
     stepsLede: "En este orden: cada paso cambia los siguientes.",
     steps: [

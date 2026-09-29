@@ -9,6 +9,7 @@ import {
   feelOf,
   gaugesFor,
   GUITAR_TYPES,
+  adjustSetup,
   guitarType,
   LB_TO_KG,
   PLAIN_GAUGES,
@@ -101,7 +102,7 @@ export function StringsSetup({ t, tp, lang, base }: { t: Strings["setup"]; tp: S
   // No octave number: English and Spanish count octaves differently, and the string number already tells them apart.
   const noteName = (midi: number) => names[pitchClassOf(midi)];
   const activeSet = setsFor(count).find((s) => s.gauges.every((g, i) => g === gauges[i]))?.id;
-  const s = type.setup;
+  const s = adjustSetup(type.setup, total / count, type.nylon);
   const stringsQuery =
     (type.id === "acoustic" ? t.query.acoustic : t.query.electric).replace("{set}", setName(gauges)) +
     (count > 6 ? t.query.extended.replace("{n}", String(count)) : "");
@@ -109,7 +110,7 @@ export function StringsSetup({ t, tp, lang, base }: { t: Strings["setup"]; tp: S
   const inSub = (v: number) => `${(v / 25.4).toFixed(3).replace(/^0/, "")}″`;
 
   return (
-    <main className="mx-auto flex w-full max-w-3xl flex-1 flex-col gap-5 px-4 py-6 sm:py-10">
+    <main className="mx-auto flex w-full max-w-6xl flex-1 flex-col gap-5 px-4 py-6 sm:py-10">
       <div>
         <h1 className="mt-4 font-display text-3xl font-semibold tracking-tight sm:text-4xl">{t.title}</h1>
         <p className="mt-2 text-dim">{t.lede}</p>
@@ -117,7 +118,7 @@ export function StringsSetup({ t, tp, lang, base }: { t: Strings["setup"]; tp: S
 
       <Section title={t.guitar} lede={t.guitarLede}>
         <p className="text-sm font-medium text-dim">{t.type}</p>
-        <div role="radiogroup" aria-label={t.type} className="mt-1.5 grid grid-cols-2 gap-2 sm:grid-cols-3">
+        <div role="radiogroup" aria-label={t.type} className="mt-1.5 grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-4">
           {GUITAR_TYPES.map((g) => {
             const on = g.id === type.id;
             return (
@@ -282,6 +283,7 @@ export function StringsSetup({ t, tp, lang, base }: { t: Strings["setup"]; tp: S
         )}
       </Section>
 
+      <div className="grid grid-cols-1 items-start gap-5 lg:grid-cols-2">
       <Section title={t.setupTitle} lede={t.setupLede.replace("{type}", t.types[type.id])}>
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
           <Figure label={t.actionBass} mm={mmIn(s.actionBass)} sub={inSub(s.actionBass)} />
@@ -320,6 +322,7 @@ export function StringsSetup({ t, tp, lang, base }: { t: Strings["setup"]; tp: S
           ))}
         </ol>
       </Section>
+      </div>
     </main>
   );
 }

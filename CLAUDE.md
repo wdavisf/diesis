@@ -264,7 +264,7 @@ Todoist project records what is still to do.
   that, within 5% of published 10–46 figures (tests). Feel bands: slack < 12 lb, tight > 21 lb.
   Common sets as chips, "Suggest a balanced set" (`suggestGauges`: 16 lb on top rising to 18 lb
   on the lowest, plain on the top three). Nylon is not modelled (sold by tension). Setup numbers
-  are typical factory starting points, said so on the page; then six steps after a string change.
+  are typical factory starting points moved by `adjustSetup` for the average string tension (tighter: more relief; slacker: more action; nylon untouched), said so on the page; then six steps after a string change.
   Core `lib/core/strings.ts`, storage `diesis_strings` (`lib/game/use-strings.ts`). No octave
   numbers on note names (EN and ES count octaves differently). The guitar type is picked from
   text cards (name, scale, strings). Hand-drawn SVG silhouettes were tried and rejected by Will

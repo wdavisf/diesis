@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Achievements } from "@/components/achievements";
 import { LEARN_ITEMS, ToolMenu } from "@/components/tool-menu";
 import { appMetadata, currentStrings } from "@/lib/lang";
 
@@ -9,5 +10,5 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function LearnMenu() {
   const t = await currentStrings();
-  return <ToolMenu t={t} menu={t.learnMenu} items={LEARN_ITEMS} />;
+  return <ToolMenu t={t} menu={t.learnMenu} items={LEARN_ITEMS} footer={<Achievements t={t} className="mt-8" />} />;
 }

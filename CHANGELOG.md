@@ -3,6 +3,16 @@
 Written for the people using it, not for the code. Newest first. Version matches
 `package.json`.
 
+## 0.22.0 — 29 September 2026, setup numbers that follow your strings
+
+- Strings and setup: the setup numbers now change with your strings. A tighter set gets more
+  relief and a slacker one more action (nylon stays as it is). Before, only the tension
+  figures moved when you changed gauges.
+- Your achievements now sit under the Learn menu, not only on the profile, so you can see
+  what you have earned and what is next.
+- Wider layout on computers: the menus and the strings page use the screen instead of a narrow
+  column, with the guitar cards in four columns and the setup numbers beside the steps.
+
 ## 0.21.2 — 29 September 2026, cleaner guitar cards
 
 - Strings and setup: the guitar cards no longer repeat the scale length and string count;

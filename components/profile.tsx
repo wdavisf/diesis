@@ -1,13 +1,13 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { Lock, Trophy } from "lucide-react";
 import { namesFor, pitchClassOf, STRING_COUNTS, tuningsFor } from "@/lib/core/notes";
-import { ACHIEVEMENTS, earnedAchievements, type Best } from "@/lib/core/records";
+import type { Best } from "@/lib/core/records";
 import { useGuitar } from "@/lib/game/use-guitar";
 import { eraseLocalData, useRecords } from "@/lib/game/use-records";
 import { useSettings } from "@/lib/game/use-settings";
 import type { Strings } from "@/lib/i18n";
+import { Achievements } from "@/components/achievements";
 import { Chip } from "@/components/challenge-card";
 import { LangSwitch } from "@/components/lang-switch";
 import { cn } from "@/lib/utils";
@@ -38,7 +38,6 @@ export function Profile({ t }: { t: Strings }) {
   const prefs = useSettings(t.code === "es" ? "solfege" : "letters");
   const names = namesFor(prefs.names);
   const bests = useRecords();
-  const earned = earnedAchievements(bests);
   const count = guitar.preset.notes.length;
 
   const bestLabel = (b: Best) =>
@@ -52,7 +51,7 @@ export function Profile({ t }: { t: Strings }) {
       .join(" · ");
 
   return (
-    <main className="mx-auto flex w-full max-w-3xl flex-1 flex-col gap-5 px-4 py-6 sm:py-10">
+    <main className="mx-auto flex w-full max-w-4xl flex-1 flex-col gap-5 px-4 py-6 sm:py-10">
       <h1 className="font-display text-3xl font-semibold tracking-tight sm:text-4xl">{p.title}</h1>
 
       <Section title={p.guitar} lede={p.guitarLede}>
@@ -125,28 +124,7 @@ export function Profile({ t }: { t: Strings }) {
         )}
       </Section>
 
-      <Section
-        title={p.achievements}
-        aside={<span className="text-sm text-dim tabular-nums">{p.achievementsCount.replace("{e}", String(earned.size)).replace("{t}", String(ACHIEVEMENTS.length))}</span>}
-      >
-        <ul className="grid grid-cols-1 gap-2 sm:grid-cols-2">
-          {ACHIEVEMENTS.map((a) => {
-            const on = earned.has(a.id);
-            const text = p.achievementList[a.id];
-            return (
-              <li key={a.id} className={cn("flex items-start gap-3 rounded-xl border p-3", on ? "border-amber/60 bg-amber/10" : "border-line opacity-60")}>
-                <span className={cn("mt-0.5 flex size-7 shrink-0 items-center justify-center rounded-full", on ? "bg-amber text-stage" : "bg-line text-dim")}>
-                  {on ? <Trophy className="size-4" aria-hidden /> : <Lock className="size-3.5" aria-hidden />}
-                </span>
-                <span>
-                  <span className={cn("block text-sm font-semibold", on ? "text-amber-text" : "text-ink")}>{text.title}</span>
-                  <span className="block text-xs text-dim">{text.body}</span>
-                </span>
-              </li>
-            );
-          })}
-        </ul>
-      </Section>
+      <Achievements t={t} />
 
       <Section title={p.data} lede={p.dataBody}>
         <button
