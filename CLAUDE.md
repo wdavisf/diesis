@@ -269,10 +269,14 @@ Todoist project records what is still to do.
   numbers on note names (EN and ES count octaves differently). The guitar type is picked from
   text cards (name, scale, strings). Hand-drawn SVG silhouettes were tried and rejected by Will
   (2026-09-26, "qué basura"): do not draw guitars in code. Pictures (2026-09-29, Will: "generate pics using the OpenAI
-  connector for each guitar"): `public/guitar-cards/<id>.webp` (upright, 2:3, in one row of narrow cards), generic studio shots made with OpenAI
+  connector for each guitar"; redone 2026-09-29, Will: "redo the images of the guitar so this looks sexy"):
+  `public/guitar-shots/<id>.webp`, 4:5 like the cards (generated 2:3, cropped to 4:5 by the script,
+  so the card shows the whole picture), dramatic low-key body shots: the body fills the frame, the
+  neck leaves it at the top, headstock out of frame, black background, rim light and glossy
+  reflections, one prompt for all so the row reads as one shoot. Made with OpenAI
   `gpt-image-2` by `tools/gen-images.mjs` (key from `.env.local` or Akoe's `app/Secrets.xcconfig`;
   writes only missing files, `--all` or ids to redo), prompts describe shapes with no maker names.
-  AI pictures can miscount strings and tuners (the 7 and 8 string ones had to be redone, 2026-09-29): count the tuners on any new one. The folder was renamed (`guitars/`, `guitar-types/`, now `guitar-cards/`) whenever the pictures changed shape so Next's image cache could not serve old copies. Illustrations, not real instruments; real photos can replace them. A new type needs an entry in
+  AI pictures can miscount strings (the 7 and 8 string ones had to be redone, 2026-09-29): count the strings over the pickups on any new one. The folder was renamed (`guitars/`, `guitar-types/`, `guitar-cards/`, now `guitar-shots/`) whenever the pictures changed shape so Next's image cache could not serve old copies. Illustrations, not real instruments; real photos can replace them. A new type needs an entry in
   the script's `GUITARS`. The same script makes the gear pictures (`public/gear/`, one per Amazon link, in the
   order of `strings.setup.gear`) and the six step pictures (`public/steps/stepN.webp`).
 - **Amazon affiliate links (Will, 2026-09-26; store id `willdafer-21`, Amazon.es).** Search

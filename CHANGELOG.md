@@ -3,6 +3,12 @@
 Written for the people using it, not for the code. Newest first. Version matches
 `package.json`.
 
+## 0.23.8 — 29 September 2026, guitar pictures worth looking at
+
+- Strings and setup: the eleven guitar pictures are reshot. Each card now shows the body of the
+  guitar up close, lit like a magazine advert on a black background, instead of a small flat
+  guitar with its body cut off by the card.
+
 ## 0.23.7 — 29 September 2026, bigger guitar cards, better intonation picture
 
 - Strings and setup: the guitar picker is six cards to a row, big enough for each guitar's name

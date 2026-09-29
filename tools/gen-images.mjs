@@ -1,7 +1,8 @@
-// Generates the site's illustrations with OpenAI gpt-image-2: guitar types (public/guitar-cards/),
+// Generates the site's illustrations with OpenAI gpt-image-2: guitar types (public/guitar-shots/),
 // setup gear (public/gear/) and the string-change steps (public/steps/).
 // Key: OPENAI_API_KEY in the environment or .env.local, else Akoe's app/Secrets.xcconfig.
-// Guitars are saved upright (the picker cards are narrow portrait ones). Only writes missing files; `--all` redoes all, or pass ids: node tools/gen-images.mjs strat tele step1
+// Guitars are dramatic body shots cropped to 4:5, the shape of the picker cards, so the card shows the
+// whole picture. Only writes missing files; `--all` redoes all, or pass ids: node tools/gen-images.mjs strat tele step1
 import fs from "node:fs";
 import path from "node:path";
 import sharp from "sharp";
@@ -32,7 +33,9 @@ const GUITARS = {
   classical: "a classical nylon-string guitar, smaller body, wide flat neck, a slotted headstock with six tuners and white plastic knobs, a tie-block bridge with nylon strings, light natural spruce top",
 };
 
-const GUITAR_STYLE = "Studio product photograph, the whole guitar upright and centered, headstock at the top, straight-on view, soft even lighting, subtle shadow, plain dark charcoal background (#1a1a1a), no text, no logos, no brand names, no hands, no stand, no cables.";
+// The body is the hero: close, leaning a little, the neck leaving the frame at the top. Same lean and
+// light for every guitar so the row of cards reads as one shoot.
+const GUITAR_STYLE = "Dramatic low-key studio photograph for a high-end guitar magazine advert, vertical portrait composition. The guitar stands close to the camera, leaning about 15 degrees so the neck rises toward the top-left corner and leaves the frame; the headstock is out of frame. The body fills the lower two thirds of the frame, seen from a slight three-quarter angle, its lower edge just inside the bottom of the frame. Pure black background fading to a soft vignette, one hard rim light tracing the outline of the body, a large soft key light giving long glossy specular reflections on the finish, rich deep saturated colour, razor-sharp detail on the pickups, bridge and strings, fine film grain. No text, no logos, no brand names, no hands, no stand, no cables, no strap.";
 const GEAR_STYLE = "Studio product photograph of a single unbranded object, centered, soft even lighting, subtle shadow, plain dark charcoal background (#1a1a1a), no text, no logos, no brand names, no labels, no numbers on packaging.";
 const STEP_STYLE = "Macro photograph, shallow depth of field, moody warm lighting, dark charcoal background, an unbranded electric guitar, no text, no logos, no brand names, no faces.";
 
@@ -53,7 +56,7 @@ const STEPS = {
 };
 
 const SETS = [
-  { dir: "guitar-cards", size: "1024x1536", width: 720, style: GUITAR_STYLE, items: GUITARS },
+  { dir: "guitar-shots", size: "1024x1536", width: 720, height: 900, style: GUITAR_STYLE, items: GUITARS },
   { dir: "gear", size: "1024x1024", width: 480, style: GEAR_STYLE, items: GEAR },
   { dir: "steps", size: "1536x1024", width: 720, style: STEP_STYLE, items: STEPS },
 ];
@@ -79,7 +82,7 @@ for (const set of SETS) {
     if (!res.ok) throw new Error(`${id}: ${res.status} ${JSON.stringify(json.error ?? json)}`);
     const b64 = json.data[0].b64_json;
     const buf = b64 ? Buffer.from(b64, "base64") : Buffer.from(await (await fetch(json.data[0].url)).arrayBuffer());
-    await sharp(buf).resize({ width: set.width }).webp({ quality: 82 }).toFile(file);
+    await sharp(buf).resize({ width: set.width, height: set.height, fit: "cover", position: "centre" }).webp({ quality: 82 }).toFile(file);
     console.log("wrote", id);
   }
 }

@@ -170,11 +170,11 @@ export function StringsSetup({ t, tp, lang, base }: { t: Strings["setup"]; tp: S
                 )}
               >
                 <Image
-                  src={`/guitar-cards/${g.id}.webp`}
+                  src={`/guitar-shots/${g.id}.webp`}
                   alt=""
                   fill
                   sizes="(min-width: 1024px) 180px, (min-width: 640px) 25vw, 33vw"
-                  className="object-cover object-[50%_30%] transition-transform duration-300 group-hover:scale-[1.03] motion-reduce:transition-none"
+                  className="object-cover transition-transform duration-300 group-hover:scale-[1.03] motion-reduce:transition-none"
                 />
                 <span
                   className={cn(
