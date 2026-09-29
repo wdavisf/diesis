@@ -3,6 +3,15 @@
 Written for the people using it, not for the code. Newest first. Version matches
 `package.json`.
 
+## 0.24.1 — 29 September 2026, a link preview per tool
+
+- Share a tool and the chat shows that tool. Every page of the app now has its own link preview:
+  its own card (the neck with A minor pentatonic, the metronome at 120, the tension of a 10–46
+  set, the four finger dots…) and its own description, in the language of the link. Before, every
+  page previewed with the landing's "Which note is it?" card and the landing's text.
+- The landing's description names the tools that exist: backing tracks and strings and setup were
+  still "coming next".
+
 ## 0.24.0 — 29 September 2026, pictures for the suggested strings, steps that fit your guitar
 
 - Strings and setup: every suggested string set now has its own picture. They are illustrations,

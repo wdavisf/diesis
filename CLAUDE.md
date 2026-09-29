@@ -147,7 +147,7 @@ Todoist project records what is still to do.
   screen (`.site-nav` rules in globals.css); the exercise header keeps its back arrow for that
   case only; it goes back to its side's menu. Upright screens have no header of their own.
   **Every new tool picks a side and gets a place in that side's nav list and hrefs, its menu
-  cards, the sitemap and the landing.**
+  cards, the sitemap, the landing and a link-preview card (`PREVIEWS` in `lib/lang.ts`).**
 - **The neck (scale explorer), built 2026-09-25** (Will: "see all the notes in the fretboard,
   and then select things like a pentatonic scale, selecting the root note"): `/practice/neck`,
   first tool in the bar. Opens on every note (scale "all"); pick a root (12 buttons) and a
@@ -337,7 +337,14 @@ Todoist project records what is still to do.
   "Which note is it?", the tagline under it, the wordmark top right, frets 0–7 with C lit on
   string 2, and the seven natural buttons with C green. A page that sets its own `openGraph`
   must repeat `images` (Next replaces the object, it does not merge): `/es` pages use
-  `og-es.png`. Bump the `?v=` on the image URLs when the card changes.
+  `og-es.png`. Bump `CARD_VERSION` in `lib/lang.ts` (the `?v=` on every card) when a card changes.
+  **A card per tool (Will, 2026-09-29: a shared /setup/strings link showed the landing card and
+  text on WhatsApp).** `public/og/<tool>-<lang>.png`, drawn by `tools/og-card.mjs` (`npm run
+  icons`) in one frame (tool name, one line, wordmark) over a drawing of the tool; `PREVIEWS` in
+  `lib/lang.ts` maps each app path to its card and its description (the menu card's body). The
+  menus, `/start`, `/profile` and Name the note keep the game card. Chat composers show a compact
+  row with a square center crop of the card, so keep what matters near its middle. A new tool
+  gets a drawing in og-card.mjs, a `PREVIEWS` line and a run of `npm run icons`.
 
 - **Private roadmap page (Will, 2026-09-26)**: `/roadmap` (Will asked for exactly that path), a visual roadmap plus
   the monetization and go-to-market plan, Spanish, for Will only. Unlisted by choice (Will picked

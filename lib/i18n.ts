@@ -236,7 +236,7 @@ const en: Strings = {
   meta: {
     title: "Diesis — everything you need to master the guitar",
     description:
-      "Everything you need to master the guitar, in one place. See every note and scale on the neck, learn the notes and build speed with the metronome today; scale exercises, reading music and tools for your own guitar come next. Free while in preview, in the browser.",
+      "Everything you need to master the guitar, in one place. See every note and scale on the neck, learn the notes, build speed with the metronome, jam over backing tracks and work out the strings and setup for your own guitar; scale exercises and reading music come next. Free while in preview, in the browser.",
     privacyTitle: "Privacy",
     privacyDescription: "What Diesis does with your data: no account, no ads, nothing you do in Diesis leaves your browser. Visit counting with Google Analytics only if you allow it.",
   },
@@ -727,7 +727,7 @@ const es: Strings = {
   meta: {
     title: "Diesis — todo lo que necesitas para dominar la guitarra",
     description:
-      "Todo lo que necesitas para dominar la guitarra, en un solo sitio. Hoy, todas las notas y escalas del mástil y un metrónomo que te hace ganar velocidad; después, ejercicios de escalas, lectura de partituras y herramientas para tu propia guitarra. Gratis durante la beta y en el navegador.",
+      "Todo lo que necesitas para dominar la guitarra, en un solo sitio. Hoy, todas las notas y escalas del mástil, un metrónomo que te hace ganar velocidad, backing tracks y las cuerdas y el ajuste de tu propia guitarra; después, ejercicios de escalas y lectura de partituras. Gratis durante la beta y en el navegador.",
     privacyTitle: "Privacidad",
     privacyDescription: "Qué hace Diesis con tus datos: sin cuenta, sin anuncios y sin que nada de lo que haces en Diesis salga de tu navegador. Contamos visitas con Google Analytics solo si tú lo permites.",
   },

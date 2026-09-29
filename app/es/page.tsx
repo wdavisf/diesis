@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Landing } from "@/components/landing";
 import { strings } from "@/lib/i18n";
+import { CARD_VERSION } from "@/lib/lang";
 
 const t = strings.es;
 export const metadata: Metadata = {
@@ -11,7 +12,7 @@ export const metadata: Metadata = {
     description: t.meta.description,
     siteName: "Diesis",
     locale: "es_ES",
-    images: [{ url: "/og-es.png?v=4", width: 1200, height: 630 }],
+    images: [{ url: `/og-es.png?v=${CARD_VERSION}`, width: 1200, height: 630 }],
   },
   alternates: { canonical: "/es", languages: { en: "/", es: "/es", "x-default": "/" } },
 };

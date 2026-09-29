@@ -1,5 +1,7 @@
-// The link-preview card (1200×630): the game itself. A question, the neck with one spot lit,
-// the seven natural-note buttons with the right one green, and the wordmark in the corner.
+// The link-preview cards (1200×630). The default card is the game itself: a question, the neck
+// with one spot lit, the seven natural-note buttons with the right one green, and the wordmark in
+// the corner. Every tool has its own card in the same frame (its name, one line, the wordmark)
+// over a drawing of the tool, so a shared /practice/metronome link previews the metronome.
 // Rendered by tools/icons.mjs through next/og (satori). Fonts in tools/fonts are Fraunces and
 // Geist, both SIL Open Font License, as static TTFs (satori takes no woff2 or variable fonts).
 // Colors mirror design/tokens.json; the neck geometry mirrors components/fretboard.tsx.
@@ -15,14 +17,45 @@ const fonts = [font('Fraunces', 'Fraunces-600.ttf', 600), font('Geist', 'Geist-4
 
 const c = {
   bg: '#14120f', raised: '#2e2a24', border: '#3a352d', ink: '#f3efe6', muted: '#a39c8e', accent: '#e0a63a',
-  correct: '#4caf6b', wood: '#5a3a2b', woodEdge: '#3d271c', fret: '#8f8a80', fretShadow: '#3d2f26',
+  correct: '#4caf6b', note: '#efe9dc', wood: '#5a3a2b', woodEdge: '#3d271c', fret: '#8f8a80', fretShadow: '#3d2f26',
   nut: '#e9e2cf', string: '#f4f1e8', stringWound: '#d6b98a', stringShadow: '#1f150f', inlay: '#e8e2d3', markInk: '#14120f',
 };
 
+// No-break spaces: satori spaces some Geist words unevenly with plain ones.
+const nb = (s) => s.replaceAll(' ', ' ');
+
+/** The default card, and the tool cards' name and one line; the tools' copy mirrors lib/i18n.ts. */
 const copy = {
-  en: { question: 'Which note is it?', tagline: 'Everything you need to master the guitar.', names: ['C', 'D', 'E', 'F', 'G', 'A', 'B'] },
-  es: { question: '¿Qué nota es?', tagline: 'Todo lo que necesitas para dominar la guitarra.', names: ['Do', 'Re', 'Mi', 'Fa', 'Sol', 'La', 'Si'] },
+  en: {
+    question: 'Which note is it?', tagline: 'Everything you need to master the guitar.', names: ['C', 'D', 'E', 'F', 'G', 'A', 'B'],
+    strings: ['E', 'B', 'G', 'D', 'A', 'E'], root: 'A', scale: 'Minor pentatonic', speed: 'Speed up', onTime: 'On time', keys: ['A', 'S', 'D', 'F'],
+    tracks: [['Blues in A', 'A blues scale'], ['Rock in E minor', 'E minor pentatonic'], ['Funk in E', 'E dorian']],
+    tools: {
+      'find-the-note': ['Find the note', 'You get a name. Tap every place it lives.'],
+      neck: ['The neck', 'Any scale on any root, across the whole fretboard.'],
+      metronome: ['Metronome', '20 to 300 BPM, odd meters, tap tempo, Speed up.'],
+      'backing-tracks': ['Backing tracks', 'Jam over tracks in every style, key and scale shown.'],
+      fingers: ['Finger independence', 'Four dots, one per finger. Hit the lit one on the click.'],
+      strings: ['Strings and setup', 'Tension per string, a balanced set, your setup numbers.'],
+    },
+  },
+  es: {
+    question: '¿Qué nota es?', tagline: 'Todo lo que necesitas para dominar la guitarra.', names: ['Do', 'Re', 'Mi', 'Fa', 'Sol', 'La', 'Si'],
+    strings: ['Mi', 'Si', 'Sol', 'Re', 'La', 'Mi'], root: 'La', scale: 'Pentatónica menor', speed: 'Subida de tempo', onTime: 'A tiempo', keys: ['A', 'S', 'D', 'F'],
+    tracks: [['Blues en La', 'escala de blues de La'], ['Rock en La menor', 'pentatónica menor de La'], ['Funk en Mi', 'Mi dórico']],
+    tools: {
+      'find-the-note': ['Encuentra la nota', 'Te dan una nota. Tócala en todos los sitios donde esté.'],
+      neck: ['El mástil', 'Cualquier escala sobre cualquier tónica, por todo el mástil.'],
+      metronome: ['Metrónomo', 'De 20 a 300 BPM, amalgamas, tap tempo y subida de tempo.'],
+      'backing-tracks': ['Backing tracks', 'Bases de todos los estilos, con su tonalidad y su escala.'],
+      fingers: ['Independencia de dedos', 'Cuatro puntos, uno por dedo. Pulsa el encendido en el clic.'],
+      strings: ['Cuerdas y ajuste', 'La tensión de cada cuerda, un juego equilibrado y tu ajuste.'],
+    },
+  },
 };
+
+/** The cards besides the default one, by name: `public/og/<name>-<lang>.png`. */
+export const TOOL_CARDS = Object.keys(copy.en.tools);
 
 function mark(size, delta) {
   return h('svg', { width: size, height: size, viewBox: '0 0 1024 1024' },
@@ -41,10 +74,32 @@ function wordmark(size, delta) {
     h('span', { style: { lineHeight: 1.2 } }, 'iesis'));
 }
 
-const fretDistance = (n) => 1 - Math.pow(2, -n / 12);
+/** The card's top: a title and one line on the left, the mark and wordmark on the right. */
+function header(title, line, delta) {
+  return h('div', { style: { display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' } },
+    h('div', { style: { display: 'flex', flexDirection: 'column' } },
+      h('div', { style: { fontFamily: 'Fraunces', fontWeight: 600, fontSize: 64, lineHeight: 1.1 } }, title),
+      h('div', { style: { fontSize: 30, color: c.muted, marginTop: 8 } }, nb(line))),
+    h('div', { style: { display: 'flex', alignItems: 'center', gap: 14, marginTop: 10 } }, mark(52, delta), wordmark(44, delta)));
+}
 
-/** Frets 0–maxFret, string 1 at the top, one amber spot at the asked position. */
-function neck(w, ht, maxFret, asked) {
+const page = (...rows) => h('div', { style: { width: 1200, height: 630, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: '50px 64px 54px', background: c.bg, color: c.ink, fontFamily: 'Geist' } }, ...rows);
+
+const chip = (text, { fill = c.raised, ink = c.ink, border = c.border, size = 30 } = {}) =>
+  h('div', { style: { display: 'flex', alignItems: 'center', height: size * 1.9, padding: `0 ${size * 0.8}px`, borderRadius: 999, background: fill, color: ink, border: `2px solid ${border}`, fontSize: size, fontWeight: 600 } }, nb(text));
+
+const fretDistance = (n) => 1 - Math.pow(2, -n / 12);
+/** Standard tuning, string 1 to 6, as MIDI. */
+const OPEN = [64, 59, 55, 50, 45, 40];
+/** Every place of a pitch class in frets 0–maxFret. */
+const positions = (pc, maxFret) =>
+  OPEN.flatMap((open, i) => Array.from({ length: maxFret + 1 }, (_, fret) => fret).filter((fret) => (open + fret) % 12 === pc).map((fret) => ({ string: i + 1, fret })));
+
+/**
+ * Frets 0–maxFret, string 1 at the top, with marks: `{ string, fret, state, label? }`, state
+ * "asking" (amber, ringed), "correct" (green, ringed), "root" (amber) or "note" (cream).
+ */
+function neck(w, ht, maxFret, marks, spot) {
   const inset = ht * 0.12, gap = (ht - inset * 2) / 5, openZone = 56;
   const scale = (w - openZone) / fretDistance(maxFret);
   const fx = (n) => openZone + fretDistance(n) * scale;
@@ -52,7 +107,8 @@ function neck(w, ht, maxFret, asked) {
   const sy = (s) => inset + (s - 1) * gap;
   const gauges = [1.2, 1.5, 1.9, 2.4, 3.0, 3.6].map((g) => g * 1.8);
   const kids = [h('rect', { x: openZone, y: 0, width: w - openZone, height: ht, fill: c.wood, stroke: c.woodEdge, strokeWidth: 2, rx: 3 })];
-  for (const n of [3, 5, 7]) if (n <= maxFret) kids.push(h('circle', { cx: cx(n), cy: (sy(3) + sy(4)) / 2, r: gap * 0.26, fill: c.inlay, opacity: 0.9 }));
+  for (const n of [3, 5, 7, 9]) if (n <= maxFret) kids.push(h('circle', { cx: cx(n), cy: (sy(3) + sy(4)) / 2, r: gap * 0.26, fill: c.inlay, opacity: 0.9 }));
+  if (maxFret >= 12) for (const s of [2, 5]) kids.push(h('circle', { cx: cx(12), cy: (sy(s) + sy(s + 1)) / 2, r: gap * 0.26, fill: c.inlay, opacity: 0.9 }));
   kids.push(h('rect', { x: openZone - 5, y: -2, width: 12, height: ht + 4, fill: c.nut, rx: 2 }));
   for (let n = 1; n <= maxFret; n++) {
     kids.push(h('line', { x1: fx(n) + 1.5, y1: 0, x2: fx(n) + 1.5, y2: ht, stroke: c.fretShadow, strokeWidth: 3.4 }));
@@ -63,33 +119,109 @@ function neck(w, ht, maxFret, asked) {
     kids.push(h('line', { x1: 0, y1: sy(s) + g * 0.6, x2: w, y2: sy(s) + g * 0.6, stroke: c.stringShadow, strokeWidth: g }));
     kids.push(h('line', { x1: 0, y1: sy(s), x2: w, y2: sy(s), stroke: s >= 4 ? c.stringWound : c.string, strokeWidth: g }));
   }
-  const r = 28, ring = 7;
+  // Spots shrink on a long neck so they stay inside the last fret; `spot` sets their radius outright.
+  const r = spot ?? Math.min(ht * 0.112, (fx(maxFret) - fx(maxFret - 1)) * 0.42), ring = r / 4;
+  const spots = marks.map((m) => {
+    const fill = m.state === 'correct' ? c.correct : m.state === 'note' ? c.note : c.accent;
+    const ringed = m.state === 'asking' || m.state === 'correct';
+    return h('div', { key: `${m.string}-${m.fret}`, style: {
+      position: 'absolute', left: cx(m.fret) - r - ring, top: sy(m.string) - r - ring, width: (r + ring) * 2, height: (r + ring) * 2,
+      borderRadius: 999, border: `3px solid ${ringed ? fill + '99' : 'transparent'}`, display: 'flex', alignItems: 'center', justifyContent: 'center' } },
+      h('div', { style: { width: r * 2, height: r * 2, borderRadius: 999, background: fill, display: 'flex', alignItems: 'center', justifyContent: 'center', color: c.markInk, fontSize: r * 1.05, fontWeight: 600 } },
+        ...(m.label ? [m.label] : [])));
+  });
   return h('div', { style: { position: 'relative', display: 'flex', width: w, height: ht } },
-    h('svg', { width: w, height: ht, viewBox: `0 0 ${w} ${ht}` }, ...kids),
-    h('div', { style: {
-      position: 'absolute', left: cx(asked.fret) - r - ring, top: sy(asked.string) - r - ring, width: (r + ring) * 2, height: (r + ring) * 2,
-      borderRadius: 999, border: `3px solid ${c.accent}99`, display: 'flex', alignItems: 'center', justifyContent: 'center' } },
-      h('div', { style: { width: r * 2, height: r * 2, borderRadius: 999, background: c.accent } })));
+    h('svg', { width: w, height: ht, viewBox: `0 0 ${w} ${ht}` }, ...kids), ...spots);
 }
 
-function card(lang, delta) {
-  const t = copy[lang];
-  return h('div', { style: { width: 1200, height: 630, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: '50px 64px 54px', background: c.bg, color: c.ink, fontFamily: 'Geist' } },
-    h('div', { style: { display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' } },
-      h('div', { style: { display: 'flex', flexDirection: 'column' } },
-        h('div', { style: { fontFamily: 'Fraunces', fontWeight: 600, fontSize: 64, lineHeight: 1.1 } }, t.question),
-        // No-break spaces: satori spaces some Geist words unevenly with plain ones.
-        h('div', { style: { fontSize: 32, color: c.muted, marginTop: 8 } }, t.tagline.replaceAll(' ', '\u00a0'))),
-      h('div', { style: { display: 'flex', alignItems: 'center', gap: 14, marginTop: 10 } }, mark(52, delta), wordmark(44, delta))),
-    h('div', { style: { display: 'flex' } }, neck(1072, 250, 7, { string: 2, fret: 1 })),
+/** The default card: Name the note, first position. */
+function nameTheNote(t, delta) {
+  return page(
+    header(t.question, t.tagline, delta),
+    h('div', { style: { display: 'flex' } }, neck(1072, 250, 7, [{ string: 2, fret: 1, state: 'asking' }])),
     h('div', { style: { display: 'flex', gap: 14 } },
       ...t.names.map((n, i) => h('div', { key: n, style: {
         flex: 1, height: 92, borderRadius: 18, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 40, fontWeight: 600,
         background: i === 0 ? c.correct : c.raised, color: i === 0 ? c.markInk : c.ink, border: `2px solid ${i === 0 ? c.correct : c.border}` } }, n))));
 }
 
-/** PNG bytes of the card in one language. `delta` is the δ outline from public/favicon.svg. */
-export async function ogCard(lang, delta) {
-  const res = new ImageResponse(card(lang, delta), { width: 1200, height: 630, fonts });
+/** Find the note: every C in frets 0–12, found. */
+function findTheNote(t) {
+  const marks = positions(0, 12).map((p) => ({ ...p, state: 'correct', label: t.names[0] }));
+  return h('div', { style: { display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 22 } },
+    neck(1072, 270, 12, marks, 22),
+    h('div', { style: { display: 'flex', gap: 14 } },
+      ...t.names.map((n, i) => chip(n, i === 0 ? { fill: c.correct, ink: c.markInk, border: c.correct, size: 28 } : { size: 28 }))));
+}
+
+/** The neck: A minor pentatonic over frets 0–12, root in amber. */
+function theNeck(t) {
+  const marks = [[9, 'root'], [0, 'note'], [2, 'note'], [4, 'note'], [7, 'note']].flatMap(([pc, state]) => positions(pc, 12).map((p) => ({ ...p, state })));
+  return h('div', { style: { display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 22 } },
+    neck(1072, 270, 12, marks, 15),
+    h('div', { style: { display: 'flex', gap: 14 } }, chip(t.root, { fill: c.accent, ink: c.markInk, border: c.accent, size: 28 }), chip(t.scale, { size: 28 })));
+}
+
+/** Metronome: the tempo, its marking, the beat dots with the one lit, and the chips. */
+function metronome(t) {
+  const dot = (lit) => h('div', { style: { width: 44, height: 44, borderRadius: 999, background: lit ? c.accent : c.raised, border: `2px solid ${lit ? c.accent : c.border}` } });
+  return h('div', { style: { display: 'flex', alignItems: 'center', gap: 72 } },
+    h('div', { style: { display: 'flex', flexDirection: 'column', alignItems: 'center' } },
+      h('div', { style: { display: 'flex', alignItems: 'baseline', gap: 16 } },
+        h('div', { style: { fontFamily: 'Fraunces', fontWeight: 600, fontSize: 210, lineHeight: 1 } }, '120'),
+        h('div', { style: { fontSize: 36, color: c.muted, fontWeight: 600 } }, 'BPM')),
+      h('div', { style: { fontSize: 36, color: c.muted, marginTop: 4 } }, 'Allegro')),
+    h('div', { style: { display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 30 } },
+      h('div', { style: { display: 'flex', gap: 22 } }, dot(true), dot(false), dot(false), dot(false)),
+      h('div', { style: { display: 'flex', gap: 14 } }, chip('4/4', { size: 28 }), chip(t.speed, { fill: c.accent, ink: c.markInk, border: c.accent, size: 28 }))));
+}
+
+/** Backing tracks: three players, style and key on each. */
+function backingTracks(t) {
+  const player = ([name, scale]) => h('div', { key: name, style: { display: 'flex', flexDirection: 'column', width: 336, borderRadius: 22, background: c.raised, border: `2px solid ${c.border}`, overflow: 'hidden' } },
+    h('div', { style: { display: 'flex', alignItems: 'center', justifyContent: 'center', height: 190, background: '#1f1b16' } },
+      h('div', { style: { display: 'flex', alignItems: 'center', justifyContent: 'center', width: 84, height: 84, borderRadius: 999, background: c.accent } },
+        h('svg', { width: 34, height: 38, viewBox: '0 0 34 38' }, h('path', { d: 'M3 2 L32 19 L3 36 Z', fill: c.markInk })))),
+    h('div', { style: { display: 'flex', flexDirection: 'column', padding: '16px 22px 18px' } },
+      h('div', { style: { fontSize: 30, fontWeight: 600 } }, nb(name)),
+      h('div', { style: { fontSize: 24, color: c.muted, marginTop: 2 } }, nb(scale))));
+  return h('div', { style: { display: 'flex', gap: 32 } }, ...t.tracks.map(player));
+}
+
+/** Finger independence: four dots as the hand lies, the third due, the last tap on time. */
+function fingers(t) {
+  const dot = (n, lit, key) => h('div', { key: n, style: { display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 16 } },
+    h('div', { style: { display: 'flex', alignItems: 'center', justifyContent: 'center', width: 150, height: 150, borderRadius: 999, background: lit ? c.accent : c.raised, border: `3px solid ${lit ? c.accent : c.border}`, color: lit ? c.markInk : c.ink, fontFamily: 'Fraunces', fontWeight: 600, fontSize: 72 } }, String(n)),
+    h('div', { style: { fontSize: 28, color: c.muted, fontWeight: 600 } }, key));
+  return h('div', { style: { display: 'flex', alignItems: 'center', gap: 64 } },
+    h('div', { style: { display: 'flex', gap: 44 } }, ...[4, 3, 2, 1].map((n, i) => dot(n, n === 3, t.keys[i]))),
+    chip(t.onTime, { fill: c.correct, ink: c.markInk, border: c.correct, size: 30 }));
+}
+
+/** Strings and setup: a 10–46 set at 25.5″ in E standard, tension per string. */
+function stringsAndSetup(t) {
+  const set = [[10, 16.3], [13, 15.5], [17, 16.6], [26, 18.4], [36, 19.5], [46, 17.5]];
+  const row = ([g, lb], i) => h('div', { key: g, style: { display: 'flex', alignItems: 'center', gap: 22, height: 50 } },
+    h('div', { style: { width: 56, fontSize: 28, fontWeight: 600, color: c.muted } }, t.strings[i]),
+    h('div', { style: { width: 110, fontSize: 28, fontWeight: 600 } }, `.0${g}${i >= 3 ? 'w' : ''}`),
+    h('div', { style: { width: (lb / 21) * 660, height: 26, borderRadius: 999, background: i >= 3 ? c.stringWound : c.accent } }),
+    h('div', { style: { fontSize: 28, color: c.muted } }, `${lb.toFixed(1)} lb`));
+  return h('div', { style: { display: 'flex', flexDirection: 'column', width: 1072 } }, ...set.map(row));
+}
+
+const drawings = { 'find-the-note': findTheNote, neck: theNeck, metronome, 'backing-tracks': backingTracks, fingers, strings: stringsAndSetup };
+
+/** A tool card: the tool's name and line over its drawing. */
+function toolCard(t, delta, tool) {
+  const [title, line] = t.tools[tool];
+  return page(
+    header(title, line, delta),
+    h('div', { style: { display: 'flex', flex: 1, alignItems: 'center', justifyContent: 'center', marginTop: 24 } }, drawings[tool](t)));
+}
+
+/** PNG bytes of a card in one language: the default (no tool) or one of `TOOL_CARDS`. `delta` is the δ outline from public/favicon.svg. */
+export async function ogCard(lang, delta, tool) {
+  const t = copy[lang];
+  const res = new ImageResponse(tool ? toolCard(t, delta, tool) : nameTheNote(t, delta), { width: 1200, height: 630, fonts });
   return Buffer.from(await res.arrayBuffer());
 }
