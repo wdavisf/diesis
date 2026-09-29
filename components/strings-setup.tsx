@@ -54,21 +54,7 @@ function Section({ title, lede, children }: { title: string; lede?: string; chil
 /** Picture per entry of `strings.setup.gear`, in the same order (public/gear). */
 const GEAR_IMAGES = ["ruler", "feeler", "winder", "tuner"];
 
-/** An Amazon.es search link with the affiliate tag: a new tab, marked sponsored. */
-function Shop({ href, children, className }: { href: string; children: ReactNode; className?: string }) {
-  return (
-    <a
-      href={href}
-      target="_blank"
-      rel="sponsored noopener"
-      className={cn("inline-flex items-center gap-1.5 rounded-lg border border-line px-3 py-2 text-sm font-medium text-ink transition-colors hover:bg-surface-raised", className)}
-    >
-      {children} <ExternalLink className="size-3.5 text-dim" aria-hidden />
-    </a>
-  );
-}
-
-/** A product as a card: picture, name, a new tab to Amazon.es. Same link rules as `Shop`. */
+/** A product as a card: picture, name, a new tab to Amazon.es. An Amazon.es search link with the affiliate tag: a new tab, marked sponsored. */
 function ShopCard({ href, image, children, className }: { href: string; image: string; children: ReactNode; className?: string }) {
   return (
     <a
