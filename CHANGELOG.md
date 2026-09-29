@@ -3,6 +3,12 @@
 Written for the people using it, not for the code. Newest first. Version matches
 `package.json`.
 
+## 0.21.1 — 29 September 2026, guitar pictures
+
+- Strings and setup: each guitar type now has a picture on its card, so you can tell a
+  Strat-style from a superstrat, a seven-string from an eight, or a steel-string from a
+  classical at a glance. They are illustrations, not photos of real instruments.
+
 ## 0.21.0 — 28 September 2026, finger independence
 
 - New in Practice: **Finger independence.** Four dots, one per finger, and a click. On every

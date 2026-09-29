@@ -268,8 +268,12 @@ Todoist project records what is still to do.
   Core `lib/core/strings.ts`, storage `diesis_strings` (`lib/game/use-strings.ts`). No octave
   numbers on note names (EN and ES count octaves differently). The guitar type is picked from
   text cards (name, scale, strings). Hand-drawn SVG silhouettes were tried and rejected by Will
-  (2026-09-26, "qué basura"): do not draw guitars in code. Will is sending photos of each type;
-  when they come, they go on these cards.
+  (2026-09-26, "qué basura"): do not draw guitars in code. Pictures (2026-09-29, Will: "generate pics using the OpenAI
+  connector for each guitar"): `public/guitars/<id>.webp`, generic studio shots made with OpenAI
+  `gpt-image-2` by `tools/gen-guitars.mjs` (key from `.env.local` or Akoe's `app/Secrets.xcconfig`;
+  writes only missing files, `--all` or ids to redo), prompts describe shapes with no maker names.
+  Illustrations, not real instruments; real photos can replace them. A new type needs an entry in
+  the script's `TYPES`.
 - **Amazon affiliate links (Will, 2026-09-26; store id `willdafer-21`, Amazon.es).** Search
   links, not product links (`amazonSearch` in `lib/core/shop.ts`): no per-product codes, never
   stale. Today only in Setup → Strings and setup: "Find {set} strings on Amazon.es" for the

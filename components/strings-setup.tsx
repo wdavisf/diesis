@@ -1,6 +1,7 @@
 "use client";
 
 import type { ReactNode } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { ExternalLink, Sparkles } from "lucide-react";
 import { namesFor, pitchClassOf, STRING_COUNTS, tuningsFor } from "@/lib/core/notes";
@@ -134,6 +135,14 @@ export function StringsSetup({ t, tp, lang, base }: { t: Strings["setup"]; tp: S
                   on ? "border-amber bg-amber/10" : "border-line hover:bg-surface",
                 )}
               >
+                <Image
+                  src={`/guitars/${g.id}.webp`}
+                  alt=""
+                  width={720}
+                  height={1080}
+                  sizes="(min-width: 640px) 200px, 45vw"
+                  className="mb-2 h-40 w-full rounded-lg bg-[#1a1a1a] object-contain sm:h-48"
+                />
                 <span className={cn("text-sm font-medium", on ? "text-amber-text" : "text-ink")}>{t.types[g.id]}</span>
                 <span className="mt-0.5 text-xs text-dim tabular-nums">{t.typeSpec.replace("{scale}", String(g.scale).replace(".", t.decimal)).replace("{n}", String(g.strings))}</span>
               </button>
