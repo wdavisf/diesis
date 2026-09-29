@@ -3,6 +3,15 @@
 Written for the people using it, not for the code. Newest first. Version matches
 `package.json`.
 
+## 0.23.1 — 29 September 2026, a shorter, better laid-out strings page
+
+- Strings and setup: the guitar picker is two short rows with each guitar lying flat and
+  filling its card, instead of tall cards.
+- String tension now sits beside the setup numbers, and "After a string change" is a wide
+  section below with big pictures, three steps to a row.
+- The seven-string and eight-string pictures had too many tuners; they now show seven and
+  eight.
+
 ## 0.23.0 — 29 September 2026, strings to try
 
 - Strings and setup: under the tension bars you now get real string sets that match the

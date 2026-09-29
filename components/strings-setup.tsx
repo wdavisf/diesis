@@ -118,7 +118,7 @@ export function StringsSetup({ t, tp, lang, base }: { t: Strings["setup"]; tp: S
       <div className="mt-5">
         <h3 className="text-sm font-semibold">{t.picksTitle}</h3>
         <p className="mt-0.5 text-xs text-dim">{t.picksNote}</p>
-        <div className="mt-3 grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-3 grid grid-cols-1 gap-2 sm:grid-cols-2">
           {picks.map((p) => (
             <ShopCard key={p.name} href={amazonSearch(p.name)} image="strings">
               <span className="block">{p.name}</span>
@@ -140,7 +140,7 @@ export function StringsSetup({ t, tp, lang, base }: { t: Strings["setup"]; tp: S
 
       <Section title={t.guitar} lede={t.guitarLede}>
         <p className="text-sm font-medium text-dim">{t.type}</p>
-        <div role="radiogroup" aria-label={t.type} className="mt-1.5 flex gap-2 overflow-x-auto pb-1 sm:flex-wrap sm:overflow-visible">
+        <div role="radiogroup" aria-label={t.type} className="mt-1.5 grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-6">
           {GUITAR_TYPES.map((g) => {
             const on = g.id === type.id;
             return (
@@ -154,19 +154,25 @@ export function StringsSetup({ t, tp, lang, base }: { t: Strings["setup"]; tp: S
                   if (g.strings !== count) guitar.setTuning(tuningsFor(g.strings)[0].id);
                 }}
                 className={cn(
-                  "flex w-28 shrink-0 flex-col items-center rounded-xl border px-2 py-2 text-center outline-none transition-colors focus-visible:ring-3 focus-visible:ring-ring/50",
-                  on ? "border-amber bg-amber/10" : "border-line hover:bg-surface",
+                  "group relative aspect-[3/2] min-w-0 overflow-hidden rounded-xl border bg-[#1a1a1a] text-left outline-none transition-[border-color,transform] focus-visible:ring-3 focus-visible:ring-ring/50 active:scale-[0.98] motion-reduce:transition-none",
+                  on ? "border-amber ring-2 ring-amber/60" : "border-line hover:border-dim",
                 )}
               >
                 <Image
-                  src={`/guitars/${g.id}.webp`}
+                  src={`/guitar-types/${g.id}.webp`}
                   alt=""
-                  width={720}
-                  height={1080}
-                  sizes="112px"
-                  className="mb-1.5 h-24 w-full object-contain [mask-image:radial-gradient(ellipse_60%_55%_at_center,#000_55%,transparent_100%)]"
+                  fill
+                  sizes="(min-width: 1024px) 180px, (min-width: 640px) 33vw, 50vw"
+                  className="object-cover transition-transform duration-300 group-hover:scale-[1.03] motion-reduce:transition-none"
                 />
-                <span className={cn("text-xs font-medium leading-tight", on ? "text-amber-text" : "text-ink")}>{t.types[g.id]}</span>
+                <span
+                  className={cn(
+                    "absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/85 via-black/50 to-transparent px-2.5 pb-1.5 pt-6 text-xs font-medium leading-tight",
+                    on ? "text-amber-text" : "text-ink",
+                  )}
+                >
+                  {t.types[g.id]}
+                </span>
               </button>
             );
           })}
@@ -225,6 +231,7 @@ export function StringsSetup({ t, tp, lang, base }: { t: Strings["setup"]; tp: S
         </p>
       </Section>
 
+      <div className="grid grid-cols-1 items-start gap-5 lg:grid-cols-2">
       <Section title={t.tension} lede={type.nylon ? undefined : t.tensionLede}>
         {type.nylon ? (
           <>
@@ -307,7 +314,6 @@ export function StringsSetup({ t, tp, lang, base }: { t: Strings["setup"]; tp: S
         )}
       </Section>
 
-      <div className="grid grid-cols-1 items-start gap-5 lg:grid-cols-2">
       <Section title={t.setupTitle} lede={t.setupLede.replace("{type}", t.types[type.id])}>
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
           <Figure label={t.actionBass} mm={mmIn(s.actionBass)} sub={inSub(s.actionBass)} />
@@ -333,30 +339,31 @@ export function StringsSetup({ t, tp, lang, base }: { t: Strings["setup"]; tp: S
         <p className="mt-2 text-xs text-dim">{t.affiliate}</p>
       </Section>
 
+      </div>
+
       <Section title={t.stepsTitle} lede={t.stepsLede}>
-        <ol className="flex flex-col gap-5">
+        <ol className="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-2 lg:grid-cols-3">
           {t.steps.map((step, i) => (
-            <li key={i} className="flex gap-3">
-              <span className="flex size-7 shrink-0 items-center justify-center rounded-full bg-amber/15 text-sm font-semibold text-amber-text">{i + 1}</span>
-              <div className="flex min-w-0 flex-1 flex-col gap-3 sm:flex-row sm:items-start sm:gap-4">
-                <div className="min-w-0 flex-1">
-                  <p className="font-medium">{step.title}</p>
-                  <p className="mt-0.5 text-sm text-dim">{step.body}</p>
+            <li key={i} className="flex flex-col gap-3">
+              <Image
+                src={`/steps/step${i + 1}.webp`}
+                alt=""
+                width={720}
+                height={480}
+                sizes="(min-width: 1024px) 380px, (min-width: 640px) 45vw, 90vw"
+                className="aspect-[3/2] w-full rounded-xl bg-[#1a1a1a] object-cover"
+              />
+              <div className="flex gap-3">
+                <span className="flex size-8 shrink-0 items-center justify-center rounded-full bg-amber/15 text-sm font-semibold text-amber-text">{i + 1}</span>
+                <div>
+                  <p className="text-lg font-medium leading-snug">{step.title}</p>
+                  <p className="mt-1 text-sm text-dim">{step.body}</p>
                 </div>
-                <Image
-                  src={`/steps/step${i + 1}.webp`}
-                  alt=""
-                  width={720}
-                  height={480}
-                  sizes="160px"
-                  className="h-28 w-full shrink-0 rounded-xl bg-[#1a1a1a] object-cover sm:h-24 sm:w-36"
-                />
               </div>
             </li>
           ))}
         </ol>
       </Section>
-      </div>
     </main>
   );
 }

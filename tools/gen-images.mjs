@@ -1,7 +1,8 @@
-// Generates the site's illustrations with OpenAI gpt-image-2: guitar types (public/guitars/),
+// Generates the site's illustrations with OpenAI gpt-image-2: guitar types (public/guitar-types/),
 // setup gear (public/gear/) and the string-change steps (public/steps/).
 // Key: OPENAI_API_KEY in the environment or .env.local, else Akoe's app/Secrets.xcconfig.
-// Only writes missing files; `--all` redoes all, or pass ids: node tools/gen-images.mjs strat tele step1
+// Guitars are drawn upright and saved turned to lie flat, headstock left (the picker cards are
+// landscape). Only writes missing files; `--all` redoes all, or pass ids: node tools/gen-images.mjs strat tele step1
 import fs from "node:fs";
 import path from "node:path";
 import sharp from "sharp";
@@ -53,7 +54,7 @@ const STEPS = {
 };
 
 const SETS = [
-  { dir: "guitars", size: "1024x1536", width: 720, style: GUITAR_STYLE, items: GUITARS },
+  { dir: "guitar-types", size: "1024x1536", width: 720, rotate: -90, style: GUITAR_STYLE, items: GUITARS },
   { dir: "gear", size: "1024x1024", width: 480, style: GEAR_STYLE, items: GEAR },
   { dir: "steps", size: "1536x1024", width: 720, style: STEP_STYLE, items: STEPS },
 ];
@@ -79,7 +80,7 @@ for (const set of SETS) {
     if (!res.ok) throw new Error(`${id}: ${res.status} ${JSON.stringify(json.error ?? json)}`);
     const b64 = json.data[0].b64_json;
     const buf = b64 ? Buffer.from(b64, "base64") : Buffer.from(await (await fetch(json.data[0].url)).arrayBuffer());
-    await sharp(buf).resize({ width: set.width }).webp({ quality: 82 }).toFile(file);
+    await sharp(buf).resize({ width: set.width }).rotate(set.rotate ?? 0).webp({ quality: 82 }).toFile(file);
     console.log("wrote", id);
   }
 }
