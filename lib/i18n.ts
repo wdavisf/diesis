@@ -53,6 +53,8 @@ export interface Strings {
     feel: Record<"slack" | "balanced" | "tight", string>; total: string; estimate: string;
     setupTitle: string; setupLede: string; actionBass: string; actionTreble: string; relief: string; radius: string; flat: string;
     pickupBass: string; pickupTreble: string; setupNote: string; stepsTitle: string; stepsLede: string; steps: { title: string; body: string }[];
+    /** Steps that differ on a steel-string acoustic (no pickups, a fixed saddle) and on a nylon-string classical (no truss rod either), by step index in `steps`; null drops the step. */
+    stepVariants: { acoustic: Record<number, { title: string; body: string } | null>; nylon: Record<number, { title: string; body: string } | null> };
     /** Amazon.es links (lib/core/shop.ts). {set} a set name like "10-46", {n} a string count. */
     /** Target chips on steps 2–4: {v} is filled with the number for the chosen guitar. */
     aim: { relief: string; action: string; pickups: string };
@@ -400,9 +402,24 @@ const en: Strings = {
       { title: "Set the intonation", body: "Tune the open string, then play it at the 12th fret. Sharp: move the saddle away from the neck. Flat: towards it. Retune after every move, string by string." },
       { title: "Tune and play", body: "A new setup settles over a day or two. Check the tuning and the relief again after that." },
     ],
+    stepVariants: {
+      acoustic: {
+        2: { title: "Set the action", body: "At the 12th fret, from the top of the fret to the bottom of the string. Too high: sand the underside of the saddle, twice what you want to lose at the 12th fret. Too low: a shim under the saddle. Then play where you play most: no buzz." },
+        3: null,
+        4: { title: "Check the intonation", body: "Tune the open string, then play it at the 12th fret. The saddle is compensated at the factory and there is nothing to move; if a string plays clearly sharp or flat with fresh strings, the saddle needs reshaping, a job for a luthier." },
+      },
+      nylon: {
+        0: { title: "Stretch the new strings", body: "Nylon stretches for days. Tune up, pull each string gently along its length, retune, and do it again each time you pick the guitar up until it holds pitch." },
+        1: { title: "Check the relief", body: "Fret the low string at the 1st fret and at the 12th; the gap at the 6th–7th fret is the relief. Most classical guitars have no truss rod, so the relief is built in: if it is far off, that is a luthier's job." },
+        2: { title: "Set the action", body: "At the 12th fret, from the top of the fret to the bottom of the string. Too high: sand the underside of the saddle, twice what you want to lose at the 12th fret. Too low: a shim under the saddle. Then play where you play most: no buzz." },
+        3: null,
+        4: { title: "Check the intonation", body: "Tune the open string, then play it at the 12th fret. The saddle is fixed; if a string plays clearly sharp or flat once the strings have settled, the saddle needs reshaping, a job for a luthier." },
+        5: { title: "Tune and play", body: "New nylon strings settle over a week. Check the tuning often, and the relief again after that." },
+      },
+    },
     aim: { relief: "Aim for {v}", action: "Aim for {bass} on the low strings, {treble} on the high", pickups: "Aim for {bass} on the bass side, {treble} on the treble side" },
     picksTitle: "Strings to try",
-    picksNote: "Real sets at exactly these gauges. Check the gauges on the pack before you buy.",
+    picksNote: "Real sets at exactly these gauges. Check the gauges on the pack before you buy; the pictures are illustrations, not the makers' packs.",
     picks: { nickel: "Nickel-plated steel: the usual choice", coated: "Coated: lasts longer, costs more", bronze: "Phosphor bronze: the usual acoustic sound", normal: "Normal tension", hard: "Hard tension" },
     buy: "Find {set} strings on Amazon.es",
     buyNylon: "Find classical strings on Amazon.es",
@@ -876,9 +893,24 @@ const es: Strings = {
       { title: "Ajusta la octavación", body: "Afina la cuerda al aire y tócala en el traste 12. Si sale alta, aleja la selleta del mástil; si sale baja, acércala. Vuelve a afinar después de cada cambio, cuerda a cuerda." },
       { title: "Afina y toca", body: "Un ajuste nuevo se asienta en un día o dos. Revisa después la afinación y la curvatura." },
     ],
+    stepVariants: {
+      acoustic: {
+        2: { title: "Ajusta la altura de las cuerdas", body: "En el traste 12, desde lo alto del traste hasta la parte de abajo de la cuerda. Si está alta, lija la base de la selleta el doble de lo que quieras bajar en el traste 12; si está baja, pon una lámina debajo. Luego toca donde más tocas: sin trastear." },
+        3: null,
+        4: { title: "Comprueba la octavación", body: "Afina la cuerda al aire y tócala en el traste 12. La selleta viene compensada de fábrica y no hay nada que mover; si con cuerdas nuevas una cuerda sale claramente alta o baja, hay que retocar la selleta: trabajo de luthier." },
+      },
+      nylon: {
+        0: { title: "Estira las cuerdas nuevas", body: "El nailon se estira durante días. Afina, tira con suavidad de cada cuerda a lo largo, vuelve a afinar y repítelo cada vez que cojas la guitarra hasta que aguante la afinación." },
+        1: { title: "Mira la curvatura", body: "Pisa la cuerda grave en el traste 1 y en el 12; el hueco en el traste 6 o 7 es la curvatura. Casi ninguna clásica tiene alma, así que la curvatura viene de fábrica: si está muy lejos, es cosa de un luthier." },
+        2: { title: "Ajusta la altura de las cuerdas", body: "En el traste 12, desde lo alto del traste hasta la parte de abajo de la cuerda. Si está alta, lija la base de la selleta el doble de lo que quieras bajar en el traste 12; si está baja, pon una lámina debajo. Luego toca donde más tocas: sin trastear." },
+        3: null,
+        4: { title: "Comprueba la octavación", body: "Afina la cuerda al aire y tócala en el traste 12. La selleta es fija; si con las cuerdas ya asentadas una cuerda sale claramente alta o baja, hay que retocar la selleta: trabajo de luthier." },
+        5: { title: "Afina y toca", body: "Las cuerdas de nailon nuevas tardan una semana en asentarse. Afina a menudo y revisa después la curvatura." },
+      },
+    },
     aim: { relief: "Objetivo: {v}", action: "Objetivo: {bass} en las graves, {treble} en las agudas", pickups: "Objetivo: {bass} en el lado grave, {treble} en el lado agudo" },
     picksTitle: "Cuerdas para probar",
-    picksNote: "Juegos reales con estos mismos calibres. Mira los calibres del paquete antes de comprar.",
+    picksNote: "Juegos reales con estos mismos calibres. Mira los calibres del paquete antes de comprar; las imágenes son ilustraciones, no el paquete real de cada marca.",
     picks: { nickel: "Acero niquelado: la opción de siempre", coated: "Con recubrimiento: duran más, cuestan más", bronze: "Bronce fosforado: el sonido acústico de siempre", normal: "Tensión normal", hard: "Tensión alta" },
     buy: "Buscar cuerdas {set} en Amazon.es",
     buyNylon: "Buscar cuerdas de clásica en Amazon.es",

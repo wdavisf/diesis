@@ -278,7 +278,15 @@ Todoist project records what is still to do.
   writes only missing files, `--all` or ids to redo), prompts describe shapes with no maker names.
   AI pictures can miscount strings (the 7 and 8 string ones had to be redone, 2026-09-29): count the strings over the pickups on any new one. The folder was renamed (`guitars/`, `guitar-types/`, `guitar-cards/`, now `guitar-shots/`) whenever the pictures changed shape so Next's image cache could not serve old copies. Illustrations, not real instruments; real photos can replace them. A new type needs an entry in
   the script's `GUITARS`. The same script makes the gear pictures (`public/gear/`, one per Amazon link, in the
-  order of `strings.setup.gear`) and the six step pictures (`public/steps/stepN.webp`).
+  order of `strings.setup.gear`), the six step pictures (`public/steps/stepN.webp`, plus `step5-saddle` for
+  acoustics and classicals) and one pack illustration per suggested set (`public/picks/<id>.webp`, ids in
+  `lib/core/shop.ts`; Will 2026-09-29: "add their product image"). The packs are unbranded, in colours of
+  our own, and the page says they are illustrations: real product photos would need Amazon's Product
+  Advertising API, which opens only after three qualifying sales, so swap them in then.
+  **The steps after a string change follow the guitar type** (`stepVariants` in i18n, 2026-09-29): an
+  acoustic drops the pickup step, sets action by sanding or shimming the saddle and has nothing to move for
+  intonation (its own picture); a classical also stretches nylon for days, checks relief between the 1st
+  and 12th fret with no truss rod, and settles over a week. Electrics keep the six original steps.
 - **Amazon affiliate links (Will, 2026-09-26; store id `willdafer-21`, Amazon.es).** Search
   links, not product links (`amazonSearch` in `lib/core/shop.ts`): no per-product codes, never
   stale. Today only in Setup → Strings and setup: "Find {set} strings on Amazon.es" for the

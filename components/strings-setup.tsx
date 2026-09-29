@@ -51,14 +51,15 @@ function Section({ title, lede, children }: { title: string; lede?: string; chil
   );
 }
 
-/** Picture per step, in the order of `strings.setup.steps` (public/steps). Step 5 was redone with a new name so Next's image cache could not serve the old one. */
+/** Picture per step, in the order of `strings.setup.steps` (public/steps). Step 5 was redone with a new name so Next's image cache could not serve the old one; on an acoustic or a classical it shows the fixed saddle instead of a bridge screw. */
 const STEP_IMAGES = ["step1", "step2", "step3", "step4", "step5-rear-screw", "step6"];
+const SADDLE_IMAGE = "step5-saddle";
 
 /** Picture per entry of `strings.setup.gear`, in the same order (public/gear). */
 const GEAR_IMAGES = ["ruler", "feeler", "winder", "tuner"];
 
 /** A product as a card: picture, name, a new tab to Amazon.es. An Amazon.es search link with the affiliate tag: a new tab, marked sponsored. */
-function ShopCard({ href, image, children, className }: { href: string; image: string; children: ReactNode; className?: string }) {
+function ShopCard({ href, src, children, className }: { href: string; src: string; children: ReactNode; className?: string }) {
   return (
     <a
       href={href}
@@ -66,7 +67,7 @@ function ShopCard({ href, image, children, className }: { href: string; image: s
       rel="sponsored noopener"
       className={cn("group flex min-w-0 items-center gap-3 rounded-xl border border-line p-2 pr-3 text-sm font-medium text-ink transition-colors hover:bg-surface-raised", className)}
     >
-      <Image src={`/gear/${image}.webp`} alt="" width={480} height={480} sizes="72px" className="size-16 shrink-0 rounded-lg bg-[#1a1a1a] object-cover sm:size-[72px]" />
+      <Image src={src} alt="" width={480} height={480} sizes="72px" className="size-16 shrink-0 rounded-lg bg-[#1a1a1a] object-cover sm:size-[72px]" />
       <span className="min-w-0 flex-1">{children}</span>
       <ExternalLink className="size-3.5 shrink-0 text-dim" aria-hidden />
     </a>
@@ -123,7 +124,7 @@ export function StringsSetup({ t, tp, lang, base }: { t: Strings["setup"]; tp: S
         <p className="mt-0.5 text-xs text-dim">{t.picksNote}</p>
         <div className="mt-3 grid grid-cols-1 gap-2 sm:grid-cols-2">
           {picks.map((p) => (
-            <ShopCard key={p.name} href={amazonSearch(p.name)} image="strings">
+            <ShopCard key={p.id} href={amazonSearch(p.name)} src={`/picks/${p.id}.webp`}>
               <span className="block">{p.name}</span>
               <span className="block text-xs font-normal text-dim">{t.picks[p.kind]}</span>
             </ShopCard>
@@ -139,6 +140,12 @@ export function StringsSetup({ t, tp, lang, base }: { t: Strings["setup"]; tp: S
     3: s.pickupBass !== null && s.pickupTreble !== null ? t.aim.pickups.replace("{bass}", mmIn(s.pickupBass)).replace("{treble}", mmIn(s.pickupTreble)) : null,
   };
   const inSub = (v: number) => `${(v / 25.4).toFixed(3).replace(/^0/, "")}″`;
+  // Acoustics and classicals have no pickups and a fixed saddle (classicals mostly no truss rod either): their steps say so, and one step goes.
+  const acousticLike = !!type.nylon || type.id === "acoustic";
+  const variants = type.nylon ? t.stepVariants.nylon : type.id === "acoustic" ? t.stepVariants.acoustic : {};
+  const steps = t.steps
+    .map((step, i) => ({ step: i in variants ? variants[i] : step, image: i === 4 && acousticLike ? SADDLE_IMAGE : STEP_IMAGES[i], aim: aims[i] }))
+    .filter((x): x is { step: { title: string; body: string }; image: string; aim: string | null } => x.step !== null);
 
   return (
     <main className="mx-auto flex w-full max-w-6xl flex-1 flex-col gap-5 px-4 py-6 sm:py-10">
@@ -249,7 +256,7 @@ export function StringsSetup({ t, tp, lang, base }: { t: Strings["setup"]; tp: S
           <>
             <p className="text-dim">{t.nylon}</p>
             {picksList}
-            <ShopCard href={amazonSearch(t.query.nylon)} image="strings" className="mt-4 sm:max-w-sm">
+            <ShopCard href={amazonSearch(t.query.nylon)} src="/gear/strings.webp" className="mt-4 sm:max-w-sm">
               {t.buyNylon}
             </ShopCard>
             <p className="mt-2 text-xs text-dim">{t.affiliate}</p>
@@ -318,7 +325,7 @@ export function StringsSetup({ t, tp, lang, base }: { t: Strings["setup"]; tp: S
             </p>
             <p className="mt-2 text-xs text-dim">{t.estimate}</p>
             {picksList}
-            <ShopCard href={amazonSearch(stringsQuery)} image="strings" className="mt-5 sm:max-w-sm">
+            <ShopCard href={amazonSearch(stringsQuery)} src="/gear/strings.webp" className="mt-5 sm:max-w-sm">
               {t.buy.replace("{set}", setName(gauges).replace("-", "–"))}
             </ShopCard>
             <p className="mt-2 text-xs text-dim">{t.affiliate}</p>
@@ -343,7 +350,7 @@ export function StringsSetup({ t, tp, lang, base }: { t: Strings["setup"]; tp: S
         <h3 className="mt-6 text-sm font-semibold">{t.gearTitle}</h3>
         <div className="mt-3 grid grid-cols-1 gap-2 sm:grid-cols-2">
           {t.gear.map((g, i) => (
-            <ShopCard key={g.label} href={amazonSearch(g.query)} image={GEAR_IMAGES[i]}>
+            <ShopCard key={g.label} href={amazonSearch(g.query)} src={`/gear/${GEAR_IMAGES[i]}.webp`}>
               {g.label}
             </ShopCard>
           ))}
@@ -355,10 +362,10 @@ export function StringsSetup({ t, tp, lang, base }: { t: Strings["setup"]; tp: S
 
       <Section title={t.stepsTitle} lede={t.stepsLede}>
         <ol className="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-2 lg:grid-cols-3">
-          {t.steps.map((step, i) => (
-            <li key={i} className="flex flex-col gap-3">
+          {steps.map(({ step, image, aim }, i) => (
+            <li key={image} className="flex flex-col gap-3">
               <Image
-                src={`/steps/${STEP_IMAGES[i]}.webp`}
+                src={`/steps/${image}.webp`}
                 alt=""
                 width={720}
                 height={480}
@@ -370,7 +377,7 @@ export function StringsSetup({ t, tp, lang, base }: { t: Strings["setup"]; tp: S
                 <div>
                   <p className="text-lg font-medium leading-snug">{step.title}</p>
                   <p className="mt-1 text-sm text-dim">{step.body}</p>
-                  {aims[i] ? <p className="mt-2 inline-block rounded-lg border border-amber/40 bg-amber/10 px-2.5 py-1 text-sm font-semibold tabular-nums text-amber-text">{aims[i]}</p> : null}
+                  {aim ? <p className="mt-2 inline-block rounded-lg border border-amber/40 bg-amber/10 px-2.5 py-1 text-sm font-semibold tabular-nums text-amber-text">{aims[i]}</p> : null}
                 </div>
               </div>
             </li>

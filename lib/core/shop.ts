@@ -23,18 +23,20 @@ export function setName(gauges: readonly number[]): string {
 /** Why a pick is on the list; the wording is in `strings.setup.picks`. */
 export type PickKind = 'nickel' | 'coated' | 'bronze' | 'normal' | 'hard';
 export interface StringPick {
+  /** Its picture, `public/picks/<id>.webp`: an unbranded illustration made by tools/gen-images.mjs, not the maker's pack. */
+  id: string;
   /** Maker and model, as sold; the link is an Amazon.es search for exactly this. */
   name: string;
   kind: PickKind;
 }
 
-const dadd = (model: string): StringPick => ({ name: `D'Addario ${model}`, kind: 'nickel' });
+const dadd = (model: string, kind: PickKind = 'nickel'): StringPick => ({ id: model.toLowerCase(), name: `D'Addario ${model}`, kind });
 
 /** Real sets sold at exactly these gauges, by set name. Only sets Will can stand behind: no entry, no suggestion. */
 const ELECTRIC_PICKS: Record<string, StringPick[]> = {
-  '9-42': [dadd('EXL120'), { name: 'Ernie Ball Super Slinky 2223', kind: 'nickel' }, { name: 'Elixir Nanoweb 12002', kind: 'coated' }],
-  '10-46': [dadd('EXL110'), { name: 'Ernie Ball Regular Slinky 2221', kind: 'nickel' }, { name: 'Elixir Nanoweb 12052', kind: 'coated' }],
-  '10-52': [dadd('EXL140'), { name: 'Ernie Ball Skinny Top Heavy Bottom 2215', kind: 'nickel' }],
+  '9-42': [dadd('EXL120'), { id: 'eb2223', name: 'Ernie Ball Super Slinky 2223', kind: 'nickel' }, { id: 'elixir12002', name: 'Elixir Nanoweb 12002', kind: 'coated' }],
+  '10-46': [dadd('EXL110'), { id: 'eb2221', name: 'Ernie Ball Regular Slinky 2221', kind: 'nickel' }, { id: 'elixir12052', name: 'Elixir Nanoweb 12052', kind: 'coated' }],
+  '10-52': [dadd('EXL140'), { id: 'eb2215', name: 'Ernie Ball Skinny Top Heavy Bottom 2215', kind: 'nickel' }],
   '11-49': [dadd('EXL115')],
   '11-56': [dadd('EXL117')],
   '9-54': [dadd('EXL120-7')],
@@ -42,15 +44,8 @@ const ELECTRIC_PICKS: Record<string, StringPick[]> = {
   '9-65': [dadd('EXL120-8')],
   '10-74': [dadd('EXL110-8')],
 };
-const ACOUSTIC_PICKS: StringPick[] = [
-  { name: "D'Addario EJ15", kind: 'bronze' },
-  { name: "D'Addario EJ26", kind: 'bronze' },
-  { name: "D'Addario EJ16", kind: 'bronze' },
-];
-const CLASSICAL_PICKS: StringPick[] = [
-  { name: "D'Addario EJ45", kind: 'normal' },
-  { name: "D'Addario EJ46", kind: 'hard' },
-];
+const ACOUSTIC_PICKS: StringPick[] = [dadd('EJ15', 'bronze'), dadd('EJ26', 'bronze'), dadd('EJ16', 'bronze')];
+const CLASSICAL_PICKS: StringPick[] = [dadd('EJ45', 'normal'), dadd('EJ46', 'hard')];
 
 /** Named strings for the guitar type and the set on it (`setId` like "10-46", null when the gauges match no common set). */
 export function picksFor(typeId: string, nylon: boolean, setId: string | null): StringPick[] {

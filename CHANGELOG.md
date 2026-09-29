@@ -3,6 +3,15 @@
 Written for the people using it, not for the code. Newest first. Version matches
 `package.json`.
 
+## 0.24.0 — 29 September 2026, pictures for the suggested strings, steps that fit your guitar
+
+- Strings and setup: every suggested string set now has its own picture. They are illustrations,
+  not the makers' packs, and the page says so.
+- The steps after a string change follow your guitar. A steel-string acoustic loses the pickup
+  step, sets its action at the saddle and checks an intonation it cannot adjust; a classical also
+  stretches its nylon for days, checks the relief without a truss rod and takes a week to settle.
+  Electric guitars keep the six steps as they were.
+
 ## 0.23.8 — 29 September 2026, guitar pictures worth looking at
 
 - Strings and setup: the eleven guitar pictures are reshot. Each card now shows the body of the
