@@ -3,6 +3,13 @@
 Written for the people using it, not for the code. Newest first. Version matches
 `package.json`.
 
+## 0.23.7 — 29 September 2026, bigger guitar cards, better intonation picture
+
+- Strings and setup: the guitar picker is six cards to a row, big enough for each guitar's name
+  to sit inside its card.
+- The "Set the intonation" picture is redone: a screwdriver on one of the six screws at the back
+  of the bridge, with a normal-sized screwdriver and the right number of saddles.
+
 ## 0.23.6 — 29 September 2026, right picture for intonation
 
 - Strings and setup: the picture for "Set the intonation" now shows the intonation screw at the

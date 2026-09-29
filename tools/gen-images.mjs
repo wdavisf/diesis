@@ -48,7 +48,7 @@ const STEPS = {
   step2: "a feeler gauge slid between a string and the frets around the 8th fret to check neck relief, the other hand pressing the string at the first fret",
   step3: "a small steel ruler standing on the 12th fret measuring the height of the strings above the fret, close-up",
   step4: "a small steel ruler measuring the gap between a humbucker pickup and the strings, close-up on the pickup",
-  "step5-intonation": "a small screwdriver turning the intonation screw at the BACK of a hardtail guitar bridge, the long screw that runs lengthwise behind a saddle and moves the saddle forwards or backwards along the string (NOT the small height screws on top or at the sides of the saddle), the screwdriver entering from the rear edge of the bridge plate in line with the strings, a clip-on tuner on the headstock softly blurred in the background",
+  "step5-rear-screw": "a close-up of the rear edge of a Telecaster-style six-saddle guitar bridge seen from behind and slightly above: six saddles, six strings, six long silver intonation screws at the back of the plate pointing along the strings with small coil springs, and a normal-sized small silver Phillips screwdriver with a black handle, held by a hand, with its tip in the head of one of the rear screws, natural wood body",
   step6: "a clip-on tuner on a headstock showing it is in tune with a green display, the guitar strings and tuning pegs in focus",
 };
 
