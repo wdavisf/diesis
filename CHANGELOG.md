@@ -3,6 +3,11 @@
 Written for the people using it, not for the code. Newest first. Version matches
 `package.json`.
 
+## 0.21.2 — 29 September 2026, cleaner guitar cards
+
+- Strings and setup: the guitar cards no longer repeat the scale length and string count;
+  you set both right below, and the pictures fade into the card.
+
 ## 0.21.1 — 29 September 2026, guitar pictures
 
 - Strings and setup: each guitar type now has a picture on its card, so you can tell a

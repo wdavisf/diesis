@@ -48,7 +48,7 @@ export interface Strings {
   closing: { h2: string; lede: string };
   /** /practice/strings (components/strings-setup.tsx). {n} a string number, {type} a guitar type. */
   setup: {
-    title: string; lede: string; guitar: string; guitarLede: string; type: string; types: Record<string, string>; typeSpec: string; decimal: string; scale: string; profileNote: string;
+    title: string; lede: string; guitar: string; guitarLede: string; type: string; types: Record<string, string>; decimal: string; scale: string; profileNote: string;
     tension: string; tensionLede: string; nylon: string; sets: string; suggest: string; gaugeOf: string; plain: string; wound: string;
     feel: Record<"slack" | "balanced" | "tight", string>; total: string; estimate: string;
     setupTitle: string; setupLede: string; actionBass: string; actionTreble: string; relief: string; radius: string; flat: string;
@@ -362,7 +362,6 @@ const en: Strings = {
     guitar: "Your guitar",
     guitarLede: "The type sets the scale length and the setup numbers; change the scale if yours is different.",
     type: "Type of guitar",
-    typeSpec: "{scale}″ scale · {n} strings",
     decimal: ".",
     types: { strat: "Strat style", tele: "Tele style", lesPaul: "Les Paul / SG style", prs: "PRS style", superstrat: "Superstrat (Ibanez, Jackson…)", baritone: "Baritone", seven: "Seven strings", sevenLong: "Seven strings, long scale", eight: "Eight strings", acoustic: "Steel-string acoustic", classical: "Classical (nylon)" },
     scale: "Scale length",
@@ -835,7 +834,6 @@ const es: Strings = {
     guitar: "Tu guitarra",
     guitarLede: "El tipo fija el tiro y las medidas de ajuste; cambia el tiro si el de la tuya es distinto.",
     type: "Tipo de guitarra",
-    typeSpec: "Tiro de {scale}″ · {n} cuerdas",
     decimal: ",",
     types: { strat: "Tipo Strat", tele: "Tipo Tele", lesPaul: "Tipo Les Paul / SG", prs: "Tipo PRS", superstrat: "Superstrat (Ibanez, Jackson…)", baritone: "Barítona", seven: "Siete cuerdas", sevenLong: "Siete cuerdas, tiro largo", eight: "Ocho cuerdas", acoustic: "Acústica de acero", classical: "Clásica (nailon)" },
     scale: "Tiro (escala)",
