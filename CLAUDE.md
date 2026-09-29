@@ -247,7 +247,12 @@ Todoist project records what is still to do.
   straight to the DOM on every animation frame from the hook's `getRun()` (no React render per
   frame), measuring pad centres with a ResizeObserver. A tapped note freezes where it was tapped
   and bursts green/red for 320 ms; a missed one keeps falling and fades red. The count-in shows
-  4 3 2 1 behind the first notes. The link-preview card draws the same scene. Orders:
+  4 3 2 1 behind the first notes. The link-preview card draws the same scene. **Sideways on a
+  phone while running (Will, 2026-09-29: "should be forced to be landscape on phone")**:
+  `GameShell sideways={phase === "running"}`, pads along the long edge, notes from the far
+  side; the setup screen and the result stay upright; Stop sits in the header beside the score.
+  The lane measures pad centres with `offsetLeft`/`offsetTop` up to the stage, never client
+  rects, because the shell is rotated with a CSS transform on a phone. Orders:
   random (never the same finger twice in a row), 1234, 4321, 1324, 2413, 1423; 16/32/64 notes;
   tempo 20–300. A tap belongs to the nearest click within half a gap; the first tap decides it;
   on time within min(100 ms, a quarter of the gap); verdicts good/off/wrong/missed with the

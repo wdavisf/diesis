@@ -3,6 +3,13 @@
 Written for the people using it, not for the code. Newest first. Version matches
 `package.json`.
 
+## 0.25.1 — 29 September 2026, finger independence sideways on a phone
+
+- On a phone, Finger independence now turns sideways like the other exercises: the four pads
+  along the long edge nearest you, the notes falling from the far side. Lay the phone flat and
+  turn it so its right edge is away from you. The setup screen and the result stay upright.
+- Stop moved up beside the score, so the pads and the lane get the whole screen.
+
 ## 0.25.0 — 29 September 2026, notes that fall onto the finger pads
 
 - Finger independence works like a rhythm game now. Instead of a pad lighting up for the next

@@ -66,21 +66,21 @@ function Pad({
       }}
       onContextMenu={(e) => e.preventDefault()}
       className={cn(
-        "relative flex min-h-36 flex-1 touch-none flex-col items-center justify-center gap-1 rounded-2xl border-2 border-line bg-surface text-ink outline-none select-none [-webkit-touch-callout:none] transition-[border-color,transform] duration-75 active:scale-[0.97] motion-reduce:active:scale-100 sm:min-h-44",
+        "relative flex min-h-28 flex-1 touch-none flex-col items-center justify-center gap-0.5 rounded-2xl pb-4 sm:pb-0 border-2 border-line bg-surface text-ink outline-none select-none [-webkit-touch-callout:none] transition-[border-color,transform] duration-75 active:scale-[0.97] motion-reduce:active:scale-100 sm:min-h-44 sm:gap-1",
         good && "border-correct",
         bad && "border-wrong",
       )}
     >
       {/* Lit by the lane as the note reaches this pad: the moment to hit it. */}
       <span ref={glowRef} aria-hidden className="pointer-events-none absolute inset-0 rounded-[calc(1rem_-_2px)] bg-amber/20 opacity-0 ring-2 ring-amber ring-inset" />
-      <span className="font-display text-4xl font-semibold sm:text-5xl">{finger}</span>
+      <span className="font-display text-3xl font-semibold sm:text-5xl">{finger}</span>
       <span className="text-xs text-dim">{name}</span>
       <span className="hidden text-xs font-medium text-dim/70 pointer-fine:block">{keyLabel}</span>
       {flash ? (
         <span
           key={flash.id}
           className={cn(
-            "absolute inset-x-1 bottom-2 rounded-md px-1 py-0.5 text-center text-[11px] leading-tight font-semibold animate-in fade-in zoom-in-95 duration-100 motion-reduce:animate-none sm:text-xs",
+            "absolute inset-x-1 bottom-1 rounded-md px-1 py-0.5 text-center text-[11px] leading-tight font-semibold animate-in fade-in zoom-in-95 duration-100 motion-reduce:animate-none sm:bottom-2 sm:text-xs",
             good ? "bg-correct text-stage" : "bg-wrong text-white",
           )}
         >
@@ -129,21 +129,28 @@ function Lane({
       el.dataset.verdict = "none";
       el.style.visibility = "hidden";
     }
-    // The column of each finger's pad (by finger number), and the height at which a note meets its pad.
+    // The column of each finger's pad (by finger number), and the height at which a note meets
+    // its pad, in the stage's own coordinates: on a phone the whole shell is drawn turned 90°,
+    // so client rects would come back turned, but offsets are measured before the transform.
     const xs = [0, 0, 0, 0, 0];
     let hitY = 0;
     let radius = 0;
     const measure = () => {
-      const s = stageEl.getBoundingClientRect();
       order.forEach((f, i) => {
-        const r = pads.current[i]?.getBoundingClientRect();
-        if (!r) return;
-        xs[f] = r.left + r.width / 2 - s.left;
-        hitY = r.top + r.height / 2 - s.top;
+        const pad = pads.current[i];
+        if (!pad) return;
+        let left = 0;
+        let top = 0;
+        for (let el: HTMLElement | null = pad; el && el !== stageEl; el = el.offsetParent as HTMLElement | null) {
+          left += el.offsetLeft;
+          top += el.offsetTop;
+        }
+        xs[f] = left + pad.offsetWidth / 2;
+        hitY = top + pad.offsetHeight / 2;
         const g = guides.current[i];
         if (g) {
           g.style.left = `${xs[f]}px`;
-          g.style.height = `${r.top - s.top}px`;
+          g.style.height = `${top}px`;
         }
       });
       radius = (notes.current[0]?.offsetWidth ?? 0) / 2;
@@ -295,16 +302,26 @@ export function Fingers({ t, tm, tg }: { t: Strings["fingers"]; tm: Strings["met
 
   const status =
     phase === "running" ? (
-      <span className="flex gap-3 text-sm tabular-nums">
+      <span className="flex items-center gap-3 text-sm tabular-nums">
         <span className="text-correct">{fill(t.onTimeNow, { g: good })}</span>
         <span className="text-dim">{fill(t.progress, { k: done, n: seq.length })}</span>
+        <button
+          type="button"
+          onClick={stop}
+          className="inline-flex items-center gap-1.5 rounded-lg border border-line px-2.5 py-1 text-sm text-ink outline-none transition-colors hover:bg-surface focus-visible:ring-3 focus-visible:ring-ring/50"
+        >
+          <Square className="size-3.5" aria-hidden />
+          {t.stop}
+        </button>
       </span>
     ) : undefined;
 
+  // On a phone the exercise is played sideways, like the other exercises: the pads along the long
+  // edge, the notes falling from the far side. The setup screen and the result stay upright.
   return (
-    <GameShell t={tg} title={t.title} status={status}>
-      <div className="flex min-h-0 flex-1 flex-col overflow-auto px-4 pb-6 animate-in fade-in fill-mode-both duration-300 motion-reduce:animate-none">
-        <div className={cn("mx-auto flex w-full max-w-2xl flex-1 flex-col gap-6 py-4", phase === "running" ? "gap-4" : "justify-center")}>
+    <GameShell t={tg} title={t.title} status={status} sideways={phase === "running"}>
+      <div className={cn("flex min-h-0 flex-1 flex-col overflow-auto px-4 animate-in fade-in fill-mode-both duration-300 motion-reduce:animate-none", phase === "running" ? "pb-3" : "pb-6")}>
+        <div className={cn("mx-auto flex w-full max-w-2xl flex-1 flex-col", phase === "running" ? "pt-1" : "justify-center gap-6 py-4")}>
           {phase === "setup" ? (
             <>
               <p className="text-dim">{t.lede}</p>
@@ -357,10 +374,10 @@ export function Fingers({ t, tm, tg }: { t: Strings["fingers"]; tm: Strings["met
             <>
               <div ref={stage} className="relative flex min-h-0 flex-1 flex-col">
                 {/* The count-in, behind the first notes already on their way. */}
-                <div className="flex min-h-40 flex-1 flex-col items-center justify-center gap-1 text-center">
+                <div className="flex min-h-24 flex-1 flex-col items-center justify-center gap-1 text-center">
                   {heard < COUNT_IN ? (
                     <>
-                      <p className="font-display text-5xl font-semibold text-dim/70 tabular-nums" aria-live="polite">
+                      <p className="font-display text-4xl font-semibold text-dim/70 tabular-nums sm:text-5xl" aria-live="polite">
                         {heard < 0 ? t.ready : COUNT_IN - heard}
                       </p>
                       <p className="text-sm text-dim">{t.howTo}</p>
@@ -388,10 +405,6 @@ export function Fingers({ t, tm, tg }: { t: Strings["fingers"]; tm: Strings["met
                 </div>
                 <Lane seq={seq} order={order} getRun={getRun} stage={stage} pads={pads} glows={glows} />
               </div>
-              <button type="button" onClick={stop} className={cn(secondary, "mx-auto inline-flex items-center gap-2")}>
-                <Square className="size-4" aria-hidden />
-                {t.stop}
-              </button>
             </>
           ) : null}
 
