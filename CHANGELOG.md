@@ -3,6 +3,10 @@
 Written for the people using it, not for the code. Newest first. Version matches
 `package.json`.
 
+## 0.23.4 — 29 September 2026, Drop F♯ on seven strings
+
+- Seven strings now also offer Drop F♯ (F♯ C♯ F♯ B E G♯ C♯).
+
 ## 0.23.3 — 29 September 2026, the steps show your numbers
 
 - Strings and setup: the steps after a string change now tell you the number to aim for,

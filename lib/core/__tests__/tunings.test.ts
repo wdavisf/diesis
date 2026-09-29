@@ -6,7 +6,7 @@ import { neckNotes, scaleOf } from '../scales';
 describe('tunings', () => {
   it('offers presets for six, seven and eight strings', () => {
     expect(tuningsFor(6).length).toBeGreaterThan(4);
-    expect(tuningsFor(7).map((t) => t.id)).toEqual(['standard7', 'eFlat7', 'dStandard7', 'dropA7', 'dropG7']);
+    expect(tuningsFor(7).map((t) => t.id)).toEqual(['standard7', 'eFlat7', 'dStandard7', 'dropA7', 'dropG7', 'dropFs7']);
     expect(tuningsFor(8).map((t) => t.id)).toEqual(['standard8', 'eFlat8', 'dStandard8', 'dropE8']);
     for (const t of TUNINGS) expect(t.notes.every((n, i) => i === 0 || n < t.notes[i - 1])).toBe(true);
   });
