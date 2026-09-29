@@ -3,6 +3,12 @@
 Written for the people using it, not for the code. Newest first. Version matches
 `package.json`.
 
+## 0.22.1 — 29 September 2026, pictures on the setup page
+
+- Strings and setup: the strings and gear links (action ruler, feeler gauges, string winder,
+  clip-on tuner) now show the product, and each of the six steps after a string change has a
+  picture. They are illustrations, not photos of real products.
+
 ## 0.22.0 — 29 September 2026, setup numbers that follow your strings
 
 - Strings and setup: the setup numbers now change with your strings. A tighter set gets more

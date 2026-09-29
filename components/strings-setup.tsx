@@ -51,6 +51,9 @@ function Section({ title, lede, children }: { title: string; lede?: string; chil
   );
 }
 
+/** Picture per entry of `strings.setup.gear`, in the same order (public/gear). */
+const GEAR_IMAGES = ["ruler", "feeler", "winder", "tuner"];
+
 /** An Amazon.es search link with the affiliate tag: a new tab, marked sponsored. */
 function Shop({ href, children, className }: { href: string; children: ReactNode; className?: string }) {
   return (
@@ -61,6 +64,22 @@ function Shop({ href, children, className }: { href: string; children: ReactNode
       className={cn("inline-flex items-center gap-1.5 rounded-lg border border-line px-3 py-2 text-sm font-medium text-ink transition-colors hover:bg-surface-raised", className)}
     >
       {children} <ExternalLink className="size-3.5 text-dim" aria-hidden />
+    </a>
+  );
+}
+
+/** A product as a card: picture, name, a new tab to Amazon.es. Same link rules as `Shop`. */
+function ShopCard({ href, image, children, className }: { href: string; image: string; children: ReactNode; className?: string }) {
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="sponsored noopener"
+      className={cn("group flex min-w-0 items-center gap-3 rounded-xl border border-line p-2 pr-3 text-sm font-medium text-ink transition-colors hover:bg-surface-raised", className)}
+    >
+      <Image src={`/gear/${image}.webp`} alt="" width={480} height={480} sizes="72px" className="size-16 shrink-0 rounded-lg bg-[#1a1a1a] object-cover sm:size-[72px]" />
+      <span className="min-w-0 flex-1">{children}</span>
+      <ExternalLink className="size-3.5 shrink-0 text-dim" aria-hidden />
     </a>
   );
 }
@@ -207,9 +226,9 @@ export function StringsSetup({ t, tp, lang, base }: { t: Strings["setup"]; tp: S
         {type.nylon ? (
           <>
             <p className="text-dim">{t.nylon}</p>
-            <Shop href={amazonSearch(t.query.nylon)} className="mt-4">
+            <ShopCard href={amazonSearch(t.query.nylon)} image="strings" className="mt-4 sm:max-w-sm">
               {t.buyNylon}
-            </Shop>
+            </ShopCard>
             <p className="mt-2 text-xs text-dim">{t.affiliate}</p>
           </>
         ) : (
@@ -275,9 +294,9 @@ export function StringsSetup({ t, tp, lang, base }: { t: Strings["setup"]; tp: S
               {t.total} <span className="font-semibold text-ink">{total.toFixed(0)} lb</span> · {(total * LB_TO_KG).toFixed(0)} kg
             </p>
             <p className="mt-2 text-xs text-dim">{t.estimate}</p>
-            <Shop href={amazonSearch(stringsQuery)} className="mt-5">
+            <ShopCard href={amazonSearch(stringsQuery)} image="strings" className="mt-5 sm:max-w-sm">
               {t.buy.replace("{set}", setName(gauges).replace("-", "–"))}
-            </Shop>
+            </ShopCard>
             <p className="mt-2 text-xs text-dim">{t.affiliate}</p>
           </>
         )}
@@ -299,24 +318,32 @@ export function StringsSetup({ t, tp, lang, base }: { t: Strings["setup"]; tp: S
         </div>
         <p className="mt-3 text-xs text-dim">{t.setupNote}</p>
         <h3 className="mt-6 text-sm font-semibold">{t.gearTitle}</h3>
-        <div className="mt-3 flex flex-wrap gap-2">
-          {t.gear.map((g) => (
-            <Shop key={g.label} href={amazonSearch(g.query)}>
+        <div className="mt-3 grid grid-cols-1 gap-2 sm:grid-cols-2">
+          {t.gear.map((g, i) => (
+            <ShopCard key={g.label} href={amazonSearch(g.query)} image={GEAR_IMAGES[i]}>
               {g.label}
-            </Shop>
+            </ShopCard>
           ))}
         </div>
         <p className="mt-2 text-xs text-dim">{t.affiliate}</p>
       </Section>
 
       <Section title={t.stepsTitle} lede={t.stepsLede}>
-        <ol className="flex flex-col gap-3">
+        <ol className="flex flex-col gap-5">
           {t.steps.map((step, i) => (
             <li key={i} className="flex gap-3">
               <span className="flex size-7 shrink-0 items-center justify-center rounded-full bg-amber/15 text-sm font-semibold text-amber-text">{i + 1}</span>
-              <div>
+              <div className="min-w-0 flex-1">
                 <p className="font-medium">{step.title}</p>
                 <p className="mt-0.5 text-sm text-dim">{step.body}</p>
+                <Image
+                  src={`/steps/step${i + 1}.webp`}
+                  alt=""
+                  width={720}
+                  height={480}
+                  sizes="(min-width: 1024px) 480px, 90vw"
+                  className="mt-3 aspect-[3/2] w-full rounded-xl bg-[#1a1a1a] object-cover"
+                />
               </div>
             </li>
           ))}
