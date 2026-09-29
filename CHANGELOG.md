@@ -3,6 +3,11 @@
 Written for the people using it, not for the code. Newest first. Version matches
 `package.json`.
 
+## 0.23.2 — 29 September 2026, more tunings for seven and eight strings
+
+- Seven strings now offer standard, E♭ standard, D standard, Drop A and Drop G; eight strings
+  offer standard, E♭ standard, D standard and Drop E. Before there were only two of each.
+
 ## 0.23.1 — 29 September 2026, a shorter, better laid-out strings page
 
 - Strings and setup: the guitar picker is two short rows with each guitar lying flat and

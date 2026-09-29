@@ -52,8 +52,13 @@ export const TUNINGS: readonly TuningPreset[] = [
   { id: 'openG', notes: [62, 59, 55, 50, 43, 38] },
   { id: 'openD', notes: [62, 57, 54, 50, 45, 38] },
   { id: 'standard7', notes: [64, 59, 55, 50, 45, 40, 35] },
+  { id: 'eFlat7', notes: [63, 58, 54, 49, 44, 39, 34] },
+  { id: 'dStandard7', notes: [62, 57, 53, 48, 43, 38, 33] },
   { id: 'dropA7', notes: [64, 59, 55, 50, 45, 40, 33] },
+  { id: 'dropG7', notes: [62, 57, 53, 48, 43, 38, 31] },
   { id: 'standard8', notes: [64, 59, 55, 50, 45, 40, 35, 30] },
+  { id: 'eFlat8', notes: [63, 58, 54, 49, 44, 39, 34, 29] },
+  { id: 'dStandard8', notes: [62, 57, 53, 48, 43, 38, 33, 28] },
   { id: 'dropE8', notes: [64, 59, 55, 50, 45, 40, 35, 28] },
 ];
 
