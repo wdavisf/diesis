@@ -279,7 +279,9 @@ Todoist project records what is still to do.
   links, not product links (`amazonSearch` in `lib/core/shop.ts`): no per-product codes, never
   stale. Today only in Setup → Strings and setup: "Find {set} strings on Amazon.es" for the
   gauges in use (or classical strings), and the setup gear (action ruler, feeler gauges, winder,
-  clip-on tuner). `rel="sponsored"`, new tab. Amazon's required disclosure sits under every
+  clip-on tuner). `rel="sponsored"`, new tab. Named string sets (`picksFor` in `lib/core/shop.ts`, Will 2026-09-29: "suggest actual strings") show under the tension bars
+  when the gauges match a common set, each linking to an Amazon.es search for that product name; only sets we are
+  sure of are listed, so add one only after checking its gauges. Amazon's required disclosure sits under every
   group of links and in the footer; the privacy page has "Links to Amazon". Amazon.es only:
   English visitors abroad would need Will to join their marketplace (OneLink). Any new shop link
   goes through `amazonSearch` and carries the disclosure.

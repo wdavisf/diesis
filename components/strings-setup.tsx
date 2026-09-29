@@ -24,7 +24,7 @@ import {
   windingOf,
   type Feel,
 } from "@/lib/core/strings";
-import { amazonSearch, setName } from "@/lib/core/shop";
+import { amazonSearch, picksFor, setName } from "@/lib/core/shop";
 import { useGuitar } from "@/lib/game/use-guitar";
 import { useSettings } from "@/lib/game/use-settings";
 import { useStrings } from "@/lib/game/use-strings";
@@ -107,10 +107,27 @@ export function StringsSetup({ t, tp, lang, base }: { t: Strings["setup"]; tp: S
   // No octave number: English and Spanish count octaves differently, and the string number already tells them apart.
   const noteName = (midi: number) => names[pitchClassOf(midi)];
   const activeSet = setsFor(count).find((s) => s.gauges.every((g, i) => g === gauges[i]))?.id;
+  const picks = picksFor(type.id, !!type.nylon, activeSet ?? null);
   const s = adjustSetup(type.setup, total / count, type.nylon);
   const stringsQuery =
     (type.id === "acoustic" ? t.query.acoustic : t.query.electric).replace("{set}", setName(gauges)) +
     (count > 6 ? t.query.extended.replace("{n}", String(count)) : "");
+
+  const picksList =
+    picks.length > 0 ? (
+      <div className="mt-5">
+        <h3 className="text-sm font-semibold">{t.picksTitle}</h3>
+        <p className="mt-0.5 text-xs text-dim">{t.picksNote}</p>
+        <div className="mt-3 grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3">
+          {picks.map((p) => (
+            <ShopCard key={p.name} href={amazonSearch(p.name)} image="strings">
+              <span className="block">{p.name}</span>
+              <span className="block text-xs font-normal text-dim">{t.picks[p.kind]}</span>
+            </ShopCard>
+          ))}
+        </div>
+      </div>
+    ) : null;
   const mmIn = (v: number) => `${v.toFixed(1)} mm`;
   const inSub = (v: number) => `${(v / 25.4).toFixed(3).replace(/^0/, "")}″`;
 
@@ -123,7 +140,7 @@ export function StringsSetup({ t, tp, lang, base }: { t: Strings["setup"]; tp: S
 
       <Section title={t.guitar} lede={t.guitarLede}>
         <p className="text-sm font-medium text-dim">{t.type}</p>
-        <div role="radiogroup" aria-label={t.type} className="mt-1.5 grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-4">
+        <div role="radiogroup" aria-label={t.type} className="mt-1.5 flex gap-2 overflow-x-auto pb-1 sm:flex-wrap sm:overflow-visible">
           {GUITAR_TYPES.map((g) => {
             const on = g.id === type.id;
             return (
@@ -137,7 +154,7 @@ export function StringsSetup({ t, tp, lang, base }: { t: Strings["setup"]; tp: S
                   if (g.strings !== count) guitar.setTuning(tuningsFor(g.strings)[0].id);
                 }}
                 className={cn(
-                  "flex min-w-0 flex-col rounded-xl border px-3.5 py-2.5 text-left outline-none transition-colors focus-visible:ring-3 focus-visible:ring-ring/50",
+                  "flex w-28 shrink-0 flex-col items-center rounded-xl border px-2 py-2 text-center outline-none transition-colors focus-visible:ring-3 focus-visible:ring-ring/50",
                   on ? "border-amber bg-amber/10" : "border-line hover:bg-surface",
                 )}
               >
@@ -146,15 +163,15 @@ export function StringsSetup({ t, tp, lang, base }: { t: Strings["setup"]; tp: S
                   alt=""
                   width={720}
                   height={1080}
-                  sizes="(min-width: 640px) 200px, 45vw"
-                  className="mb-2 h-40 w-full object-contain [mask-image:radial-gradient(ellipse_60%_55%_at_center,#000_55%,transparent_100%)] sm:h-48"
+                  sizes="112px"
+                  className="mb-1.5 h-24 w-full object-contain [mask-image:radial-gradient(ellipse_60%_55%_at_center,#000_55%,transparent_100%)]"
                 />
-                <span className={cn("text-sm font-medium", on ? "text-amber-text" : "text-ink")}>{t.types[g.id]}</span>
+                <span className={cn("text-xs font-medium leading-tight", on ? "text-amber-text" : "text-ink")}>{t.types[g.id]}</span>
               </button>
             );
           })}
         </div>
-        <div className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2">
+        <div className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           <label className="flex flex-col gap-1.5 text-sm font-medium text-dim">
             {t.scale}
             <div className="flex items-center gap-2">
@@ -212,6 +229,7 @@ export function StringsSetup({ t, tp, lang, base }: { t: Strings["setup"]; tp: S
         {type.nylon ? (
           <>
             <p className="text-dim">{t.nylon}</p>
+            {picksList}
             <ShopCard href={amazonSearch(t.query.nylon)} image="strings" className="mt-4 sm:max-w-sm">
               {t.buyNylon}
             </ShopCard>
@@ -280,6 +298,7 @@ export function StringsSetup({ t, tp, lang, base }: { t: Strings["setup"]; tp: S
               {t.total} <span className="font-semibold text-ink">{total.toFixed(0)} lb</span> · {(total * LB_TO_KG).toFixed(0)} kg
             </p>
             <p className="mt-2 text-xs text-dim">{t.estimate}</p>
+            {picksList}
             <ShopCard href={amazonSearch(stringsQuery)} image="strings" className="mt-5 sm:max-w-sm">
               {t.buy.replace("{set}", setName(gauges).replace("-", "–"))}
             </ShopCard>

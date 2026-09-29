@@ -3,6 +3,15 @@
 Written for the people using it, not for the code. Newest first. Version matches
 `package.json`.
 
+## 0.23.0 — 29 September 2026, strings to try
+
+- Strings and setup: under the tension bars you now get real string sets that match the
+  gauges you picked (for example 10–46: D'Addario EXL110, Ernie Ball Regular Slinky, Elixir
+  Nanoweb), with a link to each on Amazon.es. Acoustic and classical guitars get their own
+  suggestions. When your gauges match no common set you still get the search link.
+- The guitar type picker is a compact strip of small pictures instead of a screen of big
+  cards, so the tension bars are much closer to the top.
+
 ## 0.22.2 — 29 September 2026, smaller step pictures
 
 - Strings and setup: the pictures for the steps after a string change are small thumbnails

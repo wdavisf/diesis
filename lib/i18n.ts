@@ -54,6 +54,7 @@ export interface Strings {
     setupTitle: string; setupLede: string; actionBass: string; actionTreble: string; relief: string; radius: string; flat: string;
     pickupBass: string; pickupTreble: string; setupNote: string; stepsTitle: string; stepsLede: string; steps: { title: string; body: string }[];
     /** Amazon.es links (lib/core/shop.ts). {set} a set name like "10-46", {n} a string count. */
+    picksTitle: string; picksNote: string; picks: Record<"nickel" | "coated" | "bronze" | "normal" | "hard", string>;
     buy: string; buyNylon: string; query: { electric: string; acoustic: string; nylon: string; extended: string };
     gearTitle: string; gear: { label: string; query: string }[]; affiliate: string;
   };
@@ -397,6 +398,9 @@ const en: Strings = {
       { title: "Set the intonation", body: "Tune the open string, then play it at the 12th fret. Sharp: move the saddle away from the neck. Flat: towards it. Retune after every move, string by string." },
       { title: "Tune and play", body: "A new setup settles over a day or two. Check the tuning and the relief again after that." },
     ],
+    picksTitle: "Strings to try",
+    picksNote: "Real sets at exactly these gauges. Check the gauges on the pack before you buy.",
+    picks: { nickel: "Nickel-plated steel: the usual choice", coated: "Coated: lasts longer, costs more", bronze: "Phosphor bronze: the usual acoustic sound", normal: "Normal tension", hard: "Hard tension" },
     buy: "Find {set} strings on Amazon.es",
     buyNylon: "Find classical strings on Amazon.es",
     query: { electric: "electric guitar strings {set}", acoustic: "acoustic guitar strings {set}", nylon: "classical guitar strings normal tension", extended: " {n} string" },
@@ -869,6 +873,9 @@ const es: Strings = {
       { title: "Ajusta la octavación", body: "Afina la cuerda al aire y tócala en el traste 12. Si sale alta, aleja la selleta del mástil; si sale baja, acércala. Vuelve a afinar después de cada cambio, cuerda a cuerda." },
       { title: "Afina y toca", body: "Un ajuste nuevo se asienta en un día o dos. Revisa después la afinación y la curvatura." },
     ],
+    picksTitle: "Cuerdas para probar",
+    picksNote: "Juegos reales con estos mismos calibres. Mira los calibres del paquete antes de comprar.",
+    picks: { nickel: "Acero niquelado: la opción de siempre", coated: "Con recubrimiento: duran más, cuestan más", bronze: "Bronce fosforado: el sonido acústico de siempre", normal: "Tensión normal", hard: "Tensión alta" },
     buy: "Buscar cuerdas {set} en Amazon.es",
     buyNylon: "Buscar cuerdas de clásica en Amazon.es",
     query: { electric: "cuerdas guitarra eléctrica {set}", acoustic: "cuerdas guitarra acústica {set}", nylon: "cuerdas guitarra clásica tensión normal", extended: " {n} cuerdas" },
