@@ -42,6 +42,7 @@ const columns: { title: string; tone: string; dot: string; items: Item[] }[] = [
       { title: "Afiliados de Amazon.es", note: "Cuerdas y herramientas de ajuste, con aviso", track: "Negocio" },
       { title: "Perfil: 6, 7 u 8 cuerdas y afinaciones", note: "Los ejercicios y el mástil lo usan", track: "Plataforma" },
       { title: "Tres lados: Aprender, Practicar, Ajuste", note: "/start, /learn, /practice, /setup", track: "Plataforma" },
+      { title: "Barra lateral y pestañas en el móvil", note: "En ordenador, todas las herramientas a la izquierda, plegable a iconos; en el móvil, barra de pestañas abajo", track: "Plataforma" },
       { title: "Portada con ejercicio jugable y tus herramientas", note: "Con tu foto en «Quién lo hace»", track: "Plataforma" },
       { title: "Formulario de sugerencias", note: "Llega a tu correo por Resend", track: "Plataforma" },
       { title: "Web EN/ES, diesis.es, barra común", note: "Y una tarjeta propia por herramienta al compartir el enlace", track: "Plataforma" },
@@ -72,7 +73,6 @@ const columns: { title: string; tone: string; dot: string; items: Item[] }[] = [
       { title: "Afinador y entonación", note: "Micrófono, y también de oído", track: "Equipo" },
       { title: "Mis guitarras", note: "Varias guitarras en el perfil", track: "Equipo" },
       { title: "Diario de práctica con objetivo", note: "Un objetivo con fecha (un solo para un concierto en dos semanas), dictar cada día lo que hiciste y qué herramientas usar para llegar", track: "Práctica" },
-      { title: "Barra lateral en ordenador", note: "Plegable: solo iconos, o iconos con nombre, como Toggl o PostHog. En el móvil, barra de pestañas abajo, como en Tabula. Tres diseños por elegir", track: "Plataforma" },
       { title: "Dedos: más ejercicios con la izquierda", note: "Golpear con los dedos de la mano izquierda", track: "Práctica" },
       { title: "Calentamiento y estiramientos", track: "Práctica" },
       { title: "Ejercicios de técnica con tabs", note: "Púa y dedos, con un vídeo tuyo en cada uno", track: "Aprender" },
@@ -145,7 +145,6 @@ const decisions = [
   "¿Métodos de acceso de las cuentas, y códigos de invitación?",
   "¿CAGED o tres notas por cuerda para las posiciones?",
   "¿Páginas de escalas fuera de la app (/scales, /es/escalas) o dentro de Aprender?",
-  "¿Cuál de los tres diseños de barra lateral: una lista con tres grupos, lados en un raíl o el objetivo arriba?",
   "¿Dónde vive el diario de práctica y cómo se llama? ¿Gratis o Pro?",
 ];
 
@@ -168,7 +167,7 @@ export default function RoadmapPage() {
       <header className="mb-14">
         <p className="inline-flex items-center gap-2 rounded-full border border-line px-3 py-1 text-xs text-dim">
           <span className="size-1.5 rounded-full bg-amber" aria-hidden />
-          Privado · solo con este enlace · 30 sept 2026 · versión 0.25
+          Privado · solo con este enlace · 30 sept 2026 · versión 0.27
         </p>
         <h1 className="mt-5 font-display text-5xl font-semibold tracking-tight sm:text-6xl">Roadmap y estrategia</h1>
         <p className="mt-4 max-w-2xl text-lg text-dim">

@@ -26,11 +26,17 @@ export interface Strings {
   meta: { title: string; description: string; privacyTitle: string; privacyDescription: string };
   nav: {
     how: string; learn: string; faq: string; cta: string; privacy: string; about: string;
-    /** The two sides of the app, and their tools in the order of the hrefs in components/site-nav.tsx. */
+    /** The three sides of the app and their tools, in the order of `SIDES` in components/app-nav.tsx; the `Soon` lists are the tools shown dimmed as coming next. */
     areas: { learn: string; practice: string; setup: string };
     learnTools: string[];
     practiceTools: string[];
     setupTools: string[];
+    learnSoon: string[];
+    setupSoon: string[];
+    soon: string;
+    /** The sidebar's toggle. */
+    collapse: string;
+    expand: string;
   };
   hero: { eyebrow: string; h1: string; lede: string; cta: string; secondary: string; trust: string[] };
   how: { eyebrow: string; h2: string; lede: string; steps: { title: string; body: string }[] };
@@ -255,7 +261,7 @@ const en: Strings = {
     privacyTitle: "Privacy",
     privacyDescription: "What Diesis does with your data: no account, no ads, and your settings and scores never leave your browser. Visits are counted with Google Analytics and PostHog only if you allow it.",
   },
-  nav: { how: "How it works", learn: "What you learn", faq: "FAQ", cta: "Open the app", privacy: "Privacy", about: "About Diesis", areas: { learn: "Learn", practice: "Practice", setup: "Setup" }, learnTools: ["Name the note", "Find the note"], practiceTools: ["The neck", "Metronome", "Backing tracks", "Fingers"], setupTools: ["Strings"] },
+  nav: { how: "How it works", learn: "What you learn", faq: "FAQ", cta: "Open the app", privacy: "Privacy", about: "About Diesis", areas: { learn: "Learn", practice: "Practice", setup: "Setup" }, learnTools: ["Name the note", "Find the note"], practiceTools: ["The neck", "Metronome", "Backing tracks", "Fingers"], setupTools: ["Strings"], learnSoon: ["Hear the note"], setupSoon: ["Tuner", "My guitars"], soon: "Soon", collapse: "Collapse the sidebar", expand: "Open the sidebar" },
   hero: {
     eyebrow: "The guitar learning tool",
     h1: "Everything you need to master the guitar.",
@@ -755,7 +761,7 @@ const es: Strings = {
     privacyTitle: "Privacidad",
     privacyDescription: "Qué hace Diesis con tus datos: sin cuenta, sin anuncios, y tus ajustes y tus marcas no salen de tu navegador. Las visitas se cuentan con Google Analytics y PostHog solo si tú lo permites.",
   },
-  nav: { how: "Cómo funciona", learn: "Qué aprendes", faq: "Preguntas", cta: "Abrir la app", privacy: "Privacidad", about: "Sobre Diesis", areas: { learn: "Aprender", practice: "Practicar", setup: "Ajuste" }, learnTools: ["Nombra la nota", "Encuentra la nota"], practiceTools: ["El mástil", "Metrónomo", "Backing tracks", "Dedos"], setupTools: ["Cuerdas"] },
+  nav: { how: "Cómo funciona", learn: "Qué aprendes", faq: "Preguntas", cta: "Abrir la app", privacy: "Privacidad", about: "Sobre Diesis", areas: { learn: "Aprender", practice: "Practicar", setup: "Ajuste" }, learnTools: ["Nombra la nota", "Encuentra la nota"], practiceTools: ["El mástil", "Metrónomo", "Backing tracks", "Dedos"], setupTools: ["Cuerdas"], learnSoon: ["Escucha la nota"], setupSoon: ["Afinador", "Mis guitarras"], soon: "Pronto", collapse: "Plegar la barra lateral", expand: "Desplegar la barra lateral" },
   hero: {
     eyebrow: "La herramienta para aprender guitarra",
     h1: "Todo lo que necesitas para dominar la guitarra.",

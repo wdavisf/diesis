@@ -4,6 +4,17 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* The app's sidebar as a rail of icons (components/app-nav.tsx): when the player collapsed it
+   (data-sidebar on <html>), and always below lg, where the screen needs the width. */
+@custom-variant rail {
+  &:where([data-sidebar="collapsed"] *) {
+    @slot;
+  }
+  @media (width < 64rem) {
+    @slot;
+  }
+}
+
 /* Diesis is dark only: a stage, with the fretboard as the one lit object on it.
    Values mirror design/tokens.json; keep the two in step. */
 @theme inline {
@@ -141,16 +152,19 @@
     }
   }
   body:has(.game-sideways) .consent-banner,
-  body:has(.game-sideways) .site-nav {
+  body:has(.game-sideways) .app-nav {
     display: none;
   }
 }
 
 /* A short screen (a phone on its side) needs every pixel for the neck while an exercise runs:
-   the top bar steps aside and the exercise header's back arrow takes over. */
+   the app's navigation steps aside and the exercise header's back arrow takes over. */
 @media (max-height: 40rem) {
-  body:has(.game-sideways) .site-nav {
+  body:has(.game-sideways) .app-nav {
     display: none;
+  }
+  body:has(.game-sideways) .app-main {
+    padding-bottom: 0;
   }
 }
 

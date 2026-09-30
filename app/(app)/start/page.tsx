@@ -18,10 +18,11 @@ export default async function Start() {
     { href: `${t.base}/setup`, title: t.nav.areas.setup, body: h.setup, tools: t.nav.setupTools, Icon: Wrench },
   ];
   return (
-    <main className="mx-auto flex w-full max-w-5xl flex-1 flex-col px-4 py-6 sm:py-10">
+    <main className="@container mx-auto flex w-full max-w-5xl flex-1 flex-col px-4 py-6 sm:py-10">
       <h1 className="mt-4 font-display text-3xl font-semibold tracking-tight sm:text-5xl">{h.h1}</h1>
       <p className="mt-2 text-dim">{h.lede}</p>
-      <ul className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {/* Columns by the width of this screen, which the sidebar narrows, not by the window's. */}
+      <ul className="mt-8 grid grid-cols-1 gap-4 @xl:grid-cols-2 @4xl:grid-cols-3">
         {doors.map(({ href, title, body, tools, Icon }, i) => (
           <li
             key={href}

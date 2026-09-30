@@ -33,8 +33,8 @@ Todoist project records what is still to do.
   their `/es` twins redirect (`next.config.ts`; redirects run before `proxy.ts`).
 - **A third side, Setup (Will, 2026-09-26: strings and setup "no es practicar, es otra cosa";
   "guitar setup en inglés").** `/setup`, «Ajuste» in Spanish: the guitar itself (strings,
-  tension, setup). `/start` shows three doors; the top bar three sides (`nav.areas.setup`,
-  `nav.setupTools`/`SETUP_HREFS`, `SETUP_ITEMS`, `setupMenu`). When a tool arrives, ask which of
+  tension, setup). `/start` shows three doors; the app's navigation three sides (`nav.areas.setup`,
+  `nav.setupTools`, `SIDES` in `components/app-nav.tsx`, `SETUP_ITEMS`, `setupMenu`). When a tool arrives, ask which of
   the three sides it belongs to rather than defaulting to Practice.
   Upcoming Setup tools, shown as cards (Will, 2026-09-26): tuner and intonation, my guitars
   (next); changing tuning, why does it buzz, string log, care and humidity (later). The tuner
@@ -143,8 +143,8 @@ Todoist project records what is still to do.
   blur, clamped 20–300, Escape cancels); in Speed up the big number edits the start while
   stopped and is read-only while running.
 - **Profile (Will, 2026-09-25: "a profile page where I can put all the settings… seven string,
-  six string… and the achievements, records").** `/profile`, linked from the top bar (an
-  icon beside EN/ES, app only). Sections: your guitar (6/7/8 strings and a tuning preset:
+  six string… and the achievements, records").** `/profile`, linked from the app's navigation (the
+  sidebar's last row, a tab on phones). Sections: your guitar (6/7/8 strings and a tuning preset:
   `TUNINGS` in `lib/core/notes.ts`, stored as the preset id in localStorage `diesis_guitar`,
   `lib/game/use-guitar.ts`), note names (the same `diesis_names` setting the start card sets),
   language, records (every `diesis_best:*`, parsed by `lib/core/records.ts`), achievements
@@ -155,29 +155,32 @@ Todoist project records what is still to do.
   (MIDI 28, `SAMPLE_LOW`), and `npm run samples` only writes missing files (`--all` redoes all).
   Bests on 7/8 strings are kept apart (`modeKey`: `name:7s:timed:60`); six-string keys are
   unchanged. No account: if one ever comes, this page is where it lives.
-- **Top bar (Will, 2026-09-25: "una barra arriba del todo que se mantiene constante entre la
-  web y la app, pero que en la app tiene las diferentes modalidades").** One component,
-  `components/site-nav.tsx`, on the landing, privacy and every app screen (it lives in
-  `app/(app)/layout.tsx`, outside the fading template, so it stays put). Web: sections, EN/ES,
-  Open the app. App: Learn and Practice (`nav.areas`), then the tools of the side you are on
-  (`nav.learnTools`/`LEARN_HREFS`, `nav.practiceTools`/`PRACTICE_HREFS`) with the current one
-  lit; on `/start` and `/profile` only the two sides. On phones they drop to a second row that
-  scrolls to the current tool. The logo always goes
-  to the landing. The bar hides while an exercise is played sideways on a phone or on a short
-  screen (`.site-nav` rules in globals.css); the exercise header keeps its back arrow for that
-  case only; it goes back to its side's menu. Upright screens have no header of their own.
-  **Every new tool picks a side and gets a place in that side's nav list and hrefs, its menu
-  cards, the sitemap, the landing and a link-preview card (`PREVIEWS` in `lib/lang.ts`).**
-- **Navigation to come (Will, 2026-09-30; not built).** On desktop a left sidebar, collapsible to
-  icons, replaces the top bar inside the app ("like Toggl, but properly done"); three designs
-  are on the canvas "Diesis sidebar options" (https://claude.ai/artifact/Ba5v7kLBmZbpXDmHseZbWn)
-  and nothing is built until Will picks one. **On phones, decided: a bottom tab bar like an
-  iPhone app's, as in Tabula** (`components/athlete/tab-bar.tsx` there): the sides, the profile
-  and later the practice log; a side's tools are reached from its menu. The landing and privacy
-  page keep the top bar.
+- **Navigation (Will, 2026-09-30: a left sidebar "like Toggl, but properly done", and on phones
+  "a bottom bar like there would be in an iPhone app, like what we did for Tabula"; built
+  0.27.0).** The top bar of 2026-09-25 (`components/site-nav.tsx`) is now for the web pages only
+  (landing, privacy): sections, EN/ES, Open the app. The app's navigation is
+  `components/app-nav.tsx`, mounted in `app/(app)/layout.tsx` outside the fading template so it
+  stays put. **From `md`: `AppSidebar`**, design A of the canvas "Diesis sidebar options"
+  (https://claude.ai/artifact/Ba5v7kLBmZbpXDmHseZbWn): every tool under its side (the side's
+  name links to its menu), the current one lit, the tools coming next dimmed with "Soon"
+  (`nav.learnSoon`/`setupSoon`); feedback, profile and EN/ES at the bottom. It collapses to a
+  rail of icons with the names as tooltips: by its button or the `[` key from `lg`, remembered
+  in localStorage `diesis_sidebar` and put on `<html>` as `data-sidebar` by an inline script in
+  the root layout before the first paint; between `md` and `lg` it is always the rail. The
+  Tailwind variant `rail:` (globals.css) styles both cases. **On phones: `AppTopBar`** (the
+  logo, or inside a tool the way back to its side and the tool's name; feedback, EN/ES) **and
+  `TabBar`** fixed at the bottom: Learn, Practice, Setup, Profile (the practice log joins when
+  it exists); a side's tools are reached from its menu. The logo always goes to the landing.
+  All three carry `.app-nav` and hide while an exercise is played sideways on a phone or on a
+  short screen (globals.css); the exercise header keeps its back arrow for that case only.
+  **Every new tool picks a side and gets a line in `SIDES` (app-nav.tsx) with an icon, its name
+  in that side's nav list, its menu cards, the sitemap, the landing and a link-preview card
+  (`PREVIEWS` in `lib/lang.ts`).** Screens now sit beside the sidebar: a layout that depends on
+  the room it has should use container queries (`@container`, as `/start` does), not window
+  breakpoints. Designs B (sides on a rail) and C (the goal on top) were not chosen.
 - **The neck (scale explorer), built 2026-09-25** (Will: "see all the notes in the fretboard,
   and then select things like a pentatonic scale, selecting the root note"): `/practice/neck`,
-  first tool in the bar. Opens on every note (scale "all"); pick a root (12 buttons) and a
+  first Practice tool. Opens on every note (scale "all"); pick a root (12 buttons) and a
   scale (scrolling chips) and the neck shows that scale, root in amber (`MarkState` "root"),
   other notes cream ("note", `highlightNote` in tokens). Header toggles: names (the player's
   Do Re Mi / C D E setting) or degrees (1, ♭3, ♯4…), frets 0–12 or 0–24. Tapping a lit note
@@ -351,8 +354,8 @@ Todoist project records what is still to do.
   English visitors abroad would need Will to join their marketplace (OneLink). Any new shop link
   goes through `amazonSearch` and carries the disclosure.
 - **Feedback form (Will, 2026-09-26: "muy sencillo y que me llegue al correo como con
-  jeremy.es").** `components/feedback.tsx`: "Feedback" / «Sugerencias», an icon button in the
-  app's top bar and a link in the footer, opening a native `<dialog>`: name, what do you need
+  jeremy.es").** `components/feedback.tsx`: "Feedback" / «Sugerencias», a row in the app's
+  sidebar (an icon button in the phone's top bar) and a link in the footer, opening a native `<dialog>`: name, what do you need
   (required), email (optional, becomes Reply-To). Page, language and the `diesis_guitar` preset go
   as hidden fields. `app/actions/feedback.ts` emails it through Resend (same pattern as jeremy.es:
   honeypot `website`, 5 per hour per IP per instance, values echoed back on failure); nothing is
@@ -427,7 +430,7 @@ points to it and keeps `/lang/` out. Add new public pages to the sitemap.
 ## Layout of the repo
 
 - `app/` — routes: `page.tsx` and `es/page.tsx` (landing), `privacy/` and `es/privacy/`,
-  `(app)/` (route group, the app: `layout.tsx` with the top bar, `template.tsx`, `start/`,
+  `(app)/` (route group, the app: `layout.tsx` with the app's navigation, `template.tsx`, `start/`,
   `learn/` with `name-the-note/` and `find-the-note/`, `practice/` with `neck/`,
   `metronome/`, `backing-tracks/` and `fingers/`, `profile/`), `lang/[code]/` (cookie setter).
   `layout.tsx` holds fonts and metadata; `globals.css` the theme tokens.
@@ -435,7 +438,7 @@ points to it and keeps `/lang/` out. Add new public pages to the sitemap.
   `lang-switch`, `fretboard` (SVG, marks and tap targets), `note-panel`, `game-frame`
   (`GameShell`: sideways treatment, gate, header; `GameFrame`: the board inside it),
   `setup-screen` (before a round), `challenge-card` (result card, header status, `Chip`),
-  `game` (Mode A), `find-game` (Mode B), `metronome` (both modes), `neck` (scale explorer), `backing-tracks`, `profile`, `site-nav` (the top bar), `try-it`, `tool-showcase`, `how-figures` and `open-app` (landing), `ui/`.
+  `game` (Mode A), `find-game` (Mode B), `metronome` (both modes), `neck` (scale explorer), `backing-tracks`, `profile`, `site-nav` (the web pages' top bar), `app-nav` (the app's sidebar, phone top bar and tab bar), `try-it`, `tool-showcase`, `how-figures` and `open-app` (landing), `ui/`.
 - `lib/i18n.ts` — every string, EN and ES. `lib/lang.ts` — reads the language cookie.
 - `lib/core/` — note model (`notes.ts`), question generator (`quiz.ts`), tests. Pure TS.
 - `lib/core/challenge.ts` — challenge rules. `lib/audio/note-player.ts` — Web Audio sampler.

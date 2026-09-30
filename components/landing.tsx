@@ -19,7 +19,7 @@ const whenClass: Record<When, string> = {
 export function Landing({ t }: { t: Strings }) {
   return (
     <main className="flex-1">
-      <SiteNav t={t} area="site" />
+      <SiteNav t={t} />
 
       {/* Hero. On a phone the playable neck sits right under the headline, before any paragraph;
           from lg up it takes the right column against the whole text block. */}

@@ -6,7 +6,7 @@ export function PrivacyPage({ t }: { t: Strings }) {
   const p = t.privacy;
   return (
     <main className="flex-1">
-      <SiteNav t={t} area="site" />
+      <SiteNav t={t} />
       <article className="mx-auto w-full max-w-3xl px-4 py-12">
         <p className="text-sm font-medium tracking-wide text-amber-text uppercase">{p.eyebrow}</p>
         <h1 className="mt-3 font-display text-4xl font-semibold tracking-tight sm:text-5xl">{p.h1}</h1>

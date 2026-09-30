@@ -3,6 +3,18 @@
 Written for the people using it, not for the code. Newest first. Version matches
 `package.json`.
 
+## 0.27.0 — 30 September 2026, a sidebar, and a tab bar on phones
+
+- On a computer the app now has a sidebar on the left instead of the bar at the top: every tool
+  is always one click away, listed under Learn, Practice and Setup, with the ones coming next
+  shown dimmed.
+- The sidebar folds down to a column of icons, with the button at its top or the [ key, and
+  stays the way you left it. Hover an icon to see its name.
+- On a phone there is a bar at the bottom, like in an app: Learn, Practice, Setup and your
+  profile. Inside a tool, the top of the screen shows its name and the way back.
+- While you are in an exercise on a phone, both bars still step aside so the neck gets the whole
+  screen.
+
 ## 0.26.2 — 30 September 2026
 
 - Diesis now also counts visits with PostHog, next to Google Analytics, to see which tools get

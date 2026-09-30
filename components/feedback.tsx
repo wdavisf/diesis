@@ -23,9 +23,20 @@ function guitarSetting() {
  * "Feedback": a button that opens a short form in a native <dialog> (name, what you need, an
  * optional email to be answered). The page, language and guitar go along as hidden fields.
  * `sendFeedback` emails it to Will through Resend; nothing is stored. `variant` picks the look:
- * an icon button in the app's top bar, a plain link in the footer.
+ * an icon button in the app's top bar on a phone, a row of the app's sidebar (which passes the
+ * row's and the label's classes), a plain link in the footer.
  */
-export function Feedback({ t, variant }: { t: Strings; variant: "bar" | "link" }) {
+export function Feedback({
+  t,
+  variant,
+  className,
+  labelClassName,
+}: {
+  t: Strings;
+  variant: "bar" | "side" | "link";
+  className?: string;
+  labelClassName?: string;
+}) {
   const f = t.feedback;
   const dialog = useRef<HTMLDialogElement>(null);
   const form = useRef<HTMLFormElement>(null);
@@ -50,6 +61,11 @@ export function Feedback({ t, variant }: { t: Strings; variant: "bar" | "link" }
         >
           <MessageSquare className="size-4" aria-hidden />
           <span className="hidden lg:inline">{f.open}</span>
+        </button>
+      ) : variant === "side" ? (
+        <button type="button" onClick={open} className={className}>
+          <MessageSquare className="size-[1.125rem] shrink-0" strokeWidth={1.75} aria-hidden />
+          <span className={labelClassName}>{f.open}</span>
         </button>
       ) : (
         <button type="button" onClick={open} className="hover:text-ink">
