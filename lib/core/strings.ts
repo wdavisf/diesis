@@ -50,20 +50,24 @@ export function feelOf(lb: number): Feel {
   return lb < SLACK_BELOW ? 'slack' : lb > TIGHT_ABOVE ? 'tight' : 'balanced';
 }
 
+/** How far (lb) a plain string may sit from its target before a wound one takes its place. */
+const PLAIN_NEAR_ENOUGH = 1.5;
+
 /**
  * The gauge whose tension is nearest the target for each string: about 16 lb on the top string
  * rising to 18 lb on the lowest, the balance most electric sets aim for. Plain on the three
- * highest strings when a plain gauge exists near enough; wound below.
+ * highest strings when a plain gauge exists near enough (within PLAIN_NEAR_ENOUGH lb); wound below.
  */
 export function suggestGauges(tuning: Tuning, scale: number): number[] {
   const n = tuning.length;
   return tuning.map((midi, i) => {
     const target = 16 + (2 * i) / Math.max(n - 1, 1);
-    const pool: readonly number[] = i < 3 ? PLAIN_GAUGES.filter((g) => g < 21) : WOUND_GAUGES;
-    let best = pool[0];
-    for (const g of pool) {
-      if (Math.abs(tension(g, midi, scale) - target) < Math.abs(tension(best, midi, scale) - target)) best = g;
-    }
+    const off = (g: number) => Math.abs(tension(g, midi, scale) - target);
+    const nearest = (pool: readonly number[]) => pool.reduce((best, g) => (off(g) < off(best) ? g : best), pool[0]);
+    if (i >= 3) return nearest(WOUND_GAUGES);
+    // A low tuning (a baritone's third string) asks for more than a plain string can give: wound then, as those sets are made.
+    const plain = nearest(PLAIN_GAUGES.filter((g) => g < 21));
+    const best = off(plain) <= PLAIN_NEAR_ENOUGH ? plain : nearest(WOUND_GAUGES.filter((g) => g >= 21));
     return best;
   });
 }
@@ -72,6 +76,8 @@ export function suggestGauges(tuning: Tuning, scale: number): number[] {
 export interface StringSet {
   id: string;
   gauges: readonly number[];
+  /** A baritone set: six heavy strings for B standard. Offered on the baritone only. */
+  baritone?: true;
 }
 export const SETS: readonly StringSet[] = [
   { id: '9-42', gauges: [9, 11, 16, 24, 32, 42] },
@@ -80,6 +86,8 @@ export const SETS: readonly StringSet[] = [
   { id: '11-49', gauges: [11, 14, 18, 28, 38, 49] },
   { id: '11-56', gauges: [11, 14, 18, 30, 44, 56] },
   { id: '12-56', gauges: [12, 16, 20, 32, 42, 56] },
+  { id: '13-62', gauges: [13, 17, 26, 36, 46, 62], baritone: true },
+  { id: '14-68', gauges: [14, 18, 26, 44, 56, 68], baritone: true },
   { id: '9-54', gauges: [9, 11, 16, 24, 32, 42, 54] },
   { id: '10-59', gauges: [10, 13, 17, 26, 36, 46, 59] },
   { id: '10-64', gauges: [10, 13, 17, 26, 36, 46, 64] },
@@ -87,8 +95,8 @@ export const SETS: readonly StringSet[] = [
   { id: '10-74', gauges: [10, 13, 17, 26, 36, 46, 59, 74] },
 ];
 
-export function setsFor(strings: number): StringSet[] {
-  return SETS.filter((s) => s.gauges.length === strings);
+export function setsFor(strings: number, baritone = false): StringSet[] {
+  return SETS.filter((s) => s.gauges.length === strings && !!s.baritone === baritone);
 }
 
 /** Setup starting points in millimetres (action measured at the 12th fret, top of fret to
@@ -112,6 +120,8 @@ export interface GuitarType {
   scale: number;
   strings: 6 | 7 | 8;
   nylon?: boolean;
+  /** Tuned a fourth low: picking it brings B standard (BARITONE_TUNING), its own sets and its own gauges. */
+  baritone?: true;
   setup: Setup;
 }
 export const GUITAR_TYPES: readonly GuitarType[] = [
@@ -120,7 +130,7 @@ export const GUITAR_TYPES: readonly GuitarType[] = [
   { id: 'lesPaul', scale: 24.75, strings: 6, setup: { actionBass: 2.0, actionTreble: 1.6, relief: 0.3, radius: 12, pickupBass: 2.4, pickupTreble: 1.6 } },
   { id: 'prs', scale: 25, strings: 6, setup: { actionBass: 1.8, actionTreble: 1.6, relief: 0.25, radius: 10, pickupBass: 2.4, pickupTreble: 1.6 } },
   { id: 'superstrat', scale: 25.5, strings: 6, setup: { actionBass: 1.8, actionTreble: 1.5, relief: 0.2, radius: 15.75, pickupBass: 2.4, pickupTreble: 1.6 } },
-  { id: 'baritone', scale: 27, strings: 6, setup: { actionBass: 2.2, actionTreble: 1.8, relief: 0.3, radius: 12, pickupBass: 2.4, pickupTreble: 1.6 } },
+  { id: 'baritone', scale: 27, strings: 6, baritone: true, setup: { actionBass: 2.2, actionTreble: 1.8, relief: 0.3, radius: 12, pickupBass: 2.4, pickupTreble: 1.6 } },
   { id: 'seven', scale: 25.5, strings: 7, setup: { actionBass: 2.0, actionTreble: 1.6, relief: 0.25, radius: 15.75, pickupBass: 2.4, pickupTreble: 1.6 } },
   { id: 'sevenLong', scale: 26.5, strings: 7, setup: { actionBass: 2.0, actionTreble: 1.6, relief: 0.25, radius: 15.75, pickupBass: 2.4, pickupTreble: 1.6 } },
   { id: 'eight', scale: 27, strings: 8, setup: { actionBass: 2.2, actionTreble: 1.6, relief: 0.3, radius: 17, pickupBass: 2.4, pickupTreble: 1.6 } },
@@ -177,7 +187,8 @@ export function decodeStrings(raw: string | null): StringsSettings {
     const gauges: Record<string, number[]> = {};
     if (v.gauges && typeof v.gauges === 'object') {
       for (const [k, list] of Object.entries(v.gauges)) {
-        if (['6', '7', '8'].includes(k) && Array.isArray(list) && list.length === Number(k) && list.every(isGauge)) gauges[k] = list;
+        const size = k === BARITONE_KEY ? 6 : ['6', '7', '8'].includes(k) ? Number(k) : 0;
+        if (size && Array.isArray(list) && list.length === size && list.every(isGauge)) gauges[k] = list;
       }
     }
     return {
@@ -190,14 +201,24 @@ export function decodeStrings(raw: string | null): StringsSettings {
   }
 }
 
-/** The set a string count starts on: 10–46, 10–59 or 10–74. */
+/** The set a string count starts on: 10–46, 10–59 or 10–74; a baritone starts on 13–62. */
 export const DEFAULT_SET: Record<number, string> = { 6: '10-46', 7: '10-59', 8: '10-74' };
+export const BARITONE_SET = '13-62';
+/** The baritone keeps its gauges apart from the six-string ones: going back to a Strat finds its 10–46 again. */
+export const BARITONE_KEY = 'baritone';
 
-/** The gauges in use for a string count: the stored ones, else the usual set for it. */
-export function gaugesFor(settings: StringsSettings, strings: number): number[] {
-  const stored = settings.gauges[String(strings)];
+/** Where a guitar's gauges are stored in `StringsSettings.gauges`. */
+export function gaugeKey(strings: number, baritone = false): string {
+  return baritone && strings === 6 ? BARITONE_KEY : String(strings);
+}
+
+/** The gauges in use for a string count (or the baritone): the stored ones, else the usual set for it. */
+export function gaugesFor(settings: StringsSettings, strings: number, baritone = false): number[] {
+  const bari = baritone && strings === 6;
+  const stored = settings.gauges[gaugeKey(strings, bari)];
   if (stored) return stored;
-  return [...(SETS.find((s) => s.id === DEFAULT_SET[strings])?.gauges ?? suggestGauges(Array(strings).fill(40), 25.5))];
+  const id = bari ? BARITONE_SET : DEFAULT_SET[strings];
+  return [...(SETS.find((s) => s.id === id)?.gauges ?? suggestGauges(Array(strings).fill(40), 25.5))];
 }
 
 export const mm = (inches: number) => inches * 25.4;

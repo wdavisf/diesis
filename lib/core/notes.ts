@@ -51,6 +51,9 @@ export const TUNINGS: readonly TuningPreset[] = [
   { id: 'dadgad', notes: [62, 57, 55, 50, 45, 38] },
   { id: 'openG', notes: [62, 59, 55, 50, 43, 38] },
   { id: 'openD', notes: [62, 57, 54, 50, 45, 38] },
+  // A baritone's own standard, a fourth below a guitar's: B E A D F♯ B (and its drop tuning).
+  { id: 'bStandard', notes: [59, 54, 50, 45, 40, 35] },
+  { id: 'dropA', notes: [59, 54, 50, 45, 40, 33] },
   { id: 'standard7', notes: [64, 59, 55, 50, 45, 40, 35] },
   { id: 'eFlat7', notes: [63, 58, 54, 49, 44, 39, 34] },
   { id: 'dStandard7', notes: [62, 57, 53, 48, 43, 38, 33] },
@@ -62,6 +65,9 @@ export const TUNINGS: readonly TuningPreset[] = [
   { id: 'dStandard8', notes: [62, 57, 53, 48, 43, 38, 33, 28] },
   { id: 'dropE8', notes: [64, 59, 55, 50, 45, 40, 35, 28] },
 ];
+
+/** What "standard" means on a baritone guitar (a friend's correction, 2026-09-30: B to B, not E to E). */
+export const BARITONE_TUNING = 'bStandard';
 
 export const STRING_COUNTS = [6, 7, 8] as const;
 

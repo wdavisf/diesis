@@ -57,6 +57,13 @@ describe('gauge suggestions', () => {
     }
   });
 
+  it('suggests a wound third string for a baritone in B standard, and a plain one in E standard', () => {
+    const bari = suggestGauges(TUNINGS.find((t) => t.id === 'bStandard')!.notes, 27);
+    expect(windingOf(bari[2])).toBe('wound');
+    expect(windingOf(bari[1])).toBe('plain');
+    expect(windingOf(suggestGauges(STANDARD_TUNING, 25.5)[2])).toBe('plain');
+  });
+
   it('goes heavier for drop A on seven strings than for standard B', () => {
     const b = suggestGauges(TUNINGS.find((t) => t.id === 'standard7')!.notes, 25.5);
     const a = suggestGauges(TUNINGS.find((t) => t.id === 'dropA7')!.notes, 25.5);
@@ -68,6 +75,9 @@ describe('sets, types and settings', () => {
   it('has sets for 6, 7 and 8 strings with unique ids, gauges thin to thick', () => {
     expect(new Set(SETS.map((s) => s.id)).size).toBe(SETS.length);
     for (const n of [6, 7, 8]) expect(setsFor(n).length).toBeGreaterThan(0);
+    // The baritone has its own sets; a regular six-string never sees them.
+    expect(setsFor(6, true).map((s) => s.id)).toEqual(['13-62', '14-68']);
+    expect(setsFor(6).some((s) => s.baritone)).toBe(false);
     for (const s of SETS) expect([...s.gauges].sort((a, b) => a - b)).toEqual([...s.gauges]);
   });
 
@@ -90,6 +100,12 @@ describe('sets, types and settings', () => {
 
   it('falls back to 10–46, 10–59 or 10–74', () => {
     expect(gaugesFor(DEFAULT_STRINGS, 6)).toEqual([10, 13, 17, 26, 36, 46]);
+    // The baritone starts on 13–62 and keeps its gauges apart from the six-string ones.
+    expect(GUITAR_TYPES.find((t) => t.id === 'baritone')?.baritone).toBe(true);
+    expect(gaugesFor(DEFAULT_STRINGS, 6, true)).toEqual([13, 17, 26, 36, 46, 62]);
+    const kept = decodeStrings(JSON.stringify({ type: 'baritone', scale: 27, gauges: { '6': [9, 11, 16, 24, 32, 42], baritone: [14, 18, 26, 44, 56, 68] } }));
+    expect(gaugesFor(kept, 6, true)).toEqual([14, 18, 26, 44, 56, 68]);
+    expect(gaugesFor(kept, 6)).toEqual([9, 11, 16, 24, 32, 42]);
     expect(gaugesFor(DEFAULT_STRINGS, 7)).toHaveLength(7);
     expect(gaugesFor(DEFAULT_STRINGS, 8)).toHaveLength(8);
   });

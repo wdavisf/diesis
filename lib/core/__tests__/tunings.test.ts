@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { midiAt, pitchClassAt, stringsOf, tuningPreset, tuningsFor, TUNINGS } from '../notes';
+import { BARITONE_TUNING, midiAt, pitchClassAt, STANDARD_TUNING, stringsOf, tuningPreset, tuningsFor, TUNINGS } from '../notes';
 import { candidatePositions, DEFAULT_SETTINGS, positionsOf } from '../quiz';
 import { neckNotes, scaleOf } from '../scales';
 
@@ -9,6 +9,13 @@ describe('tunings', () => {
     expect(tuningsFor(7).map((t) => t.id)).toEqual(['standard7', 'eFlat7', 'dStandard7', 'dropA7', 'dropG7', 'dropFs7']);
     expect(tuningsFor(8).map((t) => t.id)).toEqual(['standard8', 'eFlat8', 'dStandard8', 'dropE8']);
     for (const t of TUNINGS) expect(t.notes.every((n, i) => i === 0 || n < t.notes[i - 1])).toBe(true);
+  });
+
+  it('tunes a baritone B to B, a fourth below standard, and keeps E standard first', () => {
+    expect(tuningPreset(BARITONE_TUNING).notes).toEqual(STANDARD_TUNING.map((n) => n - 5));
+    expect(pitchClassAt({ string: 6, fret: 0 }, tuningPreset(BARITONE_TUNING).notes)).toBe(11); // B
+    expect(pitchClassAt({ string: 6, fret: 0 }, tuningPreset('dropA').notes)).toBe(9); // A
+    expect(tuningsFor(6)[0].id).toBe('standard6');
   });
 
   it('falls back to standard six-string tuning', () => {

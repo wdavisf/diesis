@@ -59,7 +59,7 @@ export interface Strings {
     /** Target chips on steps 2–4: {v} is filled with the number for the chosen guitar. */
     aim: { relief: string; action: string; pickups: string };
     picksTitle: string; picksNote: string; picks: Record<"nickel" | "coated" | "bronze" | "normal" | "hard", string>;
-    buy: string; buyNylon: string; query: { electric: string; acoustic: string; nylon: string; extended: string };
+    buy: string; buyNylon: string; query: { electric: string; acoustic: string; baritone: string; nylon: string; extended: string };
     gearTitle: string; gear: { label: string; query: string }[]; affiliate: string;
   };
   /** The feedback form (components/feedback.tsx). */
@@ -423,7 +423,7 @@ const en: Strings = {
     picks: { nickel: "Nickel-plated steel: the usual choice", coated: "Coated: lasts longer, costs more", bronze: "Phosphor bronze: the usual acoustic sound", normal: "Normal tension", hard: "Hard tension" },
     buy: "Find {set} strings on Amazon.es",
     buyNylon: "Find classical strings on Amazon.es",
-    query: { electric: "electric guitar strings {set}", acoustic: "acoustic guitar strings {set}", nylon: "classical guitar strings normal tension", extended: " {n} string" },
+    query: { electric: "electric guitar strings {set}", acoustic: "acoustic guitar strings {set}", baritone: "baritone guitar strings {set}", nylon: "classical guitar strings normal tension", extended: " {n} string" },
     gearTitle: "What you need for a setup",
     gear: [
       { label: "String action ruler", query: "guitar string action ruler" },
@@ -627,7 +627,7 @@ const en: Strings = {
     guitarLede: "The exercises and the neck draw and play this guitar: its strings and the notes they give.",
     strings: "Strings",
     tuning: "Tuning",
-    tunings: { standard6: "Standard", dropD: "Drop D", eFlat: "E♭ standard", dStandard: "D standard", dropC: "Drop C", dadgad: "DADGAD", openG: "Open G", openD: "Open D", standard7: "Standard (low B)", eFlat7: "E♭ standard (low B♭)", dStandard7: "D standard (low A)", dropA7: "Drop A", dropG7: "Drop G", dropFs7: "Drop F♯", standard8: "Standard (low F♯)", eFlat8: "E♭ standard (low F)", dStandard8: "D standard (low E)", dropE8: "Drop E" },
+    tunings: { standard6: "Standard", dropD: "Drop D", eFlat: "E♭ standard", dStandard: "D standard", dropC: "Drop C", dadgad: "DADGAD", openG: "Open G", openD: "Open D", bStandard: "B standard (baritone)", dropA: "Drop A (baritone)", standard7: "Standard (low B)", eFlat7: "E♭ standard (low B♭)", dStandard7: "D standard (low A)", dropA7: "Drop A", dropG7: "Drop G", dropFs7: "Drop F♯", standard8: "Standard (low F♯)", eFlat8: "E♭ standard (low F)", dStandard8: "D standard (low E)", dropE8: "Drop E" },
     names: "Note names",
     namesLede: "How notes are written on the buttons and on the neck, everywhere in the app.",
     language: "Language",
@@ -913,7 +913,7 @@ const es: Strings = {
     picks: { nickel: "Acero niquelado: la opción de siempre", coated: "Con recubrimiento: duran más, cuestan más", bronze: "Bronce fosforado: el sonido acústico de siempre", normal: "Tensión normal", hard: "Tensión alta" },
     buy: "Buscar cuerdas {set} en Amazon.es",
     buyNylon: "Buscar cuerdas de clásica en Amazon.es",
-    query: { electric: "cuerdas guitarra eléctrica {set}", acoustic: "cuerdas guitarra acústica {set}", nylon: "cuerdas guitarra clásica tensión normal", extended: " {n} cuerdas" },
+    query: { electric: "cuerdas guitarra eléctrica {set}", acoustic: "cuerdas guitarra acústica {set}", baritone: "cuerdas guitarra barítono {set}", nylon: "cuerdas guitarra clásica tensión normal", extended: " {n} cuerdas" },
     gearTitle: "Lo que necesitas para ajustarla",
     gear: [
       { label: "Regla para la altura de cuerdas", query: "regla altura cuerdas guitarra" },
@@ -1117,7 +1117,7 @@ const es: Strings = {
     guitarLede: "Los ejercicios y el mástil dibujan y suenan con esta guitarra: sus cuerdas y las notas que dan.",
     strings: "Cuerdas",
     tuning: "Afinación",
-    tunings: { standard6: "Estándar", dropD: "Drop D", eFlat: "Mi♭ estándar", dStandard: "Re estándar", dropC: "Drop C", dadgad: "DADGAD", openG: "Sol abierta", openD: "Re abierta", standard7: "Estándar (Si grave)", eFlat7: "Mi♭ estándar (Si♭ grave)", dStandard7: "Re estándar (La grave)", dropA7: "Drop A", dropG7: "Drop G", dropFs7: "Drop F♯", standard8: "Estándar (Fa♯ grave)", eFlat8: "Mi♭ estándar (Fa grave)", dStandard8: "Re estándar (Mi grave)", dropE8: "Drop E" },
+    tunings: { standard6: "Estándar", dropD: "Drop D", eFlat: "Mi♭ estándar", dStandard: "Re estándar", dropC: "Drop C", dadgad: "DADGAD", openG: "Sol abierta", openD: "Re abierta", bStandard: "Si estándar (barítona)", dropA: "Drop A (barítona)", standard7: "Estándar (Si grave)", eFlat7: "Mi♭ estándar (Si♭ grave)", dStandard7: "Re estándar (La grave)", dropA7: "Drop A", dropG7: "Drop G", dropFs7: "Drop F♯", standard8: "Estándar (Fa♯ grave)", eFlat8: "Mi♭ estándar (Fa grave)", dStandard8: "Re estándar (Mi grave)", dropE8: "Drop E" },
     names: "Nombres de las notas",
     namesLede: "Cómo se escriben las notas en los botones y en el mástil, en toda la app.",
     language: "Idioma",

@@ -39,6 +39,8 @@ const ELECTRIC_PICKS: Record<string, StringPick[]> = {
   '10-52': [dadd('EXL140'), { id: 'eb2215', name: 'Ernie Ball Skinny Top Heavy Bottom 2215', kind: 'nickel' }],
   '11-49': [dadd('EXL115')],
   '11-56': [dadd('EXL117')],
+  '13-62': [dadd('EXL158')],
+  '14-68': [dadd('EXL157')],
   '9-54': [dadd('EXL120-7')],
   '10-59': [dadd('EXL110-7')],
   '9-65': [dadd('EXL120-8')],

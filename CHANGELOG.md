@@ -3,6 +3,15 @@
 Written for the people using it, not for the code. Newest first. Version matches
 `package.json`.
 
+## 0.25.3 — 30 September 2026, a baritone is tuned B to B
+
+- Strings and setup: picking the baritone now tunes it as a baritone is tuned, B E A D F♯ B, a
+  fourth below a guitar, instead of leaving it in E standard. Thanks to the friend who spotted it.
+- The baritone has its own string sets (13–62 and 14–68) with the real sets to try, and keeps its
+  gauges apart, so going back to another guitar finds its strings as you left them.
+- Two new six-string tunings everywhere: B standard and Drop A.
+- "Suggest a balanced set" gives a wound third string when the tuning is too low for a plain one.
+
 ## 0.25.2 — 29 September 2026
 
 - A narrow window on a computer plays Finger independence upright, as before, instead of asking

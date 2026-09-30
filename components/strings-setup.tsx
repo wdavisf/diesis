@@ -4,9 +4,10 @@ import type { ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ExternalLink, Sparkles } from "lucide-react";
-import { namesFor, pitchClassOf, STRING_COUNTS, tuningsFor } from "@/lib/core/notes";
+import { BARITONE_TUNING, namesFor, pitchClassOf, STRING_COUNTS, tuningsFor } from "@/lib/core/notes";
 import {
   feelOf,
+  gaugeKey,
   gaugesFor,
   GUITAR_TYPES,
   adjustSetup,
@@ -98,10 +99,12 @@ export function StringsSetup({ t, tp, lang, base }: { t: Strings["setup"]; tp: S
   const tuning = guitar.preset.notes;
   const count = tuning.length;
   const type = guitarType(settings.type);
-  const gauges = gaugesFor(settings, count);
+  // A baritone is a six-string in B standard with heavier sets and its own gauges.
+  const bari = !!type.baritone && count === 6;
+  const gauges = gaugesFor(settings, count, bari);
   const scale = settings.scale;
 
-  const setGauges = (list: number[]) => set({ gauges: { ...settings.gauges, [String(count)]: list } });
+  const setGauges = (list: number[]) => set({ gauges: { ...settings.gauges, [gaugeKey(count, bari)]: list } });
   const rows = tuning.map((midi, i) => {
     const g = gauges[i];
     const lb = tension(g, midi, scale);
@@ -110,11 +113,11 @@ export function StringsSetup({ t, tp, lang, base }: { t: Strings["setup"]; tp: S
   const total = rows.reduce((sum, r) => sum + r.lb, 0);
   // No octave number: English and Spanish count octaves differently, and the string number already tells them apart.
   const noteName = (midi: number) => names[pitchClassOf(midi)];
-  const activeSet = setsFor(count).find((s) => s.gauges.every((g, i) => g === gauges[i]))?.id;
+  const activeSet = setsFor(count, bari).find((s) => s.gauges.every((g, i) => g === gauges[i]))?.id;
   const picks = picksFor(type.id, !!type.nylon, activeSet ?? null);
   const s = adjustSetup(type.setup, total / count, type.nylon);
   const stringsQuery =
-    (type.id === "acoustic" ? t.query.acoustic : t.query.electric).replace("{set}", setName(gauges)) +
+    (type.id === "acoustic" ? t.query.acoustic : bari ? t.query.baritone : t.query.electric).replace("{set}", setName(gauges)) +
     (count > 6 ? t.query.extended.replace("{n}", String(count)) : "");
 
   const picksList =
@@ -169,7 +172,10 @@ export function StringsSetup({ t, tp, lang, base }: { t: Strings["setup"]; tp: S
                 title={t.types[g.id]}
                 onClick={() => {
                   set({ type: g.id, scale: g.scale });
-                  if (g.strings !== count) guitar.setTuning(tuningsFor(g.strings)[0].id);
+                  // A baritone's standard is B to B; leaving one goes back to E standard, and another string count brings its own.
+                  if (g.baritone) {
+                    if (!bari) guitar.setTuning(BARITONE_TUNING);
+                  } else if (g.strings !== count || bari) guitar.setTuning(tuningsFor(g.strings)[0].id);
                 }}
                 className={cn(
                   "group relative aspect-[4/5] min-w-0 overflow-hidden rounded-xl border bg-[#1a1a1a] text-left outline-none transition-[border-color,transform] focus-visible:ring-3 focus-visible:ring-ring/50 active:scale-[0.98] motion-reduce:transition-none",
@@ -265,7 +271,7 @@ export function StringsSetup({ t, tp, lang, base }: { t: Strings["setup"]; tp: S
           <>
             <div className="flex flex-wrap items-center gap-2">
               <div role="radiogroup" aria-label={t.sets} className="flex flex-wrap gap-2">
-                {setsFor(count).map((st) => (
+                {setsFor(count, bari).map((st) => (
                   <Chip key={st.id} on={activeSet === st.id} onClick={() => setGauges([...st.gauges])}>
                     {st.id.replace("-", "–")}
                   </Chip>

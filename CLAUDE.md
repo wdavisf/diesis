@@ -300,6 +300,12 @@ Todoist project records what is still to do.
   acoustic drops the pickup step, sets action by sanding or shimming the saddle and has nothing to move for
   intonation (its own picture); a classical also stretches nylon for days, checks relief between the 1st
   and 12th fret with no truss rod, and settles over a week. Electrics keep the six original steps.
+  **A baritone is B standard (a friend's correction, 2026-09-30: "B to B, not E to E").** `GuitarType.baritone`:
+  picking it sets `BARITONE_TUNING` (`bStandard`, B E A D F♯ B; `dropA` is its drop tuning), offers only the
+  baritone sets (`setsFor(6, true)`: 13–62 and 14–68, gauges checked against D'Addario EXL158/EXL157, which
+  are its picks) and stores its gauges under `gauges.baritone`, apart from the six-string ones; leaving it
+  goes back to E standard. `suggestGauges` takes a wound third string when the nearest plain one is more
+  than 1.5 lb off the target.
 - **Amazon affiliate links (Will, 2026-09-26; store id `willdafer-21`, Amazon.es).** Search
   links, not product links (`amazonSearch` in `lib/core/shop.ts`): no per-product codes, never
   stale. Today only in Setup → Strings and setup: "Find {set} strings on Amazon.es" for the

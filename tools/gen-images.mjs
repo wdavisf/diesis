@@ -67,6 +67,8 @@ const PICKS = {
   eb2215: pack("dark olive green", "nickel"),
   exl115: pack("teal", "nickel"),
   exl117: pack("plum", "nickel"),
+  exl158: pack("mustard yellow", "nickel"),
+  exl157: pack("deep purple", "nickel"),
   "exl120-7": pack("forest green", "nickel"),
   "exl110-7": pack("petrol blue", "nickel"),
   "exl120-8": pack("rust orange", "nickel"),
