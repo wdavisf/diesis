@@ -1,13 +1,20 @@
 "use client";
 
-import { useSyncExternalStore } from "react";
+import { useEffect, useSyncExternalStore } from "react";
 import Link from "next/link";
 import Script from "next/script";
 import { usePathname } from "next/navigation";
 import { strings, type Lang } from "@/lib/i18n";
 
 export const GA_ID = "G-HNHYBR8Y13";
+// PostHog project key and region. The key is public by design (it ships in the page), like the
+// GA id. Empty: PostHog is never loaded.
+const POSTHOG_KEY = "phc_km9vkzJTUSRa845ErLb9ZkYvAYwAZssQrDGMLEpwZi4Y";
+const POSTHOG_HOST = "https://eu.i.posthog.com";
 const COOKIE = "diesis_consent";
+// A plain "yes" answered the banner that named only Google (to 0.26.x): it no longer counts, so
+// those visitors are asked again now that PostHog is in it. A "no" still stands.
+const YES = "yes2";
 
 type Answer = "yes" | "no";
 type State = Answer | "ask" | "unknown";
@@ -18,23 +25,47 @@ function subscribe(cb: () => void) {
   return () => listeners.delete(cb);
 }
 function readConsent(): State {
-  const m = document.cookie.match(/(?:^|; )diesis_consent=(yes|no)/);
-  return m ? (m[1] as Answer) : "ask";
+  const m = document.cookie.match(/(?:^|; )diesis_consent=(yes2|no)(?:;|$)/);
+  return m ? (m[1] === YES ? "yes" : "no") : "ask";
 }
 function readLang(): Lang {
   return document.cookie.match(/(?:^|; )diesis_lang=(en|es)/)?.[1] === "es" ? "es" : "en";
 }
 function writeConsent(v: Answer) {
-  document.cookie = `${COOKIE}=${v}; Path=/; Max-Age=${60 * 60 * 24 * 365}; SameSite=Lax`;
+  document.cookie = `${COOKIE}=${v === "yes" ? YES : v}; Path=/; Max-Age=${60 * 60 * 24 * 365}; SameSite=Lax`;
   listeners.forEach((l) => l());
 }
 
-/** Google Analytics behind a yes/no banner. Nothing from Google loads until the visitor says yes;
- *  the answer is kept in a cookie for a year. Server render shows nothing (state "unknown"). */
+/** Google Analytics and PostHog behind a yes/no banner. Nothing from either loads until the
+ *  visitor says yes; the answer is kept in a cookie for a year. Server render shows nothing
+ *  (state "unknown"). */
 export function Consent() {
   const state = useSyncExternalStore(subscribe, readConsent, () => "unknown" as State);
   const cookieLang = useSyncExternalStore(subscribe, readLang, () => "en" as Lang);
   const pathname = usePathname();
+
+  // PostHog: page views (every tool is a page), how long they last and how fast they load
+  // (web vitals), to see which tools get used. The library itself is only downloaded after a yes. Anonymous (no person profiles), its
+  // id in local storage rather than a cookie. Clicks, heatmaps and session recordings are off
+  // here whatever the PostHog project's settings say: the privacy page promises exactly this, so
+  // change the two together.
+  useEffect(() => {
+    if (state !== "yes" || !POSTHOG_KEY) return;
+    void import("posthog-js").then(({ default: posthog }) => {
+      if (posthog.__loaded) return;
+      posthog.init(POSTHOG_KEY, {
+        api_host: POSTHOG_HOST,
+        defaults: "2026-08-30",
+        person_profiles: "identified_only",
+        persistence: "localStorage",
+        autocapture: false,
+        capture_heatmaps: false,
+        capture_dead_clicks: false,
+        disable_session_recording: true,
+      });
+    });
+  }, [state]);
+
   const lang: Lang = pathname === "/es" || pathname.startsWith("/es/") ? "es" : cookieLang;
   const t = strings[lang].consent;
   const privacyHref = `${strings[lang].base}/privacy`;

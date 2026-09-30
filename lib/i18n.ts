@@ -253,7 +253,7 @@ const en: Strings = {
     description:
       "Everything you need to master the guitar, in one place. See every note and scale on the neck, learn the notes, build speed with the metronome, jam over backing tracks and work out the strings and setup for your own guitar; scale exercises and reading music come next. Free while in preview, in the browser.",
     privacyTitle: "Privacy",
-    privacyDescription: "What Diesis does with your data: no account, no ads, nothing you do in Diesis leaves your browser. Visit counting with Google Analytics only if you allow it.",
+    privacyDescription: "What Diesis does with your data: no account, no ads, and your settings and scores never leave your browser. Visits are counted with Google Analytics and PostHog only if you allow it.",
   },
   nav: { how: "How it works", learn: "What you learn", faq: "FAQ", cta: "Open the app", privacy: "Privacy", about: "About Diesis", areas: { learn: "Learn", practice: "Practice", setup: "Setup" }, learnTools: ["Name the note", "Find the note"], practiceTools: ["The neck", "Metronome", "Backing tracks", "Fingers"], setupTools: ["Strings"] },
   hero: {
@@ -717,7 +717,7 @@ const en: Strings = {
   },
   settings: { challenge: "Challenge", time: "Time", notes: "Notes", all: "All twelve", naturals: "Naturals only", names: "Note names", solfege: "Do Re Mi", letters: "C D E" },
   consent: {
-    text: "Diesis uses Google Analytics to count visits, only if you say yes. No ads, nothing sold.",
+    text: "Diesis counts visits and which tools get used, with Google Analytics and PostHog, only if you say yes. No ads, nothing sold.",
     accept: "Allow",
     decline: "No thanks",
     more: "Privacy",
@@ -725,12 +725,12 @@ const en: Strings = {
   privacy: {
     eyebrow: "Privacy",
     h1: "Privacy policy",
-    updated: "Last updated 28 September 2026",
-    summary: "Diesis has no account and no advertising. Nothing you do in Diesis leaves your browser. The only thing we measure is visits to the site, with Google Analytics, and only if you allow it.",
+    updated: "Last updated 30 September 2026",
+    summary: "Diesis has no account and no advertising. What you choose and score in Diesis stays in your browser. The only thing measured is visits: which pages and tools are opened, with Google Analytics and PostHog, and only if you allow it.",
     sections: [
-      { h: "The app", p: ["Diesis runs entirely in your browser. It does not ask who you are, does not create an account, and does not send anything you do in it to us or to anyone else.", "Your score for a session is held in memory and disappears when you close the tab. Everything else you choose or earn stays in your browser's local storage, on your device only: your guitar (strings and tuning), how notes are named, your personal bests and the challenge you last picked, the metronome's settings (including a speed-up plan), the finger exercise's settings and your fastest clean runs in it, what you last picked on the neck and your guitar type, scale length and string gauges. None of it is ever sent anywhere. The Erase my data button in your profile removes it, and so does clearing the site's data."] },
+      { h: "The app", p: ["Diesis runs entirely in your browser. It does not ask who you are, does not create an account, and does not send your answers, scores or settings to me or to anyone else.", "Your score for a session is held in memory and disappears when you close the tab. Everything else you choose or earn stays in your browser's local storage, on your device only: your guitar (strings and tuning), how notes are named, your personal bests and the challenge you last picked, the metronome's settings (including a speed-up plan), the finger exercise's settings and your fastest clean runs in it, what you last picked on the neck and your guitar type, scale length and string gauges. None of it is ever sent anywhere. The Erase my data button in your profile removes it, and so does clearing the site's data."] },
       { h: "Cookies", p: ["Diesis sets two cookies. One remembers the language you picked; the other remembers your answer to the analytics banner. Neither holds anything about you."] },
-      { h: "This website", p: ["diesis.app is hosted by Vercel, which keeps standard server logs (IP address, browser, pages requested) for a short time to run the service and keep it safe.", "If you allow it in the banner, the site loads Google Analytics 4 to count visits and see which pages are read. Google sets its own cookies for that and processes the data under its own privacy policy. If you decline, nothing from Google is loaded, and you can change your mind by clearing the site's cookies."] },
+      { h: "This website", p: ["diesis.app is hosted by Vercel, which keeps standard server logs (IP address, browser, pages requested) for a short time to run the service and keep it safe.", "If you allow it in the banner, the site loads Google Analytics 4 and PostHog to count visits and see which pages and tools are opened, for how long, how fast they load and from what kind of device. Google sets its own cookies for that; PostHog keeps a random identifier in your browser's local storage, does not record your screen or your clicks, and stores its data in the European Union. Each processes the data under its own privacy policy. If you decline, nothing from Google or PostHog is loaded, and you can change your mind by clearing the site's cookies."] },
       { h: "Backing tracks", p: ["The backing tracks page shows thumbnails served by YouTube (i.ytimg.com), so YouTube sees your IP address when the page loads. The video player comes from youtube-nocookie.com and loads only when you press play on a track; from then on YouTube's privacy policy applies to that video. Diesis sends YouTube nothing about you."] },
       { h: "Links to Amazon", p: ["Some pages link to searches on Amazon.es with my Associates store id, so Amazon can tell the visit came from Diesis. Nothing is loaded from Amazon until you click, and Diesis sends Amazon nothing about you; once you are on Amazon, its own privacy policy and cookies apply. As an Amazon Associate I earn from qualifying purchases."] },
       { h: "Feedback", p: ["If you send the feedback form, what you write (your name, your message and your email if you give one) is emailed to me through Resend, together with the page you sent it from, the language, your guitar setting and your browser. It is not kept anywhere else: it stays in my inbox and I use it only to improve Diesis and to answer you."] },
@@ -753,7 +753,7 @@ const es: Strings = {
     description:
       "Todo lo que necesitas para dominar la guitarra, en un solo sitio. Hoy, todas las notas y escalas del mástil, un metrónomo que te hace ganar velocidad, backing tracks y las cuerdas y el ajuste de tu propia guitarra; después, ejercicios de escalas y lectura de partituras. Gratis durante la beta y en el navegador.",
     privacyTitle: "Privacidad",
-    privacyDescription: "Qué hace Diesis con tus datos: sin cuenta, sin anuncios y sin que nada de lo que haces en Diesis salga de tu navegador. Contamos visitas con Google Analytics solo si tú lo permites.",
+    privacyDescription: "Qué hace Diesis con tus datos: sin cuenta, sin anuncios, y tus ajustes y tus marcas no salen de tu navegador. Las visitas se cuentan con Google Analytics y PostHog solo si tú lo permites.",
   },
   nav: { how: "Cómo funciona", learn: "Qué aprendes", faq: "Preguntas", cta: "Abrir la app", privacy: "Privacidad", about: "Sobre Diesis", areas: { learn: "Aprender", practice: "Practicar", setup: "Ajuste" }, learnTools: ["Nombra la nota", "Encuentra la nota"], practiceTools: ["El mástil", "Metrónomo", "Backing tracks", "Dedos"], setupTools: ["Cuerdas"] },
   hero: {
@@ -1217,7 +1217,7 @@ const es: Strings = {
   },
   settings: { challenge: "Reto", time: "Tiempo", notes: "Notas", all: "Todas", naturals: "Solo naturales", names: "Nombres", solfege: "Do Re Mi", letters: "C D E" },
   consent: {
-    text: "Diesis usa Google Analytics para contar visitas, solo si tú lo permites. Sin anuncios y sin vender nada.",
+    text: "Diesis cuenta las visitas y qué herramientas se usan, con Google Analytics y PostHog, solo si tú lo permites. Sin anuncios y sin vender nada.",
     accept: "Permitir",
     decline: "No, gracias",
     more: "Privacidad",
@@ -1225,12 +1225,12 @@ const es: Strings = {
   privacy: {
     eyebrow: "Privacidad",
     h1: "Política de privacidad",
-    updated: "Última actualización: 28 de septiembre de 2026",
-    summary: "Diesis no tiene cuentas ni publicidad. Nada de lo que haces en Diesis sale de tu navegador. Lo único que medimos son las visitas a la web, con Google Analytics, y solo si tú lo permites.",
+    updated: "Última actualización: 30 de septiembre de 2026",
+    summary: "Diesis no tiene cuentas ni publicidad. Lo que eliges y consigues en Diesis se queda en tu navegador. Lo único que se mide son las visitas: qué páginas y herramientas se abren, con Google Analytics y PostHog, y solo si tú lo permites.",
     sections: [
-      { h: "La app", p: ["Diesis funciona por completo en tu navegador. No te pregunta quién eres, no crea ninguna cuenta y no envía nada de lo que haces a nadie, ni a nosotros ni a terceros.", "La puntuación de cada sesión se guarda en memoria y desaparece al cerrar la pestaña. Todo lo demás que eliges o consigues se queda en el almacenamiento local de tu navegador, solo en tu dispositivo: tu guitarra (cuerdas y afinación), cómo se nombran las notas, tus mejores marcas y el último reto que elegiste, los ajustes del metrónomo (con el plan de subida de tempo), los ajustes del ejercicio de dedos y tus pasadas limpias más rápidas, lo último que elegiste en el mástil y tu tipo de guitarra, tiro y calibres de cuerda. Nada de eso se envía nunca a ningún sitio. El botón «Borrar mis datos» de tu perfil lo elimina, y también borrar los datos de la web."] },
+      { h: "La app", p: ["Diesis funciona por completo en tu navegador. No te pregunta quién eres, no crea ninguna cuenta y no envía tus respuestas, tus marcas ni tus ajustes a nadie, ni a mí ni a terceros.", "La puntuación de cada sesión se guarda en memoria y desaparece al cerrar la pestaña. Todo lo demás que eliges o consigues se queda en el almacenamiento local de tu navegador, solo en tu dispositivo: tu guitarra (cuerdas y afinación), cómo se nombran las notas, tus mejores marcas y el último reto que elegiste, los ajustes del metrónomo (con el plan de subida de tempo), los ajustes del ejercicio de dedos y tus pasadas limpias más rápidas, lo último que elegiste en el mástil y tu tipo de guitarra, tiro y calibres de cuerda. Nada de eso se envía nunca a ningún sitio. El botón «Borrar mis datos» de tu perfil lo elimina, y también borrar los datos de la web."] },
       { h: "Cookies", p: ["Diesis guarda dos cookies: una recuerda el idioma que has elegido y la otra, lo que respondiste al aviso de analítica. Ninguna contiene datos sobre ti."] },
-      { h: "Esta web", p: ["diesis.app está alojada en Vercel, que conserva durante poco tiempo los registros habituales de cualquier servidor (dirección IP, navegador, páginas solicitadas) para que el servicio funcione y esté protegido.", "Si lo permites en el aviso, la web carga Google Analytics 4 para contar visitas y ver qué páginas se leen. Google instala sus propias cookies para ello y trata los datos según su política de privacidad. Si dices que no, no se carga nada de Google; puedes cambiar de opinión borrando las cookies de la web."] },
+      { h: "Esta web", p: ["diesis.app está alojada en Vercel, que conserva durante poco tiempo los registros habituales de cualquier servidor (dirección IP, navegador, páginas solicitadas) para que el servicio funcione y esté protegido.", "Si lo permites en el aviso, la web carga Google Analytics 4 y PostHog para contar visitas y ver qué páginas y herramientas se abren, durante cuánto tiempo, lo rápido que cargan y desde qué tipo de dispositivo. Google instala sus propias cookies para ello; PostHog guarda un identificador aleatorio en el almacenamiento local de tu navegador, no graba tu pantalla ni tus clics y conserva sus datos en la Unión Europea. Cada uno trata los datos según su propia política de privacidad. Si dices que no, no se carga nada de Google ni de PostHog; puedes cambiar de opinión borrando las cookies de la web."] },
       { h: "Backing tracks", p: ["La página de backing tracks muestra miniaturas que sirve YouTube (i.ytimg.com), así que YouTube ve tu dirección IP al cargarla. El reproductor viene de youtube-nocookie.com y solo se carga cuando pulsas play en una base; a partir de ahí, a ese vídeo se le aplica la política de privacidad de YouTube. Diesis no le envía a YouTube nada sobre ti."] },
       { h: "Enlaces a Amazon", p: ["Algunas páginas enlazan a búsquedas en Amazon.es con mi identificador de afiliado, para que Amazon sepa que la visita viene de Diesis. No se carga nada de Amazon hasta que haces clic, y Diesis no le envía nada sobre ti; una vez en Amazon, se aplican su política de privacidad y sus cookies. En calidad de Afiliado de Amazon, obtengo ingresos por las compras adscritas que cumplen los requisitos aplicables."] },
       { h: "Sugerencias", p: ["Si envías el formulario de sugerencias, lo que escribes (tu nombre, tu mensaje y tu email si lo dejas) me llega por email a través de Resend, junto con la página desde la que lo envías, el idioma, la guitarra de tu perfil y tu navegador. No se guarda en ningún otro sitio: se queda en mi correo y solo lo uso para mejorar Diesis y contestarte."] },

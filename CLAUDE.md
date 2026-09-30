@@ -214,10 +214,17 @@ Todoist project records what is still to do.
 - **Audio on iOS**: `lib/audio/note-player.ts` sets `navigator.audioSession.type = "playback"`
   before creating the AudioContext (Safari 17+), otherwise the silent switch mutes Web Audio;
   `play()` resumes a suspended context. Will reported silence on his phone 2026-09-24.
-- **Analytics (Will, 2026-09-23)**: Google Analytics 4, property `G-HNHYBR8Y13`, loaded by
-  `components/consent.tsx` only after the visitor accepts a banner (cookie `diesis_consent`,
-  one year). Decline loads nothing from Google. The privacy page describes it in both
-  languages; keep it true.
+- **Analytics (Will, 2026-09-23; PostHog added 2026-09-30, "to check usage and stuff")**: Google
+  Analytics 4, property `G-HNHYBR8Y13`, and PostHog (EU cloud, `posthog-js`, imported only after
+  a yes; project key and host at the top of `components/consent.tsx`, public by design like the
+  GA id), both loaded by `components/consent.tsx` only after the visitor accepts a banner (cookie
+  `diesis_consent`, one year; the accepted value is `yes2` since PostHog joined, so an older
+  `yes`, given to a banner that named only Google, is asked again). Decline loads nothing from
+  either. PostHog gets page views, page leaves and web vitals only (every tool is a page): autocapture,
+  heatmaps, dead clicks and session recordings are switched off in code whatever the PostHog
+  project says, events are anonymous, its id sits in localStorage, not a cookie. The privacy
+  page describes all of it in both languages; keep it true: turning any of those on, or adding
+  named events, means rewriting the privacy page in the same change.
 - **Note names and naturals are settings (Will, 2026-09-24)**, chosen on the start card of
   every mode (`ChallengePicker`), kept in localStorage by `lib/game/use-settings.ts`
   (`diesis_names`: `solfege` | `letters`; `diesis_naturals`: `yes` | `no`), never sent. Names

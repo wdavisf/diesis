@@ -3,6 +3,15 @@
 Written for the people using it, not for the code. Newest first. Version matches
 `package.json`.
 
+## 0.26.2 — 30 September 2026
+
+- Diesis now also counts visits with PostHog, next to Google Analytics, to see which tools get
+  used. Only if you allow it: the banner asks again, even if you had said yes before, because
+  that yes was given to Google Analytics alone. A no still stands.
+- PostHog only learns which pages are opened, for how long and how fast they load: no
+  recordings of your screen, no clicks, and nothing of your answers, scores or settings. The
+  privacy page says exactly what.
+
 ## 0.26.1 — 30 September 2026
 
 - The metronome shows the subdivision again under each beat: a small dot per click, and the one
