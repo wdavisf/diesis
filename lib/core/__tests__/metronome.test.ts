@@ -6,6 +6,7 @@ import {
   clampBpm,
   clickAt,
   clicksPerBar,
+  countdownAt,
   decodeMetronome,
   DEFAULT_METRONOME,
   encodeMetronome,
@@ -52,6 +53,14 @@ describe('metronome', () => {
     expect(clickAt(1, st)).toEqual({ beat: 0, sub: 1, kind: 'sub' });
     expect(clickAt(2, st)).toEqual({ beat: 1, sub: 0, kind: 'beat' });
     expect(clickAt(8, st)).toEqual({ beat: 0, sub: 0, kind: 'accent' });
+  });
+
+  it('counts a bar down to the start', () => {
+    const st = s({ meter: '4/4', subdivision: 2 });
+    expect([0, 1, 2, 3, 4, 5, 6, 7].map((i) => countdownAt(clickAt(i, st), st))).toEqual([4, 4, 3, 3, 2, 2, 1, 1]);
+    const seven = s({ meter: '7/8' });
+    expect(countdownAt(clickAt(0, seven), seven)).toBe(7);
+    expect(countdownAt(clickAt(6, seven), seven)).toBe(1);
   });
 
   it('gives compound and odd meters their group accents', () => {

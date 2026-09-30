@@ -3,6 +3,16 @@
 Written for the people using it, not for the code. Newest first. Version matches
 `package.json`.
 
+## 0.30.0 — 30 September 2026, the metronome counts you in
+
+- The metronome now counts one bar in every time it starts: the big number counts the beats
+  down, 4 3 2 1, and the tempo takes its place on the next one.
+- A Speed up climb can be paused. Pause holds the bar and tempo you were on, Resume counts a bar
+  in at that tempo and carries on from there; Stop still starts the climb over. On a computer,
+  Space pauses and resumes, Esc stops.
+- Speed up turns on and off with one tap on its card, without opening the panel; the chevron at
+  the card's edge opens the panel to change the plan.
+
 ## 0.29.3 — 30 September 2026
 
 - A link to Diesis shared in a chat now previews with the guitarist from the front page and the

@@ -184,6 +184,14 @@ export interface Strings {
     done: string;
     start: string;
     stop: string;
+    /** Speed up only: hold the climb where it is, and pick it up again. */
+    pause: string;
+    resume: string;
+    paused: string;
+    /** Under the countdown, the bar before the tempo begins. */
+    countIn: string;
+    /** The Speed up card's edge button, which opens its panel (the card itself is the switch). */
+    speedSettings: string;
     tapTempo: string;
     slower: string;
     faster: string;
@@ -539,12 +547,12 @@ const en: Strings = {
           { title: "20 to 300 BPM, set three ways", body: "Slide the tempo ruler, type the number, or tap the tempo you have in your head." },
           { title: "Time signatures with their accents", body: "2/4, 3/4, 4/4, 5/4, 6/8 and 7/8, accented where each bar is felt." },
           { title: "Subdivisions", body: "Eighth notes, triplets, sixteenths or sextuplets between the beats, quieter than the beat itself." },
-          { title: "Speed up", body: "Pick the start, the target, the step and how many bars each tempo lasts. At the target it stays there or starts over." },
+          { title: "Speed up", body: "Pick the start, the target, the step and how many bars each tempo lasts. Pause it and pick the climb up where you left it; at the target it stays there or starts over." },
         ],
         steps: [
           { title: "Set the tempo", body: "Slow enough to play the passage clean and relaxed." },
-          { title: "Press Start", body: "On a computer, the space bar. The beats light up as they sound." },
-          { title: "Turn on Speed up", body: "Set your target and let it climb a few BPM every few bars." },
+          { title: "Press Start", body: "On a computer, the space bar. It counts one bar in, then the beats light up as they sound." },
+          { title: "Turn on Speed up", body: "One tap on its card. Set your target and let it climb a few BPM every few bars." },
         ],
         faq: [
           { q: "What tempo should I practice at?", a: "The fastest one at which the passage comes out clean and relaxed. If you tense up or miss notes it is too fast: come down ten and build again." },
@@ -741,6 +749,11 @@ const en: Strings = {
     done: "Done",
     start: "Start",
     stop: "Stop",
+    pause: "Pause",
+    resume: "Resume",
+    paused: "Paused",
+    countIn: "Count-in",
+    speedSettings: "Speed up settings",
     tapTempo: "Tap tempo",
     slower: "Slower",
     faster: "Faster",
@@ -849,7 +862,7 @@ const en: Strings = {
     barOf: "Bar {b} of {e}",
     reached: "At the target",
     eta: "Reaches {to} in about {time}",
-    keys: "Keys: Space starts and stops, ← → change the start tempo (Shift for 5 at a time).",
+    keys: "Keys: Space starts, pauses and resumes, Esc stops, ← → change the start tempo (Shift for 5 at a time).",
   },
   settings: { challenge: "Challenge", time: "Time", notes: "Notes", all: "All twelve", naturals: "Naturals only", names: "Note names", solfege: "Do Re Mi", letters: "C D E" },
   consent: {
@@ -1150,12 +1163,12 @@ const es: Strings = {
           { title: "De 20 a 300 BPM, de tres maneras", body: "Desliza la regla de tempo, escribe el número o marca con toques el tempo que llevas en la cabeza." },
           { title: "Compases con sus acentos", body: "2/4, 3/4, 4/4, 5/4, 6/8 y 7/8, acentuados donde se siente cada compás." },
           { title: "Subdivisiones", body: "Corcheas, tresillos, semicorcheas o seisillos entre tiempo y tiempo, más suaves que el propio tiempo." },
-          { title: "Subida de tempo", body: "Elige la salida, el objetivo, el paso y cuántos compases dura cada tempo. Al llegar, se queda ahí o vuelve a empezar." },
+          { title: "Subida de tempo", body: "Elige la salida, el objetivo, el paso y cuántos compases dura cada tempo. Puedes pausarla y seguir donde lo dejaste; al llegar, se queda ahí o vuelve a empezar." },
         ],
         steps: [
           { title: "Pon el tempo", body: "Lo bastante lento para tocar el pasaje limpio y sin tensión." },
-          { title: "Pulsa Empezar", body: "En el ordenador, la barra espaciadora. Los tiempos se encienden a medida que suenan." },
-          { title: "Activa la subida de tempo", body: "Marca tu objetivo y deja que suba unos pocos BPM cada pocos compases." },
+          { title: "Pulsa Empezar", body: "En el ordenador, la barra espaciadora. Te da un compás de entrada y los tiempos se encienden a medida que suenan." },
+          { title: "Activa la subida de tempo", body: "Con un toque en su tarjeta. Marca tu objetivo y deja que suba unos pocos BPM cada pocos compases." },
         ],
         faq: [
           { q: "¿A qué tempo tengo que practicar?", a: "Al más rápido al que el pasaje te salga limpio y sin tensión. Si te agarrotas o fallas notas, vas demasiado rápido: baja diez y vuelve a subir." },
@@ -1352,6 +1365,11 @@ const es: Strings = {
     done: "Listo",
     start: "Empezar",
     stop: "Parar",
+    pause: "Pausa",
+    resume: "Seguir",
+    paused: "En pausa",
+    countIn: "Compás de entrada",
+    speedSettings: "Ajustes de la subida de tempo",
     tapTempo: "Tap tempo",
     slower: "Más lento",
     faster: "Más rápido",
@@ -1460,7 +1478,7 @@ const es: Strings = {
     barOf: "Compás {b} de {e}",
     reached: "En el objetivo",
     eta: "Llega a {to} en {time} aprox.",
-    keys: "Teclado: espacio para empezar o parar, ← → cambian el tempo de inicio (con Mayús, de 5 en 5).",
+    keys: "Teclado: espacio para empezar, pausar o seguir, Esc para parar, ← → cambian el tempo de inicio (con Mayús, de 5 en 5).",
   },
   settings: { challenge: "Reto", time: "Tiempo", notes: "Notas", all: "Todas", naturals: "Solo naturales", names: "Nombres", solfege: "Do Re Mi", letters: "C D E" },
   consent: {

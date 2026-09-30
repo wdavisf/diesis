@@ -125,7 +125,24 @@ Todoist project records what is still to do.
   Speed up panel has a slider and a typed number for start and target, the step, the bars, what
   happens at the target and "Reaches 140 in about 1 min 30 s" (`secondsToTarget`). In Speed up
   the ruler and ←/→ set the start while stopped; Tap tempo hides. `Stepper` stays for the
-  finger exercise.
+  finger exercise. **The Speed up card is itself the on/off switch (Will, 2026-09-30: "un botón
+  para encender/apagar la subida de tempo sin tener que abrir el modal"; 0.30.0)**: tapping it
+  toggles the mode (`SpeedSetting`, `role="switch"`), and a chevron column at its edge, set apart
+  by a rule, opens the panel (which keeps its switch too). A switch inside the card does not fit
+  beside "60 → 132" on a phone, so on phones the card's column is wider (`1.4fr`) instead.
+- **Count-in and pause (Will, 2026-09-30: "a countdown, like a full bar", and a pause "especially
+  when it's increasing, because if I stop it, then I have to start from scratch"; 0.30.0).**
+  Every start counts one bar in (`COUNT_IN_BARS` in `use-metronome.ts`): the engine's `start`
+  takes `{ from, countIn }` and reports count-in clicks with `Beat.countIn` (their `bar` is the
+  one they lead into, played at its tempo); the screen replaces the big number with the beats
+  left, 4 3 2 1 (`countdownAt` in the core), amber, with "Count-in · 80 BPM" under it. In steady
+  mode the count-in is audibly just the first bar, so it costs nothing. **Pause exists only in
+  Speed up** (a steady tempo has no place to hold, so there Stop is the pause): the hook's
+  `pause` stops the engine and keeps the bar of the last click heard, the screen keeps showing
+  that bar and tempo with "Paused", `resume` starts the engine again from that bar with a
+  count-in at its tempo, `stop` forgets it. Buttons: Start; then Pause + Stop; then Resume +
+  Stop. Space is the main button, Esc stops. Fingers uses the engine with no count-in of its
+  own from the engine (it counts its own four clicks).
 - **Speed trainer = the metronome's "Speed up" mode (Will, 2026-09-25: "combina el metrónomo y
   el entrenador de velocidad en la misma feature").** One tool at `/practice/metronome`. The climb
   has an on/off switch (since 0.26.0 in its own panel), "Speed up" / «Subida de tempo» (Will,

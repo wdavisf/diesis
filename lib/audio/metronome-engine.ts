@@ -21,19 +21,29 @@ const VOICE: Record<ClickKind, { freq: number; gain: number }> = {
   sub: { freq: 880, gain: 0.3 },
 };
 
-/** Where a heard click sits: the bar since start (from 0), the tempo it is played at, the
- *  click's number since start (from 0) and when it is heard, on the page's clock
- *  (performance.now() milliseconds). */
+/** Where a heard click sits: the bar (from 0; during a count-in, the bar it leads into), whether
+ *  it is part of the count-in, the tempo it is played at, the click's number since start (from
+ *  0, the count-in included) and when it is heard, on the page's clock (performance.now()
+ *  milliseconds). */
 export interface Beat {
   bar: number;
+  countIn: boolean;
   bpm: number;
   count: number;
   heardAt: number;
 }
 
+export interface StartOptions {
+  /** The bar to begin on, from 0: a paused climb resumes on the bar it was in. */
+  from?: number;
+  /** Bars of count-in before it, at the tempo of the bar `from`. */
+  countIn?: number;
+}
+
 export interface MetronomeEngine {
-  /** Must be called from a user gesture the first time. Starts on beat one. */
-  start(settings: MetronomeSettings): Promise<void>;
+  /** Must be called from a user gesture the first time. Starts on beat one of bar `from` (0
+   *  by default), after `countIn` bars of count-in (none by default). */
+  start(settings: MetronomeSettings, options?: StartOptions): Promise<void>;
   stop(): void;
   /** Takes new settings while running. Tempo changes land on the next click; a new meter or
    *  subdivision restarts the count on the next click at beat one. */
@@ -91,8 +101,10 @@ export function createMetronomeEngine(onClick: (click: Click, beat: Beat) => voi
   let index = 0;
   let nextTime = 0;
   let plan: ((bar: number) => number) | null = null;
-  /** Bars begun since start; the bar being booked is `bar - 1`. */
+  /** The bar being booked, from 0; during the count-in, the bar it leads into. */
   let bar = 0;
+  /** Count-in bars still to book, this one included. */
+  let countInLeft = 0;
   let barBpm = 0;
   let count = 0;
   const timeouts = new Set<ReturnType<typeof setTimeout>>();
@@ -163,21 +175,26 @@ export function createMetronomeEngine(onClick: (click: Click, beat: Beat) => voi
     // Fell far behind (the tab slept): skip ahead rather than fire a burst of late clicks.
     if (nextTime < ctx.currentTime - 0.2) nextTime = ctx.currentTime + 0.05;
     while (nextTime < ctx.currentTime + LOOKAHEAD_S) {
-      // A plan changes tempo only at the start of a bar, so each bar is played at one tempo.
-      if (index === 0) {
-        barBpm = plan ? plan(bar) : settings.bpm;
-        bar += 1;
-      }
+      // A plan changes tempo only at the start of a bar, so each bar is played at one tempo; a
+      // count-in bar takes the tempo of the bar it leads into.
+      if (index === 0) barBpm = plan ? plan(bar) : settings.bpm;
       const bpm = plan ? barBpm : settings.bpm;
       const click = clickAt(index, settings);
       blip(nextTime, click.kind);
-      const b: Beat = { bar: bar - 1, bpm, count, heardAt: heardAtPage(nextTime) };
+      const b: Beat = { bar, countIn: countInLeft > 0, bpm, count, heardAt: heardAtPage(nextTime) };
       count += 1;
       onBook?.(click, b);
       announce(nextTime, click, b);
       nextTime += secondsPerClick({ ...settings, bpm });
       index = (index + 1) % clicksPerBar(settings);
+      if (index === 0) nextBar();
     }
+  }
+
+  /** The bar is over: one count-in bar fewer, or the next bar. */
+  function nextBar() {
+    if (countInLeft > 0) countInLeft -= 1;
+    else bar += 1;
   }
 
   function clearAnnouncements() {
@@ -186,12 +203,13 @@ export function createMetronomeEngine(onClick: (click: Click, beat: Beat) => voi
   }
 
   return {
-    async start(next) {
+    async start(next, { from = 0, countIn = 0 } = {}) {
       const c = context();
       if (c.state !== "running") await c.resume();
       settings = next;
       index = 0;
-      bar = 0;
+      bar = from;
+      countInLeft = countIn;
       count = 0;
       nextTime = c.currentTime + 0.06;
       running = true;
@@ -207,7 +225,11 @@ export function createMetronomeEngine(onClick: (click: Click, beat: Beat) => voi
       const prev = settings;
       settings = next;
       if (!running || !prev) return;
-      if (prev.meter !== next.meter || prev.subdivision !== next.subdivision) index = 0;
+      // A new bar shape starts a fresh bar on the next click.
+      if ((prev.meter !== next.meter || prev.subdivision !== next.subdivision) && index !== 0) {
+        index = 0;
+        nextBar();
+      }
     },
     setPlan(next) {
       plan = next;

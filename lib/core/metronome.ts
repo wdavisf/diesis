@@ -114,6 +114,13 @@ export function clickAt(index: number, s: MetronomeSettings): Click {
   return { beat, sub, kind };
 }
 
+/** What the count-in shows on click `click`: the beats left in the bar, this one included, so a
+ *  4/4 count-in reads 4 3 2 1 and the tempo begins on the next one. Clicks between beats keep
+ *  their beat's number. */
+export function countdownAt(click: Click, s: MetronomeSettings): number {
+  return meterOf(s.meter).beats - click.beat;
+}
+
 /** Taps further apart than this start a new count. */
 export const TAP_RESET_MS = 2000;
 const TAP_KEEP = 5;

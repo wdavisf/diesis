@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useId, useMemo, useRef, useState, type CSSProperties, type ReactNode } from "react";
-import { ChevronDown, Minus, Play, Plus, Square } from "lucide-react";
-import { beatNotes, BPM_MAX, BPM_MIN, clampBpm, groupStarts, meterOf, METERS, SUBDIVISIONS, tempoMarking, type BeatNotes, type Click } from "@/lib/core/metronome";
+import { ChevronDown, Minus, Pause, Play, Plus, Square } from "lucide-react";
+import { beatNotes, BPM_MAX, BPM_MIN, clampBpm, countdownAt, groupStarts, meterOf, METERS, SUBDIVISIONS, tempoMarking, type BeatNotes, type Click } from "@/lib/core/metronome";
 import { barInStep, progress, secondsToTarget, SPEED_EVERY, SPEED_STEPS } from "@/lib/core/speed";
 import { useMetronome } from "@/lib/game/use-metronome";
 import { useSpeedPlan } from "@/lib/game/use-speed-plan";
@@ -13,6 +13,9 @@ import { cn } from "@/lib/utils";
 
 const smallStep =
   "flex h-9 min-w-9 items-center justify-center rounded-lg border border-line px-2 text-xs font-medium text-ink outline-none transition-[background-color,transform] hover:bg-surface active:scale-95 focus-visible:ring-3 focus-visible:ring-ring/50 sm:text-sm motion-reduce:active:scale-100";
+/** The button beside the main one: Tap tempo, or Stop while a climb runs. */
+const secondary =
+  "h-14 shrink-0 rounded-2xl border border-amber/60 px-5 text-base font-semibold text-amber-text outline-none transition-[background-color,transform] hover:bg-surface active:scale-95 focus-visible:ring-3 focus-visible:ring-ring/50 motion-reduce:active:scale-100";
 /** A choice inside a panel: amber when it is the one picked. */
 const pick = (on: boolean) =>
   cn(
@@ -266,23 +269,52 @@ function Switch({ on, onChange, label }: { on: boolean; onChange: (on: boolean) 
 }
 
 /** A setting on the main screen: what it is, its value now, and a panel behind it. */
-function Setting({ label, on = false, onClick, children }: { label: string; on?: boolean; onClick: () => void; children: ReactNode }) {
+function Setting({ label, onClick, children }: { label: string; onClick: () => void; children: ReactNode }) {
   return (
     <button
       type="button"
       aria-haspopup="dialog"
       onClick={onClick}
-      className={cn(
-        "flex h-[3.875rem] min-w-0 flex-col justify-center rounded-2xl border bg-surface px-2.5 text-left outline-none transition-colors hover:bg-surface-raised focus-visible:ring-3 focus-visible:ring-ring/50 sm:h-[4.125rem] sm:px-4",
-        on ? "border-amber/60" : "border-line",
-      )}
+      className="flex h-[3.875rem] min-w-0 flex-col justify-center rounded-2xl border border-line bg-surface px-2.5 text-left outline-none transition-colors hover:bg-surface-raised focus-visible:ring-3 focus-visible:ring-ring/50 sm:h-[4.125rem] sm:px-4"
     >
       <span className="truncate text-[0.6875rem] text-dim sm:text-xs">{label}</span>
-      <span className={cn("mt-0.5 flex items-center justify-between gap-1 text-[0.9375rem] font-semibold tabular-nums sm:text-[1.0625rem]", on && "text-amber-text")}>
+      <span className="mt-0.5 flex items-center justify-between gap-1 text-[0.9375rem] font-semibold tabular-nums sm:text-[1.0625rem]">
         <span className="flex min-w-0 items-center gap-2 whitespace-nowrap">{children}</span>
-        <ChevronDown className={cn("size-3.5 shrink-0 text-dim", on && "max-sm:hidden")} aria-hidden />
+        <ChevronDown className="size-3.5 shrink-0 text-dim" aria-hidden />
       </span>
     </button>
+  );
+}
+
+/**
+ * The Speed up card (Will, 2026-09-30: on and off "sin tener que abrir el modal"). Tapping the
+ * card is the switch: it turns the climb on or off, and the card shows which. The chevron at its
+ * edge, set apart by a rule, opens the panel with the plan. A switch inside the card would not
+ * fit beside "60 → 132" on a phone.
+ */
+function SpeedSetting({ label, on, value, onToggle, onOpen, openLabel }: { label: string; on: boolean; value: ReactNode; onToggle: () => void; onOpen: () => void; openLabel: string }) {
+  return (
+    <div className={cn("flex h-[3.875rem] min-w-0 overflow-hidden rounded-2xl border bg-surface transition-colors sm:h-[4.125rem]", on ? "border-amber/60" : "border-line")}>
+      <button
+        type="button"
+        role="switch"
+        aria-checked={on}
+        onClick={onToggle}
+        className="flex min-w-0 flex-1 flex-col justify-center pl-2.5 text-left outline-none transition-colors hover:bg-surface-raised focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:ring-inset sm:pl-4"
+      >
+        <span className="truncate text-[0.6875rem] text-dim sm:text-xs">{label}</span>
+        <span className={cn("mt-0.5 truncate text-[0.9375rem] font-semibold tabular-nums sm:text-[1.0625rem]", on && "text-amber-text")}>{value}</span>
+      </button>
+      <button
+        type="button"
+        aria-haspopup="dialog"
+        aria-label={openLabel}
+        onClick={onOpen}
+        className={cn("flex w-7 shrink-0 items-center justify-center border-l outline-none transition-colors hover:bg-surface-raised focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:ring-inset sm:w-10", on ? "border-amber/40" : "border-line")}
+      >
+        <ChevronDown className="size-3.5 text-dim" aria-hidden />
+      </button>
+    </div>
   );
 }
 
@@ -390,17 +422,21 @@ type Panel = "meter" | "subdivision" | "speed";
  * it), Tap tempo and Start. Everything else sits behind three buttons that say what they hold:
  * time signature (and the accent), subdivision, and Speed up, the climb from a start tempo to a
  * target (the speed trainer). Each opens a panel. Upright screen, no neck; settings apply while
- * it runs, a new plan from the next bar.
+ * it runs, a new plan from the next bar. Every start counts in a bar: the big number counts the
+ * beats down (4 3 2 1) and the tempo takes its place. A climb has Pause beside Stop: paused, it
+ * keeps its bar and tempo on screen, and Resume counts in again from there.
  */
 export function Metronome({ t, ts, tg }: { t: Strings["metronome"]; ts: Strings["speed"]; tg: Strings["game"] }) {
   const { plan, set: setPlan } = useSpeedPlan();
   // The engine follows the plan only in climbing mode (the hook checks settings.mode).
-  const { settings, set, nudge, running, toggle, click, beat, tap } = useMetronome(plan);
+  const { settings, set, nudge, running, paused, toggle, stop, click, beat, tap } = useMetronome(plan);
   const [panel, setPanel] = useState<Panel | null>(null);
   const speedOn = settings.mode === "speed";
-  const climbing = speedOn && running;
+  // A climb under way, playing or held: its start is not for changing.
+  const climbing = speedOn && (running || paused);
+  const countingIn = running && beat !== null && beat.countIn && click !== null;
 
-  const live = speedOn ? (running && beat ? beat.bpm : plan.from) : settings.bpm;
+  const live = speedOn ? ((running || paused) && beat ? beat.bpm : plan.from) : settings.bpm;
   const atTarget = speedOn && live >= plan.to;
   const meter = meterOf(settings.meter);
   const notes = beatNotes(settings.meter, settings.subdivision);
@@ -418,6 +454,8 @@ export function Metronome({ t, ts, tg }: { t: Strings["metronome"]; ts: Strings[
       if (e.key === " " && !(e.target instanceof HTMLButtonElement)) {
         e.preventDefault();
         void toggle();
+      } else if (e.key === "Escape" && climbing) {
+        stop();
       } else if (by) {
         e.preventDefault();
         if (climbing) return;
@@ -432,7 +470,7 @@ export function Metronome({ t, ts, tg }: { t: Strings["metronome"]; ts: Strings[
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [toggle, nudge, tap, speedOn, climbing, panel, plan.from, plan.to, setPlan]);
+  }, [toggle, stop, nudge, tap, speedOn, climbing, panel, plan.from, plan.to, setPlan]);
 
   return (
     <GameShell t={tg} title={t.title}>
@@ -441,21 +479,42 @@ export function Metronome({ t, ts, tg }: { t: Strings["metronome"]; ts: Strings[
         <Beats meterId={settings.meter} subdivision={settings.subdivision} accent={settings.accent} click={running ? click : null} />
 
         <p className="flex flex-col items-center">
-          <BpmInput
-            value={live}
-            label={speedOn ? ts.from : t.tempo}
-            readOnly={climbing}
-            onCommit={setTempo}
-            className="h-[1.05em] w-[2.4em] max-w-full text-[clamp(6.5rem,18dvh,8.75rem)] leading-none sm:text-[clamp(6.5rem,22dvh,13rem)]"
-          />
+          {countingIn ? (
+            // The count-in takes the tempo's place: the beats left, big enough to read from the
+            // music stand, each one popping in as it is heard.
+            <span
+              key={countdownAt(click, settings)}
+              aria-live="polite"
+              className="flex h-[1.05em] items-center justify-center font-display text-[clamp(6.5rem,18dvh,8.75rem)] leading-none font-semibold text-amber-text tabular-nums animate-in zoom-in-75 fade-in duration-150 motion-reduce:animate-none sm:text-[clamp(6.5rem,22dvh,13rem)]"
+            >
+              {countdownAt(click, settings)}
+            </span>
+          ) : (
+            <BpmInput
+              value={live}
+              label={speedOn ? ts.from : t.tempo}
+              readOnly={climbing}
+              onCommit={setTempo}
+              className="h-[1.05em] w-[2.4em] max-w-full text-[clamp(6.5rem,18dvh,8.75rem)] leading-none sm:text-[clamp(6.5rem,22dvh,13rem)]"
+            />
+          )}
           <span className="mt-2 text-sm text-dim sm:text-base">
-            BPM · <span className="text-amber-text">{tempoMarking(live)}</span>
-            {climbing && beat ? (
+            {countingIn ? (
+              <>
+                <span className="text-amber-text">{t.countIn}</span> · {live} BPM
+              </>
+            ) : (
+              <>
+                BPM · <span className="text-amber-text">{tempoMarking(live)}</span>
+              </>
+            )}
+            {climbing && beat && !countingIn ? (
               <span className={atTarget && plan.atTarget === "hold" ? "text-correct" : ""}>
                 {" · "}
                 {atTarget && plan.atTarget === "hold" ? ts.reached : ts.barOf.replace("{b}", String(barInStep(plan, beat.bar))).replace("{e}", String(plan.every))}
               </span>
             ) : null}
+            {paused ? <span className="text-amber-text"> · {t.paused}</span> : null}
           </span>
         </p>
 
@@ -466,8 +525,8 @@ export function Metronome({ t, ts, tg }: { t: Strings["metronome"]; ts: Strings[
             <span>{plan.from}</span>
             <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-line">
               <div
-                className={cn("h-full rounded-full transition-[width] duration-300 motion-reduce:transition-none", atTarget && running ? "bg-correct" : "bg-amber")}
-                style={{ width: `${(running ? progress(plan, live) : 0) * 100}%` }}
+                className={cn("h-full rounded-full transition-[width] duration-300 motion-reduce:transition-none", atTarget && climbing ? "bg-correct" : "bg-amber")}
+                style={{ width: `${(climbing ? progress(plan, live) : 0) * 100}%` }}
               />
             </div>
             <span>{plan.to}</span>
@@ -476,23 +535,27 @@ export function Metronome({ t, ts, tg }: { t: Strings["metronome"]; ts: Strings[
 
         <div className="flex w-full max-w-md gap-3 px-4">
           {speedOn ? null : (
-            <button
-              type="button"
-              onClick={tap}
-              className="h-14 shrink-0 rounded-2xl border border-amber/60 px-5 text-base font-semibold text-amber-text outline-none transition-[background-color,transform] hover:bg-surface active:scale-95 focus-visible:ring-3 focus-visible:ring-ring/50 motion-reduce:active:scale-100"
-            >
+            <button type="button" onClick={tap} className={secondary}>
               {t.tapTempo}
             </button>
           )}
+          {/* The main button: Start, then Stop; in a climb, Pause and Resume, with Stop beside. */}
           <button type="button" onClick={() => void toggle()} className={cn(primary, "inline-flex h-14 flex-1 items-center justify-center gap-2 rounded-2xl")}>
-            {running ? <Square className="size-5" aria-hidden /> : <Play className="size-5" aria-hidden />}
-            {running ? t.stop : t.start}
+            {running ? climbing ? <Pause className="size-5" aria-hidden /> : <Square className="size-5" aria-hidden /> : <Play className="size-5" aria-hidden />}
+            {running ? (climbing ? t.pause : t.stop) : paused ? t.resume : t.start}
           </button>
+          {climbing ? (
+            <button type="button" onClick={stop} className={cn(secondary, "inline-flex items-center gap-2")}>
+              <Square className="size-4" aria-hidden />
+              {t.stop}
+            </button>
+          ) : null}
         </div>
 
         <div className="flex-1 sm:hidden" />
 
-        <div className="grid w-full max-w-[40rem] grid-cols-3 gap-2 px-4 sm:gap-3">
+        {/* On a phone the Speed up card is wider: its caption and "60 → 132" plus the chevron column need it. */}
+        <div className="grid w-full max-w-[40rem] grid-cols-[1fr_1fr_1.4fr] gap-2 px-4 sm:grid-cols-3 sm:gap-3">
           <Setting label={t.meter} onClick={() => setPanel("meter")}>
             {settings.meter}
           </Setting>
@@ -500,9 +563,7 @@ export function Metronome({ t, ts, tg }: { t: Strings["metronome"]; ts: Strings[
             <BeatGlyph notes={notes} className="-mt-1.5 h-6" />
             <span className="max-sm:hidden">{settings.subdivision === 1 ? t.subNone : t.perBeat.replace("{n}", String(settings.subdivision))}</span>
           </Setting>
-          <Setting label={t.speed} on={speedOn} onClick={() => setPanel("speed")}>
-            {speedOn ? `${plan.from} → ${plan.to}` : t.off}
-          </Setting>
+          <SpeedSetting label={t.speed} on={speedOn} value={speedOn ? `${plan.from} → ${plan.to}` : t.off} onToggle={() => set({ mode: speedOn ? "steady" : "speed" })} onOpen={() => setPanel("speed")} openLabel={t.speedSettings} />
         </div>
 
         <p className="hidden px-4 text-center text-xs text-dim pointer-fine:block">{speedOn ? ts.keys : t.keys}</p>
