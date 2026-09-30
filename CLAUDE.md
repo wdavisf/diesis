@@ -96,23 +96,43 @@ Todoist project records what is still to do.
   (per browser, never sent; the privacy page says so), last pick in `diesis_challenge`. The
   Todoist "note-count challenge" (fixed number of notes, timed) is not built.
 - **Metronome** (built 2026-09-25, Will: "empieza con el metrónomo"): open `/practice/metronome`,
-  an upright screen (no neck, never sideways). Tempo 20–300 with ±1/±5, a slider and tap tempo
+  an upright screen (no neck, never sideways). Tempo 20–300 on the tempo ruler, typed, or by tap tempo
   (average of the last five taps, a 2 s pause starts over); the Italian marking under the
   number; meters 2/4, 3/4, 4/4, 5/4 (3+2), 6/8 (3+3), 7/8 (2+2+3), group starts get a second
-  accent; subdivision 1, 2, 3, 4 or 6 (sextuplets, Will 2026-09-25; the beat dots shrink for
-  them); accent on the one or none. Keys: Space, ←/→ (Shift ×5), T. Rules in
+  accent; subdivision 1, 2, 3, 4 or 6 (sextuplets, Will 2026-09-25); accent on the one or
+  none. Keys: Space, ←/→ (Shift ×5), T. The layout is the next entry. Rules in
   `lib/core/metronome.ts` (tests); `lib/audio/metronome-engine.ts` books synthesised clicks
   120 ms ahead on its own AudioContext, woken every 25 ms by a Worker timer so a background tab
   keeps time, and lights the beat on screen by checking the audio clock (a fresh context's
   clock runs slow at first, so a precomputed timer lit beat one early). Settings live in
   localStorage `diesis_metronome` (`lib/game/use-metronome.ts`), which also holds a screen
   wake lock while it runs. Its Speed up mode (below) runs on the same engine.
+- **Metronome layout: a bare screen and three buttons (Will, 2026-09-30: "there are a lot of
+  things going on. It could be simpler"; he picked it from five mockups, kept in
+  `design/metronome-options/`, untracked).** The screen shows only the beat dots, the tempo
+  (typed by tapping it), the **tempo ruler** (`TempoRuler`: a tape with one tick per BPM that
+  slides under a fixed needle; drag it, left is faster; it glides there when the tempo changes
+  any other way, and by itself during a climb), Tap tempo and Start. The ±1/±5 buttons, the
+  plain slider and the chip rows are gone. Everything else sits behind three buttons that each
+  show a caption and the current value (Will did not understand icon buttons with vague
+  labels: every button says what it holds): **Time signature** (its panel also has the
+  "Accent the first beat" switch), **Subdivision**, **Speed up** ("Off" or "60 → 140"). Each
+  opens a panel (`Sheet`, a native `<dialog>`: a sheet from the bottom on a phone, a centered
+  dialog from `sm`). On a phone the three buttons sit at the bottom of the screen; on a computer
+  right under Start, with the keys line below. **Subdivision shows the notes as written, not
+  only numbers (Will, 2026-09-30)**: `BeatGlyph` draws what `beatNotes(meter, subdivision)` in
+  the core says (a quarter, two eighths, a triplet, four sixteenths, a sextuplet; one value
+  shorter in 6/8 and 7/8, where the beat is the eighth), with the name and "n per beat". The
+  Speed up panel has a slider and a typed number for start and target, the step, the bars, what
+  happens at the target and "Reaches 140 in about 1 min 30 s" (`secondsToTarget`). In Speed up
+  the ruler and ←/→ set the start while stopped; Tap tempo hides. `Stepper` stays for the
+  finger exercise.
 - **Speed trainer = the metronome's "Speed up" mode (Will, 2026-09-25: "combina el metrónomo y
   el entrenador de velocidad en la misma feature").** One tool at `/practice/metronome`. The climb
-  is a section of the settings with an on/off switch, "Speed up" / «Subida de tempo» (Will,
+  has an on/off switch (since 0.26.0 in its own panel), "Speed up" / «Subida de tempo» (Will,
   2026-09-25: "no pongas ir subiendo así, pon simplemente un toggle de la sección de subida"):
   `MetronomeSettings.mode` "steady" | "speed", stored with the rest in `diesis_metronome`. On,
-  the section opens with the plan: start, target, step (+1/2/5/10 BPM) every
+  the panel shows the plan: start, target, step (+1/2/5/10 BPM) every
   1/2/4/8 bars, then stay or start over (the target gets its own bars, then back to the
   start); the plan is in `diesis_speed`. Rules in `lib/core/speed.ts` (tests); the engine asks
   `setPlan`'s function for each bar's tempo as it books the bar's first click, so every bar is

@@ -3,6 +3,22 @@
 Written for the people using it, not for the code. Newest first. Version matches
 `package.json`.
 
+## 0.26.0 — 30 September 2026, a simpler metronome
+
+- The metronome has a new, barer screen: the beats, the tempo, Start, and little else.
+- A tempo ruler replaces the slider and the ± buttons: slide it under the needle, one tick per
+  BPM, so it is quick and exact at once. You can still tap the number and type it, and the
+  arrow keys still work on a computer.
+- Everything else sits behind three buttons that say what they hold: Time signature,
+  Subdivision and Speed up. Each opens a small panel (from the bottom on a phone).
+- Subdivision shows the notes as they are written (eighth notes, triplets, sixteenths,
+  sextuplets), not only a number. In 6/8 and 7/8 they follow the beat, which is the eighth.
+- The accent is now a switch in the Time signature panel.
+- Speed up is easier to set: a slider for the start and one for the target, how much it goes up
+  and every how many bars, and a line that tells you how long the climb takes. While it
+  climbs, the ruler slides by itself. With Speed up on, the ruler and the arrow keys set the
+  start tempo.
+
 ## 0.25.3 — 30 September 2026, a baritone is tuned B to B
 
 - Strings and setup: picking the baritone now tunes it as a baritone is tuned, B E A D F♯ B, a

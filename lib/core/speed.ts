@@ -58,6 +58,15 @@ export function barInStep(p: SpeedPlan, bar: number): number {
   return (Math.max(0, bar) % normalizePlan(p).every) + 1;
 }
 
+/** Seconds from the first click until the target tempo begins, with `beats` beats in a bar. 0 for
+ *  a plan that starts at its target. */
+export function secondsToTarget(p: SpeedPlan, beats: number): number {
+  const n = normalizePlan(p);
+  let seconds = 0;
+  for (let step = 0; step < stepsToTarget(n); step++) seconds += (n.every * beats * 60) / (n.from + n.step * step);
+  return seconds;
+}
+
 /** How far from the start tempo to the target the given tempo is, 0 to 1. */
 export function progress(p: SpeedPlan, bpm: number): number {
   const n = normalizePlan(p);

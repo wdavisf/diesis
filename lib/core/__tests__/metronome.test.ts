@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import {
+  beatNotes,
   BPM_MAX,
   BPM_MIN,
   clampBpm,
@@ -92,6 +93,18 @@ describe('metronome', () => {
     expect(tempoMarking(90)).toBe('Andante');
     expect(tempoMarking(130)).toBe('Allegro');
     expect(tempoMarking(250)).toBe('Prestissimo');
+  });
+
+  it('writes a split beat as notes', () => {
+    expect(beatNotes('4/4', 1)).toEqual({ count: 1, beams: 0, tuplet: null });
+    expect(beatNotes('4/4', 2)).toEqual({ count: 2, beams: 1, tuplet: null });
+    expect(beatNotes('3/4', 3)).toEqual({ count: 3, beams: 1, tuplet: 3 });
+    expect(beatNotes('5/4', 4)).toEqual({ count: 4, beams: 2, tuplet: null });
+    expect(beatNotes('4/4', 6)).toEqual({ count: 6, beams: 2, tuplet: 6 });
+    // In 6/8 and 7/8 the beat is an eighth: everything is one value shorter.
+    expect(beatNotes('6/8', 1)).toEqual({ count: 1, beams: 1, tuplet: null });
+    expect(beatNotes('7/8', 2)).toEqual({ count: 2, beams: 2, tuplet: null });
+    expect(beatNotes('6/8', 4)).toEqual({ count: 4, beams: 3, tuplet: null });
   });
 
   it('round-trips settings and survives bad storage', () => {

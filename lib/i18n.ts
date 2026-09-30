@@ -143,13 +143,23 @@ export interface Strings {
     speedHint: string;
     tempo: string;
     meter: string;
+    meterHint: string;
+    accentFirst: string;
+    accentHint: string;
     subdivision: string;
-    accent: string;
-    accentOn: string;
-    accentOff: string;
+    subHint: string;
+    subNone: string;
+    subOne: string;
+    /** Uses {n}. */
+    perBeat: string;
+    /** What a split beat is called, by how it is written. */
+    noteValues: { eighth: string; sixteenth: string; thirtySecond: string; triplet: string; sextuplet: string };
+    /** Speed up when it is switched off. */
+    off: string;
+    done: string;
     start: string;
     stop: string;
-    tap: string;
+    tapTempo: string;
     slower: string;
     faster: string;
     keys: string;
@@ -214,12 +224,17 @@ export interface Strings {
     to: string;
     step: string;
     every: string;
+    bar: string;
+    /** Uses {n}. */
+    bars: string;
     atTarget: string;
     hold: string;
     restart: string;
     /** Uses {b} and {e}. */
     barOf: string;
     reached: string;
+    /** Uses {to}, the target tempo, and {time}, like "1 min 30 s". */
+    eta: string;
     keys: string;
   };
   settings: { challenge: string; time: string; notes: string; all: string; naturals: string; names: string; solfege: string; letters: string };
@@ -577,13 +592,20 @@ const en: Strings = {
     speedHint: "Raise the tempo a step every few bars, up to a target.",
     tempo: "Tempo",
     meter: "Time signature",
+    meterHint: "How many beats in each bar.",
+    accentFirst: "Accent the first beat",
+    accentHint: "A higher click on the one.",
     subdivision: "Subdivision",
-    accent: "Accent",
-    accentOn: "On the one",
-    accentOff: "None",
+    subHint: "How each beat is split: extra, quieter clicks between the beats.",
+    subNone: "None",
+    subOne: "One click per beat",
+    perBeat: "{n} per beat",
+    noteValues: { eighth: "Eighth notes", sixteenth: "Sixteenth notes", thirtySecond: "Thirty-second notes", triplet: "Triplets", sextuplet: "Sextuplets" },
+    off: "Off",
+    done: "Done",
     start: "Start",
     stop: "Stop",
-    tap: "Tap",
+    tapTempo: "Tap tempo",
     slower: "Slower",
     faster: "Faster",
     keys: "Keys: Space starts and stops, ← → change the tempo (Shift for 5 at a time), T taps it.",
@@ -681,14 +703,17 @@ const en: Strings = {
     title: "Speed trainer",
     from: "Start",
     to: "Target",
-    step: "Step (BPM)",
-    every: "Every (bars)",
+    step: "Go up by",
+    every: "Every",
+    bar: "1 bar",
+    bars: "{n} bars",
     atTarget: "At the target",
     hold: "Stay there",
     restart: "Start over",
     barOf: "Bar {b} of {e}",
     reached: "At the target",
-    keys: "Keys: Space starts and stops.",
+    eta: "Reaches {to} in about {time}",
+    keys: "Keys: Space starts and stops, ← → change the start tempo (Shift for 5 at a time).",
   },
   settings: { challenge: "Challenge", time: "Time", notes: "Notes", all: "All twelve", naturals: "Naturals only", names: "Note names", solfege: "Do Re Mi", letters: "C D E" },
   consent: {
@@ -1067,13 +1092,20 @@ const es: Strings = {
     speedHint: "Sube el tempo cada pocos compases, hasta un objetivo.",
     tempo: "Tempo",
     meter: "Compás",
+    meterHint: "Cuántos tiempos tiene cada compás.",
+    accentFirst: "Acentuar el primer tiempo",
+    accentHint: "Un clic más agudo en el uno.",
     subdivision: "Subdivisión",
-    accent: "Acento",
-    accentOn: "En el uno",
-    accentOff: "Sin acento",
+    subHint: "Cómo se reparte cada tiempo: clics más suaves entre uno y el siguiente.",
+    subNone: "Ninguna",
+    subOne: "Un clic por tiempo",
+    perBeat: "{n} por tiempo",
+    noteValues: { eighth: "Corcheas", sixteenth: "Semicorcheas", thirtySecond: "Fusas", triplet: "Tresillos", sextuplet: "Seisillos" },
+    off: "Apagada",
+    done: "Listo",
     start: "Empezar",
     stop: "Parar",
-    tap: "Tap",
+    tapTempo: "Tap tempo",
     slower: "Más lento",
     faster: "Más rápido",
     keys: "Teclado: espacio para empezar o parar, ← → cambian el tempo (con Mayús, de 5 en 5), T para marcarlo.",
@@ -1171,14 +1203,17 @@ const es: Strings = {
     title: "Entrenador de velocidad",
     from: "Inicio",
     to: "Objetivo",
-    step: "Subida (BPM)",
-    every: "Cada (compases)",
+    step: "Cuánto sube",
+    every: "Cada",
+    bar: "1 compás",
+    bars: "{n} compases",
     atTarget: "Al llegar",
     hold: "Mantener",
     restart: "Volver a empezar",
     barOf: "Compás {b} de {e}",
     reached: "En el objetivo",
-    keys: "Teclado: espacio para empezar o parar.",
+    eta: "Llega a {to} en {time} aprox.",
+    keys: "Teclado: espacio para empezar o parar, ← → cambian el tempo de inicio (con Mayús, de 5 en 5).",
   },
   settings: { challenge: "Reto", time: "Tiempo", notes: "Notas", all: "Todas", naturals: "Solo naturales", names: "Nombres", solfege: "Do Re Mi", letters: "C D E" },
   consent: {

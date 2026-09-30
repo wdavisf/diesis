@@ -6,6 +6,7 @@ import {
   encodeSpeed,
   normalizePlan,
   progress,
+  secondsToTarget,
   stepsToTarget,
   tempoAtBar,
   type SpeedPlan,
@@ -52,6 +53,15 @@ describe('speed trainer', () => {
     expect(progress(p, 80)).toBe(0.5);
     expect(progress(p, 100)).toBe(1);
     expect(progress(plan({ from: 90, to: 90 }), 90)).toBe(1);
+  });
+
+  it('says how long the climb takes', () => {
+    // 60 to 80 in fives, two bars of 4/4 at each: 8 beats at 60, 65, 70 and 75.
+    expect(secondsToTarget(plan({ from: 60, to: 80, step: 5, every: 2 }), 4)).toBeCloseTo(8 * 60 * (1 / 60 + 1 / 65 + 1 / 70 + 1 / 75));
+    expect(secondsToTarget(plan({ from: 60, to: 140, step: 10, every: 4 }), 4)).toBeCloseTo(86.1, 0);
+    // A bar of 6/8 has six beats; a last, shorter step still counts.
+    expect(secondsToTarget(plan({ from: 60, to: 63, step: 2, every: 1 }), 6)).toBeCloseTo(6 * 60 * (1 / 60 + 1 / 62));
+    expect(secondsToTarget(plan({ from: 90, to: 90 }), 4)).toBe(0);
   });
 
   it('round-trips and survives bad storage', () => {

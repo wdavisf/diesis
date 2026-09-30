@@ -81,6 +81,26 @@ export function groupStarts(meter: Meter): number[] {
   return starts;
 }
 
+/** How one beat split into its clicks is written on a score. */
+export interface BeatNotes {
+  /** Notes on the beat. */
+  count: Subdivision;
+  /** Beams (a flag on a lone note) on each: 0 quarters, 1 eighths, 2 sixteenths, 3 thirty-seconds. */
+  beams: 0 | 1 | 2 | 3;
+  /** The number over a triplet or a sextuplet. */
+  tuplet: 3 | 6 | null;
+}
+
+/**
+ * The notes one beat is split into: a quarter, two eighths, an eighth triplet, four sixteenths,
+ * a sixteenth sextuplet. In the /8 meters the beat is the eighth, so each is one value shorter.
+ */
+export function beatNotes(meterId: string, subdivision: Subdivision): BeatNotes {
+  const base = meterOf(meterId).id.endsWith("/8") ? 1 : 0;
+  const split = subdivision === 1 ? 0 : subdivision <= 3 ? 1 : 2;
+  return { count: subdivision, beams: (base + split) as BeatNotes["beams"], tuplet: subdivision === 3 ? 3 : subdivision === 6 ? 6 : null };
+}
+
 /** What the click at `index` (counted from the start of the bar, wrapping) is. */
 export function clickAt(index: number, s: MetronomeSettings): Click {
   const meter = meterOf(s.meter);
