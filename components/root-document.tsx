@@ -27,7 +27,7 @@ export function rootMetadata(lang: Lang): Metadata {
       description,
       siteName: "Diesis",
       locale: lang === "es" ? "es_ES" : "en_US",
-      images: [{ url: `${lang === "es" ? "/og-es.png" : "/og.png"}?v=${CARD_VERSION}`, width: 1200, height: 630 }],
+      images: [{ url: `${lang === "es" ? "/og-es.jpg" : "/og.jpg"}?v=${CARD_VERSION}`, width: 1200, height: 630 }],
     },
     twitter: { card: "summary_large_image" },
   };

@@ -9,7 +9,7 @@ export type Side = "learn" | "practice" | "setup";
  *  (`public/og/<card>-<lang>.png`; without one, the landing's card). A new tool gets a line here,
  *  an entry in `tools.items` and a page in `features.pages`, in both languages. */
 export const FEATURE_TOOL: Record<FeatureId, { href: string; side: Side; card?: string }> = {
-  name: { href: "/learn/name-the-note", side: "learn" },
+  name: { href: "/learn/name-the-note", side: "learn", card: "name-the-note" },
   find: { href: "/learn/find-the-note", side: "learn", card: "find-the-note" },
   neck: { href: "/practice/neck", side: "practice", card: "neck" },
   metronome: { href: "/practice/metronome", side: "practice", card: "metronome" },

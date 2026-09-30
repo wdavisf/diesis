@@ -1,7 +1,9 @@
-// The link-preview cards (1200×630). The default card is the game itself: a question, the neck
-// with one spot lit, the seven natural-note buttons with the right one green, and the wordmark in
-// the corner. Every tool has its own card in the same frame (its name, one line, the wordmark)
-// over a drawing of the tool, so a shared /practice/metronome link previews the metronome.
+// The link-preview cards (1200×630). The default card is the landing's hero: the guitarist of
+// its video (tools/og-stage.jpg, cut from the video's first frame by tools/gen-video.mjs) with the
+// three-line headline, the mark and the address. Every tool has its own card in one frame (its
+// name, one line, the wordmark) over a drawing of the tool, so a shared /practice/metronome link
+// previews the metronome; Name the note's is the exercise itself: the question, the neck with
+// one spot lit and the seven natural-note buttons with the right one green.
 // Rendered by tools/icons.mjs through next/og (satori). Fonts in tools/fonts are Fraunces and
 // Geist, both SIL Open Font License, as static TTFs (satori takes no woff2 or variable fonts).
 // Colors mirror design/tokens.json; the neck geometry mirrors components/fretboard.tsx.
@@ -14,9 +16,10 @@ import { dirname, join } from 'node:path';
 const fontDir = join(dirname(fileURLToPath(import.meta.url)), 'fonts');
 const font = (name, file, weight) => ({ name, data: readFileSync(join(fontDir, file)), weight });
 const fonts = [font('Fraunces', 'Fraunces-600.ttf', 600), font('Geist', 'Geist-400.ttf', 400), font('Geist', 'Geist-600.ttf', 600)];
+const stage = `data:image/jpeg;base64,${readFileSync(join(dirname(fileURLToPath(import.meta.url)), 'og-stage.jpg')).toString('base64')}`;
 
 const c = {
-  bg: '#14120f', raised: '#2e2a24', border: '#3a352d', ink: '#f3efe6', muted: '#a39c8e', accent: '#e0a63a',
+  bg: '#14120f', raised: '#2e2a24', border: '#3a352d', ink: '#f3efe6', muted: '#a39c8e', accent: '#e0a63a', accentText: '#f0c46a',
   correct: '#4caf6b', note: '#efe9dc', wood: '#5a3a2b', woodEdge: '#3d271c', fret: '#8f8a80', fretShadow: '#3d2f26',
   nut: '#e9e2cf', string: '#f4f1e8', stringWound: '#d6b98a', stringShadow: '#1f150f', inlay: '#e8e2d3', markInk: '#14120f',
 };
@@ -24,10 +27,11 @@ const c = {
 // No-break spaces: satori spaces some Geist words unevenly with plain ones.
 const nb = (s) => s.replaceAll(' ', ' ');
 
-/** The default card, and the tool cards' name and one line; the tools' copy mirrors lib/i18n.ts. */
+/** The default card's words (the hero's eyebrow and headline, lib/i18n.ts; `size` fits the longest line left of the player), and the tool cards' name and one line, which mirror lib/i18n.ts too. */
 const copy = {
   en: {
-    question: 'Which note is it?', tagline: 'Everything you need to master the guitar.', names: ['C', 'D', 'E', 'F', 'G', 'A', 'B'],
+    eyebrow: 'THE GUITAR LEARNING TOOL', lines: ['Know the neck.', 'Lock in the tempo.', 'Dial in your guitar.'], size: 64, eyebrowSize: 22,
+    question: 'Which note is it?', questionLine: 'A position lights and plays. Say which note it is.', names: ['C', 'D', 'E', 'F', 'G', 'A', 'B'],
     strings: ['E', 'B', 'G', 'D', 'A', 'E'], root: 'A', scale: 'Minor pentatonic', speed: 'Speed up', onTime: 'On time', keys: ['A', 'S', 'D', 'F'],
     tracks: [['Blues in A', 'A blues scale'], ['Rock in E minor', 'E minor pentatonic'], ['Funk in E', 'E dorian']],
     tools: {
@@ -40,7 +44,8 @@ const copy = {
     },
   },
   es: {
-    question: '¿Qué nota es?', tagline: 'Todo lo que necesitas para dominar la guitarra.', names: ['Do', 'Re', 'Mi', 'Fa', 'Sol', 'La', 'Si'],
+    eyebrow: 'LA HERRAMIENTA PARA APRENDER GUITARRA', lines: ['Domina el mástil.', 'Clava el tempo.', 'Pon a punto tu guitarra.'], size: 54, eyebrowSize: 19,
+    question: '¿Qué nota es?', questionLine: 'Se ilumina una posición y suena. Di qué nota es.', names: ['Do', 'Re', 'Mi', 'Fa', 'Sol', 'La', 'Si'],
     strings: ['Mi', 'Si', 'Sol', 'Re', 'La', 'Mi'], root: 'La', scale: 'Pentatónica menor', speed: 'Subida de tempo', onTime: 'A tiempo', keys: ['A', 'S', 'D', 'F'],
     tracks: [['Blues en La', 'escala de blues de La'], ['Rock en La menor', 'pentatónica menor de La'], ['Funk en Mi', 'Mi dórico']],
     tools: {
@@ -55,7 +60,7 @@ const copy = {
 };
 
 /** The cards besides the default one, by name: `public/og/<name>-<lang>.png`. */
-export const TOOL_CARDS = Object.keys(copy.en.tools);
+export const TOOL_CARDS = ['name-the-note', ...Object.keys(copy.en.tools)];
 
 function mark(size, delta) {
   return h('svg', { width: size, height: size, viewBox: '0 0 1024 1024' },
@@ -135,9 +140,26 @@ function neck(w, ht, maxFret, marks, spot) {
 }
 
 /** The default card: Name the note, first position. */
+/** The default card: the hero. The photo fills it, darkened toward the left, where the words are. */
+function stageCard(t, delta) {
+  const layer = (style, ...kids) => h('div', { style: { position: 'absolute', left: 0, top: 0, width: 1200, height: 630, display: 'flex', ...style } }, ...kids);
+  return h('div', { style: { position: 'relative', display: 'flex', width: 1200, height: 630, background: c.bg, color: c.ink, fontFamily: 'Geist' } },
+    h('img', { src: stage, width: 1200, height: 630, style: { position: 'absolute', left: 0, top: 0 } }),
+    layer({ background: 'linear-gradient(90deg, rgba(20,18,15,0.94) 0%, rgba(20,18,15,0.72) 38%, rgba(20,18,15,0) 62%)' }),
+    layer({ background: 'linear-gradient(180deg, rgba(20,18,15,0.35) 0%, rgba(20,18,15,0) 30%, rgba(20,18,15,0) 70%, rgba(20,18,15,0.6) 100%)' }),
+    layer({ flexDirection: 'column', justifyContent: 'space-between', padding: '56px 64px 52px' },
+      h('div', { style: { display: 'flex', alignItems: 'center', gap: 16 } }, mark(60, delta), wordmark(46, delta)),
+      h('div', { style: { display: 'flex', flexDirection: 'column' } },
+        h('div', { style: { fontSize: t.eyebrowSize, fontWeight: 600, letterSpacing: 1.5, color: c.accentText } }, nb(t.eyebrow)),
+        h('div', { style: { display: 'flex', flexDirection: 'column', marginTop: 18, fontFamily: 'Fraunces', fontWeight: 600, fontSize: t.size, lineHeight: 1.08, letterSpacing: -1 } },
+          ...t.lines.map((line) => h('div', { key: line }, line)))),
+      h('div', { style: { fontSize: 28, color: c.muted } }, 'diesis.app')));
+}
+
+/** Name the note: the question, first position with one spot lit, and the answer in green. */
 function nameTheNote(t, delta) {
   return page(
-    header(t.question, t.tagline, delta),
+    header(t.question, t.questionLine, delta),
     h('div', { style: { display: 'flex' } }, neck(1072, 250, 7, [{ string: 2, fret: 1, state: 'asking' }])),
     h('div', { style: { display: 'flex', gap: 14 } },
       ...t.names.map((n, i) => h('div', { key: n, style: {
@@ -223,6 +245,7 @@ const drawings = { 'find-the-note': findTheNote, neck: theNeck, metronome, 'back
 
 /** A tool card: the tool's name and line over its drawing. */
 function toolCard(t, delta, tool) {
+  if (tool === 'name-the-note') return nameTheNote(t, delta);
   const [title, line] = t.tools[tool];
   return page(
     header(title, line, delta),
@@ -232,6 +255,6 @@ function toolCard(t, delta, tool) {
 /** PNG bytes of a card in one language: the default (no tool) or one of `TOOL_CARDS`. `delta` is the δ outline from public/favicon.svg. */
 export async function ogCard(lang, delta, tool) {
   const t = copy[lang];
-  const res = new ImageResponse(tool ? toolCard(t, delta, tool) : nameTheNote(t, delta), { width: 1200, height: 630, fonts });
+  const res = new ImageResponse(tool ? toolCard(t, delta, tool) : stageCard(t, delta), { width: 1200, height: 630, fonts });
   return Buffer.from(await res.arrayBuffer());
 }

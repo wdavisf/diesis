@@ -7,10 +7,12 @@
 //   3. the cut     public/video/<id>.mp4   no sound, H.264, looped between the two moments of the
 //                  public/video/<id>.jpg   take that look most alike, cross-faded, so the loop has
 //                                          no jump; the poster is the cut's first frame
-// design/video/ is not in git.
+// design/video/ is not in git. The still also gives the link-preview card its photo, tools/og-stage.jpg
+// (in git, so `npm run icons` works from a clone): run `npm run icons` after a new still.
 //   node tools/gen-video.mjs stage           whatever is missing, then the cut
 //   node tools/gen-video.mjs stage --still   a new still, and stop there to look at it
 //   node tools/gen-video.mjs stage --take    a new take from the still, then the cut
+//   node tools/gen-video.mjs stage --card    only the card's photo again, from the still
 // A take is paid for when it is asked for, so its task id is kept in design/video/<id>.task until the
 // file is down: a run that was cut short picks the same take up again instead of buying another.
 // Keys: OPENAI_API_KEY and RUNWAY_API_KEY in the environment or .env.local, else Akoe's
@@ -68,6 +70,15 @@ async function still(id, v, file) {
   const b64 = json.data[0].b64_json;
   const buf = b64 ? Buffer.from(b64, "base64") : Buffer.from(await (await fetch(json.data[0].url)).arrayBuffer());
   await sharp(buf).png().toFile(file);
+  console.log("wrote", path.relative(root, file));
+}
+
+/** The link-preview card's photo (1200×630, tools/og-card.mjs): the still at full height, cut so the player's chest sits two thirds across and the text has the left. */
+async function cardPhoto(stillFile) {
+  const { width, height } = await sharp(stillFile).metadata();
+  const wide = Math.round((height * 1200) / 630);
+  const file = path.join(root, "tools/og-stage.jpg");
+  await sharp(stillFile).extract({ left: Math.round(width * 0.953) - wide, top: 0, width: wide, height }).resize(1200, 630).jpeg({ quality: 88 }).toFile(file);
   console.log("wrote", path.relative(root, file));
 }
 
@@ -165,7 +176,10 @@ for (const id of ids) {
   fs.mkdirSync(dir, { recursive: true });
   const png = path.join(dir, `${id}.png`);
   const raw = path.join(dir, `${id}.mp4`);
-  if (only === "--still" || !fs.existsSync(png)) await still(id, v, png);
+  const fresh = only === "--still" || !fs.existsSync(png);
+  if (fresh) await still(id, v, png);
+  if (fresh || args.includes("--card")) await cardPhoto(png);
+  if (args.includes("--card")) continue;
   if (only === "--still") continue;
   if (only === "--take" || !fs.existsSync(raw)) await take(id, v, png, raw, only === "--take");
   cut(id, v, raw);

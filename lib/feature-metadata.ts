@@ -7,7 +7,7 @@ import { CARD_VERSION } from "@/lib/lang";
 export function featureMetadata(t: Strings, id: FeatureId): Metadata {
   const page = t.features.pages[id];
   const { card } = FEATURE_TOOL[id];
-  const image = card ? `/og/${card}-${t.code}.png` : t.code === "es" ? "/og-es.png" : "/og.png";
+  const image = card ? `/og/${card}-${t.code}.png` : t.code === "es" ? "/og-es.jpg" : "/og.jpg";
   const en = featurePath(strings.en, id);
   const es = featurePath(strings.es, id);
   return {

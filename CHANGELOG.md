@@ -3,6 +3,11 @@
 Written for the people using it, not for the code. Newest first. Version matches
 `package.json`.
 
+## 0.29.3 — 30 September 2026
+
+- A link to Diesis shared in a chat now previews with the guitarist from the front page and the
+  same three lines. A link to Name the note keeps the picture of the exercise.
+
 ## 0.29.2 — 30 September 2026
 
 - On a phone, the guitarist in the front page video now sits in the middle of the picture

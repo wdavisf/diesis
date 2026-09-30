@@ -271,7 +271,7 @@ Todoist project records what is still to do.
   twin. The cookie is still set by `/lang/[code]` (the switcher) and by Open the app. App
   links are built from `t.base` (site-nav, the menu cards, the exercise's back arrow reads the
   path). `appMetadata` in `lib/lang.ts` gives app pages their title, hreflang and a link
-  preview in their language (og-es.png for Spanish). Values in the strings file must be plain
+  preview in their language (og-es.jpg for Spanish). Values in the strings file must be plain
   data (no functions): they cross into client components.
 - **The hero is a video of a metal guitarist (Will, 2026-09-30: "generate a video of a metal
   guitarist to show on the diesis lp", then "shouldn't it be above the fold?"; built 0.29.0).**
@@ -463,20 +463,27 @@ Todoist project records what is still to do.
   on a score. The outline is EB Garamond's δ (SIL Open Font License, extracted with fontTools);
   amber letter, cream lines at 45%, on the stage tile. Will rejected a hand-drawn δ: it must
   look like the letter. Drawing lives in `components/logo.tsx` and `public/favicon.svg`;
-  `npm run icons` renders `icon.png` and `og.png` from the SVG. Change both files together.
+  `npm run icons` renders `icon.png` and the cards' mark from the SVG. Change both files together.
   **The wordmark is "δiesis" (Will, 2026-09-24)**: next to the mark, the D of the word is that
   same δ, drawn inline as SVG at text size by `DeltaGlyph` in `components/logo.tsx` (Fraunces has
   no Greek). Only the wordmark; page titles, copy and the `<title>` keep the Latin "Diesis".
-- **Link preview (Will, 2026-09-24)**: the card is the game, one per language: "¿Qué nota es?" /
-  "Which note is it?", the tagline under it, the wordmark top right, frets 0–7 with C lit on
-  string 2, and the seven natural buttons with C green. A page that sets its own `openGraph`
+- **Link preview: the card is the hero (Will, 2026-09-30, asked whether the WhatsApp card should
+  change with the landing: "FUCKING YES"; 0.29.3).** One per language, `public/og.jpg` and
+  `public/og-es.jpg`: the video's guitarist (`tools/og-stage.jpg`, cut from the video's still by
+  `tools/gen-video.mjs`, `--card` redoes it), the hero's eyebrow and three-line headline on the
+  left, mark and wordmark on top, diesis.app at the foot. JPEG because it is a photo (as PNG it
+  weighed 680 KB; chat apps want far less). The card from 2026-09-24, the exercise itself ("¿Qué
+  nota es?" / "Which note is it?", frets 0–7 with C lit on string 2, the seven natural buttons
+  with C green), is now Name the note's own card, `og/name-the-note-<lang>.png`. The page title
+  next to the card is unchanged ("Diesis — everything you need to master the guitar"): Will was
+  asked and did not say, and it is also what Google shows. A page that sets its own `openGraph`
   must repeat `images` (Next replaces the object, it does not merge): `/es` pages use
-  `og-es.png`. Bump `CARD_VERSION` in `lib/lang.ts` (the `?v=` on every card) when a card changes.
+  `og-es.jpg`. Bump `CARD_VERSION` in `lib/lang.ts` (the `?v=` on every card) when a card changes.
   **A card per tool (Will, 2026-09-29: a shared /setup/strings link showed the landing card and
   text on WhatsApp).** `public/og/<tool>-<lang>.png`, drawn by `tools/og-card.mjs` (`npm run
   icons`) in one frame (tool name, one line, wordmark) over a drawing of the tool; `PREVIEWS` in
   `lib/lang.ts` maps each app path to its card and its description (the menu card's body). The
-  menus, `/start`, `/profile` and Name the note keep the game card. Chat composers show a compact
+  menus, `/start` and `/profile` use the landing's card. Chat composers show a compact
   row with a square center crop of the card, so keep what matters near its middle. A new tool
   gets a drawing in og-card.mjs, a `PREVIEWS` line and a run of `npm run icons`.
 
@@ -529,8 +536,8 @@ points to it and keeps `/lang/` out. Add new public pages to the sitemap.
   `use-records.ts` — the profile.
 - `design/tokens.json` and `docs/design-system.md` — design system; tokens before screens.
 - `tools/gen-samples.mjs` (`npm run samples`), `tools/icons.mjs` (`npm run icons`, regenerates
-  `public/icon.png` from `public/favicon.svg` and the link previews `public/og.png` and
-  `public/og-es.png` from `tools/og-card.mjs`, drawn with satori via `next/og`, fonts in `tools/fonts`).
+  `public/icon.png` from `public/favicon.svg` and the link previews `public/og.jpg`,
+  `public/og-es.jpg` and `public/og/` from `tools/og-card.mjs`, drawn with satori via `next/og`, fonts in `tools/fonts`).
 - `tools/gen-images.mjs` (the illustrations) and `tools/gen-video.mjs` (the hero's video,
   `public/video/`): see their entries under Decisions.
 - `public/samples/nylon/` — generated WAVs, committed so a clone plays without the script.

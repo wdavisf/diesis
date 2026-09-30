@@ -14,18 +14,18 @@ export async function currentStrings(): Promise<Strings> {
 }
 
 /** Query string on every link-preview card: bump it when a card changes, so chat apps fetch it again. */
-export const CARD_VERSION = 4;
+export const CARD_VERSION = 5;
 
 /**
  * What a shared link to an app page shows in a chat: its own description and its own card
  * (`public/og/<card>-<lang>.png`, drawn by tools/og-card.mjs, `npm run icons`). Pages without a
- * card (the menus, the profile, Name the note) share the landing's game card. Keyed by the page's
+ * card (the menus, the profile) share the landing's, the hero's guitarist. Keyed by the page's
  * English address: add a line when a tool is built.
  */
 const PREVIEWS: Record<string, { card?: string; blurb: (t: Strings) => string }> = {
   "/start": { blurb: (t) => t.meta.description },
   "/learn": { blurb: (t) => t.home.learn },
-  "/learn/name-the-note": { blurb: (t) => t.learnMenu.modes[0].body },
+  "/learn/name-the-note": { card: "name-the-note", blurb: (t) => t.learnMenu.modes[0].body },
   "/learn/find-the-note": { card: "find-the-note", blurb: (t) => t.learnMenu.modes[1].body },
   "/practice": { blurb: (t) => t.home.practice },
   "/practice/neck": { card: "neck", blurb: (t) => t.practiceMenu.modes[0].body },
@@ -48,7 +48,7 @@ export async function appMetadata(path: string, title?: string): Promise<Metadat
   const full = title ? `${title} · Diesis` : t.meta.title;
   const preview = PREVIEWS[path];
   const description = preview?.blurb(t) ?? t.meta.description;
-  const card = preview?.card ? `/og/${preview.card}-${t.code}.png` : t.code === "es" ? "/og-es.png" : "/og.png";
+  const card = preview?.card ? `/og/${preview.card}-${t.code}.png` : t.code === "es" ? "/og-es.jpg" : "/og.jpg";
   return {
     // The layout (no title) sets the template its pages use, and the menu's own title.
     title: title ?? { default: t.home.title, template: "%s · Diesis" },
