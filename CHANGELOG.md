@@ -3,6 +3,11 @@
 Written for the people using it, not for the code. Newest first. Version matches
 `package.json`.
 
+## 0.28.2 — 30 September 2026
+
+- Inside the app, the logo now takes you to the app's start screen (learn, practice or setup)
+  instead of out to the website.
+
 ## 0.28.1 — 30 September 2026
 
 - The Spanish pages now tell browsers, screen readers and search engines that they are in

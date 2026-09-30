@@ -130,7 +130,7 @@ export function AppSidebar({ t }: { t: Strings }) {
   return (
     <aside className="app-nav sticky top-0 z-30 hidden h-dvh w-61 shrink-0 flex-col border-r border-line/80 bg-surface/40 transition-[width] duration-200 motion-reduce:transition-none md:flex rail:w-16">
       <div className="flex h-14 shrink-0 items-center justify-between pr-2 pl-4 rail:h-auto rail:flex-col rail:gap-1.5 rail:px-0 rail:pt-3">
-        <Link href={t.base || "/"} aria-label="Diesis" className="rounded-lg outline-none focus-visible:ring-3 focus-visible:ring-ring/50">
+        <Link href={`${t.base}/start`} aria-label="Diesis" className="rounded-lg outline-none focus-visible:ring-3 focus-visible:ring-ring/50">
           <Logo className="rail:hidden" />
           <LogoMark size={32} className="hidden rounded-[22%] ring-1 ring-white/10 rail:block" />
         </Link>
@@ -228,7 +228,7 @@ export function AppTopBar({ t }: { t: Strings }) {
           <p className="truncate font-display text-lg font-semibold tracking-tight">{here.name}</p>
         </div>
       ) : (
-        <Link href={t.base || "/"} aria-label="Diesis" className="shrink-0">
+        <Link href={`${t.base}/start`} aria-label="Diesis" className="shrink-0">
           <Logo />
         </Link>
       )}

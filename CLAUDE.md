@@ -169,7 +169,9 @@ Todoist project records what is still to do.
   Tailwind variant `rail:` (globals.css) styles both cases. **On phones: `AppTopBar`** (the
   logo, or inside a tool the way back to its side and the tool's name; feedback, EN/ES) **and
   `TabBar`** fixed at the bottom: Learn, Practice, Setup, Profile (the practice log joins when
-  it exists); a side's tools are reached from its menu. The logo always goes to the landing.
+  it exists); a side's tools are reached from its menu. **Inside the app the logo goes to `/start`** (Will, 2026-09-30, 0.28.2; it went
+  to the landing before), in the sidebar and in the phone's top bar; the app has no link back
+  to the landing. On the web pages (`SiteNav`, footer) the logo still goes to the landing.
   All three carry `.app-nav` and hide while an exercise is played sideways on a phone or on a
   short screen (globals.css); the exercise header keeps its back arrow for that case only.
   **Every new tool picks a side and gets a line in `SIDES` (app-nav.tsx) with an icon, its name
