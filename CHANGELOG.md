@@ -3,6 +3,15 @@
 Written for the people using it, not for the code. Newest first. Version matches
 `package.json`.
 
+## 0.28.1 — 30 September 2026
+
+- The Spanish pages now tell browsers, screen readers and search engines that they are in
+  Spanish from the first byte, the app's Spanish screens included.
+- The site describes itself to search engines in their own format: what Diesis is, what each
+  tool does and the questions its page answers.
+- An address that does not exist now shows a proper page, in English and Spanish, with the way
+  back.
+
 ## 0.28.0 — 30 September 2026, a page for every tool
 
 - Every tool now has its own page on the site: what it does, how to use it, answers to the

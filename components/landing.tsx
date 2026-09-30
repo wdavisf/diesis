@@ -5,9 +5,11 @@ import { LogoMark } from "@/components/logo";
 import { TryIt } from "@/components/try-it";
 import { FeatureCards } from "@/components/feature-cards";
 import { Footer } from "@/components/footer";
+import { JsonLd } from "@/components/json-ld";
 import { SiteNav } from "@/components/site-nav";
 import { OpenApp } from "@/components/open-app";
 import type { Strings } from "@/lib/i18n";
+import { landingData } from "@/lib/structured-data";
 
 /**
  * The landing: the playable exercise in the hero, then everything inside, side by side and tool
@@ -18,6 +20,7 @@ import type { Strings } from "@/lib/i18n";
 export function Landing({ t }: { t: Strings }) {
   return (
     <main className="flex-1">
+      <JsonLd data={landingData(t)} />
       <SiteNav t={t} />
 
       {/* Hero. On a phone the playable neck sits right under the headline, before any paragraph;

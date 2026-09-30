@@ -29,7 +29,7 @@ Todoist project records what is still to do.
   tools you play with (the neck, the metronome; later the tuner, strings and setup). The
   profile is at `/profile`, on neither side. Menus are `components/tool-menu.tsx`
   (`LEARN_ITEMS`/`PRACTICE_ITEMS`, copy in `learnMenu`/`practiceMenu`); all app routes live in
-  the route group `app/(app)/`. Old `/practice/neck`, `/practice/metronome`, `/profile` and
+  the route group `app/(en)/(app)/` (re-exported for Spanish, see the two root layouts below). Old `/practice/neck`, `/practice/metronome`, `/profile` and
   their `/es` twins redirect (`next.config.ts`; redirects run before `proxy.ts`).
 - **A third side, Setup (Will, 2026-09-26: strings and setup "no es practicar, es otra cosa";
   "guitar setup en inglés").** `/setup`, «Ajuste» in Spanish: the guitar itself (strings,
@@ -158,14 +158,14 @@ Todoist project records what is still to do.
   "a bottom bar like there would be in an iPhone app, like what we did for Tabula"; built
   0.27.0).** The top bar of 2026-09-25 (`components/site-nav.tsx`) is now for the web pages only
   (landing, privacy): sections, EN/ES, Open the app. The app's navigation is
-  `components/app-nav.tsx`, mounted in `app/(app)/layout.tsx` outside the fading template so it
+  `components/app-nav.tsx`, mounted in `app/(en)/(app)/layout.tsx` outside the fading template so it
   stays put. **From `md`: `AppSidebar`**, design A of the canvas "Diesis sidebar options"
   (https://claude.ai/artifact/Ba5v7kLBmZbpXDmHseZbWn): every tool under its side (the side's
   name links to its menu), the current one lit, the tools coming next dimmed with "Soon"
   (`nav.learnSoon`/`setupSoon`); feedback, profile and EN/ES at the bottom. It collapses to a
   rail of icons with the names as tooltips: by its button or the `[` key from `lg`, remembered
   in localStorage `diesis_sidebar` and put on `<html>` as `data-sidebar` by an inline script in
-  the root layout before the first paint; between `md` and `lg` it is always the rail. The
+  the document (`components/root-document.tsx`) before the first paint; between `md` and `lg` it is always the rail. The
   Tailwind variant `rail:` (globals.css) styles both cases. **On phones: `AppTopBar`** (the
   logo, or inside a tool the way back to its side and the tool's name; feedback, EN/ES) **and
   `TabBar`** fixed at the bottom: Learn, Practice, Setup, Profile (the practice log joins when
@@ -237,13 +237,34 @@ Todoist project records what is still to do.
   `find:naturals`). The core stays in pitch classes; names are display only.
 - **Spanish copy is written natively, never translated literally** (Will, 2026-09-23, after
   rejecting a literal pass). Spain register: ordenador, móvil, «échate una ronda».
+- **Two root layouts, one per language (2026-09-30, 0.28.1; Will: "fix the language tag on the
+  spanish pages and add structured data").** The server must send `<html lang="es">` on Spanish
+  pages (it used to say `en` everywhere and patch it in the browser, and never on the app's
+  Spanish screens). A single root layout would have to read the request to know the language,
+  which makes every page dynamic, so there are two: `app/(en)/layout.tsx` and
+  `app/(es)/layout.tsx`, both drawing `RootDocument` (`components/root-document.tsx`: fonts,
+  theme, consent banner, the sidebar script). The landing, the tool pages and privacy stay
+  static. The app's Spanish screens are one-line re-exports of the English ones under
+  `app/(es)/es/(app)/` (**a new app screen needs its re-export there**); `proxy.ts` no longer
+  rewrites, it only sets the language header. Moving between the two root layouts is a full
+  page load (the language switch already was one); inside a language, navigation stays on the
+  client, "Open the app" included. With two roots there is no layout for a 404, so
+  `app/global-not-found.tsx` (experimental `globalNotFound` in `next.config.ts`) brings its own
+  document and says it in both languages.
+- **Structured data (2026-09-30, 0.28.1).** `lib/structured-data.ts` builds schema.org JSON-LD,
+  `components/json-ld.tsx` puts it in the page: the landing describes the site, the app
+  (`WebApplication`, free) and Will as its maker; each tool's public page describes the tool,
+  its breadcrumb and its questions (`FAQPage`, from the same `faq` the page shows). Only what
+  the page says: no ratings or reviews, none exist. The offer says price 0; change it when
+  pricing does. The app screens carry none.
 - **Standing rule: when the game changes (modes, settings, wording, pricing, privacy behavior),
   update the landing page, the app home and the privacy page in the same session.** All copy,
   EN and ES, is in `lib/i18n.ts`; edit both languages together. Every page has an `/es`
   twin, the app included (Will, 2026-09-25: a shared app link opened in the wrong language):
   `/learn/…` is English, `/es/learn/…` Spanish (the same for `/start`, `/practice`,
-  `/profile`; the matcher in `proxy.ts` lists them). `proxy.ts` rewrites `/es/…` onto the same
-  pages with an `x-diesis-lang: es` header (`currentLang` in `lib/lang.ts` reads only that),
+  `/profile`; the matcher in `proxy.ts` lists them). The Spanish app addresses are the same
+  screens re-exported (next point); `proxy.ts` marks them with an `x-diesis-lang: es` header
+  (`currentLang` in `lib/lang.ts` reads only that),
   and sends a visitor whose `diesis_lang` cookie says Spanish from an English app address to the `/es`
   twin. The cookie is still set by `/lang/[code]` (the switcher) and by Open the app. App
   links are built from `t.base` (site-nav, the menu cards, the exercise's back arrow reads the
@@ -269,7 +290,7 @@ Todoist project records what is still to do.
   `/find-the-note`, `/fretboard`, `/metronome`, `/backing-tracks`, `/finger-independence`,
   `/strings`, and in Spanish with translated slugs, `/es/nombra-la-nota`,
   `/es/encuentra-la-nota`, `/es/mastil`, `/es/metronomo`, `/es/backing-tracks`,
-  `/es/independencia-de-dedos`, `/es/cuerdas`. Routes `app/[feature]/` and `app/es/[feature]/`
+  `/es/independencia-de-dedos`, `/es/cuerdas`. Routes `app/(en)/[feature]/` and `app/(es)/es/[feature]/`
   (static, only those slugs; anything else is a 404), drawn by `components/feature-page.tsx`:
   hero with the tool's still (Name the note carries the playable `TryIt`) and the button into
   the tool, "What it does" (four points), "How to use it" (three steps; Name the note's keep
@@ -394,7 +415,7 @@ Todoist project records what is still to do.
   in Will's first person, linking willdafer.es and Instagram `@willdafer.es`. Copy in
   `t.maker`; keep it true to what he actually does.
 - **Motion and navigation (Will, 2026-09-24: "navigation is clunky, add animations").** No
-  React/Next view transitions (not stable here); everything is CSS. `app/(app)/template.tsx` fades
+  React/Next view transitions (not stable here); everything is CSS. `app/(en)/(app)/template.tsx` fades
   every app screen in (opacity only: a transform there would become the containing
   block of the fixed sideways game shell). Menu cards stagger in (`components/tool-menu.tsx`), the
   start and result cards zoom in (`challenge-card.tsx`), board marks pop in and ease amber to
@@ -454,11 +475,15 @@ points to it and keeps `/lang/` out. Add new public pages to the sitemap.
 
 ## Layout of the repo
 
-- `app/` — routes: `page.tsx` and `es/page.tsx` (landing), `privacy/` and `es/privacy/`,
-  `(app)/` (route group, the app: `layout.tsx` with the app's navigation, `template.tsx`, `start/`,
-  `learn/` with `name-the-note/` and `find-the-note/`, `practice/` with `neck/`,
-  `metronome/`, `backing-tracks/` and `fingers/`, `profile/`), `lang/[code]/` (cookie setter).
-  `layout.tsx` holds fonts and metadata; `globals.css` the theme tokens.
+- `app/` — routes, under two root layouts. `(en)/`: `layout.tsx` (lang en), `page.tsx` (landing),
+  `privacy/`, `[feature]/` (each tool's public page), `(app)/` (the app: `layout.tsx` with the
+  app's navigation, `template.tsx`, `start/`, `learn/` with `name-the-note/` and `find-the-note/`,
+  `practice/` with `neck/`, `metronome/`, `backing-tracks/` and `fingers/`, `setup/` with
+  `strings/`, `profile/`). `(es)/`: `layout.tsx` (lang es), `es/` with the same pages in Spanish
+  (`es/(app)/` only re-exports the English app screens) and `roadmap/`. Outside both:
+  `lang/[code]/` (cookie setter), `global-not-found.tsx` (the 404 page), `sitemap.ts`,
+  `robots.ts`, `actions/`, `globals.css` (the theme tokens). Fonts, metadata defaults and the
+  consent banner are in `components/root-document.tsx`.
 - `components/` — `landing`, `privacy-page`, `logo`, `footer`,
   `lang-switch`, `fretboard` (SVG, marks and tap targets), `note-panel`, `game-frame`
   (`GameShell`: sideways treatment, gate, header; `GameFrame`: the board inside it),

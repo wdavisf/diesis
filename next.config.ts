@@ -1,6 +1,9 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  // app/global-not-found.tsx: with two root layouts (app/(en), app/(es)) there is no single layout
+  // to draw the 404 page in, so it brings its own document.
+  experimental: { globalNotFound: true },
   // The trainer lived under /app until 0.7.0 (its menu is /start now); old links and bookmarks keep working.
   async redirects() {
     return [

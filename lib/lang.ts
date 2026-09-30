@@ -3,8 +3,8 @@ import { headers } from "next/headers";
 import { strings, type Lang, type Strings } from "@/lib/i18n";
 
 /** Language of an app page (/learn/… English, /es/learn/… Spanish; the same for /start,
- *  /practice and /profile). proxy.ts rewrites the
- *  Spanish addresses onto the same pages and says so in a header. */
+ *  /practice, /setup and /profile). The Spanish addresses re-export the same pages
+ *  (app/(es)/es/(app)); proxy.ts says which language was asked for in a header. */
 export async function currentLang(): Promise<Lang> {
   return (await headers()).get("x-diesis-lang") === "es" ? "es" : "en";
 }

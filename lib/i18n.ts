@@ -90,6 +90,8 @@ export interface Strings {
     pages: Record<FeatureId, FeaturePage>;
   };
   footer: { tagline: string; made: string; affiliate: string };
+  /** The page for an address that does not exist (app/global-not-found.tsx shows both languages). */
+  notFound: { title: string; body: string; home: string };
   /** /start: "What do you want to do today?", Learn or Practice. */
   home: { title: string; h1: string; lede: string; about: string; start: string; next: string; later: string; learn: string; practice: string; setup: string };
   /** The menus of the two sides, cards in the order of their hrefs in components/tool-menu.tsx. */
@@ -616,6 +618,7 @@ const en: Strings = {
       },
     },
   },
+  notFound: { title: "This page does not exist.", body: "The address may be mistyped, or the page has moved.", home: "Go to Diesis" },
   footer: { tagline: "Everything you need to master the guitar.", made: "Made in Cáceres, Spain. “Diesis” is Greek for the semitone: one fret.", affiliate: "As an Amazon Associate I earn from qualifying purchases." },
   home: {
     title: "Learn, practice, set up",
@@ -1224,6 +1227,7 @@ const es: Strings = {
       },
     },
   },
+  notFound: { title: "Esta página no existe.", body: "Puede que la dirección esté mal escrita o que la página se haya movido.", home: "Ir a Diesis" },
   footer: { tagline: "Todo lo que necesitas para dominar la guitarra.", made: "Hecho en Cáceres. «Diesis» es semitono en griego: un traste.", affiliate: "En calidad de Afiliado de Amazon, obtengo ingresos por las compras adscritas que cumplen los requisitos aplicables." },
   home: {
     title: "Aprender, practicar, ajustar",

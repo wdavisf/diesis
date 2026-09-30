@@ -3,11 +3,13 @@ import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Footer } from "@/components/footer";
 import { HowFigure } from "@/components/how-figures";
+import { JsonLd } from "@/components/json-ld";
 import { SiteNav } from "@/components/site-nav";
 import { ToolFigure } from "@/components/tool-figure";
 import { TryIt } from "@/components/try-it";
 import { FEATURES, FEATURE_TOOL, featurePath } from "@/lib/features";
 import { strings, type FeatureId, type Strings } from "@/lib/i18n";
+import { featureData } from "@/lib/structured-data";
 
 const eyebrow = "text-sm font-medium tracking-wide text-amber-text uppercase";
 const h2 = "max-w-2xl font-display text-3xl font-semibold tracking-tight text-balance sm:text-4xl";
@@ -34,6 +36,7 @@ export function FeaturePage({ t, id }: { t: Strings; id: FeatureId }) {
 
   return (
     <main className="flex-1">
+      <JsonLd data={featureData(t, id, t.tools.items[FEATURES.indexOf(id)].title)} />
       <SiteNav t={t} other={featurePath(strings[t.otherLang], id)} />
 
       <section className="mx-auto grid w-full max-w-6xl grid-cols-1 items-center gap-x-12 gap-y-8 px-4 pt-10 pb-16 lg:grid-cols-[1.05fr_1fr] lg:pt-20 lg:pb-24">

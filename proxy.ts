@@ -8,9 +8,10 @@ export const LANG_HEADER = "x-diesis-lang";
  * The app speaks the language of its address, like the landing: /learn/… is English and
  * /es/learn/… Spanish, so a shared link opens (and previews) in the language it was shared in.
  * The same for every app root: /start, /learn, /practice, /setup, /profile. The /es
- * addresses are served by the same pages, told the language by a header. Someone who picked
- * Spanish and lands on an English app address (an old bookmark, the menu of an older page) goes
- * to the /es twin. The matcher lists the app roots.
+ * addresses are the same screens again, re-exported under the Spanish root layout
+ * (app/(es)/es/(app)) so the document says lang="es"; this header tells them the language.
+ * Someone who picked Spanish and lands on an English app address (an old bookmark, the menu of
+ * an older page) goes to the /es twin. The matcher lists the app roots.
  */
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
@@ -18,10 +19,8 @@ export function proxy(request: NextRequest) {
   headers.delete(LANG_HEADER);
 
   if (pathname.startsWith("/es/")) {
-    const url = request.nextUrl.clone();
-    url.pathname = pathname.slice(3);
     headers.set(LANG_HEADER, "es");
-    return NextResponse.rewrite(url, { request: { headers } });
+    return NextResponse.next({ request: { headers } });
   }
 
   if (request.cookies.get(LANG_COOKIE)?.value === "es") {
