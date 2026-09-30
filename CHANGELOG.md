@@ -3,6 +3,16 @@
 Written for the people using it, not for the code. Newest first. Version matches
 `package.json`.
 
+## 0.28.0 — 30 September 2026, a page for every tool
+
+- Every tool now has its own page on the site: what it does, how to use it, answers to the
+  questions people usually have, and a button that opens it. There is one for Name the note,
+  Find the note, the neck, the metronome, backing tracks, finger independence and strings and
+  setup, in English and in Spanish.
+- The front page is shorter and built around those pages: try the exercise at the top, then see
+  everything inside, side by side (Learn, Practice, Setup), with what is coming next to each.
+- The footer links to every tool's page.
+
 ## 0.27.0 — 30 September 2026, a sidebar, and a tab bar on phones
 
 - On a computer the app now has a sidebar on the left instead of the bar at the top: every tool

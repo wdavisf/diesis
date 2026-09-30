@@ -1,17 +1,14 @@
 "use client";
 
-import Link from "next/link";
-import { ArrowRight } from "lucide-react";
 import { Fretboard, type Mark } from "@/components/fretboard";
 import { positionsOf, DEFAULT_SETTINGS } from "@/lib/core/quiz";
 import { neckNotes, scaleOf } from "@/lib/core/scales";
 import type { PitchClass } from "@/lib/core/notes";
-import type { Strings } from "@/lib/i18n";
+import type { FeatureId, Strings } from "@/lib/i18n";
 
-/* The landing's "Open a tool" cards: each draws a still of the tool as it looks when you open it,
-   and links straight into it. Hrefs in the order of `t.tools.items`. */
+/* A still of each tool as it looks when you open it: on the landing's cards and at the top of the
+   tool's own public page. */
 
-const HREFS = ["/learn/name-the-note", "/learn/find-the-note", "/practice/neck", "/practice/metronome", "/practice/backing-tracks", "/practice/fingers", "/setup/strings"];
 const W = 520;
 const H = 190;
 
@@ -25,22 +22,22 @@ function Board({ marks, maxFret = 12 }: { marks: Mark[]; maxFret?: number }) {
   );
 }
 
-function Figure({ i, t }: { i: number; t: Strings }) {
+export function ToolFigure({ id, t }: { id: FeatureId; t: Strings }) {
   const names = t.game.noteNames;
-  if (i === 0) {
+  if (id === "name") {
     return <Board maxFret={7} marks={[{ position: { string: 3, fret: 5 }, state: "asking" }]} />;
   }
-  if (i === 1) {
+  if (id === "find") {
     // Find the note: every A in frets 0–12, most found, one still to go.
     const all = positionsOf(9 as PitchClass, DEFAULT_SETTINGS);
     return <Board marks={all.slice(0, -1).map((position) => ({ position, state: "correct", label: names[9] }))} />;
   }
-  if (i === 2) {
+  if (id === "neck") {
     // The neck: A minor pentatonic, the root in amber.
     const notes = neckNotes(9 as PitchClass, scaleOf("pentaMinor"), 0, 12);
     return <Board marks={notes.map((n) => ({ position: n.position, state: n.root ? "root" : "note", label: names[n.pc] }))} />;
   }
-  if (i === 3) {
+  if (id === "metronome") {
     return (
       <div className="flex aspect-[520/190] flex-col items-center justify-center gap-4 rounded-lg bg-stage">
         <p className="font-display text-5xl font-semibold tabular-nums sm:text-6xl">
@@ -54,7 +51,7 @@ function Figure({ i, t }: { i: number; t: Strings }) {
       </div>
     );
   }
-  if (i === 5) {
+  if (id === "fingers") {
     // Finger independence: four dots, the ring finger's lit, the one before it just hit on time.
     return (
       <div className="flex aspect-[520/190] items-center justify-center gap-3 rounded-lg bg-stage sm:gap-4" aria-hidden>
@@ -69,7 +66,7 @@ function Figure({ i, t }: { i: number; t: Strings }) {
       </div>
     );
   }
-  if (i === 6) {
+  if (id === "strings") {
     // Strings: six tension bars, 10–46 in standard at 25.5", one string slack in amber.
     const bars = [16.2, 15.4, 16.6, 18.4, 19.5, 10.8];
     return (
@@ -85,6 +82,7 @@ function Figure({ i, t }: { i: number; t: Strings }) {
       </div>
     );
   }
+  // Backing tracks: a band playing.
   return (
     <div className="relative flex aspect-[520/190] items-center justify-center overflow-hidden rounded-lg bg-[radial-gradient(circle_at_30%_40%,#3a2a1c,#14120f_70%)]">
       <div className="flex items-end gap-1" aria-hidden>
@@ -93,28 +91,5 @@ function Figure({ i, t }: { i: number; t: Strings }) {
         ))}
       </div>
     </div>
-  );
-}
-
-export function ToolShowcase({ t }: { t: Strings }) {
-  return (
-    <ul className="mt-12 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-      {t.tools.items.map((tool, i) => (
-        <li key={tool.title} className="min-w-0">
-          <Link
-            href={`${t.base}${HREFS[i]}`}
-            className="group flex h-full min-w-0 flex-col rounded-2xl border border-line bg-stage p-4 transition-[border-color,transform] duration-200 hover:-translate-y-0.5 hover:border-amber/60 motion-reduce:transition-none sm:p-5"
-          >
-            <Figure i={i} t={t} />
-            <span className="mt-4 text-xs font-semibold tracking-wide text-amber-text uppercase">{tool.side}</span>
-            <span className="mt-1 font-display text-xl font-semibold">{tool.title}</span>
-            <span className="mt-1.5 flex-1 text-sm text-dim">{tool.body}</span>
-            <span className="mt-4 flex items-center gap-1.5 text-sm font-semibold text-ink">
-              {t.tools.open} <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5 motion-reduce:transition-none" />
-            </span>
-          </Link>
-        </li>
-      ))}
-    </ul>
   );
 }

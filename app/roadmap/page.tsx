@@ -45,6 +45,7 @@ const columns: { title: string; tone: string; dot: string; items: Item[] }[] = [
       { title: "Barra lateral y pestañas en el móvil", note: "En ordenador, todas las herramientas a la izquierda, plegable a iconos; en el móvil, barra de pestañas abajo", track: "Plataforma" },
       { title: "Portada con ejercicio jugable y tus herramientas", note: "Con tu foto en «Quién lo hace»", track: "Plataforma" },
       { title: "Formulario de sugerencias", note: "Llega a tu correo por Resend", track: "Plataforma" },
+      { title: "Una página pública por herramienta", note: "Qué hace, cómo se usa y las dudas que la gente busca, con título para buscadores y botón a la herramienta; la portada rehecha alrededor de ellas", track: "Negocio" },
       { title: "Web EN/ES, diesis.es, barra común", note: "Y una tarjeta propia por herramienta al compartir el enlace", track: "Plataforma" },
     ],
   },
@@ -55,7 +56,6 @@ const columns: { title: string; tone: string; dot: string; items: Item[] }[] = [
     items: [
       { title: "Medir el uso", note: "Primer ejercicio, vuelta a los 7 días, herramientas. ¿GA4 o PostHog?", track: "Negocio" },
       { title: "SEO: arreglos rápidos", note: "Título y descripción propios en cada página, lang=\"es\" en las páginas en español, diesis.es con redirección permanente, datos estructurados", track: "Negocio" },
-      { title: "Un texto bajo cada herramienta", note: "Qué es, cómo se usa y las dudas que la gente busca, en los dos idiomas", track: "Negocio" },
       { title: "Bing, Search Console y enlaces", note: "Tuyo: dar de alta en Bing, mirar qué está indexado, compartir en Reddit y foros", track: "Negocio" },
       { title: "Lista de correo / espera de Pro", track: "Negocio" },
       { title: "Tu vídeo personal en la portada", note: "YouTube, se carga al pulsar", track: "Negocio" },
@@ -167,7 +167,7 @@ export default function RoadmapPage() {
       <header className="mb-14">
         <p className="inline-flex items-center gap-2 rounded-full border border-line px-3 py-1 text-xs text-dim">
           <span className="size-1.5 rounded-full bg-amber" aria-hidden />
-          Privado · solo con este enlace · 30 sept 2026 · versión 0.27
+          Privado · solo con este enlace · 30 sept 2026 · versión 0.28
         </p>
         <h1 className="mt-5 font-display text-5xl font-semibold tracking-tight sm:text-6xl">Roadmap y estrategia</h1>
         <p className="mt-4 max-w-2xl text-lg text-dim">

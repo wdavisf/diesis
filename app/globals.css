@@ -100,7 +100,7 @@
   }
 }
 
-/* The landing's tool cards (components/tool-showcase.tsx): the metronome's four beats light in
+/* The landing's tool cards (components/tool-figure.tsx): the metronome's four beats light in
    turn at 120 BPM, the one in amber; the backing-track bars bounce. Still under Reduce Motion. */
 @media (prefers-reduced-motion: no-preference) {
   .beat { animation: beat 2s steps(1, end) infinite; }

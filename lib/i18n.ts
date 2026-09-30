@@ -11,6 +11,20 @@ export const LANG_COOKIE = "diesis_lang";
 
 export type When = "now" | "next" | "later";
 
+export type FeatureId = "name" | "find" | "neck" | "metronome" | "backing" | "fingers" | "strings";
+
+export interface FeaturePage {
+  slug: string;
+  metaTitle: string;
+  description: string;
+  h1: string;
+  lede: string;
+  cta: string;
+  points: { title: string; body: string }[];
+  steps: { title: string; body: string }[];
+  faq: { q: string; a: string }[];
+}
+
 export interface Menu {
   title: string;
   lede: string;
@@ -25,7 +39,7 @@ export interface Strings {
   otherName: string;
   meta: { title: string; description: string; privacyTitle: string; privacyDescription: string };
   nav: {
-    how: string; learn: string; faq: string; cta: string; privacy: string; about: string;
+    tools: string; faq: string; cta: string; privacy: string; about: string;
     /** The three sides of the app and their tools, in the order of `SIDES` in components/app-nav.tsx; the `Soon` lists are the tools shown dimmed as coming next. */
     areas: { learn: string; practice: string; setup: string };
     learnTools: string[];
@@ -39,14 +53,6 @@ export interface Strings {
     expand: string;
   };
   hero: { eyebrow: string; h1: string; lede: string; cta: string; secondary: string; trust: string[] };
-  how: { eyebrow: string; h2: string; lede: string; steps: { title: string; body: string }[] };
-  learn: {
-    eyebrow: string;
-    h2: string;
-    lede: string;
-    when: Record<When, string>;
-    tracks: { title: string; lede: string; items: { title: string; body: string; when: When }[] }[];
-  };
   name: { eyebrow: string; p: string[] };
   pricing: { eyebrow: string; h2: string; price: string; sub: string; list: string[]; contactTitle: string; contact: string; contactAfter: string };
   faq: { eyebrow: string; h2: string; items: { q: string; a: string }[] };
@@ -75,8 +81,14 @@ export interface Strings {
   };
   /** The playable Name the note in the landing's hero (components/try-it.tsx). {n} in streak. */
   tryIt: { prompt: string; hint: string; streak: string; doneTitle: string; doneBody: string; doneCta: string; again: string };
-  /** The landing's tool cards (components/tool-showcase.tsx), in the order of its HREFS. */
+  /** The landing's tool cards (components/feature-cards.tsx), in the order of `FEATURES` in lib/features.ts. */
   tools: { eyebrow: string; h2: string; lede: string; open: string; items: { side: string; title: string; body: string }[] };
+  /** The public page of each tool (components/feature-page.tsx): what it does, how to use it, the
+   *  questions people search, and the link into the tool. `slug` is the page's address in this language. */
+  features: {
+    more: string; what: string; how: string; faq: string; others: string; all: string; closing: string;
+    pages: Record<FeatureId, FeaturePage>;
+  };
   footer: { tagline: string; made: string; affiliate: string };
   /** /start: "What do you want to do today?", Learn or Practice. */
   home: { title: string; h1: string; lede: string; about: string; start: string; next: string; later: string; learn: string; practice: string; setup: string };
@@ -261,84 +273,14 @@ const en: Strings = {
     privacyTitle: "Privacy",
     privacyDescription: "What Diesis does with your data: no account, no ads, and your settings and scores never leave your browser. Visits are counted with Google Analytics and PostHog only if you allow it.",
   },
-  nav: { how: "How it works", learn: "What you learn", faq: "FAQ", cta: "Open the app", privacy: "Privacy", about: "About Diesis", areas: { learn: "Learn", practice: "Practice", setup: "Setup" }, learnTools: ["Name the note", "Find the note"], practiceTools: ["The neck", "Metronome", "Backing tracks", "Fingers"], setupTools: ["Strings"], learnSoon: ["Hear the note"], setupSoon: ["Tuner", "My guitars"], soon: "Soon", collapse: "Collapse the sidebar", expand: "Open the sidebar" },
+  nav: { tools: "Tools", faq: "FAQ", cta: "Open the app", privacy: "Privacy", about: "About Diesis", areas: { learn: "Learn", practice: "Practice", setup: "Setup" }, learnTools: ["Name the note", "Find the note"], practiceTools: ["The neck", "Metronome", "Backing tracks", "Fingers"], setupTools: ["Strings"], learnSoon: ["Hear the note"], setupSoon: ["Tuner", "My guitars"], soon: "Soon", collapse: "Collapse the sidebar", expand: "Open the sidebar" },
   hero: {
     eyebrow: "The guitar learning tool",
     h1: "Everything you need to master the guitar.",
-    lede: "Become the best guitarist you can be. Try it now on the neck: name the note that lights up. In the app, the whole fretboard, every scale, a metronome that builds your speed and backing tracks to jam over.",
+    lede: "Become the best guitarist you can be. Try it right here: name the note that lights up. Inside, exercises that teach you the neck, the tools you practice with every day, and what you need to set up your own guitar.",
     cta: "Open the app",
     secondary: "See the tools",
     trust: ["Free in preview", "No account", "Phone or laptop, in the browser"],
-  },
-  how: {
-    eyebrow: "How it works",
-    h2: "See the note. Name it. Know at once.",
-    lede: "One thing at a time, the way a teacher would do it across the table. Nothing to set up. Practice for as long as you like, against the clock, or without a single mistake.",
-    steps: [
-      { title: "A position lights up", body: "One spot on the neck turns amber and the note plays. Frets 0 to 12, all six strings, every one of the twelve notes." },
-      { title: "Name it", body: "Twelve buttons beside the neck, C to B, each sharp next to its note, written as ♯. On a laptop, just press the letter." },
-      { title: "Green or red, then the next one", body: "Right: the spot turns green with the name written on it and the next note lights a moment later. Wrong: the button flashes red and the same note waits for you." },
-    ],
-  },
-  learn: {
-    eyebrow: "What you learn",
-    h2: "From the first note to mastering the neck.",
-    lede: "Diesis has three sides. Learn: exercises for where the notes are, the scales built from them and reading them off a score. Practice: the tools you keep open every day. Setup: the guitar itself, its strings and its setup.",
-    when: { now: "Available now", next: "Coming next", later: "Later" },
-    tracks: [
-      {
-        title: "Notes",
-        lede: "Where every note lives on the neck, until you stop having to think about it.",
-        items: [
-          { title: "Name the note", body: "A position lights, you say which note it is.", when: "now" },
-          { title: "Find the note", body: "You get a name. Tap every place it lives within the fret range, until you have them all.", when: "now" },
-          { title: "Hear the note", body: "A note plays with nothing lit. Tap a place on the neck where it could be.", when: "next" },
-          { title: "Challenges", body: "Practice with no end, race the clock for one, two or five minutes, or see how far you get without a single mistake. Your best score is kept.", when: "now" },
-          { title: "Settings", body: "On the start card: naturals only or all twelve, and note names as C D E or Do Re Mi. Fret range and one string at a time come next.", when: "now" },
-        ],
-      },
-      {
-        title: "Scales",
-        lede: "Any scale on the whole neck, then the shapes inside it.",
-        items: [
-          { title: "Explore a scale", body: "Every note on the neck, or pick a root and a scale and see every position lit, the root in amber, named by note or by degree. Tap one to hear it. Pentatonics, blues, major, the minors and the modes.", when: "now" },
-          { title: "Build the scale", body: "Given a root and a scale name, tap every note of it within the range. Same exercise as Find the note, bigger target.", when: "later" },
-          { title: "Name the scale, name the degree", body: "A shape lights and you say which scale or mode it is. A note lights inside a scale and you say which degree. Major and its modes, pentatonics, blues, the minors.", when: "later" },
-        ],
-      },
-      {
-        title: "Reading music",
-        lede: "For classical guitar: the note on the staff, the place on the neck, the same thing.",
-        items: [
-          { title: "Read the note", body: "A note appears on the treble staff. Name it, or find it on the neck. Guitar clef, guitar range, ledger lines included.", when: "later" },
-          { title: "Read the position", body: "A spot lights on the neck and you place it on the staff. The other direction, so both stick.", when: "later" },
-          { title: "Rhythm and reading practice", body: "Short passages to read at a click, the way a teacher would hand you a line. Later, once the notes are solid.", when: "later" },
-        ],
-      },
-      {
-        title: "Tools",
-        lede: "What you keep open while you practice, set up for your own guitar.",
-        items: [
-          { title: "Metronome and speed trainer", body: "Tempo from 20 to 300, 2/4 to 7/8 with the accents where they belong, subdivisions up to sextuplets, tap tempo. Turn on Speed up and it climbs on its own: pick the start, the target, the step and the bars at each tempo.", when: "now" },
-          { title: "Backing tracks", body: "Tracks to jam over: blues, rock, metal, funk, bossa, modal jams, flamenco and more. Each shows its key and a scale that fits, and opens that scale on the neck.", when: "now" },
-          { title: "Finger independence", body: "Four pads, one per finger, and notes falling onto them to a click. Hit each pad as its note lands: green when you are on time, red when you are not, and by how many milliseconds.", when: "now" },
-        ],
-      },
-      {
-        title: "Setup",
-        lede: "The guitar itself: set up for the way you tune it and play it.",
-        items: [
-          { title: "Your guitar", body: "In your profile: six, seven or eight strings and your tuning (standard, drop D, E♭, DADGAD, open G, drop A…). The exercises and the neck draw and play that guitar.", when: "now" },
-          { title: "Strings and setup", body: "Each string’s tension for your tuning and scale length, common sets or a balanced one worked out for you, and the setup numbers for your type of guitar: action, relief, radius, pickup height, then intonation step by step.", when: "now" },
-          { title: "Tuner and intonation", body: "Tune through the microphone in your guitar's own tuning. Then play each string open and at the 12th fret, and it tells you which way to move the saddle, and how far.", when: "next" },
-          { title: "My guitars", body: "More than one guitar, each with its type, scale, tuning, strings and the setup you last gave it. Pick the one in your hands and the whole of Diesis uses it.", when: "next" },
-          { title: "Changing tuning", body: "Going from standard to drop C? What each string's tension does, whether your set still works, and what to check after: the truss rod and the intonation.", when: "later" },
-          { title: "Why does it buzz?", body: "Pick what is wrong (buzz on the low frets, buzz up the neck, notes going sharp up the neck, a string catching in the nut) and get the likely cause and the order to fix it.", when: "later" },
-          { title: "String log", body: "When you last changed strings and which set. Diesis knows how much you practice, so it tells you when they are due.", when: "later" },
-          { title: "Care and humidity", body: "Cleaning the fretboard (oil on rosewood and ebony, never on maple), the frets, humidity for acoustics and classicals (45–55%), travel and changes of season.", when: "later" },
-        ],
-      },
-    ],
   },
   name: {
     eyebrow: "The name",
@@ -352,7 +294,7 @@ const en: Strings = {
     h2: "Free while it is in preview.",
     price: "Free",
     sub: "For now the browser version costs nothing and asks for nothing. Open it and start.",
-    list: ["Every mode that exists", "No account, no sign-up", "Phone or laptop", "No ads"],
+    list: ["Every tool that exists", "No account, no sign-up", "Phone or laptop", "No ads"],
     contactTitle: "Tell me what you play",
     contact: "I build Diesis on my own, and what players tell me decides what comes first. Message me on Instagram at",
     contactAfter: "and tell me what you play, or what you would like to see next. A paid plan will come later; while Diesis is in preview, everything is free.",
@@ -483,8 +425,8 @@ const en: Strings = {
   },
   tools: {
     eyebrow: "Inside",
-    h2: "Open a tool and start playing.",
-    lede: "No sign-up, nothing to install. Every card takes you straight into the tool.",
+    h2: "Everything inside, tool by tool.",
+    lede: "Each one has its own page: what it does, how to use it and the way in. No sign-up, nothing to install.",
     open: "Open",
     items: [
       { side: "Learn", title: "Name the note", body: "A position lights and plays. Say which note it is, against the clock if you dare." },
@@ -495,6 +437,184 @@ const en: Strings = {
       { side: "Practice", title: "Finger independence", body: "Four pads, one per finger, and notes falling onto them on the click. Hit each one as it lands and see how close you were." },
       { side: "Setup", title: "Strings and setup", body: "Every string's tension for your tuning, a balanced set worked out for you, and the setup numbers for your guitar." },
     ],
+  },
+  features: {
+    more: "How it works",
+    what: "What it does",
+    how: "How to use it",
+    faq: "Questions",
+    others: "More in Diesis",
+    all: "All the tools",
+    closing: "It opens in your browser. Free while in preview, no account.",
+    pages: {
+      name: {
+        slug: "name-the-note",
+        metaTitle: "Learn the notes on the guitar fretboard · Diesis",
+        description: "A position on the neck lights up and plays: you say which note it is. Practice freely, against the clock or without a single mistake, on six, seven or eight strings. Free in the browser.",
+        h1: "Learn every note on the guitar neck.",
+        lede: "A position lights up and plays. You say which note it is, and know at once if you were right. A few minutes a day, until you stop having to think.",
+        cta: "Open Name the note",
+        points: [
+          { title: "The whole neck, one note at a time", body: "Frets 0 to 12 on every string. Start with the seven naturals, then switch on all twelve." },
+          { title: "Three ways to practice", body: "With no clock and no end, against the clock for one, two or five minutes, or to see how many you get before your first mistake. Your best score is kept." },
+          { title: "Your guitar, your note names", body: "Six, seven or eight strings in the tuning you pick, and the notes written as C D E or Do Re Mi." },
+          { title: "You hear every note", body: "Each position plays as it lights, so the name, the place and the sound stick together." },
+        ],
+        steps: [
+          { title: "A position lights up", body: "One spot on the neck turns amber and the note plays. Frets 0 to 12, all six strings, every one of the twelve notes." },
+          { title: "Name it", body: "Twelve buttons beside the neck, C to B, each sharp next to its note, written as ♯. On a laptop, just press the letter." },
+          { title: "Green or red, then the next one", body: "Right: the spot turns green with the name written on it and the next note lights a moment later. Wrong: the button flashes red and the same note waits for you." },
+        ],
+        faq: [
+          { q: "What is the fastest way to learn the notes on the fretboard?", a: "Little and often. Start with the naturals only, a few minutes a day, and add the sharps when those come without thinking. Going against the clock shows you which notes still make you stop." },
+          { q: "Do I have to learn the sharps and flats separately?", a: "No. A sharp is one fret above its natural note, so once the naturals are solid the rest falls into place. Diesis writes them as sharps, ♯: F♯ and G♭ are the same place on the neck." },
+          { q: "Does it work with seven strings or another tuning?", a: "Yes. Set your guitar in the profile: six, seven or eight strings, standard, drop D, DADGAD, open tunings and the low ones. The exercise then asks about that neck." },
+        ],
+      },
+      find: {
+        slug: "find-the-note",
+        metaTitle: "Find any note everywhere on the guitar neck · Diesis",
+        description: "You get a note name and tap every place it lives on the fretboard. The exercise that turns knowing the notes into finding them. Free in the browser.",
+        h1: "Find every place a note lives on the neck.",
+        lede: "You get a note. Tap every position of it between the nut and the 12th fret, until you have them all. The other half of knowing the fretboard.",
+        cta: "Open Find the note",
+        points: [
+          { title: "Every position, not just one", body: "In the first twelve frets of a six-string guitar each note lives in six, seven or eight places. The exercise ends when you have found them all." },
+          { title: "Right stays, wrong tells you", body: "A right tap stays green with the note's name. A wrong one flashes red and shows you which note that fret really is." },
+          { title: "Every tap sounds", body: "You hear the note you touched, right or wrong, so your ear learns along with your eyes." },
+          { title: "With time, or with a challenge", body: "Take your time and ask to be shown the ones you are missing, or go against the clock or without mistakes and keep your best." },
+        ],
+        steps: [
+          { title: "Read the note", body: "A note name appears under the neck." },
+          { title: "Tap every place it lives", body: "All the strings, frets 0 to 12. Each one you find stays lit." },
+          { title: "Finish it, then the next", body: "When the last one is found another note comes up, never the same twice in a row." },
+        ],
+        faq: [
+          { q: "How many times does each note appear on the fretboard?", a: "In frets 0 to 12 of a six-string guitar in standard tuning, six to eight times: once on each string, plus the 12th fret of every string tuned to that note. E has the most, eight." },
+          { q: "How is it different from Name the note?", a: "It runs the other way. Name the note goes from a place to its name; this one goes from a name to its places. You need both to move around the neck freely." },
+          { q: "What if I get stuck?", a: "In Practice there is a Show me button: it lights the ones you are missing and moves on. Nothing counts against you there." },
+        ],
+      },
+      neck: {
+        slug: "fretboard",
+        metaTitle: "Guitar fretboard notes and scales in any key · Diesis",
+        description: "See every note on the guitar neck, or any scale on any root: pentatonics, blues, major, the minors and the modes, by note name or by degree. Six, seven or eight strings. Free in the browser.",
+        h1: "Every note and every scale, across the whole neck.",
+        lede: "See all the notes on the fretboard, or pick a root and a scale and watch it light up from the nut to the 24th fret. Tap any note to hear it.",
+        cta: "Open the neck",
+        points: [
+          { title: "Twelve scales on any root", body: "Minor and major pentatonic, blues, major, natural, harmonic and melodic minor, and the modes: Dorian, Phrygian, Lydian, Mixolydian and Locrian." },
+          { title: "Notes or degrees", body: "Read each position as a note name, or as its degree in the scale: 1, ♭3, 5. The root is always amber." },
+          { title: "Twelve frets or twenty-four", body: "The first octave to learn the shapes, the full neck to join them up." },
+          { title: "Drawn for your guitar", body: "Six, seven or eight strings, in the tuning you set in your profile. Tune down and the notes move; the neck moves with them." },
+        ],
+        steps: [
+          { title: "Pick a root", body: "Twelve buttons under the neck, C to B." },
+          { title: "Pick a scale", body: "The neck lights every note of it, the root in amber." },
+          { title: "Tap and listen", body: "Every lit note plays. Switch to degrees to see how the scale is built." },
+        ],
+        faq: [
+          { q: "Which scale should I learn first on guitar?", a: "The minor pentatonic. It has five notes, it sits under most rock and blues solos, and the blues scale and the natural minor are the same shape with notes added." },
+          { q: "What do the numbers mean?", a: "They are degrees: each note counted from the root. 1 is the root, ♭3 a minor third, 5 the fifth. The same numbers describe the scale in any key, which is why players think in them." },
+          { q: "Does it show scale positions or boxes?", a: "Not yet. It shows the scale over the whole neck; positions are on the list." },
+        ],
+      },
+      metronome: {
+        slug: "metronome",
+        metaTitle: "Online metronome with a speed trainer · Diesis",
+        description: "A free online metronome for guitar practice: 20 to 300 BPM, odd time signatures, subdivisions, tap tempo, and a speed trainer that raises the tempo every few bars up to your target.",
+        h1: "A metronome that builds your speed.",
+        lede: "Set a tempo and it keeps it. Or give it a start, a target and a step, and it climbs a little every few bars while you play.",
+        cta: "Open the metronome",
+        points: [
+          { title: "20 to 300 BPM, set three ways", body: "Slide the tempo ruler, type the number, or tap the tempo you have in your head." },
+          { title: "Time signatures with their accents", body: "2/4, 3/4, 4/4, 5/4, 6/8 and 7/8, accented where each bar is felt." },
+          { title: "Subdivisions", body: "Eighth notes, triplets, sixteenths or sextuplets between the beats, quieter than the beat itself." },
+          { title: "Speed up", body: "Pick the start, the target, the step and how many bars each tempo lasts. At the target it stays there or starts over." },
+        ],
+        steps: [
+          { title: "Set the tempo", body: "Slow enough to play the passage clean and relaxed." },
+          { title: "Press Start", body: "On a computer, the space bar. The beats light up as they sound." },
+          { title: "Turn on Speed up", body: "Set your target and let it climb a few BPM every few bars." },
+        ],
+        faq: [
+          { q: "What tempo should I practice at?", a: "The fastest one at which the passage comes out clean and relaxed. If you tense up or miss notes it is too fast: come down ten and build again." },
+          { q: "How does a speed trainer work?", a: "It raises the tempo by a small step after a set number of bars, so you go from comfortable to fast without stopping to touch anything. Small steps work best: two to five BPM." },
+          { q: "Does it keep going if I switch tabs?", a: "Yes. It keeps time with the tab in the background, and while it runs it keeps your screen awake." },
+        ],
+      },
+      backing: {
+        slug: "backing-tracks",
+        metaTitle: "Guitar backing tracks with the key and scale to play · Diesis",
+        description: "Backing tracks to jam over in blues, rock, metal, funk, jazz, flamenco and more. Each one shows its key and a scale that fits, and opens that scale on the fretboard.",
+        h1: "Backing tracks that tell you what to play.",
+        lede: "Put a track on and play over it. Each one shows its key and a scale that fits, and one tap draws that scale on the neck.",
+        cta: "Open backing tracks",
+        points: [
+          { title: "Ten styles", body: "Blues, rock, metal, funk, jazz and bossa, modal jams, flamenco, country, ballads and neo-soul." },
+          { title: "Key and scale on every track", body: "No working out the key by ear before you can start. The track says it, with a scale that works over it." },
+          { title: "From the track to the neck", body: "Show on the neck opens that scale on that root, across the whole fretboard." },
+          { title: "Tracks by their makers", body: "The videos are their makers', on YouTube, and each one is credited. The player loads only when you press play." },
+        ],
+        steps: [
+          { title: "Pick a style", body: "Filter the tracks by style." },
+          { title: "Press play", body: "The track starts; its key and its scale are on the card." },
+          { title: "Open the scale", body: "One tap shows it on the neck. Start on the root and go from there." },
+        ],
+        faq: [
+          { q: "What scale do I play over a backing track?", a: "The one on the card. As a rule of thumb, over a track in a minor key the minor pentatonic on the same root always works, and over a major key, the major pentatonic." },
+          { q: "Are the tracks made by Diesis?", a: "No. They are YouTube videos by the musicians who made them, credited on each card. Diesis adds the key, the scale and the link to the neck." },
+        ],
+      },
+      fingers: {
+        slug: "finger-independence",
+        metaTitle: "Finger independence exercise for guitar, timed to the millisecond · Diesis",
+        description: "A finger independence drill for guitarists: four pads, one per finger, and notes falling onto them to a metronome. See how close to the click each finger lands, in milliseconds.",
+        h1: "Train each finger to move on its own, in time.",
+        lede: "Four pads, one per finger. Notes fall onto them to a metronome: hit each pad the moment its note lands, and see how close to the click you were.",
+        cta: "Open finger independence",
+        points: [
+          { title: "Measured in milliseconds", body: "Every hit is green or red, with how early or late it was. At the end, your average: ahead of the click, behind it, or right on it." },
+          { title: "Orders that untangle the fingers", body: "Random, 1234, 4321, 1324, 2413 or 1423, over 16, 32 or 64 notes." },
+          { title: "Either hand", body: "Phone flat on the table with your fingers on the pads, or the keyboard on a computer: A S D F for the left hand, J K L ; for the right." },
+          { title: "A record worth chasing", body: "Your fastest clean run, with 90% of the notes on time or better, kept for each order and length." },
+        ],
+        steps: [
+          { title: "Set a slow tempo", body: "60 BPM is a good place to start." },
+          { title: "Hit each pad as its note lands", body: "One bar of count-in, then one note per click." },
+          { title: "Clean? Go up five", body: "When a run comes out clean, raise the tempo five BPM and go again." },
+        ],
+        faq: [
+          { q: "What is finger independence?", a: "Being able to move one finger without the others moving with it. On the guitar it is what lets the ring finger and the pinky land cleanly and on time." },
+          { q: "Does it replace practicing on the guitar?", a: "No. It trains timing and control away from the neck. Take the same orders to the guitar afterwards, one finger per fret, with the metronome." },
+          { q: "Can I use wireless headphones?", a: "Better not. Bluetooth delays the click, so your hits will read as late. Use the speaker or wired headphones." },
+        ],
+      },
+      strings: {
+        slug: "strings",
+        metaTitle: "Guitar string tension calculator and setup guide · Diesis",
+        description: "Work out the tension of every string for your tuning and scale length, find a balanced set, and get the setup numbers for your type of guitar: action, relief, pickup height and intonation.",
+        h1: "The right strings for your tuning, and the numbers to set it up.",
+        lede: "See how tight each string is on your guitar, in your tuning. Load a common set or let Diesis work out a balanced one, then follow the setup steps after the string change.",
+        cta: "Open strings and setup",
+        points: [
+          { title: "Tension for every string", body: "Worked out from your gauges, tuning and scale length, within about 5% of the makers' own tables. Green is comfortable, amber slack, red tight." },
+          { title: "A balanced set, worked out", body: "Pick a common set, or ask for one balanced for your tuning. It also names real sets at those gauges." },
+          { title: "Setup numbers for your guitar", body: "Action, neck relief, fretboard radius and pickup height for eleven types of guitar, from Strat and Les Paul styles to eight strings, acoustics and classicals." },
+          { title: "What to do after a string change", body: "Stretch, relief, action, pickups, intonation, in the order that works. The steps change for acoustic and classical guitars." },
+        ],
+        steps: [
+          { title: "Pick your type of guitar", body: "It sets the scale length; change it if yours is different." },
+          { title: "Set strings and tuning", body: "Six, seven or eight, in the tuning you play in." },
+          { title: "Read the bars", body: "Try sets until every string is in the green, then follow the setup steps." },
+        ],
+        faq: [
+          { q: "What string gauge do I need for a lower tuning?", a: "A heavier one. Tune down and the same set goes slack: it buzzes and feels loose. Enter your tuning and go up in gauge until the bars turn green, or let Diesis suggest a balanced set." },
+          { q: "What is a good string tension?", a: "Diesis marks each string as slack, balanced or tight. What matters most is that the strings are close to each other, so none feels loose next to its neighbours." },
+          { q: "Do I have to adjust the guitar after changing gauge?", a: "Usually. Heavier strings pull harder on the neck, so check the relief first, then the action, then the intonation. Diesis lists the steps in that order." },
+        ],
+      },
+    },
   },
   footer: { tagline: "Everything you need to master the guitar.", made: "Made in Cáceres, Spain. “Diesis” is Greek for the semitone: one fret.", affiliate: "As an Amazon Associate I earn from qualifying purchases." },
   home: {
@@ -761,84 +881,14 @@ const es: Strings = {
     privacyTitle: "Privacidad",
     privacyDescription: "Qué hace Diesis con tus datos: sin cuenta, sin anuncios, y tus ajustes y tus marcas no salen de tu navegador. Las visitas se cuentan con Google Analytics y PostHog solo si tú lo permites.",
   },
-  nav: { how: "Cómo funciona", learn: "Qué aprendes", faq: "Preguntas", cta: "Abrir la app", privacy: "Privacidad", about: "Sobre Diesis", areas: { learn: "Aprender", practice: "Practicar", setup: "Ajuste" }, learnTools: ["Nombra la nota", "Encuentra la nota"], practiceTools: ["El mástil", "Metrónomo", "Backing tracks", "Dedos"], setupTools: ["Cuerdas"], learnSoon: ["Escucha la nota"], setupSoon: ["Afinador", "Mis guitarras"], soon: "Pronto", collapse: "Plegar la barra lateral", expand: "Desplegar la barra lateral" },
+  nav: { tools: "Herramientas", faq: "Preguntas", cta: "Abrir la app", privacy: "Privacidad", about: "Sobre Diesis", areas: { learn: "Aprender", practice: "Practicar", setup: "Ajuste" }, learnTools: ["Nombra la nota", "Encuentra la nota"], practiceTools: ["El mástil", "Metrónomo", "Backing tracks", "Dedos"], setupTools: ["Cuerdas"], learnSoon: ["Escucha la nota"], setupSoon: ["Afinador", "Mis guitarras"], soon: "Pronto", collapse: "Plegar la barra lateral", expand: "Desplegar la barra lateral" },
   hero: {
     eyebrow: "La herramienta para aprender guitarra",
     h1: "Todo lo que necesitas para dominar la guitarra.",
-    lede: "Llega a ser el mejor guitarrista que puedas ser. Pruébalo ya en el mástil: di qué nota se ilumina. En la app tienes el mástil entero, todas las escalas, un metrónomo que te hace ganar velocidad y bases para improvisar encima.",
+    lede: "Llega a ser el mejor guitarrista que puedas ser. Pruébalo aquí mismo: di qué nota se ilumina. Dentro tienes ejercicios para aprenderte el mástil, las herramientas con las que practicas a diario y lo necesario para poner a punto tu guitarra.",
     cta: "Abrir la app",
     secondary: "Ver las herramientas",
     trust: ["Gratis durante la beta", "Sin registro", "En el navegador, móvil u ordenador"],
-  },
-  how: {
-    eyebrow: "Cómo funciona",
-    h2: "Ves la nota. Dices cuál es. Sabes al instante si has acertado.",
-    lede: "De una en una, como haría un profesor sentado enfrente. No hay nada que configurar. Practica sin límite, contrarreloj o sin permitirte ni un fallo.",
-    steps: [
-      { title: "Se ilumina una posición", body: "Un punto del mástil se enciende en ámbar y suena la nota. Del traste 0 al 12, las seis cuerdas, las doce notas." },
-      { title: "Di cuál es", body: "Doce botones al lado del mástil, de Do a Si, cada sostenido junto a su nota y escrito como ♯. En el ordenador basta con pulsar la tecla de la nota." },
-      { title: "Verde o rojo, y a por la siguiente", body: "Si aciertas, el punto se pone verde con el nombre encima y enseguida se enciende la siguiente nota. Si fallas, el botón parpadea en rojo y la nota se queda esperando." },
-    ],
-  },
-  learn: {
-    eyebrow: "Qué aprendes",
-    h2: "De la primera nota a dominar el mástil.",
-    lede: "Diesis tiene tres partes. Aprender: ejercicios para saber dónde está cada nota, las escalas que se construyen con ellas y cómo leerlas en una partitura. Practicar: las herramientas que tienes abiertas cada día. Ajuste: la guitarra en sí, sus cuerdas y su puesta a punto.",
-    when: { now: "Ya disponible", next: "Próximamente", later: "Más adelante" },
-    tracks: [
-      {
-        title: "Notas",
-        lede: "Dónde está cada nota del mástil, hasta que no tengas que pensarlo.",
-        items: [
-          { title: "Nombra la nota", body: "Se ilumina una posición y tú dices qué nota es.", when: "now" },
-          { title: "Encuentra la nota", body: "Te dan una nota y tienes que tocarla en todos los sitios del mástil donde esté, dentro del rango de trastes que hayas elegido.", when: "now" },
-          { title: "Escucha la nota", body: "Suena una nota sin que se ilumine nada. Tócala en algún sitio del mástil donde pueda estar.", when: "next" },
-          { title: "Retos", body: "Práctica libre sin final, contrarreloj de uno, dos o cinco minutos, o a ver cuántas encadenas sin fallar ni una. Tu mejor marca se queda guardada.", when: "now" },
-          { title: "Ajustes", body: "Antes de empezar: solo naturales o las doce notas, y los nombres como Do Re Mi o C D E. El rango de trastes y practicar cuerda a cuerda llegarán después.", when: "now" },
-        ],
-      },
-      {
-        title: "Escalas",
-        lede: "Cualquier escala a lo largo de todo el mástil, y después las posiciones.",
-        items: [
-          { title: "Explora una escala", body: "Todas las notas del mástil, o elige tónica y escala y verás cada posición iluminada, la tónica en ámbar, con el nombre de la nota o el grado. Toca una para oírla. Pentatónicas, blues, mayor, las menores y los modos.", when: "now" },
-          { title: "Construye la escala", body: "Te dan una tónica y una escala; toca todas sus notas dentro del rango. Como Encuentra la nota, pero con más notas que buscar.", when: "later" },
-          { title: "Nombra la escala, nombra el grado", body: "Se ilumina una forma y dices qué escala o modo es. O se ilumina una nota dentro de una escala y dices qué grado es. Mayor y sus modos, pentatónicas, blues y las menores.", when: "later" },
-        ],
-      },
-      {
-        title: "Leer partituras",
-        lede: "Para guitarra clásica: que la nota en el pentagrama y la posición en el mástil sean lo mismo.",
-        items: [
-          { title: "Lee la nota", body: "Aparece una nota en el pentagrama. Di cuál es o tócala en el mástil. Clave de sol, el registro de la guitarra y líneas adicionales incluidas.", when: "later" },
-          { title: "Lee la posición", body: "Se ilumina un punto del mástil y tú lo colocas en el pentagrama. El camino inverso, para que se fijen los dos.", when: "later" },
-          { title: "Ritmo y lectura", body: "Pasajes cortos para leer a primera vista, como cuando un profesor te pone una línea delante. Más adelante, cuando las notas estén bien asentadas.", when: "later" },
-        ],
-      },
-      {
-        title: "Herramientas",
-        lede: "Lo que tienes abierto mientras practicas, pensado para tu guitarra.",
-        items: [
-          { title: "Metrónomo y entrenador de velocidad", body: "Tempo de 20 a 300, compases de 2/4 a 7/8 con los acentos donde tocan, subdivisiones hasta seisillos y tap tempo. Activa la subida de tempo y sube solo: eliges inicio, objetivo, cuánto sube y cuántos compases en cada tempo.", when: "now" },
-          { title: "Backing tracks", body: "Bases para improvisar encima: blues, rock, metal, funk, bossa, jams modales, flamenco y más. Cada una dice su tonalidad y una escala que encaja, y te la abre en el mástil.", when: "now" },
-          { title: "Independencia de dedos", body: "Cuatro botones, uno por dedo, y notas que caen sobre ellos al ritmo de un clic. Pulsa cada botón cuando le llega su nota: verde si vas a tiempo, rojo si no, y por cuántos milisegundos.", when: "now" },
-        ],
-      },
-      {
-        title: "Ajuste",
-        lede: "La guitarra en sí: preparada para cómo la afinas y cómo tocas.",
-        items: [
-          { title: "Tu guitarra", body: "En tu perfil: seis, siete u ocho cuerdas y tu afinación (estándar, drop D, Mi♭, DADGAD, Sol abierta, drop A…). Los ejercicios y el mástil dibujan y suenan con esa guitarra.", when: "now" },
-          { title: "Cuerdas y ajuste", body: "La tensión de cada cuerda con tu afinación y tu tiro, juegos habituales o uno equilibrado calculado para ti, y las medidas de ajuste de tu tipo de guitarra: altura de cuerdas, curvatura del mástil, radio, altura de pastillas y, paso a paso, la octavación.", when: "now" },
-          { title: "Afinador y octavación", body: "Afina con el micrófono en la afinación de tu guitarra. Después tocas cada cuerda al aire y en el traste 12, y te dice hacia dónde mover la selleta y cuánto.", when: "next" },
-          { title: "Mis guitarras", body: "Más de una guitarra, cada una con su tipo, tiro, afinación, cuerdas y el último ajuste que le hiciste. Eliges la que tienes en las manos y todo Diesis la usa.", when: "next" },
-          { title: "Cambio de afinación", body: "¿Pasas de estándar a drop C? Qué le pasa a la tensión de cada cuerda, si tu juego sigue valiendo y qué revisar después: el alma y la octavación.", when: "later" },
-          { title: "¿Por qué trastea?", body: "Eliges lo que te pasa (trastea en los primeros trastes, trastea arriba del mástil, desafina al subir, una cuerda se engancha en la cejuela) y te dice la causa probable y en qué orden arreglarlo.", when: "later" },
-          { title: "Registro de cuerdas", body: "Cuándo cambiaste las cuerdas y qué juego pusiste. Diesis sabe cuánto practicas, así que te avisa cuando toca cambiarlas.", when: "later" },
-          { title: "Cuidado y humedad", body: "Limpiar el diapasón (aceite en palosanto y ébano, nunca en arce), los trastes, la humedad en acústicas y clásicas (45–55 %), los viajes y los cambios de estación.", when: "later" },
-        ],
-      },
-    ],
   },
   name: {
     eyebrow: "El nombre",
@@ -852,7 +902,7 @@ const es: Strings = {
     h2: "Gratis mientras dure la beta.",
     price: "Gratis",
     sub: "Por ahora la versión web no cuesta nada y no pide nada. Entras y empiezas.",
-    list: ["Todos los modos disponibles", "Sin cuenta ni registro", "Móvil u ordenador", "Sin anuncios"],
+    list: ["Todas las herramientas disponibles", "Sin cuenta ni registro", "Móvil u ordenador", "Sin anuncios"],
     contactTitle: "Cuéntame qué tocas",
     contact: "Diesis lo hago yo solo, y lo que me contáis los que tocáis decide qué llega antes. Escríbeme por Instagram a",
     contactAfter: "y dime qué tocas o qué te gustaría ver. Más adelante habrá un plan de pago; mientras dure la beta, todo es gratis.",
@@ -867,7 +917,7 @@ const es: Strings = {
       { q: "¿Qué trastes entran?", a: "Del 0 al 12 en todas las cuerdas de tu guitarra: seis, siete u ocho, con la afinación que elijas en tu perfil. Poder elegir un rango (por ejemplo, solo del 5 al 9) es de lo próximo que llegará." },
       { q: "¿Móvil u ordenador?", a: "Los dos, desde el navegador. El mástil es largo y estrecho, así que en el móvil Diesis te pide que lo pongas en horizontal. En el ordenador ocupa toda la ventana y puedes responder con el teclado." },
       { q: "¿Y si soy zurdo?", a: "Todavía no hay opción. El mástil se dibuja como en los libros de acordes: cejuela a la izquierda y la cuerda aguda arriba. Un mástil en espejo está en la lista." },
-      { q: "¿Habrá app para el móvil?", a: "Primero la versión web, que ya funciona en el móvil. Si la pide bastante gente, haremos una app nativa." },
+      { q: "¿Habrá app para el móvil?", a: "Primero la versión web, que ya funciona en el móvil. Si la pide bastante gente, haré una app nativa." },
     ],
   },
   maker: {
@@ -983,8 +1033,8 @@ const es: Strings = {
   },
   tools: {
     eyebrow: "Dentro",
-    h2: "Abre una herramienta y ponte a tocar.",
-    lede: "Sin registro y sin instalar nada. Cada tarjeta te lleva directo a la herramienta.",
+    h2: "Todo lo que hay dentro, herramienta a herramienta.",
+    lede: "Cada una tiene su página: qué hace, cómo se usa y por dónde se entra. Sin registro y sin instalar nada.",
     open: "Abrir",
     items: [
       { side: "Aprender", title: "Nombra la nota", body: "Se ilumina una posición y suena. Di qué nota es, y contrarreloj si te atreves." },
@@ -995,6 +1045,184 @@ const es: Strings = {
       { side: "Practicar", title: "Independencia de dedos", body: "Cuatro botones, uno por dedo, y notas que caen sobre ellos en el clic. Pulsa cada uno cuando le llega la suya y mira lo cerca que has quedado." },
       { side: "Ajuste", title: "Cuerdas y ajuste", body: "La tensión de cada cuerda con tu afinación, un juego equilibrado calculado para ti y las medidas de ajuste de tu guitarra." },
     ],
+  },
+  features: {
+    more: "Cómo funciona",
+    what: "Qué hace",
+    how: "Cómo se usa",
+    faq: "Preguntas",
+    others: "Más en Diesis",
+    all: "Todas las herramientas",
+    closing: "Se abre en el navegador. Gratis durante la beta y sin registro.",
+    pages: {
+      name: {
+        slug: "nombra-la-nota",
+        metaTitle: "Aprende las notas del mástil de la guitarra · Diesis",
+        description: "Se ilumina una posición del mástil y suena: tú dices qué nota es. Práctica libre, contrarreloj o sin fallos, con seis, siete u ocho cuerdas. Gratis y en el navegador.",
+        h1: "Apréndete todas las notas del mástil.",
+        lede: "Se ilumina una posición y suena. Dices qué nota es y sabes al momento si has acertado. Unos minutos al día, hasta que te salga sin pensar.",
+        cta: "Abrir Nombra la nota",
+        points: [
+          { title: "Todo el mástil, nota a nota", body: "Del traste 0 al 12 en todas las cuerdas. Empieza por las siete naturales y, cuando las tengas, activa las doce." },
+          { title: "Tres formas de practicar", body: "Sin reloj y sin final, contrarreloj durante uno, dos o cinco minutos, o a ver cuántas encadenas antes del primer fallo. Tu mejor marca se queda guardada." },
+          { title: "Tu guitarra y tus nombres de nota", body: "Seis, siete u ocho cuerdas con la afinación que elijas, y las notas escritas como Do Re Mi o como C D E." },
+          { title: "Cada nota suena", body: "La posición suena al iluminarse, y así el nombre, el sitio y el sonido se te quedan juntos." },
+        ],
+        steps: [
+          { title: "Se ilumina una posición", body: "Un punto del mástil se enciende en ámbar y suena la nota. Del traste 0 al 12, las seis cuerdas, las doce notas." },
+          { title: "Di cuál es", body: "Doce botones al lado del mástil, de Do a Si, cada sostenido junto a su nota y escrito como ♯. En el ordenador basta con pulsar la tecla de la nota." },
+          { title: "Verde o rojo, y a por la siguiente", body: "Si aciertas, el punto se pone verde con el nombre encima y enseguida se enciende la siguiente nota. Si fallas, el botón parpadea en rojo y la nota se queda esperando." },
+        ],
+        faq: [
+          { q: "¿Cuál es la forma más rápida de aprenderse las notas del mástil?", a: "Poco y a menudo. Empieza solo con las naturales, unos minutos al día, y añade los sostenidos cuando esas te salgan sin pensar. El contrarreloj te enseña qué notas te siguen frenando." },
+          { q: "¿Hay que aprenderse aparte los sostenidos y los bemoles?", a: "No. Un sostenido está un traste por encima de su nota natural, así que con las naturales bien sabidas lo demás cae solo. Diesis los escribe como sostenidos, con ♯: Fa♯ y Sol♭ son el mismo sitio del mástil." },
+          { q: "¿Sirve para siete cuerdas o para otra afinación?", a: "Sí. Pon tu guitarra en el perfil: seis, siete u ocho cuerdas, estándar, drop D, DADGAD, afinaciones abiertas y las graves. El ejercicio pregunta sobre ese mástil." },
+        ],
+      },
+      find: {
+        slug: "encuentra-la-nota",
+        metaTitle: "Encuentra cada nota en todo el mástil de la guitarra · Diesis",
+        description: "Te dan una nota y la tocas en todos los sitios del mástil donde está. El ejercicio que convierte saberse las notas en encontrarlas. Gratis y en el navegador.",
+        h1: "Encuentra cada nota en todos los sitios del mástil.",
+        lede: "Te dan una nota. Tócala en todas las posiciones donde esté, de la cejuela al traste 12, hasta que no te quede ninguna. La otra mitad de saberse el mástil.",
+        cta: "Abrir Encuentra la nota",
+        points: [
+          { title: "Todas las posiciones, no solo una", body: "En los doce primeros trastes de una guitarra de seis cuerdas, cada nota está en seis, siete u ocho sitios. El ejercicio termina cuando los has encontrado todos." },
+          { title: "Si aciertas se queda; si fallas, te lo dice", body: "Un acierto se queda en verde con el nombre de la nota. Un fallo parpadea en rojo y te enseña qué nota es en realidad ese traste." },
+          { title: "Todo lo que tocas suena", body: "Oyes la nota que has pulsado, aciertes o no, y el oído aprende a la vez que la vista." },
+          { title: "Con calma o con reto", body: "Tómate tu tiempo y pide que te enseñe las que te faltan, o ve contrarreloj o sin fallos y guarda tu mejor marca." },
+        ],
+        steps: [
+          { title: "Lee la nota", body: "Debajo del mástil aparece el nombre de una nota." },
+          { title: "Tócala en todos sus sitios", body: "En todas las cuerdas, del traste 0 al 12. Cada una que encuentras se queda encendida." },
+          { title: "Complétala y a por la siguiente", body: "Al encontrar la última sale otra nota, nunca la misma dos veces seguidas." },
+        ],
+        faq: [
+          { q: "¿Cuántas veces aparece cada nota en el mástil?", a: "Del traste 0 al 12 de una guitarra de seis cuerdas en afinación estándar, entre seis y ocho: una por cuerda, más el traste 12 de cada cuerda afinada en esa nota. La que más, Mi, con ocho." },
+          { q: "¿En qué se diferencia de Nombra la nota?", a: "Va en sentido contrario. Nombra la nota va del sitio al nombre; este, del nombre a los sitios. Para moverte con soltura por el mástil hacen falta los dos." },
+          { q: "¿Y si me atasco?", a: "En la práctica libre tienes el botón «Enséñamelos»: enciende los que te faltan y pasa a la siguiente nota. Ahí no cuenta nada en tu contra." },
+        ],
+      },
+      neck: {
+        slug: "mastil",
+        metaTitle: "Notas y escalas en el mástil de la guitarra, en cualquier tonalidad · Diesis",
+        description: "Todas las notas del mástil de la guitarra, o cualquier escala sobre cualquier tónica: pentatónicas, blues, mayor, las menores y los modos, por nombre de nota o por grado. Seis, siete u ocho cuerdas. Gratis y en el navegador.",
+        h1: "Todas las notas y todas las escalas, por todo el mástil.",
+        lede: "Mira todas las notas del mástil, o elige una tónica y una escala y verás cómo se enciende de la cejuela al traste 24. Toca cualquier nota para oírla.",
+        cta: "Abrir el mástil",
+        points: [
+          { title: "Doce escalas sobre cualquier tónica", body: "Pentatónica menor y mayor, blues, mayor, menor natural, armónica y melódica, y los modos: dórico, frigio, lidio, mixolidio y locrio." },
+          { title: "Notas o grados", body: "Lee cada posición por el nombre de la nota o por su grado en la escala: 1, ♭3, 5. La tónica va siempre en ámbar." },
+          { title: "Doce trastes o veinticuatro", body: "La primera octava para aprenderte los dibujos; el mástil entero para unirlos." },
+          { title: "Dibujado para tu guitarra", body: "Seis, siete u ocho cuerdas, con la afinación de tu perfil. Si afinas más grave, las notas cambian de sitio y el mástil con ellas." },
+        ],
+        steps: [
+          { title: "Elige la tónica", body: "Doce botones bajo el mástil, de Do a Si." },
+          { title: "Elige la escala", body: "El mástil enciende todas sus notas, con la tónica en ámbar." },
+          { title: "Toca y escucha", body: "Cada nota encendida suena. Pasa a grados para ver cómo está construida la escala." },
+        ],
+        faq: [
+          { q: "¿Qué escala me aprendo primero en la guitarra?", a: "La pentatónica menor. Tiene cinco notas, está detrás de casi todos los solos de rock y de blues, y la escala de blues y la menor natural son el mismo dibujo con alguna nota más." },
+          { q: "¿Qué significan los números?", a: "Son los grados: cada nota contada desde la tónica. El 1 es la tónica, el ♭3 la tercera menor y el 5 la quinta. Los mismos números describen la escala en cualquier tonalidad, y por eso los guitarristas piensan con ellos." },
+          { q: "¿Enseña las posiciones o cajas de la escala?", a: "Todavía no. Muestra la escala por todo el mástil; las posiciones están en la lista." },
+        ],
+      },
+      metronome: {
+        slug: "metronomo",
+        metaTitle: "Metrónomo online con subida de tempo · Diesis",
+        description: "Metrónomo online gratis para practicar con la guitarra: de 20 a 300 BPM, compases de amalgama, subdivisiones, tap tempo y una subida de tempo que acelera cada pocos compases hasta tu objetivo.",
+        h1: "Un metrónomo que te hace ganar velocidad.",
+        lede: "Le pones un tempo y lo mantiene. O le das un tempo de salida, un objetivo y un paso, y va subiendo un poco cada pocos compases mientras tú tocas.",
+        cta: "Abrir el metrónomo",
+        points: [
+          { title: "De 20 a 300 BPM, de tres maneras", body: "Desliza la regla de tempo, escribe el número o marca con toques el tempo que llevas en la cabeza." },
+          { title: "Compases con sus acentos", body: "2/4, 3/4, 4/4, 5/4, 6/8 y 7/8, acentuados donde se siente cada compás." },
+          { title: "Subdivisiones", body: "Corcheas, tresillos, semicorcheas o seisillos entre tiempo y tiempo, más suaves que el propio tiempo." },
+          { title: "Subida de tempo", body: "Elige la salida, el objetivo, el paso y cuántos compases dura cada tempo. Al llegar, se queda ahí o vuelve a empezar." },
+        ],
+        steps: [
+          { title: "Pon el tempo", body: "Lo bastante lento para tocar el pasaje limpio y sin tensión." },
+          { title: "Pulsa Empezar", body: "En el ordenador, la barra espaciadora. Los tiempos se encienden a medida que suenan." },
+          { title: "Activa la subida de tempo", body: "Marca tu objetivo y deja que suba unos pocos BPM cada pocos compases." },
+        ],
+        faq: [
+          { q: "¿A qué tempo tengo que practicar?", a: "Al más rápido al que el pasaje te salga limpio y sin tensión. Si te agarrotas o fallas notas, vas demasiado rápido: baja diez y vuelve a subir." },
+          { q: "¿Cómo funciona una subida de tempo?", a: "Sube el tempo un pequeño paso cada cierto número de compases, y así pasas de cómodo a rápido sin parar a tocar nada. Los pasos pequeños funcionan mejor: de dos a cinco BPM." },
+          { q: "¿Sigue sonando si cambio de pestaña?", a: "Sí. Mantiene el tempo con la pestaña en segundo plano y, mientras suena, no deja que la pantalla se apague." },
+        ],
+      },
+      backing: {
+        slug: "backing-tracks",
+        metaTitle: "Backing tracks de guitarra con su tonalidad y la escala que tocar · Diesis",
+        description: "Backing tracks para improvisar con la guitarra: blues, rock, metal, funk, jazz, flamenco y más. Cada base dice su tonalidad y una escala que encaja, y la abre en el mástil.",
+        h1: "Bases que te dicen qué tocar.",
+        lede: "Pon una base y toca encima. Cada una dice su tonalidad y una escala que encaja, y con un toque la ves dibujada en el mástil.",
+        cta: "Abrir las backing tracks",
+        points: [
+          { title: "Diez estilos", body: "Blues, rock, metal, funk, jazz y bossa, modal, flamenco, country, baladas y neo-soul." },
+          { title: "Tonalidad y escala en cada base", body: "No tienes que sacar la tonalidad de oído antes de empezar. La base la dice, junto con una escala que funciona encima." },
+          { title: "De la base al mástil", body: "«Ver en el mástil» abre esa escala sobre esa tónica, por todo el mástil." },
+          { title: "Bases de quienes las hicieron", body: "Los vídeos son de sus autores, en YouTube, y cada uno lleva su nombre. El reproductor solo se carga cuando le das al play." },
+        ],
+        steps: [
+          { title: "Elige un estilo", body: "Filtra las bases por estilo." },
+          { title: "Dale al play", body: "Empieza la base; su tonalidad y su escala están en la tarjeta." },
+          { title: "Abre la escala", body: "Con un toque la ves en el mástil. Empieza por la tónica y tira de ahí." },
+        ],
+        faq: [
+          { q: "¿Qué escala toco sobre una backing track?", a: "La que pone en la tarjeta. Como regla general, sobre una base en tonalidad menor la pentatónica menor de esa misma tónica funciona siempre, y sobre una en mayor, la pentatónica mayor." },
+          { q: "¿Las bases son de Diesis?", a: "No. Son vídeos de YouTube de los músicos que las hicieron, con su nombre en cada tarjeta. Diesis pone la tonalidad, la escala y el enlace al mástil." },
+        ],
+      },
+      fingers: {
+        slug: "independencia-de-dedos",
+        metaTitle: "Ejercicio de independencia de dedos para guitarra, medido al milisegundo · Diesis",
+        description: "Un ejercicio de independencia de dedos para guitarristas: cuatro botones, uno por dedo, y notas que caen sobre ellos al ritmo de un metrónomo. Mira a cuántos milisegundos del clic cae cada dedo.",
+        h1: "Que cada dedo vaya por su cuenta, y a tiempo.",
+        lede: "Cuatro botones, uno por dedo. Las notas caen sobre ellos al ritmo de un metrónomo: pulsa cada botón justo cuando le llega su nota y mira lo cerca del clic que has quedado.",
+        cta: "Abrir independencia de dedos",
+        points: [
+          { title: "Medido en milisegundos", body: "Cada pulsación sale en verde o en rojo, con lo que te has adelantado o retrasado. Al final, tu media: por delante del clic, por detrás o clavado." },
+          { title: "Órdenes que desenredan los dedos", body: "Al azar, 1234, 4321, 1324, 2413 o 1423, con 16, 32 o 64 notas." },
+          { title: "Con cualquiera de las dos manos", body: "El móvil apoyado en la mesa y los dedos sobre los botones, o el teclado del ordenador: A S D F para la izquierda y J K L Ñ para la derecha." },
+          { title: "Un récord que merece la pena", body: "Tu pasada limpia más rápida, con el 90 % de las notas a tiempo o más, guardada para cada orden y cada número de notas." },
+        ],
+        steps: [
+          { title: "Pon un tempo lento", body: "60 BPM es un buen punto de partida." },
+          { title: "Pulsa cada botón cuando le llegue su nota", body: "Un compás de entrada y, después, una nota por clic." },
+          { title: "¿Limpia? Sube cinco", body: "Cuando una pasada te salga limpia, sube el tempo cinco BPM y repite." },
+        ],
+        faq: [
+          { q: "¿Qué es la independencia de dedos?", a: "Poder mover un dedo sin que los demás se muevan con él. En la guitarra es lo que hace que el anular y el meñique caigan limpios y a tiempo." },
+          { q: "¿Sustituye a practicar con la guitarra?", a: "No. Entrena el ritmo y el control lejos del mástil. Después llévate esos mismos órdenes a la guitarra, un dedo por traste y con el metrónomo." },
+          { q: "¿Puedo usar auriculares inalámbricos?", a: "Mejor no. El Bluetooth retrasa el clic y tus pulsaciones saldrán tarde. Usa el altavoz o unos auriculares con cable." },
+        ],
+      },
+      strings: {
+        slug: "cuerdas",
+        metaTitle: "Calculadora de tensión de cuerdas de guitarra y guía de ajuste · Diesis",
+        description: "Calcula la tensión de cada cuerda con tu afinación y tu tiro, encuentra un juego equilibrado y consulta las medidas de ajuste para tu tipo de guitarra: altura, curvatura, pastillas y octavación.",
+        h1: "Las cuerdas que le van a tu afinación, y las medidas para ajustarla.",
+        lede: "Mira cuánta tensión lleva cada cuerda en tu guitarra y con tu afinación. Carga un juego habitual o deja que Diesis calcule uno equilibrado, y después sigue los pasos de ajuste tras el cambio de cuerdas.",
+        cta: "Abrir cuerdas y ajuste",
+        points: [
+          { title: "La tensión de cada cuerda", body: "Calculada con tus calibres, tu afinación y tu tiro; se desvía como mucho un 5 % de las tablas de los fabricantes. Verde es cómoda; ámbar, floja; rojo, dura." },
+          { title: "Un juego equilibrado, calculado", body: "Elige un juego habitual o pide uno equilibrado para tu afinación. También te dice juegos reales con esos calibres." },
+          { title: "Medidas de ajuste para tu guitarra", body: "Altura de cuerdas, curvatura del mástil, radio del diapasón y altura de pastillas para once tipos de guitarra: de las tipo Strat y Les Paul a las de ocho cuerdas, acústicas y clásicas." },
+          { title: "Qué hacer después de cambiar cuerdas", body: "Estirar, curvatura, altura, pastillas y octavación, en el orden que funciona. Los pasos cambian en acústicas y clásicas." },
+        ],
+        steps: [
+          { title: "Elige tu tipo de guitarra", body: "Fija el tiro; cámbialo si el de la tuya es distinto." },
+          { title: "Pon cuerdas y afinación", body: "Seis, siete u ocho, con la afinación en la que tocas." },
+          { title: "Lee las barras", body: "Prueba juegos hasta que todas las cuerdas estén en verde y después sigue los pasos de ajuste." },
+        ],
+        faq: [
+          { q: "¿Qué calibre necesito para una afinación más grave?", a: "Uno más grueso. Si bajas la afinación, el mismo juego se queda flojo: trastea y se nota blando. Pon tu afinación y sube de calibre hasta que las barras estén en verde, o deja que Diesis te calcule un juego equilibrado." },
+          { q: "¿Qué tensión es buena?", a: "Diesis marca cada cuerda como floja, equilibrada o dura. Lo que más importa es que todas se parezcan entre sí, para que ninguna se note blanda al lado de las demás." },
+          { q: "¿Hay que ajustar la guitarra al cambiar de calibre?", a: "Casi siempre. Unas cuerdas más gruesas tiran más del mástil, así que revisa primero la curvatura, después la altura y por último la octavación. Diesis te da los pasos en ese orden." },
+        ],
+      },
+    },
   },
   footer: { tagline: "Todo lo que necesitas para dominar la guitarra.", made: "Hecho en Cáceres. «Diesis» es semitono en griego: un traste.", affiliate: "En calidad de Afiliado de Amazon, obtengo ingresos por las compras adscritas que cumplen los requisitos aplicables." },
   home: {

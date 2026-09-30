@@ -63,12 +63,11 @@ Todoist project records what is still to do.
   account or cookie. The `/login` route, `proxy.ts` and the `DIESIS_ACCESS_CODE` env that gated
   `/app/*` from 0.2.0 to 0.3.0 are gone (git history has them; the shared code `RYUJIN` is dead).
   If access control ever comes back it will be an account, not a shared code.
-- **Scope on the landing page** (three tracks): Notes (Name the note, Find the note,
-  challenges and the start-card settings playable now; Hear the note, fret range and one string
-  at a time next), Scales (later: explore, build, name the scale,
-  name the degree), Reading music (later, for classical guitar: note on the staff to name or
-  neck, neck to staff, short reading passages). Keep the page and the app home in step with what
-  exists.
+- **Scope on the landing page**: what exists, as cards under its side, and what is coming to
+  each side as chips read from the app's menus (`LEARN_ITEMS`/`SETUP_ITEMS` and the menu titles
+  in `components/tool-menu.tsx` and lib/i18n.ts), so the landing and the app home cannot drift:
+  Hear the note next; scale exercises, reading music (for classical guitar) and the glossary
+  later; the Setup tools as listed in the Setup point. Change what is coming in the menus.
 - **Mode A** as built: open `/learn/name-the-note`, board in landscape, one position lit and
   played, twelve buttons in a column right of the board (Will, 2026-09-26: a row under the
   board was hard to reach; `GameFrame`'s `aside`), one row per natural with its sharp beside
@@ -254,16 +253,42 @@ Todoist project records what is still to do.
 - **Landing on phones (Will, 2026-09-24: "only text").** The hero is a grid: headline, then the
   playable `TryIt`, then the lede, CTAs and trust line; from `lg` the screen takes the right
   column against the whole text block. The hero lede stays at three or four short sentences;
-  detail goes to "How it works" and "What you learn". Each "How it works" step carries a drawn
-  figure (`components/how-figures.tsx`: neck slice, button row, green/red verdict, in the game's
-  colors, note names per language). Section padding is `py-14 sm:py-24`.
+  detail goes to each tool's own page (below). Section padding is `py-14 sm:py-24`.
 - **Landing made playable (Will, 2026-09-26: "more exciting for first visitors").** The hero's
   looping animation (`components/screen.tsx`, gone) is now `components/try-it.tsx`: a real Name
   the note in first position (frets 0–5, naturals, seven buttons in a row under the board, the
   first question fixed on C so server and client agree), sound on the first tap, five dots for a
-  streak, and at five a card that links to the full exercise. Under the hero, `#tools`
-  (`components/tool-showcase.tsx`, copy in `t.tools`): one card per built tool with a still of
-  it, linking straight into it; add a card (and its `HREFS` entry) when a tool is built.
+  streak, and at five a card that links to the full exercise. Under the hero, `#tools`: one
+  card per built tool with a still of it (`components/tool-figure.tsx`), see the next point.
+- **A public page per tool, and the landing as their hub (Will, 2026-09-30: "landing pages per
+  feature" with "a link to send them to the full version", then "redo the main landing page with
+  all of this into account"; built 0.28.0).** Will's thinking behind it: the web (landing and
+  tool pages) is the public face and the app is the full version; he expects the app to need a
+  sign-up at some point, **but there is no sign-up yet and none is built** (the account question
+  stays open in Todoist section 13). Each built tool has a page: `/name-the-note`,
+  `/find-the-note`, `/fretboard`, `/metronome`, `/backing-tracks`, `/finger-independence`,
+  `/strings`, and in Spanish with translated slugs, `/es/nombra-la-nota`,
+  `/es/encuentra-la-nota`, `/es/mastil`, `/es/metronomo`, `/es/backing-tracks`,
+  `/es/independencia-de-dedos`, `/es/cuerdas`. Routes `app/[feature]/` and `app/es/[feature]/`
+  (static, only those slugs; anything else is a 404), drawn by `components/feature-page.tsx`:
+  hero with the tool's still (Name the note carries the playable `TryIt`) and the button into
+  the tool, "What it does" (four points), "How to use it" (three steps; Name the note's keep
+  their drawn figures, `components/how-figures.tsx`), the questions people search, a closing
+  card, and links to the other tools. Copy in `features.pages` (lib/i18n.ts), titles and
+  descriptions written for search; ids, tool addresses and link-preview cards in
+  `lib/features.ts`; metadata with the hreflang pair in `lib/feature-metadata.ts`. Because the
+  slug changes with the language, `SiteNav` takes the twin's address (`other`), and
+  `next.config.ts` redirects an English slug under `/es` and a Spanish one without it (the slug
+  list is mirrored there by hand). **The landing** is now: hero, `#tools` (the three sides, each
+  with its tools as cards that lead to the tool's page, with an "Open" button straight into the
+  tool, and beside each side what is coming to it, read from the app's menus:
+  `components/feature-cards.tsx`), who makes it, the name, pricing, FAQ, closing. Its old "How
+  it works" and "What you learn" sections are gone (`how` and `learn` in the strings too): what
+  a tool does lives on its page. The footer lists the tool pages. **A new tool gets a line in
+  `FEATURES`/`FEATURE_TOOL`, an item in `tools.items`, a page in `features.pages` (both
+  languages), a drawing in `ToolFigure` and its slug pair in `next.config.ts`.** Keep every
+  claim on these pages true to the tool; when a tool changes, its page changes in the same
+  session.
 - **Backing tracks (Will, 2026-09-26: "a section in the app with backing tracks with embedded
   youtube videos").** Practice side, `/practice/backing-tracks`. Data in
   `lib/core/backing-tracks.ts` (video id, title, channel, style, key, a fitting scale from
@@ -424,7 +449,7 @@ Will), and it can be deleted in the dashboard. The repo folder is linked to `die
 `npx vercel deploy --prod` works as well as a push.
 
 **Search (2026-09-25)**: diesis.app is verified in Google Search Console (DNS TXT at Namecheap).
-`app/sitemap.ts` lists the landing, the app menu and tools and the privacy page, each with its `/es` twin (hreflang pairs); `app/robots.ts`
+`app/sitemap.ts` lists the landing, each tool's public page, the app menu and tools and the privacy page, each with its Spanish twin (hreflang pairs); `app/robots.ts`
 points to it and keeps `/lang/` out. Add new public pages to the sitemap.
 
 ## Layout of the repo
@@ -438,7 +463,7 @@ points to it and keeps `/lang/` out. Add new public pages to the sitemap.
   `lang-switch`, `fretboard` (SVG, marks and tap targets), `note-panel`, `game-frame`
   (`GameShell`: sideways treatment, gate, header; `GameFrame`: the board inside it),
   `setup-screen` (before a round), `challenge-card` (result card, header status, `Chip`),
-  `game` (Mode A), `find-game` (Mode B), `metronome` (both modes), `neck` (scale explorer), `backing-tracks`, `profile`, `site-nav` (the web pages' top bar), `app-nav` (the app's sidebar, phone top bar and tab bar), `try-it`, `tool-showcase`, `how-figures` and `open-app` (landing), `ui/`.
+  `game` (Mode A), `find-game` (Mode B), `metronome` (both modes), `neck` (scale explorer), `backing-tracks`, `profile`, `site-nav` (the web pages' top bar), `app-nav` (the app's sidebar, phone top bar and tab bar), `try-it`, `feature-cards`, `tool-figure` and `open-app` (landing), `feature-page` and `how-figures` (each tool's public page), `ui/`.
 - `lib/i18n.ts` — every string, EN and ES. `lib/lang.ts` — reads the language cookie.
 - `lib/core/` — note model (`notes.ts`), question generator (`quiz.ts`), tests. Pure TS.
 - `lib/core/challenge.ts` — challenge rules. `lib/audio/note-player.ts` — Web Audio sampler.

@@ -16,10 +16,12 @@ export function otherLangPath(pathname: string, t: Strings): string {
 }
 
 /**
- * The bar at the top of the web pages (the landing and the privacy page): the logo, the page
- * sections, EN/ES and "Open the app". The app has its own navigation, components/app-nav.tsx.
+ * The bar at the top of the web pages (the landing, each tool's public page and the privacy
+ * page): the logo, the landing's sections, EN/ES and "Open the app". `other` is the same page in
+ * the other language when its address is not simply the /es twin (the tool pages, whose slug is
+ * translated). The app has its own navigation, components/app-nav.tsx.
  */
-export function SiteNav({ t }: { t: Strings }) {
+export function SiteNav({ t, other }: { t: Strings; other?: string }) {
   const pathname = usePathname() ?? "/";
   const home = t.base || "/";
 
@@ -32,18 +34,15 @@ export function SiteNav({ t }: { t: Strings }) {
 
         <div className="flex shrink-0 items-center gap-1">
           <Button asChild variant="ghost" size="sm" className="hidden text-dim hover:bg-white/5 hover:text-ink sm:inline-flex">
-            <a href={`${home}#how`}>{t.nav.how}</a>
+            <a href={`${home}#tools`}>{t.nav.tools}</a>
           </Button>
           <Button asChild variant="ghost" size="sm" className="hidden text-dim hover:bg-white/5 hover:text-ink sm:inline-flex">
-            <a href={`${home}#learn`}>{t.nav.learn}</a>
+            <a href={`${home}#maker`}>{t.maker.eyebrow}</a>
           </Button>
           <Button asChild variant="ghost" size="sm" className="hidden text-dim hover:bg-white/5 hover:text-ink sm:inline-flex">
             <a href={`${home}#faq`}>{t.nav.faq}</a>
           </Button>
-          <Button asChild variant="ghost" size="sm" className="hidden text-dim hover:bg-white/5 hover:text-ink lg:inline-flex">
-            <a href={`${home}#maker`}>{t.maker.eyebrow}</a>
-          </Button>
-          <LangSwitch t={t} next={otherLangPath(pathname, t)} className="ml-2" />
+          <LangSwitch t={t} next={other ?? otherLangPath(pathname, t)} className="ml-2" />
           <Button asChild size="sm" className="ml-2">
             <OpenApp lang={t.code}>
               {t.nav.cta} <ArrowRight className="size-4" />

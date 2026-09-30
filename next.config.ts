@@ -17,6 +17,20 @@ const nextConfig: NextConfig = {
         // Strings and setup opened in Practice (0.17.0) and moved to its own side, Setup, in 0.18.0.
         { source: `${es}/practice/strings`, destination: `${es}/setup/strings`, permanent: true },
       ]),
+      // The tools' public pages have a translated slug (`features.pages` in lib/i18n.ts, mirrored
+      // here because this file cannot import it): the English slug under /es, and the Spanish one
+      // without /es, go to the Spanish page.
+      ...[
+        ["name-the-note", "nombra-la-nota"],
+        ["find-the-note", "encuentra-la-nota"],
+        ["fretboard", "mastil"],
+        ["metronome", "metronomo"],
+        ["finger-independence", "independencia-de-dedos"],
+        ["strings", "cuerdas"],
+      ].flatMap(([en, es]) => [
+        { source: `/es/${en}`, destination: `/es/${es}`, permanent: true },
+        { source: `/${es}`, destination: `/es/${es}`, permanent: true },
+      ]),
       // diesis.es (and www) is the address to share in Spanish: it links in any chat app,
       // where .app often does not. Every path lands on its Spanish twin (every page has one):
       // diesis.es/learn/metronome goes to diesis.app/es/learn/metronome. A path that already

@@ -3,19 +3,18 @@ import { ArrowRight, Globe } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { LogoMark } from "@/components/logo";
 import { TryIt } from "@/components/try-it";
-import { ToolShowcase } from "@/components/tool-showcase";
+import { FeatureCards } from "@/components/feature-cards";
 import { Footer } from "@/components/footer";
 import { SiteNav } from "@/components/site-nav";
-import { HowFigure } from "@/components/how-figures";
 import { OpenApp } from "@/components/open-app";
-import type { Strings, When } from "@/lib/i18n";
+import type { Strings } from "@/lib/i18n";
 
-const whenClass: Record<When, string> = {
-  now: "bg-correct/15 text-correct",
-  next: "bg-amber/15 text-amber-text",
-  later: "bg-white/5 text-dim",
-};
-
+/**
+ * The landing: the playable exercise in the hero, then everything inside, side by side and tool
+ * by tool (each card leads to that tool's own public page, components/feature-page.tsx), who
+ * makes it, the name, the price and the questions about Diesis as a whole. What a single tool
+ * does and how to use it lives on its page, not here.
+ */
 export function Landing({ t }: { t: Strings }) {
   return (
     <main className="flex-1">
@@ -56,7 +55,7 @@ export function Landing({ t }: { t: Strings }) {
         </div>
       </section>
 
-      {/* The tools, each card opening its tool */}
+      {/* Everything inside: the three sides and their tools, each card leading to the tool's own page */}
       <section id="tools" className="border-t border-line">
         <div className="mx-auto w-full max-w-6xl px-4 py-14 sm:py-24">
           <p className="text-sm font-medium tracking-wide text-amber-text uppercase">{t.tools.eyebrow}</p>
@@ -64,7 +63,7 @@ export function Landing({ t }: { t: Strings }) {
             {t.tools.h2}
           </h2>
           <p className="mt-4 max-w-2xl text-lg text-dim">{t.tools.lede}</p>
-          <ToolShowcase t={t} />
+          <FeatureCards t={t} />
         </div>
       </section>
 
@@ -112,57 +111,6 @@ export function Landing({ t }: { t: Strings }) {
               </div>
             </div>
           </div>
-        </div>
-      </section>
-
-      {/* How it works */}
-      <section id="how" className="border-t border-line bg-surface/40">
-        <div className="mx-auto w-full max-w-6xl px-4 py-14 sm:py-24">
-          <p className="text-sm font-medium tracking-wide text-amber-text uppercase">{t.how.eyebrow}</p>
-          <h2 className="mt-3 max-w-2xl font-display text-3xl font-semibold tracking-tight text-balance sm:text-5xl">
-            {t.how.h2}
-          </h2>
-          <p className="mt-4 max-w-2xl text-lg text-dim">{t.how.lede}</p>
-          <ol className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-3">
-            {t.how.steps.map((s, i) => (
-              <li key={s.title} className="flex flex-col rounded-2xl border border-line bg-stage p-5 sm:p-6">
-                <HowFigure step={i} t={t} className="mb-5 h-auto w-full" />
-                <span className="font-display text-4xl font-semibold text-amber">{String(i + 1).padStart(2, "0")}</span>
-                <h3 className="mt-3 font-display text-xl font-semibold">{s.title}</h3>
-                <p className="mt-2 text-sm text-dim">{s.body}</p>
-              </li>
-            ))}
-          </ol>
-        </div>
-      </section>
-
-      {/* What you learn */}
-      <section id="learn" className="mx-auto w-full max-w-6xl px-4 py-14 sm:py-24">
-        <p className="text-sm font-medium tracking-wide text-amber-text uppercase">{t.learn.eyebrow}</p>
-        <h2 className="mt-3 max-w-2xl font-display text-3xl font-semibold tracking-tight text-balance sm:text-5xl">
-          {t.learn.h2}
-        </h2>
-        <p className="mt-4 max-w-2xl text-lg text-dim">{t.learn.lede}</p>
-        <div className="mt-12 grid grid-cols-1 gap-10">
-          {t.learn.tracks.map((tr) => (
-            <div key={tr.title} className="grid grid-cols-1 gap-6 lg:grid-cols-[260px_1fr]">
-              <div>
-                <h3 className="font-display text-2xl font-semibold">{tr.title}</h3>
-                <p className="mt-2 text-sm text-dim">{tr.lede}</p>
-              </div>
-              <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                {tr.items.map((m) => (
-                  <li key={m.title} className="rounded-2xl border border-line bg-surface p-5">
-                    <span className={`inline-block rounded-full px-2.5 py-0.5 text-xs font-semibold ${whenClass[m.when]}`}>
-                      {t.learn.when[m.when]}
-                    </span>
-                    <h4 className="mt-3 font-semibold">{m.title}</h4>
-                    <p className="mt-1.5 text-sm text-dim">{m.body}</p>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
         </div>
       </section>
 

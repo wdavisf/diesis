@@ -2,6 +2,7 @@ import Link from "next/link";
 import { OpenApp } from "@/components/open-app";
 import { Feedback } from "@/components/feedback";
 import { Logo } from "@/components/logo";
+import { FEATURES, featurePath } from "@/lib/features";
 import type { Strings } from "@/lib/i18n";
 
 export function Footer({ t }: { t: Strings }) {
@@ -25,6 +26,13 @@ export function Footer({ t }: { t: Strings }) {
           </a>
         </nav>
       </div>
+      <nav aria-label={t.features.all} className="mx-auto flex w-full max-w-6xl flex-wrap gap-x-5 gap-y-2 px-4 pb-6 text-sm text-dim">
+        {FEATURES.map((id, i) => (
+          <Link key={id} href={featurePath(t, id)} className="hover:text-ink">
+            {t.tools.items[i].title}
+          </Link>
+        ))}
+      </nav>
       <div className="mx-auto w-full max-w-6xl px-4 pb-8 text-xs text-dim">
         © {new Date().getFullYear()} Diesis. {t.footer.made}
         <p className="mt-1">{t.footer.affiliate}</p>
