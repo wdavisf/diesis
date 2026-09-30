@@ -72,7 +72,7 @@ const columns: { title: string; tone: string; dot: string; items: Item[] }[] = [
       { title: "Afinador y entonación", note: "Micrófono, y también de oído", track: "Equipo" },
       { title: "Mis guitarras", note: "Varias guitarras en el perfil", track: "Equipo" },
       { title: "Diario de práctica con objetivo", note: "Un objetivo con fecha (un solo para un concierto en dos semanas), dictar cada día lo que hiciste y qué herramientas usar para llegar", track: "Práctica" },
-      { title: "Barra lateral en ordenador", note: "Plegable: solo iconos, o iconos con nombre, como Toggl o PostHog. En el móvil, por decidir", track: "Plataforma" },
+      { title: "Barra lateral en ordenador", note: "Plegable: solo iconos, o iconos con nombre, como Toggl o PostHog. En el móvil, barra de pestañas abajo, como en Tabula. Tres diseños por elegir", track: "Plataforma" },
       { title: "Dedos: más ejercicios con la izquierda", note: "Golpear con los dedos de la mano izquierda", track: "Práctica" },
       { title: "Calentamiento y estiramientos", track: "Práctica" },
       { title: "Ejercicios de técnica con tabs", note: "Púa y dedos, con un vídeo tuyo en cada uno", track: "Aprender" },
@@ -145,7 +145,7 @@ const decisions = [
   "¿Métodos de acceso de las cuentas, y códigos de invitación?",
   "¿CAGED o tres notas por cuerda para las posiciones?",
   "¿Páginas de escalas fuera de la app (/scales, /es/escalas) o dentro de Aprender?",
-  "Con barra lateral en ordenador, ¿qué va en el móvil: la barra de arriba, pestañas abajo o un menú que se despliega?",
+  "¿Cuál de los tres diseños de barra lateral: una lista con tres grupos, lados en un raíl o el objetivo arriba?",
   "¿Dónde vive el diario de práctica y cómo se llama? ¿Gratis o Pro?",
 ];
 

@@ -168,6 +168,13 @@ Todoist project records what is still to do.
   case only; it goes back to its side's menu. Upright screens have no header of their own.
   **Every new tool picks a side and gets a place in that side's nav list and hrefs, its menu
   cards, the sitemap, the landing and a link-preview card (`PREVIEWS` in `lib/lang.ts`).**
+- **Navigation to come (Will, 2026-09-30; not built).** On desktop a left sidebar, collapsible to
+  icons, replaces the top bar inside the app ("like Toggl, but properly done"); three designs
+  are on the canvas "Diesis sidebar options" (https://claude.ai/artifact/Ba5v7kLBmZbpXDmHseZbWn)
+  and nothing is built until Will picks one. **On phones, decided: a bottom tab bar like an
+  iPhone app's, as in Tabula** (`components/athlete/tab-bar.tsx` there): the sides, the profile
+  and later the practice log; a side's tools are reached from its menu. The landing and privacy
+  page keep the top bar.
 - **The neck (scale explorer), built 2026-09-25** (Will: "see all the notes in the fretboard,
   and then select things like a pentatonic scale, selecting the root note"): `/practice/neck`,
   first tool in the bar. Opens on every note (scale "all"); pick a root (12 buttons) and a
