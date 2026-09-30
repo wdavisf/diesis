@@ -55,7 +55,7 @@ const columns: { title: string; tone: string; dot: string; items: Item[] }[] = [
     dot: "bg-amber",
     items: [
       { title: "Medir el uso", note: "Primer ejercicio, vuelta a los 7 días, herramientas. ¿GA4 o PostHog?", track: "Negocio" },
-      { title: "SEO: arreglos rápidos", note: "Título y descripción propios en cada página, lang=\"es\" en las páginas en español, diesis.es con redirección permanente, datos estructurados", track: "Negocio" },
+      { title: "SEO: arreglos rápidos", note: "Hecho: título propio en las páginas de herramienta, lang=\"es\" desde el servidor y datos estructurados. Queda: diesis.es con redirección permanente, fechas reales en el sitemap y el perfil fuera del índice", track: "Negocio" },
       { title: "Bing, Search Console y enlaces", note: "Tuyo: dar de alta en Bing, mirar qué está indexado, compartir en Reddit y foros", track: "Negocio" },
       { title: "Lista de correo / espera de Pro", track: "Negocio" },
       { title: "Tu vídeo personal en la portada", note: "YouTube, se carga al pulsar", track: "Negocio" },
