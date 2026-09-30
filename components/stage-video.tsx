@@ -58,7 +58,7 @@ export function StageVideo({ pause, play, className }: { pause: string; play: st
         tabIndex={-1}
         onPlay={() => setPlaying(true)}
         onPause={() => setPlaying(false)}
-        className="block size-full bg-black object-cover object-[88%_50%]"
+        className="block size-full bg-black object-cover object-[96%_50%] sm:object-[88%_50%]"
       />
       {/* Down into the page (a pixel past the edge, which may fall on half a pixel), and from lg toward the text on the left. */}
       <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 -bottom-px bg-gradient-to-b from-stage/50 via-transparent via-45% to-stage" />

@@ -28,7 +28,7 @@ export function Landing({ t }: { t: Strings }) {
           the text rises over its faded foot; from lg it fills the hero, the player on the right
           and the text on the left, in the video's own wide shape so the two do not collide. */}
       <section className="relative isolate overflow-hidden lg:flex lg:aspect-[2.2/1] lg:max-h-[46rem] lg:items-center">
-        <StageVideo pause={t.reel.pause} play={t.reel.play} className="aspect-[3/2] sm:aspect-[2/1] lg:absolute lg:inset-0 lg:aspect-auto" />
+        <StageVideo pause={t.reel.pause} play={t.reel.play} className="aspect-[4/3] sm:aspect-[2/1] lg:absolute lg:inset-0 lg:aspect-auto" />
         <div className="pointer-events-none relative mx-auto -mt-14 w-full max-w-6xl px-4 pb-12 lg:mt-0 lg:py-14">
           <div className="pointer-events-auto lg:max-w-lg">
             <p className="text-sm font-medium tracking-wide text-amber-text uppercase">{t.hero.eyebrow}</p>

@@ -282,7 +282,9 @@ Todoist project records what is still to do.
   guitar and light and never name a band or a player, and the man is nobody real (an
   illustration, like the guitar pictures). From `lg` the video fills the hero (the section takes
   the video's wide shape, `lg:aspect-[2.2/1]`, so the player stays right of the text); below
-  `lg` it is a frame on top and the text rises over its faded foot. It runs only while on screen,
+  `lg` it is a frame on top and the text rises over its faded foot; on a phone that frame is 4:3
+  and cropped toward the right (`object-[96%_50%]`) so the player sits in the middle of it
+  (Will, 2026-09-30: on the phone he looked "a bit too much to the right"). It runs only while on screen,
   has one button (pause/play, `reel.pause`/`reel.play`), and under Reduce Motion stays on the
   poster until asked. **The headline is three sentences, one per side of the app** (`hero.h1`,
   an array): "Know the neck. Lock in the tempo. Dial in your guitar." / «Domina el mástil. Clava

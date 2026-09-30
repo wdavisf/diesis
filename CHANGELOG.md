@@ -3,6 +3,11 @@
 Written for the people using it, not for the code. Newest first. Version matches
 `package.json`.
 
+## 0.29.2 — 30 September 2026
+
+- On a phone, the guitarist in the front page video now sits in the middle of the picture
+  instead of off to the right.
+
 ## 0.29.1 — 30 September 2026
 
 - On the front page, the tools now come right after the video, and the exercise you can try on
