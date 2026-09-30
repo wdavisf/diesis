@@ -20,24 +20,35 @@ const pick = (on: boolean) =>
     on ? "border-amber bg-amber/15 text-amber-text" : "border-line bg-stage text-dim hover:text-ink",
   );
 
-/** One dot per beat, group starts ringed in amber. The beat being heard lights up. */
-function Beats({ meterId, accent, click }: { meterId: string; accent: boolean; click: Click | null }) {
+/** One dot per beat, group starts ringed in amber, and under each a small dot per subdivision.
+ *  The beat being heard lights up, and so does the click within it. */
+function Beats({ meterId, subdivision, accent, click }: { meterId: string; subdivision: number; accent: boolean; click: Click | null }) {
   const meter = meterOf(meterId);
   const starts = groupStarts(meter);
   return (
-    <div className="flex justify-center gap-3.5" aria-hidden>
+    <div className={cn("flex justify-center", subdivision > 1 ? "gap-2.5" : "gap-3.5")} aria-hidden>
       {Array.from({ length: meter.beats }, (_, beat) => {
         const on = click?.beat === beat;
         const strong = accent && starts.includes(beat);
         return (
-          <span
-            key={beat}
-            className={cn(
-              "size-3.5 rounded-full transition-[background-color,transform] duration-75 sm:size-4",
-              on ? (strong ? "bg-amber" : "bg-ink") : strong ? "ring-2 ring-amber ring-inset" : "bg-line",
-              on && click?.sub === 0 && "scale-125 motion-reduce:scale-100",
-            )}
-          />
+          <div key={beat} className="flex flex-col items-center gap-2">
+            <span
+              className={cn(
+                "size-3.5 rounded-full transition-[background-color,transform] duration-75 sm:size-4",
+                on ? (strong ? "bg-amber" : "bg-ink") : strong ? "ring-2 ring-amber ring-inset" : "bg-line",
+                on && click?.sub === 0 && "scale-125 motion-reduce:scale-100",
+              )}
+            />
+            {/* Sextuplets: six smaller dots, so a 7/8 bar still fits a phone. The row keeps its
+                height with no subdivision, so the screen does not jump when one is picked. */}
+            <span className={cn("flex h-1.5 items-center", subdivision > 4 ? "gap-0.5" : "gap-1")}>
+              {subdivision > 1
+                ? Array.from({ length: subdivision }, (_, sub) => (
+                    <span key={sub} className={cn("rounded-full", subdivision > 4 ? "size-1" : "size-1.5", on && click?.sub === sub ? "bg-amber" : "bg-line")} />
+                  ))
+                : null}
+            </span>
+          </div>
         );
       })}
     </div>
@@ -427,7 +438,7 @@ export function Metronome({ t, ts, tg }: { t: Strings["metronome"]; ts: Strings[
     <GameShell t={tg} title={t.title}>
       <div className="flex min-h-0 flex-1 flex-col items-center gap-5 overflow-x-hidden overflow-y-auto pt-4 pb-6 animate-in fade-in fill-mode-both duration-300 motion-reduce:animate-none sm:justify-center sm:gap-6">
         <div className="flex-1 sm:hidden" />
-        <Beats meterId={settings.meter} accent={settings.accent} click={running ? click : null} />
+        <Beats meterId={settings.meter} subdivision={settings.subdivision} accent={settings.accent} click={running ? click : null} />
 
         <p className="flex flex-col items-center">
           <BpmInput

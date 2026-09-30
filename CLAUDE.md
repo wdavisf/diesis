@@ -109,7 +109,7 @@ Todoist project records what is still to do.
   wake lock while it runs. Its Speed up mode (below) runs on the same engine.
 - **Metronome layout: a bare screen and three buttons (Will, 2026-09-30: "there are a lot of
   things going on. It could be simpler"; he picked it from five mockups, kept in
-  `design/metronome-options/`, untracked).** The screen shows only the beat dots, the tempo
+  `design/metronome-options/`, untracked).** The screen shows only the beat dots (with a small dot per subdivision under each, the click being heard lit: Will asked for them back the same day, 0.26.1), the tempo
   (typed by tapping it), the **tempo ruler** (`TempoRuler`: a tape with one tick per BPM that
   slides under a fixed needle; drag it, left is faster; it glides there when the tempo changes
   any other way, and by itself during a climb), Tap tempo and Start. The ±1/±5 buttons, the

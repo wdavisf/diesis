@@ -3,6 +3,11 @@
 Written for the people using it, not for the code. Newest first. Version matches
 `package.json`.
 
+## 0.26.1 — 30 September 2026
+
+- The metronome shows the subdivision again under each beat: a small dot per click, and the one
+  being heard lights up.
+
 ## 0.26.0 — 30 September 2026, a simpler metronome
 
 - The metronome has a new, barer screen: the beats, the tempo, Start, and little else.
