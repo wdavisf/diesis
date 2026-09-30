@@ -77,6 +77,7 @@ const columns: { title: string; tone: string; dot: string; items: Item[] }[] = [
       { title: "Calentamiento y estiramientos", track: "Práctica" },
       { title: "Tutorial: cómo leer tablaturas", note: "Desde cero y paso a paso: cuerdas y trastes, ritmo y símbolos de técnica, con ejemplos que suenan en el mástil; va antes de los ejercicios con tabs", track: "Aprender" },
       { title: "Ejercicios de técnica con tabs", note: "Púa y dedos, con un vídeo tuyo en cada uno", track: "Aprender" },
+      { title: "Tu biblioteca: tus propias tabs y ejercicios", note: "Subes una tab (Guitar Pro, texto, PDF o foto), Diesis la lee y la guarda, y vas teniendo tu biblioteca con lo que tienes que trabajar: cada pieza se ve en el mástil y se practica con la subida de tempo. Guitar Pro y texto se leen en el navegador; PDF y fotos piden un modelo en un servidor; con cuentas se sincroniza. Candidata a Pro", track: "Práctica" },
       { title: "Teoría de escalas y modos", note: "Por qué cada escala es como es", track: "Aprender" },
       { title: "Glosario de técnicas", note: "Eléctrica y clásica, una página cada una", track: "Aprender" },
       { title: "Récords y logros a la vista mientras practicas", track: "Mástil" },
@@ -107,12 +108,12 @@ const columns: { title: string; tone: string; dot: string; items: Item[] }[] = [
 
 const phases = [
   { n: "1", title: "Medir y crear audiencia", when: "Estas semanas", items: ["Eventos de uso (GA4 o PostHog)", "SEO: títulos, textos y lang en los dos idiomas", "Lista de correo / espera de Pro", "Vídeos: «¿Qué nota es?», retos, riffs con la subida de tempo, tu récord en Dedos", "Tu vídeo en la portada"] },
-  { n: "2", title: "Cuentas y contenido que atrae", when: "Después", items: ["Cuentas opcionales y sincronización", "Páginas de escalas (SEO)", "Glosario, teoría y ejercicios de técnica (SEO)", "Afinador y Mis guitarras", "Ejercicios de escalas y Escucha la nota"] },
+  { n: "2", title: "Cuentas y contenido que atrae", when: "Después", items: ["Cuentas opcionales y sincronización", "Páginas de escalas (SEO)", "Glosario, teoría y ejercicios de técnica (SEO)", "Tu biblioteca: tus tabs y lo que tienes que trabajar", "Afinador y Mis guitarras", "Ejercicios de escalas y Escucha la nota"] },
   { n: "3", title: "Lanzar Pro", when: "Con usuarios que vuelven cada semana", items: ["Stripe, precio de fundador", "Afiliados más allá de España", "Profesores y academias", "Si lo pide el uso: app nativa"] },
 ];
 
 const free = ["Nombra y Encuentra la nota, con retos", "Metrónomo con subida de tempo", "El mástil con pentatónicas, mayor y menor", "Backing tracks", "Independencia de dedos", "Calculadora de cuerdas", "Perfil con 6/7/8 cuerdas y afinaciones", "Glosario de técnicas"];
-const pro = ["Todas las escalas y modos, y sus ejercicios", "Estadísticas: qué posiciones fallas, cómo mejoras, tu tempo limpio en Dedos", "Sincronización entre dispositivos y varias guitarras", "Ejercicios de técnica con tus vídeos", "Rutinas de práctica guardadas", "Diario de práctica: un plan día a día hasta tu objetivo", "Comparar tu progreso con otros"];
+const pro = ["Todas las escalas y modos, y sus ejercicios", "Estadísticas: qué posiciones fallas, cómo mejoras, tu tempo limpio en Dedos", "Sincronización entre dispositivos y varias guitarras", "Ejercicios de técnica con tus vídeos", "Rutinas de práctica guardadas", "Tu biblioteca: tus propias tabs y ejercicios, leídos y guardados en tu cuenta", "Diario de práctica: un plan día a día hasta tu objetivo", "Comparar tu progreso con otros"];
 
 const channels = [
   { title: "Tu contenido", body: "Instagram, TikTok y Shorts: «¿Qué nota es?», retos contra el reloj, tus riffs con la subida de tempo, tu récord en Dedos. Gratis y lo que más te diferencia de una app hecha por IA." },
@@ -124,7 +125,7 @@ const channels = [
 /** Will's question (2026-09-27): how to keep a moat if the app can be copied in a day. */
 const moat = [
   { title: "Tú", body: "Un guitarrista real, con cara, vídeos y tu música. El código se copia; tu voz y tus ejercicios grabados no." },
-  { title: "El historial del usuario", body: "Récords, tempos limpios, posiciones que falla, sus guitarras, su diario de práctica. Con cuentas, cambiarse a otra app es empezar de cero." },
+  { title: "El historial del usuario", body: "Récords, tempos limpios, posiciones que falla, sus guitarras, su diario de práctica, su biblioteca de tabs. Con cuentas, cambiarse a otra app es empezar de cero." },
   { title: "Profundidad en un nicho", body: "Español nativo y 7/8 cuerdas con afinaciones graves hechos bien, no traducidos ni añadidos al final." },
   { title: "Comunidad y profesores", body: "Profesores que mandan a sus alumnos, retos compartidos y puntuaciones comparadas: eso no se copia con un prompt." },
   { title: "Ritmo", body: "Una mejora a la semana que alguien pidió. Quien copia va siempre por detrás." },
@@ -147,6 +148,7 @@ const decisions = [
   "¿CAGED o tres notas por cuerda para las posiciones?",
   "¿Páginas de escalas fuera de la app (/scales, /es/escalas) o dentro de Aprender?",
   "¿Dónde vive el diario de práctica y cómo se llama? ¿Gratis o Pro?",
+  "¿Qué acepta tu biblioteca (Guitar Pro, texto, PDF, fotos) y qué parte es Pro?",
 ];
 
 function Tag({ track }: { track: Track }) {
@@ -168,7 +170,7 @@ export default function RoadmapPage() {
       <header className="mb-14">
         <p className="inline-flex items-center gap-2 rounded-full border border-line px-3 py-1 text-xs text-dim">
           <span className="size-1.5 rounded-full bg-amber" aria-hidden />
-          Privado · solo con este enlace · 30 sept 2026 · versión 0.28
+          Privado · solo con este enlace · 30 sept 2026 · versión 0.29
         </p>
         <h1 className="mt-5 font-display text-5xl font-semibold tracking-tight sm:text-6xl">Roadmap y estrategia</h1>
         <p className="mt-4 max-w-2xl text-lg text-dim">
