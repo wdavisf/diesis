@@ -37,14 +37,14 @@ const columns: { title: string; tone: string; dot: string; items: Item[] }[] = [
       { title: "El mástil: todas las notas y 13 escalas", note: "Tónica, notas o grados, toca para oír", track: "Mástil" },
       { title: "Metrónomo con subida de tempo", note: "2/4–7/8, subdivisiones hasta seisillos, tap", track: "Práctica" },
       { title: "Backing tracks", note: "Por estilo, con tonalidad y escala en el mástil", track: "Práctica" },
-      { title: "Independencia de dedos", note: "Cuatro puntos, clic, ms de desvío, récord limpio", track: "Práctica" },
-      { title: "Cuerdas y ajuste", note: "Tensión por cuerda, juego equilibrado, números de ajuste por tipo de guitarra", track: "Equipo" },
+      { title: "Independencia de dedos", note: "Las notas caen sobre cada dedo y llegan con el clic; en horizontal en el móvil; récord limpio", track: "Práctica" },
+      { title: "Cuerdas y ajuste", note: "Tensión por cuerda, juegos de cuerdas con nombre, fotos de cada guitarra, pasos según el tipo de guitarra", track: "Equipo" },
       { title: "Afiliados de Amazon.es", note: "Cuerdas y herramientas de ajuste, con aviso", track: "Negocio" },
       { title: "Perfil: 6, 7 u 8 cuerdas y afinaciones", note: "Los ejercicios y el mástil lo usan", track: "Plataforma" },
       { title: "Tres lados: Aprender, Practicar, Ajuste", note: "/start, /learn, /practice, /setup", track: "Plataforma" },
       { title: "Portada con ejercicio jugable y tus herramientas", note: "Con tu foto en «Quién lo hace»", track: "Plataforma" },
       { title: "Formulario de sugerencias", note: "Llega a tu correo por Resend", track: "Plataforma" },
-      { title: "Web EN/ES, diesis.es, barra común", track: "Plataforma" },
+      { title: "Web EN/ES, diesis.es, barra común", note: "Y una tarjeta propia por herramienta al compartir el enlace", track: "Plataforma" },
     ],
   },
   {
@@ -58,6 +58,7 @@ const columns: { title: string; tone: string; dot: string; items: Item[] }[] = [
       { title: "Bing, Search Console y enlaces", note: "Tuyo: dar de alta en Bing, mirar qué está indexado, compartir en Reddit y foros", track: "Negocio" },
       { title: "Lista de correo / espera de Pro", track: "Negocio" },
       { title: "Tu vídeo personal en la portada", note: "YouTube, se carga al pulsar", track: "Negocio" },
+      { title: "Probar vídeos con Runway", note: "Clips para redes y recursos alrededor de tus grabaciones; ver precio y si aguanta con guitarras", track: "Negocio" },
       { title: "Probar Dedos en tu iPhone", note: "Latencia real al tocar la pantalla", track: "Práctica" },
       { title: "Decidir posiciones de escala", note: "CAGED o tres notas por cuerda", track: "Mástil" },
     ],
@@ -70,7 +71,9 @@ const columns: { title: string; tone: string; dot: string; items: Item[] }[] = [
       { title: "Páginas de escalas", note: "Una por tónica y escala, 144 por idioma: el mástil, las notas, los grados y un backing track", track: "Mástil" },
       { title: "Afinador y entonación", note: "Micrófono, y también de oído", track: "Equipo" },
       { title: "Mis guitarras", note: "Varias guitarras en el perfil", track: "Equipo" },
-      { title: "Dedos: carril tipo Guitar Hero", note: "Ver las notas que vienen; más ejercicios de golpeo con la izquierda", track: "Práctica" },
+      { title: "Diario de práctica con objetivo", note: "Un objetivo con fecha (un solo para un concierto en dos semanas), dictar cada día lo que hiciste y qué herramientas usar para llegar", track: "Práctica" },
+      { title: "Barra lateral en ordenador", note: "Plegable: solo iconos, o iconos con nombre, como Toggl o PostHog. En el móvil, por decidir", track: "Plataforma" },
+      { title: "Dedos: más ejercicios con la izquierda", note: "Golpear con los dedos de la mano izquierda", track: "Práctica" },
       { title: "Calentamiento y estiramientos", track: "Práctica" },
       { title: "Ejercicios de técnica con tabs", note: "Púa y dedos, con un vídeo tuyo en cada uno", track: "Aprender" },
       { title: "Teoría de escalas y modos", note: "Por qué cada escala es como es", track: "Aprender" },
@@ -108,7 +111,7 @@ const phases = [
 ];
 
 const free = ["Nombra y Encuentra la nota, con retos", "Metrónomo con subida de tempo", "El mástil con pentatónicas, mayor y menor", "Backing tracks", "Independencia de dedos", "Calculadora de cuerdas", "Perfil con 6/7/8 cuerdas y afinaciones", "Glosario de técnicas"];
-const pro = ["Todas las escalas y modos, y sus ejercicios", "Estadísticas: qué posiciones fallas, cómo mejoras, tu tempo limpio en Dedos", "Sincronización entre dispositivos y varias guitarras", "Ejercicios de técnica con tus vídeos", "Rutinas de práctica guardadas", "Comparar tu progreso con otros"];
+const pro = ["Todas las escalas y modos, y sus ejercicios", "Estadísticas: qué posiciones fallas, cómo mejoras, tu tempo limpio en Dedos", "Sincronización entre dispositivos y varias guitarras", "Ejercicios de técnica con tus vídeos", "Rutinas de práctica guardadas", "Diario de práctica: un plan día a día hasta tu objetivo", "Comparar tu progreso con otros"];
 
 const channels = [
   { title: "Tu contenido", body: "Instagram, TikTok y Shorts: «¿Qué nota es?», retos contra el reloj, tus riffs con la subida de tempo, tu récord en Dedos. Gratis y lo que más te diferencia de una app hecha por IA." },
@@ -120,7 +123,7 @@ const channels = [
 /** Will's question (2026-09-27): how to keep a moat if the app can be copied in a day. */
 const moat = [
   { title: "Tú", body: "Un guitarrista real, con cara, vídeos y tu música. El código se copia; tu voz y tus ejercicios grabados no." },
-  { title: "El historial del usuario", body: "Récords, tempos limpios, posiciones que falla, sus guitarras. Con cuentas, cambiarse a otra app es empezar de cero." },
+  { title: "El historial del usuario", body: "Récords, tempos limpios, posiciones que falla, sus guitarras, su diario de práctica. Con cuentas, cambiarse a otra app es empezar de cero." },
   { title: "Profundidad en un nicho", body: "Español nativo y 7/8 cuerdas con afinaciones graves hechos bien, no traducidos ni añadidos al final." },
   { title: "Comunidad y profesores", body: "Profesores que mandan a sus alumnos, retos compartidos y puntuaciones comparadas: eso no se copia con un prompt." },
   { title: "Ritmo", body: "Una mejora a la semana que alguien pidió. Quien copia va siempre por detrás." },
@@ -142,6 +145,8 @@ const decisions = [
   "¿Métodos de acceso de las cuentas, y códigos de invitación?",
   "¿CAGED o tres notas por cuerda para las posiciones?",
   "¿Páginas de escalas fuera de la app (/scales, /es/escalas) o dentro de Aprender?",
+  "Con barra lateral en ordenador, ¿qué va en el móvil: la barra de arriba, pestañas abajo o un menú que se despliega?",
+  "¿Dónde vive el diario de práctica y cómo se llama? ¿Gratis o Pro?",
 ];
 
 function Tag({ track }: { track: Track }) {
@@ -163,7 +168,7 @@ export default function RoadmapPage() {
       <header className="mb-14">
         <p className="inline-flex items-center gap-2 rounded-full border border-line px-3 py-1 text-xs text-dim">
           <span className="size-1.5 rounded-full bg-amber" aria-hidden />
-          Privado · solo con este enlace · 28 sept 2026 · versión 0.21
+          Privado · solo con este enlace · 30 sept 2026 · versión 0.25
         </p>
         <h1 className="mt-5 font-display text-5xl font-semibold tracking-tight sm:text-6xl">Roadmap y estrategia</h1>
         <p className="mt-4 max-w-2xl text-lg text-dim">
