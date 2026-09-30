@@ -3,6 +3,11 @@
 Written for the people using it, not for the code. Newest first. Version matches
 `package.json`.
 
+## 0.29.1 — 30 September 2026
+
+- On the front page, the tools now come right after the video, and the exercise you can try on
+  the page follows them.
+
 ## 0.29.0 — 30 September 2026, a guitarist on the front page
 
 - The front page now opens on a video: a guitarist on a dark stage, and beside him what Diesis

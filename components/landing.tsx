@@ -13,9 +13,9 @@ import type { Strings } from "@/lib/i18n";
 import { landingData } from "@/lib/structured-data";
 
 /**
- * The landing: the stage video in the hero, the playable exercise right under it, then
- * everything inside, side by side and tool by tool (each card leads to that tool's own public page, components/feature-page.tsx), who
- * makes it, the name, the price and the questions about Diesis as a whole. What a single tool
+ * The landing: the stage video in the hero, then everything inside, side by side and tool by
+ * tool (each card leads to that tool's own public page, components/feature-page.tsx), the
+ * playable exercise, who makes it, the name, the price and the questions about Diesis as a whole. What a single tool
  * does and how to use it lives on its page, not here.
  */
 export function Landing({ t }: { t: Strings }) {
@@ -62,25 +62,28 @@ export function Landing({ t }: { t: Strings }) {
         </div>
       </section>
 
-      {/* A taste: the first exercise, playable on the page, right under the hero */}
-      <section id="try" className="mx-auto grid w-full max-w-6xl grid-cols-1 items-center gap-8 px-4 pt-4 pb-14 sm:pb-24 lg:grid-cols-[0.8fr_1fr] lg:gap-14 lg:pt-10">
-        <div>
-          <p className="text-sm font-medium tracking-wide text-amber-text uppercase">{t.taste.eyebrow}</p>
-          <h2 className="mt-3 font-display text-3xl font-semibold tracking-tight text-balance sm:text-5xl">{t.taste.h2}</h2>
-          <p className="mt-4 max-w-md text-lg text-dim">{t.taste.body}</p>
-        </div>
-        <TryIt t={t} className="shadow-[0_30px_60px_rgba(0,0,0,0.55)] ring-1 ring-amber/20" />
-      </section>
-
-      {/* Everything inside: the three sides and their tools, each card leading to the tool's own page */}
-      <section id="tools" className="border-t border-line">
-        <div className="mx-auto w-full max-w-6xl px-4 py-14 sm:py-24">
+      {/* Everything inside: the three sides and their tools, each card leading to the tool's own
+          page. No rule above it: the hero's video fades into it. */}
+      <section id="tools">
+        <div className="mx-auto w-full max-w-6xl px-4 pt-6 pb-14 sm:pb-24 lg:pt-12">
           <p className="text-sm font-medium tracking-wide text-amber-text uppercase">{t.tools.eyebrow}</p>
           <h2 className="mt-3 max-w-2xl font-display text-3xl font-semibold tracking-tight text-balance sm:text-5xl">
             {t.tools.h2}
           </h2>
           <p className="mt-4 max-w-2xl text-lg text-dim">{t.tools.lede}</p>
           <FeatureCards t={t} />
+        </div>
+      </section>
+
+      {/* A taste: the first exercise, playable on the page, after the tools (Will, 2026-09-30) */}
+      <section id="try" className="border-t border-line">
+        <div className="mx-auto grid w-full max-w-6xl grid-cols-1 items-center gap-8 px-4 py-14 sm:py-24 lg:grid-cols-[0.8fr_1fr] lg:gap-14">
+          <div>
+            <p className="text-sm font-medium tracking-wide text-amber-text uppercase">{t.taste.eyebrow}</p>
+            <h2 className="mt-3 font-display text-3xl font-semibold tracking-tight text-balance sm:text-5xl">{t.taste.h2}</h2>
+            <p className="mt-4 max-w-md text-lg text-dim">{t.taste.body}</p>
+          </div>
+          <TryIt t={t} className="shadow-[0_30px_60px_rgba(0,0,0,0.55)] ring-1 ring-amber/20" />
         </div>
       </section>
 

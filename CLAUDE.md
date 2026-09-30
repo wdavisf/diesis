@@ -306,11 +306,11 @@ Todoist project records what is still to do.
   `components/try-it.tsx`: a real Name the note in first position (frets 0–5, naturals, seven
   buttons in a row under the board, the first question fixed on C so server and client agree),
   sound on the first tap, five dots for a streak, and at five a card that links to the full
-  exercise. It was the hero's right column until 0.29.0; since the video took the hero it is the
-  first section under it (`#try`, copy in `taste`), its top edge showing above the fold on a
-  laptop. Will has not commented on that move: if he wants it back in the hero, ask how it
-  shares the space with the video. Then `#tools`: one card per built tool with a still of it
-  (`components/tool-figure.tsx`), see the next point.
+  exercise. It was the hero's right column until 0.29.0, when the video took the hero; since
+  0.29.1 it is its own section (`#try`, copy in `taste`) **after `#tools`, where Will put it
+  (2026-09-30: "put this below the everything you need section")**. `#tools` comes right under
+  the hero, with no rule between them (the video fades into it): one card per built tool with a
+  still of it (`components/tool-figure.tsx`), see the next point.
 - **A public page per tool, and the landing as their hub (Will, 2026-09-30: "landing pages per
   feature" with "a link to send them to the full version", then "redo the main landing page with
   all of this into account"; built 0.28.0).** Will's thinking behind it: the web (landing and
@@ -330,10 +330,10 @@ Todoist project records what is still to do.
   `lib/features.ts`; metadata with the hreflang pair in `lib/feature-metadata.ts`. Because the
   slug changes with the language, `SiteNav` takes the twin's address (`other`), and
   `next.config.ts` redirects an English slug under `/es` and a Spanish one without it (the slug
-  list is mirrored there by hand). **The landing** is now: hero (the video), the playable exercise, `#tools` (the three sides, each
+  list is mirrored there by hand). **The landing** is now: hero (the video), `#tools` (the three sides, each
   with its tools as cards that lead to the tool's page, with an "Open" button straight into the
   tool, and beside each side what is coming to it, read from the app's menus:
-  `components/feature-cards.tsx`), who makes it, the name, pricing, FAQ, closing. Its old "How
+  `components/feature-cards.tsx`), the playable exercise (`#try`), who makes it, the name, pricing, FAQ, closing. Its old "How
   it works" and "What you learn" sections are gone (`how` and `learn` in the strings too): what
   a tool does lives on its page. The footer lists the tool pages. **A new tool gets a line in
   `FEATURES`/`FEATURE_TOOL`, an item in `tools.items`, a page in `features.pages` (both
