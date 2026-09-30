@@ -3,6 +3,7 @@ import { ArrowRight, Globe } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { LogoMark } from "@/components/logo";
 import { TryIt } from "@/components/try-it";
+import { StageVideo } from "@/components/stage-video";
 import { FeatureCards } from "@/components/feature-cards";
 import { Footer } from "@/components/footer";
 import { JsonLd } from "@/components/json-ld";
@@ -12,8 +13,8 @@ import type { Strings } from "@/lib/i18n";
 import { landingData } from "@/lib/structured-data";
 
 /**
- * The landing: the playable exercise in the hero, then everything inside, side by side and tool
- * by tool (each card leads to that tool's own public page, components/feature-page.tsx), who
+ * The landing: the stage video in the hero, the playable exercise right under it, then
+ * everything inside, side by side and tool by tool (each card leads to that tool's own public page, components/feature-page.tsx), who
  * makes it, the name, the price and the questions about Diesis as a whole. What a single tool
  * does and how to use it lives on its page, not here.
  */
@@ -23,39 +24,52 @@ export function Landing({ t }: { t: Strings }) {
       <JsonLd data={landingData(t)} />
       <SiteNav t={t} />
 
-      {/* Hero. On a phone the playable neck sits right under the headline, before any paragraph;
-          from lg up it takes the right column against the whole text block. */}
-      <section className="mx-auto grid grid-cols-1 w-full max-w-6xl gap-x-12 gap-y-7 px-4 pt-10 pb-16 lg:grid-cols-[1.05fr_1fr] lg:grid-rows-[auto_auto] lg:items-center lg:gap-y-6 lg:pt-24 lg:pb-28">
-        <div className="lg:col-start-1 lg:row-start-1 lg:self-end">
-          <p className="text-sm font-medium tracking-wide text-amber-text uppercase">{t.hero.eyebrow}</p>
-          <h1 className="mt-4 font-display text-[2.6rem] leading-[1.02] font-semibold text-balance sm:text-6xl lg:text-7xl">
-            {t.hero.h1}
-          </h1>
-        </div>
-        <TryIt t={t} className="lg:col-start-2 lg:row-span-2 lg:row-start-1 shadow-[0_30px_60px_rgba(0,0,0,0.55)] ring-1 ring-amber/20" />
-        <div className="lg:col-start-1 lg:row-start-2 lg:self-start">
-          <p className="max-w-xl text-lg text-pretty text-dim">
-            {t.hero.lede}
-          </p>
-          <div className="mt-6 flex flex-wrap gap-3">
-            <Button asChild size="lg" className="h-11 px-5 text-base">
-              <OpenApp lang={t.code}>
-                {t.hero.cta} <ArrowRight className="size-4" />
-              </OpenApp>
-            </Button>
-            <Button asChild size="lg" variant="outline" className="h-11 border-line bg-surface px-5 text-base text-ink hover:bg-surface-raised hover:text-ink">
-              <a href="#tools">{t.hero.secondary}</a>
-            </Button>
+      {/* Hero: the stage video with the promise on it. On a phone the video is a frame on top and
+          the text rises over its faded foot; from lg it fills the hero, the player on the right
+          and the text on the left, in the video's own wide shape so the two do not collide. */}
+      <section className="relative isolate overflow-hidden lg:flex lg:aspect-[2.2/1] lg:max-h-[46rem] lg:items-center">
+        <StageVideo pause={t.reel.pause} play={t.reel.play} className="aspect-[3/2] sm:aspect-[2/1] lg:absolute lg:inset-0 lg:aspect-auto" />
+        <div className="pointer-events-none relative mx-auto -mt-14 w-full max-w-6xl px-4 pb-12 lg:mt-0 lg:py-14">
+          <div className="pointer-events-auto lg:max-w-lg">
+            <p className="text-sm font-medium tracking-wide text-amber-text uppercase">{t.hero.eyebrow}</p>
+            <h1 className="mt-4 font-display text-[1.9rem] leading-[1.06] font-semibold tracking-tight sm:text-5xl xl:text-[3.25rem]">
+              {t.hero.h1.map((line) => (
+                <span key={line} className="block sm:whitespace-nowrap">
+                  {line}
+                </span>
+              ))}
+            </h1>
+            <p className="mt-5 text-lg text-dim">{t.hero.lede}</p>
+            <div className="mt-6 flex flex-wrap gap-3">
+              <Button asChild size="lg" className="h-11 px-5 text-base">
+                <OpenApp lang={t.code}>
+                  {t.hero.cta} <ArrowRight className="size-4" />
+                </OpenApp>
+              </Button>
+              <Button asChild size="lg" variant="outline" className="h-11 border-line bg-surface px-5 text-base text-ink hover:bg-surface-raised hover:text-ink">
+                <a href="#tools">{t.hero.secondary}</a>
+              </Button>
+            </div>
+            <ul className="mt-7 flex flex-wrap gap-x-6 gap-y-2 text-sm text-dim">
+              {t.hero.trust.map((s) => (
+                <li key={s} className="flex items-center gap-2">
+                  <span className="size-1.5 rounded-full bg-amber" aria-hidden />
+                  {s}
+                </li>
+              ))}
+            </ul>
           </div>
-          <ul className="mt-8 flex flex-wrap gap-x-6 gap-y-2 text-sm text-dim">
-            {t.hero.trust.map((s) => (
-              <li key={s} className="flex items-center gap-2">
-                <span className="size-1.5 rounded-full bg-amber" aria-hidden />
-                {s}
-              </li>
-            ))}
-          </ul>
         </div>
+      </section>
+
+      {/* A taste: the first exercise, playable on the page, right under the hero */}
+      <section id="try" className="mx-auto grid w-full max-w-6xl grid-cols-1 items-center gap-8 px-4 pt-4 pb-14 sm:pb-24 lg:grid-cols-[0.8fr_1fr] lg:gap-14 lg:pt-10">
+        <div>
+          <p className="text-sm font-medium tracking-wide text-amber-text uppercase">{t.taste.eyebrow}</p>
+          <h2 className="mt-3 font-display text-3xl font-semibold tracking-tight text-balance sm:text-5xl">{t.taste.h2}</h2>
+          <p className="mt-4 max-w-md text-lg text-dim">{t.taste.body}</p>
+        </div>
+        <TryIt t={t} className="shadow-[0_30px_60px_rgba(0,0,0,0.55)] ring-1 ring-amber/20" />
       </section>
 
       {/* Everything inside: the three sides and their tools, each card leading to the tool's own page */}

@@ -52,7 +52,12 @@ export interface Strings {
     collapse: string;
     expand: string;
   };
-  hero: { eyebrow: string; h1: string; lede: string; cta: string; secondary: string; trust: string[] };
+  /** `h1`: one short line per side of the app (Learn, Practice, Setup), each on its own line. */
+  hero: { eyebrow: string; h1: string[]; lede: string; cta: string; secondary: string; trust: string[] };
+  /** The hero's video (components/stage-video.tsx): what its one button says. */
+  reel: { pause: string; play: string };
+  /** The playable exercise under the hero (components/try-it.tsx holds the exercise's own words, `tryIt`). */
+  taste: { eyebrow: string; h2: string; body: string };
   name: { eyebrow: string; p: string[] };
   pricing: { eyebrow: string; h2: string; price: string; sub: string; list: string[]; contactTitle: string; contact: string; contactAfter: string };
   faq: { eyebrow: string; h2: string; items: { q: string; a: string }[] };
@@ -278,12 +283,14 @@ const en: Strings = {
   nav: { tools: "Tools", faq: "FAQ", cta: "Open the app", privacy: "Privacy", about: "About Diesis", areas: { learn: "Learn", practice: "Practice", setup: "Setup" }, learnTools: ["Name the note", "Find the note"], practiceTools: ["The neck", "Metronome", "Backing tracks", "Fingers"], setupTools: ["Strings"], learnSoon: ["Hear the note"], setupSoon: ["Tuner", "My guitars"], soon: "Soon", collapse: "Collapse the sidebar", expand: "Open the sidebar" },
   hero: {
     eyebrow: "The guitar learning tool",
-    h1: "Everything you need to master the guitar.",
-    lede: "Become the best guitarist you can be. Try it right here: name the note that lights up. Inside, exercises that teach you the neck, the tools you practice with every day, and what you need to set up your own guitar.",
+    h1: ["Know the neck.", "Lock in the tempo.", "Dial in your guitar."],
+    lede: "Become the best guitarist you can be.",
     cta: "Open the app",
     secondary: "See the tools",
     trust: ["Free in preview", "No account", "Phone or laptop, in the browser"],
   },
+  reel: { pause: "Pause the video", play: "Play the video" },
+  taste: { eyebrow: "Try it", h2: "Name the note that lights up.", body: "The first exercise, right here on the page. Five in a row and you have the idea." },
   name: {
     eyebrow: "The name",
     p: [
@@ -427,7 +434,7 @@ const en: Strings = {
   },
   tools: {
     eyebrow: "Inside",
-    h2: "Everything inside, tool by tool.",
+    h2: "Everything you need to master the guitar.",
     lede: "Each one has its own page: what it does, how to use it and the way in. No sign-up, nothing to install.",
     open: "Open",
     items: [
@@ -887,12 +894,14 @@ const es: Strings = {
   nav: { tools: "Herramientas", faq: "Preguntas", cta: "Abrir la app", privacy: "Privacidad", about: "Sobre Diesis", areas: { learn: "Aprender", practice: "Practicar", setup: "Ajuste" }, learnTools: ["Nombra la nota", "Encuentra la nota"], practiceTools: ["El mástil", "Metrónomo", "Backing tracks", "Dedos"], setupTools: ["Cuerdas"], learnSoon: ["Escucha la nota"], setupSoon: ["Afinador", "Mis guitarras"], soon: "Pronto", collapse: "Plegar la barra lateral", expand: "Desplegar la barra lateral" },
   hero: {
     eyebrow: "La herramienta para aprender guitarra",
-    h1: "Todo lo que necesitas para dominar la guitarra.",
-    lede: "Llega a ser el mejor guitarrista que puedas ser. Pruébalo aquí mismo: di qué nota se ilumina. Dentro tienes ejercicios para aprenderte el mástil, las herramientas con las que practicas a diario y lo necesario para poner a punto tu guitarra.",
+    h1: ["Domina el mástil.", "Clava el tempo.", "Pon a punto tu guitarra."],
+    lede: "Llega a ser el mejor guitarrista que puedas ser.",
     cta: "Abrir la app",
     secondary: "Ver las herramientas",
     trust: ["Gratis durante la beta", "Sin registro", "En el navegador, móvil u ordenador"],
   },
+  reel: { pause: "Pausar el vídeo", play: "Reproducir el vídeo" },
+  taste: { eyebrow: "Pruébalo", h2: "Di qué nota se ilumina.", body: "El primer ejercicio, aquí mismo. Cinco seguidas y ya le has cogido el truco." },
   name: {
     eyebrow: "El nombre",
     p: [
@@ -1036,7 +1045,7 @@ const es: Strings = {
   },
   tools: {
     eyebrow: "Dentro",
-    h2: "Todo lo que hay dentro, herramienta a herramienta.",
+    h2: "Todo lo que necesitas para dominar la guitarra.",
     lede: "Cada una tiene su página: qué hace, cómo se usa y por dónde se entra. Sin registro y sin instalar nada.",
     open: "Abrir",
     items: [

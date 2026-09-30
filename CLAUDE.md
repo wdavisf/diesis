@@ -273,16 +273,44 @@ Todoist project records what is still to do.
   path). `appMetadata` in `lib/lang.ts` gives app pages their title, hreflang and a link
   preview in their language (og-es.png for Spanish). Values in the strings file must be plain
   data (no functions): they cross into client components.
-- **Landing on phones (Will, 2026-09-24: "only text").** The hero is a grid: headline, then the
-  playable `TryIt`, then the lede, CTAs and trust line; from `lg` the screen takes the right
-  column against the whole text block. The hero lede stays at three or four short sentences;
-  detail goes to each tool's own page (below). Section padding is `py-14 sm:py-24`.
-- **Landing made playable (Will, 2026-09-26: "more exciting for first visitors").** The hero's
-  looping animation (`components/screen.tsx`, gone) is now `components/try-it.tsx`: a real Name
-  the note in first position (frets 0–5, naturals, seven buttons in a row under the board, the
-  first question fixed on C so server and client agree), sound on the first tap, five dots for a
-  streak, and at five a card that links to the full exercise. Under the hero, `#tools`: one
-  card per built tool with a still of it (`components/tool-figure.tsx`), see the next point.
+- **The hero is a video of a metal guitarist (Will, 2026-09-30: "generate a video of a metal
+  guitarist to show on the diesis lp", then "shouldn't it be above the fold?"; built 0.29.0).**
+  `components/stage-video.tsx` plays `public/video/stage.mp4` (6.7 s loop, no sound, 1.2 MB,
+  poster `stage.jpg`): a modern-metal guitarist on a black stage with amber backlights, short
+  hair, black tee, tattoos, a matte white guitar. Will picked this look from three takes and asked
+  for it in the words "like Bad Omens or Bring Me the Horizon"; the prompts describe clothes,
+  guitar and light and never name a band or a player, and the man is nobody real (an
+  illustration, like the guitar pictures). From `lg` the video fills the hero (the section takes
+  the video's wide shape, `lg:aspect-[2.2/1]`, so the player stays right of the text); below
+  `lg` it is a frame on top and the text rises over its faded foot. It runs only while on screen,
+  has one button (pause/play, `reel.pause`/`reel.play`), and under Reduce Motion stays on the
+  poster until asked. **The headline is three sentences, one per side of the app** (`hero.h1`,
+  an array): "Know the neck. Lock in the tempo. Dial in your guitar." / «Domina el mástil. Clava
+  el tempo. Pon a punto tu guitarra.» **Will does not want "Everything you need to master the
+  guitar" as the headline** (2026-09-30; "you can use that below the fold"): it now heads
+  `#tools`, and stays in the page title, the footer and the link-preview card. Each line must
+  fit on one line from `sm` up (`sm:whitespace-nowrap`): check both languages at 1024 and 1440
+  when the words change, the Spanish ones are longer.
+  **Made by `tools/gen-video.mjs`** in three steps: a still with OpenAI `gpt-image-2` (check it
+  before paying for video: hands, six strings, no logo), a take with Runway image-to-video
+  (`gen4.5`, 8 s at 1584:672, 96 credits; `RUNWAY_API_KEY` in `.env.local` or Akoe's
+  `app/Secrets.xcconfig`; 91 credits were left on 2026-09-30, one short of another take), and
+  the cut with ffmpeg (not installed on Will's Mac: `FFMPEG=` a copy from npm's `ffmpeg-static`),
+  which loops between the two moments of the take that look most alike. OpenAI's own video API
+  (Sora) closed on 2026-09-24. Raw stills and takes stay in `design/video/` (ignored by git; the
+  two takes not chosen, long hair and a hood, are there as `longhair.*` and `hood.*`).
+- **Landing on phones (Will, 2026-09-24: "only text").** The phone gets the picture first: the
+  video frame, then the headline, the lede (one sentence), CTAs and trust line, all on the first
+  screen. Detail goes to each tool's own page (below). Section padding is `py-14 sm:py-24`.
+- **Landing made playable (Will, 2026-09-26: "more exciting for first visitors").**
+  `components/try-it.tsx`: a real Name the note in first position (frets 0–5, naturals, seven
+  buttons in a row under the board, the first question fixed on C so server and client agree),
+  sound on the first tap, five dots for a streak, and at five a card that links to the full
+  exercise. It was the hero's right column until 0.29.0; since the video took the hero it is the
+  first section under it (`#try`, copy in `taste`), its top edge showing above the fold on a
+  laptop. Will has not commented on that move: if he wants it back in the hero, ask how it
+  shares the space with the video. Then `#tools`: one card per built tool with a still of it
+  (`components/tool-figure.tsx`), see the next point.
 - **A public page per tool, and the landing as their hub (Will, 2026-09-30: "landing pages per
   feature" with "a link to send them to the full version", then "redo the main landing page with
   all of this into account"; built 0.28.0).** Will's thinking behind it: the web (landing and
@@ -302,7 +330,7 @@ Todoist project records what is still to do.
   `lib/features.ts`; metadata with the hreflang pair in `lib/feature-metadata.ts`. Because the
   slug changes with the language, `SiteNav` takes the twin's address (`other`), and
   `next.config.ts` redirects an English slug under `/es` and a Spanish one without it (the slug
-  list is mirrored there by hand). **The landing** is now: hero, `#tools` (the three sides, each
+  list is mirrored there by hand). **The landing** is now: hero (the video), the playable exercise, `#tools` (the three sides, each
   with its tools as cards that lead to the tool's page, with an "Open" button straight into the
   tool, and beside each side what is coming to it, read from the app's menus:
   `components/feature-cards.tsx`), who makes it, the name, pricing, FAQ, closing. Its old "How
@@ -490,7 +518,7 @@ points to it and keeps `/lang/` out. Add new public pages to the sitemap.
   `lang-switch`, `fretboard` (SVG, marks and tap targets), `note-panel`, `game-frame`
   (`GameShell`: sideways treatment, gate, header; `GameFrame`: the board inside it),
   `setup-screen` (before a round), `challenge-card` (result card, header status, `Chip`),
-  `game` (Mode A), `find-game` (Mode B), `metronome` (both modes), `neck` (scale explorer), `backing-tracks`, `profile`, `site-nav` (the web pages' top bar), `app-nav` (the app's sidebar, phone top bar and tab bar), `try-it`, `feature-cards`, `tool-figure` and `open-app` (landing), `feature-page` and `how-figures` (each tool's public page), `ui/`.
+  `game` (Mode A), `find-game` (Mode B), `metronome` (both modes), `neck` (scale explorer), `backing-tracks`, `profile`, `site-nav` (the web pages' top bar), `app-nav` (the app's sidebar, phone top bar and tab bar), `stage-video`, `try-it`, `feature-cards`, `tool-figure` and `open-app` (landing), `feature-page` and `how-figures` (each tool's public page), `ui/`.
 - `lib/i18n.ts` — every string, EN and ES. `lib/lang.ts` — reads the language cookie.
 - `lib/core/` — note model (`notes.ts`), question generator (`quiz.ts`), tests. Pure TS.
 - `lib/core/challenge.ts` — challenge rules. `lib/audio/note-player.ts` — Web Audio sampler.
@@ -501,6 +529,8 @@ points to it and keeps `/lang/` out. Add new public pages to the sitemap.
 - `tools/gen-samples.mjs` (`npm run samples`), `tools/icons.mjs` (`npm run icons`, regenerates
   `public/icon.png` from `public/favicon.svg` and the link previews `public/og.png` and
   `public/og-es.png` from `tools/og-card.mjs`, drawn with satori via `next/og`, fonts in `tools/fonts`).
+- `tools/gen-images.mjs` (the illustrations) and `tools/gen-video.mjs` (the hero's video,
+  `public/video/`): see their entries under Decisions.
 - `public/samples/nylon/` — generated WAVs, committed so a clone plays without the script.
 
 ## Commands

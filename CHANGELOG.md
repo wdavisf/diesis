@@ -3,6 +3,14 @@
 Written for the people using it, not for the code. Newest first. Version matches
 `package.json`.
 
+## 0.29.0 — 30 September 2026, a guitarist on the front page
+
+- The front page now opens on a video: a guitarist on a dark stage, and beside him what Diesis
+  is for in three lines. Know the neck. Lock in the tempo. Dial in your guitar.
+- The video has no sound, stops with its button, and stays still if your device is set to
+  reduce motion.
+- The exercise you can try without opening the app now sits right under it.
+
 ## 0.28.2 — 30 September 2026
 
 - Inside the app, the logo now takes you to the app's start screen (learn, practice or setup)
