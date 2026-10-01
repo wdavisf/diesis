@@ -30,7 +30,7 @@ const nb = (s) => s.replaceAll(' ', ' ');
 /** The default card's words (the hero's eyebrow and headline, lib/i18n.ts; `size` fits the longest line left of the player), and the tool cards' name and one line, which mirror lib/i18n.ts too. */
 const copy = {
   en: {
-    eyebrow: 'THE GUITAR LEARNING TOOL', lines: ['Know the neck.', 'Lock in the tempo.', 'Dial in your guitar.'], size: 64, eyebrowSize: 22,
+    eyebrow: 'THE GUITAR PRACTICE APP', lines: ['Know the neck.', 'Lock in the tempo.', 'Dial in your guitar.'], size: 64, eyebrowSize: 22,
     question: 'Which note is it?', questionLine: 'A position lights and plays. Say which note it is.', names: ['C', 'D', 'E', 'F', 'G', 'A', 'B'],
     strings: ['E', 'B', 'G', 'D', 'A', 'E'], root: 'A', scale: 'Minor pentatonic', speed: 'Speed up', onTime: 'On time', keys: ['A', 'S', 'D', 'F'],
     tracks: [['Blues in A', 'A blues scale'], ['Rock in E minor', 'E minor pentatonic'], ['Funk in E', 'E dorian']],
@@ -44,7 +44,7 @@ const copy = {
     },
   },
   es: {
-    eyebrow: 'LA HERRAMIENTA PARA APRENDER GUITARRA', lines: ['Domina el mástil.', 'Clava el tempo.', 'Pon a punto tu guitarra.'], size: 54, eyebrowSize: 19,
+    eyebrow: 'LA APP PARA PRACTICAR GUITARRA', lines: ['Domina el mástil.', 'Clava el tempo.', 'Pon a punto tu guitarra.'], size: 54, eyebrowSize: 22,
     question: '¿Qué nota es?', questionLine: 'Se ilumina una posición y suena. Di qué nota es.', names: ['Do', 'Re', 'Mi', 'Fa', 'Sol', 'La', 'Si'],
     strings: ['Mi', 'Si', 'Sol', 'Re', 'La', 'Mi'], root: 'La', scale: 'Pentatónica menor', speed: 'Subida de tempo', onTime: 'A tiempo', keys: ['A', 'S', 'D', 'F'],
     tracks: [['Blues en La', 'escala de blues de La'], ['Rock en La menor', 'pentatónica menor de La'], ['Funk en Mi', 'Mi dórico']],

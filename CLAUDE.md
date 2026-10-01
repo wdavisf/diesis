@@ -560,7 +560,9 @@ Todoist project records what is still to do.
   scales, metronome · Diesis" / «App para practicar guitarra: notas del mástil, escalas,
   metrónomo · Diesis», picked from Google's autocomplete ("guitar practice app" and "app para
   practicar guitarra" are real searches with many variants; "guitar practice tools" had none).
-  The landing aims at the broad phrase; each tool page aims at its own narrow one
+  The hero's eyebrow says the same phrase so it is on the page too (0.32.5): "The guitar
+  practice app" / «La app para practicar guitarra», also on `og.jpg`/`og-es.jpg`
+  (`tools/og-card.mjs`). The landing aims at the broad phrase; each tool page aims at its own narrow one
   (`features.pages[*].metaTitle`). They are still guesses with no volumes behind them: check
   Search Console's queries once it has a few weeks of data and adjust. A page that sets its own `openGraph`
   must repeat `images` (Next replaces the object, it does not merge): `/es` pages use

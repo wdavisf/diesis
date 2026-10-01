@@ -344,7 +344,7 @@ const en: Strings = {
   },
   nav: { tools: "Tools", faq: "FAQ", cta: "Open the app", privacy: "Privacy", about: "About Diesis", areas: { learn: "Learn", practice: "Practice", setup: "Setup" }, learnTools: ["Name the note", "Find the note"], practiceTools: ["The neck", "Metronome", "Backing tracks", "Fingers"], setupTools: ["Strings"], learnSoon: ["Hear the note"], setupSoon: ["Tuner", "My guitars"], soon: "Soon", collapse: "Collapse the sidebar", expand: "Open the sidebar" },
   hero: {
-    eyebrow: "The guitar learning tool",
+    eyebrow: "The guitar practice app",
     h1: ["Know the neck.", "Lock in the tempo.", "Dial in your guitar."],
     lede: "Become the best guitarist you can be.",
     cta: "Open the app",
@@ -1002,7 +1002,7 @@ const es: Strings = {
   },
   nav: { tools: "Herramientas", faq: "Preguntas", cta: "Abrir la app", privacy: "Privacidad", about: "Sobre Diesis", areas: { learn: "Aprender", practice: "Practicar", setup: "Ajuste" }, learnTools: ["Nombra la nota", "Encuentra la nota"], practiceTools: ["El mástil", "Metrónomo", "Backing tracks", "Dedos"], setupTools: ["Cuerdas"], learnSoon: ["Escucha la nota"], setupSoon: ["Afinador", "Mis guitarras"], soon: "Pronto", collapse: "Plegar la barra lateral", expand: "Desplegar la barra lateral" },
   hero: {
-    eyebrow: "La herramienta para aprender guitarra",
+    eyebrow: "La app para practicar guitarra",
     h1: ["Domina el mástil.", "Clava el tempo.", "Pon a punto tu guitarra."],
     lede: "Llega a ser el mejor guitarrista que puedas ser.",
     cta: "Abrir la app",

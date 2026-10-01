@@ -14,7 +14,7 @@ export async function currentStrings(): Promise<Strings> {
 }
 
 /** Query string on every link-preview card: bump it when a card changes, so chat apps fetch it again. */
-export const CARD_VERSION = 5;
+export const CARD_VERSION = 6;
 
 /**
  * What a shared link to an app page shows in a chat: its own description and its own card

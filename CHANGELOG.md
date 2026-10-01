@@ -3,6 +3,12 @@
 Written for the people using it, not for the code. Newest first. Version matches
 `package.json`.
 
+## 0.32.5 — 1 October 2026
+
+- The line above the front page's headline now says what Diesis is in the words people search
+  for: "The guitar practice app" («La app para practicar guitarra»). The picture shown with a
+  shared link says it too.
+
 ## 0.32.4 — 1 October 2026
 
 - The front page now tells search engines what it is about, a guitar practice app (in Spanish,
