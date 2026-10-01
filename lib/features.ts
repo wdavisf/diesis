@@ -1,7 +1,7 @@
 import type { FeatureId, Strings } from "@/lib/i18n";
 
 /** The tools that have a public page of their own, in the order of `tools.items` in lib/i18n.ts. */
-export const FEATURES: readonly FeatureId[] = ["name", "find", "neck", "metronome", "backing", "fingers", "strings"];
+export const FEATURES: readonly FeatureId[] = ["name", "find", "neck", "metronome", "backing", "fingers", "strings", "tuner"];
 
 export type Side = "learn" | "practice" | "setup";
 
@@ -16,6 +16,7 @@ export const FEATURE_TOOL: Record<FeatureId, { href: string; side: Side; card?: 
   backing: { href: "/practice/backing-tracks", side: "practice", card: "backing-tracks" },
   fingers: { href: "/practice/fingers", side: "practice", card: "fingers" },
   strings: { href: "/setup/strings", side: "setup", card: "strings" },
+  tuner: { href: "/setup/tuner", side: "setup", card: "tuner" },
 };
 
 /** A tool's public page in a language: /metronome, /es/metronomo. */

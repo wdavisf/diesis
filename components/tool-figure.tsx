@@ -66,6 +66,22 @@ export function ToolFigure({ id, t }: { id: FeatureId; t: Strings }) {
       </div>
     );
   }
+  if (id === "tuner") {
+    // Tuner: the note, and the tape under its needle with the string a little flat.
+    return (
+      <div className="flex aspect-[520/190] flex-col items-center justify-center gap-2 rounded-lg bg-stage" aria-hidden>
+        <span className="font-display text-6xl leading-none font-semibold">{names[4]}</span>
+        <span className="flex items-start gap-[5px]">
+          {Array.from({ length: 31 }, (_, i) => {
+            const k = i - 15;
+            const big = k % 5 === 0;
+            return <span key={i} className={`w-[2px] rounded-full ${k === 0 ? "h-6 w-[3px] bg-correct" : big ? "h-6 bg-ink" : "mt-2 h-3.5 bg-ink/40"}`} />;
+          })}
+        </span>
+        <span className="h-0 w-0 border-x-[7px] border-b-[12px] border-x-transparent border-b-amber" />
+      </div>
+    );
+  }
   if (id === "strings") {
     // Strings: six tension bars, 10–46 in standard at 25.5", one string slack in amber.
     const bars = [16.2, 15.4, 16.6, 18.4, 19.5, 10.8];

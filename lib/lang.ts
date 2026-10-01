@@ -34,6 +34,7 @@ const PREVIEWS: Record<string, { card?: string; blurb: (t: Strings) => string }>
   "/practice/fingers": { card: "fingers", blurb: (t) => t.practiceMenu.modes[3].body },
   "/setup": { blurb: (t) => t.home.setup },
   "/setup/strings": { card: "strings", blurb: (t) => t.setupMenu.modes[0].body },
+  "/setup/tuner": { card: "tuner", blurb: (t) => t.setupMenu.modes[1].body },
   "/log": { blurb: (t) => t.log.blurb },
   "/profile": { blurb: (t) => t.meta.description },
 };

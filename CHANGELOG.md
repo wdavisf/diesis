@@ -3,6 +3,20 @@
 Written for the people using it, not for the code. Newest first. Version matches
 `package.json`.
 
+## 0.33.0 — 1 October 2026
+
+- New tool: the tuner, in Setup. Play a string and it listens through the microphone, finds
+  which string of your tuning it is, and shows how far off it is on a tape that slides under a
+  needle, with "Flat · tune up" or "Sharp · tune down". Strings you hold in tune get a tick.
+- It tunes in your guitar's own tuning: a button at the top picks six, seven or eight strings and
+  the tuning (standard, drop D, DADGAD, open, baritone, the low ones). It is the same tuning as
+  in your profile. Another button sets the reference pitch (A 440 by default, 415 to 466).
+- Tap a string to hear its note and tune to that one only; tap it again to go back to automatic.
+- The microphone is only on while the tuner is, the sound is analysed on your device and thrown
+  away, and the privacy page says so. The tuner has its own page for search, /guitar-tuner
+  («afinador» in Spanish), and a link-preview card.
+- The Setup menu says "Tuner" and "Intonation" as two tools now; intonation is still to come.
+
 ## 0.32.5 — 1 October 2026
 
 - The line above the front page's headline now says what Diesis is in the words people search

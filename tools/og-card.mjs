@@ -41,6 +41,7 @@ const copy = {
       'backing-tracks': ['Backing tracks', 'Jam over tracks in every style, key and scale shown.'],
       fingers: ['Finger independence', 'Notes fall onto four pads, one per finger. Hit each on the click.'],
       strings: ['Strings and setup', 'Tension per string, a balanced set, your setup numbers.'],
+      tuner: ['Tuner', 'Play a string and see which way to turn the peg.'],
     },
   },
   es: {
@@ -55,6 +56,7 @@ const copy = {
       'backing-tracks': ['Backing tracks', 'Bases de todos los estilos, con su tonalidad y su escala.'],
       fingers: ['Independencia de dedos', 'Caen notas sobre cuatro botones, uno por dedo. Púlsalos en el clic.'],
       strings: ['Cuerdas y ajuste', 'La tensión de cada cuerda, un juego equilibrado y tu ajuste.'],
+      tuner: ['Afinador', 'Puntea una cuerda y mira hacia dónde girar la clavija.'],
     },
   },
 };
@@ -241,7 +243,20 @@ function stringsAndSetup(t) {
   return h('div', { style: { display: 'flex', flexDirection: 'column', width: 1072 } }, ...set.map(row));
 }
 
-const drawings = { 'find-the-note': findTheNote, neck: theNeck, metronome, 'backing-tracks': backingTracks, fingers, strings: stringsAndSetup };
+/** Tuner: the note, and the tape under its needle with the string a little flat. */
+function tuner(t) {
+  const ticks = Array.from({ length: 41 }, (_, i) => {
+    const k = i - 20;
+    const big = k % 5 === 0;
+    return h('div', { key: i, style: { width: k === 0 ? 6 : 3, height: big ? 70 : 38, marginTop: big ? 0 : 32, borderRadius: 3, background: k === 0 ? c.correct : c.ink, opacity: k === 0 || big ? 1 : 0.4 } });
+  });
+  return h('div', { style: { display: 'flex', flexDirection: 'column', alignItems: 'center', width: 1072 } },
+    h('div', { style: { fontSize: 190, fontWeight: 600, lineHeight: 1, color: c.ink } }, t.strings[5]),
+    h('div', { style: { display: 'flex', gap: 14, marginTop: 28, marginLeft: 70, alignItems: 'flex-start' } }, ...ticks),
+    h('div', { style: { width: 0, height: 0, marginTop: 14, marginLeft: 0, borderLeft: '16px solid transparent', borderRight: '16px solid transparent', borderBottom: `32px solid ${c.accent}` } }));
+}
+
+const drawings = { tuner,  'find-the-note': findTheNote, neck: theNeck, metronome, 'backing-tracks': backingTracks, fingers, strings: stringsAndSetup };
 
 /** A tool card: the tool's name and line over its drawing. */
 function toolCard(t, delta, tool) {

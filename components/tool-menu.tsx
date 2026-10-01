@@ -25,6 +25,7 @@ export const PRACTICE_ITEMS: MenuItem[] = [
 
 export const SETUP_ITEMS: MenuItem[] = [
   { href: "/setup/strings", when: "now" },
+  { href: "/setup/tuner", when: "now" },
   { href: null, when: "next" },
   { href: null, when: "next" },
   { href: null, when: "later" },

@@ -10,8 +10,9 @@ export interface NotePlayer {
   /** Must be called from a user gesture before anything can sound. Resolves when the given
    *  pitches are decoded and ready to play with low latency. */
   prepare(midiNotes: readonly number[]): Promise<void>;
-  /** Plays the pitch at once. Overlapping calls overlap; nothing is cut short. */
-  play(midi: number): void;
+  /** Plays the pitch at once, `detune` cents away from the sample (a reference pitch other than
+   *  A 440). Overlapping calls overlap; nothing is cut short. */
+  play(midi: number, detune?: number): void;
   dispose(): void;
 }
 
@@ -34,7 +35,9 @@ export function askForPlaybackSession() {
   }
 }
 
-export function createNotePlayer(): NotePlayer {
+/** `keepSession`: leave the page's audio session alone (the tuner has set its own, which lets the
+ *  microphone and the speaker work together). */
+export function createNotePlayer({ keepSession = false }: { keepSession?: boolean } = {}): NotePlayer {
   let ctx: AudioContext | null = null;
   const buffers = new Map<number, AudioBuffer>();
   const loading = new Map<number, Promise<void>>();
@@ -52,7 +55,7 @@ export function createNotePlayer(): NotePlayer {
 
   function context(): AudioContext {
     if (!ctx) {
-      askForPlaybackSession();
+      if (!keepSession) askForPlaybackSession();
       ctx = new AudioContext();
     }
     return ctx;
@@ -80,7 +83,7 @@ export function createNotePlayer(): NotePlayer {
       if (c.state !== "running") await c.resume();
       await Promise.all(midiNotes.map(load));
     },
-    play(midi) {
+    play(midi, detune = 0) {
       const buffer = buffers.get(midi);
       if (!ctx || !buffer) {
         void load(midi);
@@ -90,6 +93,7 @@ export function createNotePlayer(): NotePlayer {
       if (ctx.state !== "running") void ctx.resume();
       const source = ctx.createBufferSource();
       source.buffer = buffer;
+      if (detune) source.detune.value = detune;
       source.connect(ctx.destination);
       source.start();
     },

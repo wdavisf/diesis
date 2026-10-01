@@ -3,7 +3,7 @@
 import { useEffect, useSyncExternalStore, type ComponentType, type SVGProps } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { BookOpen, ChevronLeft, Ear, Gauge, Guitar, Hand, Headphones, Metronome, Music2, NotebookPen, PanelLeft, Search, SlidersHorizontal, UserRound, Wrench } from "lucide-react";
+import { BookOpen, ChevronLeft, Ear, Gauge, Guitar, Hand, Headphones, Metronome, Music2, NotebookPen, PanelLeft, Ruler, Search, SlidersHorizontal, UserRound, Wrench } from "lucide-react";
 import { Feedback } from "@/components/feedback";
 import { LangSwitch } from "@/components/lang-switch";
 import { Logo, LogoMark } from "@/components/logo";
@@ -54,8 +54,11 @@ const SIDES: { id: Side; icon: Icon; tools: { href: string; icon: Icon }[]; soon
   {
     id: "setup",
     icon: Wrench,
-    tools: [{ href: "/setup/strings", icon: SlidersHorizontal }],
-    soon: [Gauge, Guitar],
+    tools: [
+      { href: "/setup/strings", icon: SlidersHorizontal },
+      { href: "/setup/tuner", icon: Gauge },
+    ],
+    soon: [Ruler, Guitar],
   },
 ];
 

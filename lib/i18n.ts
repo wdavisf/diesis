@@ -11,7 +11,7 @@ export const LANG_COOKIE = "diesis_lang";
 
 export type When = "now" | "next" | "later";
 
-export type FeatureId = "name" | "find" | "neck" | "metronome" | "backing" | "fingers" | "strings";
+export type FeatureId = "name" | "find" | "neck" | "metronome" | "backing" | "fingers" | "strings" | "tuner";
 
 export interface FeaturePage {
   slug: string;
@@ -203,6 +203,37 @@ export interface Strings {
     keys: string;
   };
   /** /practice/fingers (components/fingers.tsx). {ms}, {g}, {n}, {k}, {p}, {bpm}, {w}, {m} as named. */
+  /** /setup/tuner. {n} a string number or a count, {hz} a frequency. */
+  tuner: {
+    title: string;
+    tuning: string;
+    reference: string;
+    /** The reference button's value, {hz}: "A 440". */
+    referenceValue: string;
+    start: string;
+    starting: string;
+    stop: string;
+    idle: string;
+    listening: string;
+    inTune: string;
+    flat: string;
+    sharp: string;
+    string: string;
+    hintAuto: string;
+    hintPinned: string;
+    denied: string;
+    unsupported: string;
+    error: string;
+    tuningTitle: string;
+    stringCount: string;
+    count: string;
+    sameAsProfile: string;
+    referenceTitle: string;
+    referenceLede: string;
+    lower: string;
+    higher: string;
+    tapeLabel: string;
+  };
   fingers: {
     title: string; lede: string; tempo: string; pattern: string; random: string; notes: string; hand: string; left: string; right: string;
     /** Index, middle, ring, pinky: fingers 1 to 4. */
@@ -342,7 +373,7 @@ const en: Strings = {
     privacyTitle: "Privacy",
     privacyDescription: "What Diesis does with your data: no account, no ads, and your settings and scores never leave your browser. Visits are counted with Google Analytics and PostHog only if you allow it.",
   },
-  nav: { tools: "Tools", faq: "FAQ", cta: "Open the app", privacy: "Privacy", about: "About Diesis", areas: { learn: "Learn", practice: "Practice", setup: "Setup" }, learnTools: ["Name the note", "Find the note"], practiceTools: ["The neck", "Metronome", "Backing tracks", "Fingers"], setupTools: ["Strings"], learnSoon: ["Hear the note"], setupSoon: ["Tuner", "My guitars"], soon: "Soon", collapse: "Collapse the sidebar", expand: "Open the sidebar" },
+  nav: { tools: "Tools", faq: "FAQ", cta: "Open the app", privacy: "Privacy", about: "About Diesis", areas: { learn: "Learn", practice: "Practice", setup: "Setup" }, learnTools: ["Name the note", "Find the note"], practiceTools: ["The neck", "Metronome", "Backing tracks", "Fingers"], setupTools: ["Strings", "Tuner"], learnSoon: ["Hear the note"], setupSoon: ["Intonation", "My guitars"], soon: "Soon", collapse: "Collapse the sidebar", expand: "Open the sidebar" },
   hero: {
     eyebrow: "The guitar practice app",
     h1: ["Know the neck.", "Lock in the tempo.", "Dial in your guitar."],
@@ -507,6 +538,7 @@ const en: Strings = {
       { side: "Practice", title: "Backing tracks", body: "Jam over tracks in every style, with the key and the scale to play shown on each." },
       { side: "Practice", title: "Finger independence", body: "Four pads, one per finger, and notes falling onto them on the click. Hit each one as it lands and see how close you were." },
       { side: "Setup", title: "Strings and setup", body: "Every string's tension for your tuning, a balanced set worked out for you, and the setup numbers for your guitar." },
+      { side: "Setup", title: "Tuner", body: "Tune through the microphone in your guitar's own tuning. It hears the string you play and shows which way to turn the peg." },
     ],
   },
   features: {
@@ -685,6 +717,31 @@ const en: Strings = {
           { q: "Do I have to adjust the guitar after changing gauge?", a: "Usually. Heavier strings pull harder on the neck, so check the relief first, then the action, then the intonation. Diesis lists the steps in that order." },
         ],
       },
+      tuner: {
+        slug: "guitar-tuner",
+        metaTitle: "Online guitar tuner for 6, 7 and 8 strings and any tuning · Diesis",
+        description: "A free guitar tuner in your browser. It listens through the microphone, finds which string you are playing in your tuning (standard, drop D, seven and eight strings) and shows how far off it is.",
+        h1: "A tuner that already knows your tuning.",
+        lede: "Pick your tuning once, play a string and see which way to turn the peg. Six, seven or eight strings, standard or drop, with a reference pitch you can change.",
+        cta: "Open the tuner",
+        points: [
+          { title: "Your tuning, not just standard", body: "Standard, drop D, DADGAD, open tunings, baritone, and the low tunings of seven and eight strings. The tuner uses the one you pick." },
+          { title: "It finds the string for you", body: "Play any string and it picks the closest one of your tuning. Or tap a string to hear it and tune to that one only." },
+          { title: "A tape you can read at a glance", body: "The tape slides under a fixed needle: left is flat, right is sharp, green is in tune, and each string you finish gets a tick." },
+          { title: "Reference pitch", body: "A 440 by default. Change it to 432, 442 or anything between 415 and 466 if you play with others tuned differently." },
+        ],
+        steps: [
+          { title: "Pick your tuning", body: "Six, seven or eight strings, then the tuning you play in." },
+          { title: "Tap Start tuning", body: "Your browser asks for the microphone. Allow it, and play a string." },
+          { title: "Turn the peg", body: "Flat, tune up; sharp, tune down. When the tape turns green, move on to the next string." },
+        ],
+        faq: [
+          { q: "Is the sound recorded?", a: "No. The microphone is analyzed on your device a moment at a time and thrown away. Nothing is saved or sent, and it only listens while the tuner is on." },
+          { q: "Why does it say the wrong string?", a: "It picks the string of your tuning that is closest to what it hears. If you are very far off, tap the string you want: it plays the note and measures against that one." },
+          { q: "Does it work for a seven or eight-string guitar?", a: "Yes. Choose the number of strings and the tuning in the tuner. The lowest strings need a clean pluck and a quiet room, since a low string has a slow, soft sound." },
+          { q: "Does it work with an acoustic, a bass or a ukulele?", a: "It reads any single note from 30 to 1,000 Hz, so an acoustic works. The tunings it offers are for six, seven and eight-string guitars." },
+        ],
+      },
     },
   },
   notFound: { title: "This page does not exist.", body: "The address may be mistyped, or the page has moved.", home: "Go to Diesis" },
@@ -728,7 +785,8 @@ const en: Strings = {
     lede: "Look after the guitar itself: strings, tension and setup.",
     modes: [
       { title: "Strings and setup", body: "Each string's tension, the gauges that suit your guitar and tuning, and the setup numbers for your type of guitar." },
-      { title: "Tuner and intonation", body: "Tune through the microphone in your guitar's own tuning. Then play each string open and at the 12th fret, and it tells you which way to move the saddle, and how far." },
+      { title: "Tuner", body: "Tune through the microphone, in your guitar's own tuning. It hears which string you play and shows how far off it is and which way to turn the peg." },
+      { title: "Intonation", body: "Play each string open and at the 12th fret, and it tells you which way to move the saddle, and how far." },
       { title: "My guitars", body: "More than one guitar, each with its type, scale, tuning, strings and the setup you last gave it. Pick the one in your hands and the whole of Diesis uses it." },
       { title: "Changing tuning", body: "Going from standard to drop C? What each string's tension does, whether your set still works, and what to check after: the truss rod and the intonation." },
       { title: "Why does it buzz?", body: "Pick what is wrong (buzz on the low frets, buzz up the neck, notes going sharp up the neck, a string catching in the nut) and get the likely cause and the order to fix it." },
@@ -816,6 +874,35 @@ const en: Strings = {
     slower: "Slower",
     faster: "Faster",
     keys: "Keys: Space starts and stops, ← → change the tempo (Shift for 5 at a time), T taps it.",
+  },
+  tuner: {
+    title: "Tuner",
+    tuning: "Tuning",
+    reference: "Reference",
+    referenceValue: "A {hz}",
+    start: "Start tuning",
+    starting: "Starting…",
+    stop: "Stop",
+    idle: "Tap Start tuning, then play a string.",
+    listening: "Listening… play a string",
+    inTune: "In tune",
+    flat: "Flat · tune up",
+    sharp: "Sharp · tune down",
+    string: "String {n}",
+    hintAuto: "Automatic. Tap a string to hear it and tune to that one.",
+    hintPinned: "Tuning string {n} only. Tap it again for automatic.",
+    denied: "Diesis can't use the microphone. Allow it for this site in your browser's settings, then start again.",
+    unsupported: "This browser can't open the microphone. Try Safari or Chrome.",
+    error: "The microphone didn't start. Check that no other app is using it, then try again.",
+    tuningTitle: "Tuning",
+    stringCount: "Strings",
+    count: "{n} strings",
+    sameAsProfile: "This is the same tuning as in your profile.",
+    referenceTitle: "Reference pitch",
+    referenceLede: "The A every other note is tuned against. 440 is the standard; 432 and 442 are the usual others.",
+    lower: "Lower",
+    higher: "Higher",
+    tapeLabel: "{n} cents",
   },
   fingers: {
     title: "Finger independence",
@@ -976,6 +1063,7 @@ const en: Strings = {
       { h: "The app", p: ["Diesis runs entirely in your browser. It does not ask who you are, does not create an account, and does not send your answers, scores or settings to me or to anyone else.", "Your score for a session is held in memory and disappears when you close the tab. Everything else you choose or earn stays in your browser's local storage, on your device only: your guitar (strings and tuning), how notes are named, your personal bests and the challenge you last picked, the metronome's settings (including a speed-up plan), the finger exercise's settings and your fastest clean runs in it, what you last picked on the neck, your guitar type, scale length and string gauges, and your practice log (your goal and what you write each day). None of it is ever sent anywhere. The Erase my data button in your profile removes it, and so does clearing the site's data."] },
       { h: "Cookies", p: ["Diesis sets two cookies. One remembers the language you picked; the other remembers your answer to the analytics banner. Neither holds anything about you."] },
       { h: "This website", p: ["diesis.app is hosted by Vercel, which keeps standard server logs (IP address, browser, pages requested) for a short time to run the service and keep it safe.", "If you allow it in the banner, the site loads Google Analytics 4 and PostHog to count visits and see which pages and tools are opened, for how long, how fast they load and from what kind of device. Google sets its own cookies for that; PostHog keeps a random identifier in your browser's local storage, does not record your screen or your clicks, and stores its data in the European Union. Each processes the data under its own privacy policy. If you decline, nothing from Google or PostHog is loaded, and you can change your mind by clearing the site's cookies."] },
+      { h: "The tuner's microphone", p: ["The tuner listens through your microphone only while it is on, and only to work out which note you are playing. Your browser asks for permission first, and you can take it back in its settings whenever you like.", "The sound is analysed on your device, a moment at a time, and thrown away. It is not recorded, saved or sent to me or to anyone else."] },
       { h: "Backing tracks", p: ["The backing tracks page shows thumbnails served by YouTube (i.ytimg.com), so YouTube sees your IP address when the page loads. The video player comes from youtube-nocookie.com and loads only when you press play on a track; from then on YouTube's privacy policy applies to that video. Diesis sends YouTube nothing about you."] },
       { h: "Links to Amazon", p: ["Some pages link to searches on Amazon.es with my Associates store id, so Amazon can tell the visit came from Diesis. Nothing is loaded from Amazon until you click, and Diesis sends Amazon nothing about you; once you are on Amazon, its own privacy policy and cookies apply. As an Amazon Associate I earn from qualifying purchases."] },
       { h: "Feedback", p: ["If you send the feedback form, what you write (your name, your message and your email if you give one) is emailed to me through Resend, together with the page you sent it from, the language, your guitar setting and your browser. It is not kept anywhere else: it stays in my inbox and I use it only to improve Diesis and to answer you."] },
@@ -1000,7 +1088,7 @@ const es: Strings = {
     privacyTitle: "Privacidad",
     privacyDescription: "Qué hace Diesis con tus datos: sin cuenta, sin anuncios, y tus ajustes y tus marcas no salen de tu navegador. Las visitas se cuentan con Google Analytics y PostHog solo si tú lo permites.",
   },
-  nav: { tools: "Herramientas", faq: "Preguntas", cta: "Abrir la app", privacy: "Privacidad", about: "Sobre Diesis", areas: { learn: "Aprender", practice: "Practicar", setup: "Ajuste" }, learnTools: ["Nombra la nota", "Encuentra la nota"], practiceTools: ["El mástil", "Metrónomo", "Backing tracks", "Dedos"], setupTools: ["Cuerdas"], learnSoon: ["Escucha la nota"], setupSoon: ["Afinador", "Mis guitarras"], soon: "Pronto", collapse: "Plegar la barra lateral", expand: "Desplegar la barra lateral" },
+  nav: { tools: "Herramientas", faq: "Preguntas", cta: "Abrir la app", privacy: "Privacidad", about: "Sobre Diesis", areas: { learn: "Aprender", practice: "Practicar", setup: "Ajuste" }, learnTools: ["Nombra la nota", "Encuentra la nota"], practiceTools: ["El mástil", "Metrónomo", "Backing tracks", "Dedos"], setupTools: ["Cuerdas", "Afinador"], learnSoon: ["Escucha la nota"], setupSoon: ["Octavación", "Mis guitarras"], soon: "Pronto", collapse: "Plegar la barra lateral", expand: "Desplegar la barra lateral" },
   hero: {
     eyebrow: "La app para practicar guitarra",
     h1: ["Domina el mástil.", "Clava el tempo.", "Pon a punto tu guitarra."],
@@ -1165,6 +1253,7 @@ const es: Strings = {
       { side: "Practicar", title: "Backing tracks", body: "Bases de todos los estilos para improvisar encima, cada una con su tonalidad y la escala que encaja." },
       { side: "Practicar", title: "Independencia de dedos", body: "Cuatro botones, uno por dedo, y notas que caen sobre ellos en el clic. Pulsa cada uno cuando le llega la suya y mira lo cerca que has quedado." },
       { side: "Ajuste", title: "Cuerdas y ajuste", body: "La tensión de cada cuerda con tu afinación, un juego equilibrado calculado para ti y las medidas de ajuste de tu guitarra." },
+      { side: "Ajuste", title: "Afinador", body: "Afina con el micrófono en la afinación de tu guitarra. Oye la cuerda que tocas y te dice hacia dónde girar la clavija." },
     ],
   },
   features: {
@@ -1343,6 +1432,31 @@ const es: Strings = {
           { q: "¿Hay que ajustar la guitarra al cambiar de calibre?", a: "Casi siempre. Unas cuerdas más gruesas tiran más del mástil, así que revisa primero la curvatura, después la altura y por último la octavación. Diesis te da los pasos en ese orden." },
         ],
       },
+      tuner: {
+        slug: "afinador",
+        metaTitle: "Afinador de guitarra online para 6, 7 y 8 cuerdas y cualquier afinación · Diesis",
+        description: "Un afinador de guitarra gratis en el navegador. Escucha con el micrófono, averigua qué cuerda tocas en tu afinación (estándar, drop D, siete y ocho cuerdas) y te dice cuánto te falta.",
+        h1: "Un afinador que ya sabe cuál es tu afinación.",
+        lede: "Elige tu afinación una vez, puntea una cuerda y mira hacia dónde girar la clavija. Seis, siete u ocho cuerdas, estándar o drop, con un tono de referencia que puedes cambiar.",
+        cta: "Abrir el afinador",
+        points: [
+          { title: "Tu afinación, no solo la estándar", body: "Estándar, drop D, DADGAD, afinaciones abiertas, barítona y las afinaciones graves de siete y ocho cuerdas. El afinador usa la que elijas." },
+          { title: "Averigua la cuerda por ti", body: "Toca la cuerda que sea y elige la más cercana de tu afinación. O toca una cuerda en pantalla para oírla y afinar solo esa." },
+          { title: "Una cinta que se lee de un vistazo", body: "La cinta se desliza bajo una aguja fija: a la izquierda grave, a la derecha aguda, en verde está afinada, y cada cuerda que terminas se marca." },
+          { title: "Tono de referencia", body: "La 440 por defecto. Cámbialo a 432, 442 o lo que quieras entre 415 y 466 si tocas con gente afinada distinto." },
+        ],
+        steps: [
+          { title: "Elige tu afinación", body: "Seis, siete u ocho cuerdas, y después la afinación en la que tocas." },
+          { title: "Toca Empezar a afinar", body: "El navegador te pide el micrófono. Permítelo y puntea una cuerda." },
+          { title: "Gira la clavija", body: "Grave, sube; aguda, baja. Cuando la cinta se ponga verde, pasa a la siguiente cuerda." },
+        ],
+        faq: [
+          { q: "¿Se graba el sonido?", a: "No. El micrófono se analiza en tu dispositivo, un instante cada vez, y se descarta. No se guarda ni se envía nada, y solo escucha mientras el afinador está encendido." },
+          { q: "¿Por qué me dice una cuerda que no es?", a: "Elige la cuerda de tu afinación que más se acerca a lo que oye. Si estás muy desafinada, toca en pantalla la cuerda que quieres: suena la nota y mide contra esa." },
+          { q: "¿Sirve para una guitarra de siete u ocho cuerdas?", a: "Sí. Elige el número de cuerdas y la afinación en el propio afinador. Las cuerdas más graves piden una pulsación limpia y una habitación tranquila, porque suenan lentas y suaves." },
+          { q: "¿Sirve para acústica, bajo o ukelele?", a: "Lee cualquier nota suelta entre 30 y 1.000 Hz, así que una acústica va bien. Las afinaciones que ofrece son las de guitarras de seis, siete y ocho cuerdas." },
+        ],
+      },
     },
   },
   notFound: { title: "Esta página no existe.", body: "Puede que la dirección esté mal escrita o que la página se haya movido.", home: "Ir a Diesis" },
@@ -1386,7 +1500,8 @@ const es: Strings = {
     lede: "Cuida la guitarra en sí: cuerdas, tensión y ajuste.",
     modes: [
       { title: "Cuerdas y ajuste", body: "La tensión de cada cuerda, los calibres que le van a tu guitarra y tu afinación, y las medidas de ajuste para tu tipo de guitarra." },
-      { title: "Afinador y octavación", body: "Afina con el micrófono en la afinación de tu guitarra. Después tocas cada cuerda al aire y en el traste 12, y te dice hacia dónde mover la selleta y cuánto." },
+      { title: "Afinador", body: "Afina con el micrófono, en la afinación de tu guitarra. Oye qué cuerda tocas y te enseña cuánto te falta y hacia dónde girar la clavija." },
+      { title: "Octavación", body: "Tocas cada cuerda al aire y en el traste 12, y te dice hacia dónde mover la selleta y cuánto." },
       { title: "Mis guitarras", body: "Más de una guitarra, cada una con su tipo, tiro, afinación, cuerdas y el último ajuste que le hiciste. Eliges la que tienes en las manos y todo Diesis la usa." },
       { title: "Cambio de afinación", body: "¿Pasas de estándar a drop C? Qué le pasa a la tensión de cada cuerda, si tu juego sigue valiendo y qué revisar después: el alma y la octavación." },
       { title: "¿Por qué trastea?", body: "Eliges lo que te pasa (trastea en los primeros trastes, trastea arriba del mástil, desafina al subir, una cuerda se engancha en la cejuela) y te dice la causa probable y en qué orden arreglarlo." },
@@ -1474,6 +1589,35 @@ const es: Strings = {
     slower: "Más lento",
     faster: "Más rápido",
     keys: "Teclado: espacio para empezar o parar, ← → cambian el tempo (con Mayús, de 5 en 5), T para marcarlo.",
+  },
+  tuner: {
+    title: "Afinador",
+    tuning: "Afinación",
+    reference: "Referencia",
+    referenceValue: "La {hz}",
+    start: "Empezar a afinar",
+    starting: "Arrancando…",
+    stop: "Parar",
+    idle: "Toca Empezar a afinar y puntea una cuerda.",
+    listening: "Escuchando… toca una cuerda",
+    inTune: "En tono",
+    flat: "Grave · sube",
+    sharp: "Aguda · baja",
+    string: "Cuerda {n}",
+    hintAuto: "Automático. Toca una cuerda para oírla y afinar esa.",
+    hintPinned: "Afinando solo la cuerda {n}. Tócala otra vez para volver al automático.",
+    denied: "Diesis no puede usar el micrófono. Permítelo para esta web en los ajustes del navegador y vuelve a empezar.",
+    unsupported: "Este navegador no puede abrir el micrófono. Prueba con Safari o Chrome.",
+    error: "El micrófono no ha arrancado. Mira que no lo esté usando otra app y vuelve a intentarlo.",
+    tuningTitle: "Afinación",
+    stringCount: "Cuerdas",
+    count: "{n} cuerdas",
+    sameAsProfile: "Es la misma afinación que tienes en tu perfil.",
+    referenceTitle: "Tono de referencia",
+    referenceLede: "El La contra el que se afinan todas las demás notas. 440 es lo habitual; 432 y 442 son las otras que se ven.",
+    lower: "Más grave",
+    higher: "Más agudo",
+    tapeLabel: "{n} cents",
   },
   fingers: {
     title: "Independencia de dedos",
@@ -1634,6 +1778,7 @@ const es: Strings = {
       { h: "La app", p: ["Diesis funciona por completo en tu navegador. No te pregunta quién eres, no crea ninguna cuenta y no envía tus respuestas, tus marcas ni tus ajustes a nadie, ni a mí ni a terceros.", "La puntuación de cada sesión se guarda en memoria y desaparece al cerrar la pestaña. Todo lo demás que eliges o consigues se queda en el almacenamiento local de tu navegador, solo en tu dispositivo: tu guitarra (cuerdas y afinación), cómo se nombran las notas, tus mejores marcas y el último reto que elegiste, los ajustes del metrónomo (con el plan de subida de tempo), los ajustes del ejercicio de dedos y tus pasadas limpias más rápidas, lo último que elegiste en el mástil, tu tipo de guitarra, tiro y calibres de cuerda, y tu diario de práctica (tu objetivo y lo que apuntas cada día). Nada de eso se envía nunca a ningún sitio. El botón «Borrar mis datos» de tu perfil lo elimina, y también borrar los datos de la web."] },
       { h: "Cookies", p: ["Diesis guarda dos cookies: una recuerda el idioma que has elegido y la otra, lo que respondiste al aviso de analítica. Ninguna contiene datos sobre ti."] },
       { h: "Esta web", p: ["diesis.app está alojada en Vercel, que conserva durante poco tiempo los registros habituales de cualquier servidor (dirección IP, navegador, páginas solicitadas) para que el servicio funcione y esté protegido.", "Si lo permites en el aviso, la web carga Google Analytics 4 y PostHog para contar visitas y ver qué páginas y herramientas se abren, durante cuánto tiempo, lo rápido que cargan y desde qué tipo de dispositivo. Google instala sus propias cookies para ello; PostHog guarda un identificador aleatorio en el almacenamiento local de tu navegador, no graba tu pantalla ni tus clics y conserva sus datos en la Unión Europea. Cada uno trata los datos según su propia política de privacidad. Si dices que no, no se carga nada de Google ni de PostHog; puedes cambiar de opinión borrando las cookies de la web."] },
+      { h: "El micrófono del afinador", p: ["El afinador escucha por el micrófono solo mientras está encendido, y solo para averiguar qué nota tocas. El navegador te pide permiso antes, y puedes retirarlo cuando quieras en sus ajustes.", "El sonido se analiza en tu dispositivo, un instante cada vez, y se descarta. No se graba, no se guarda y no se envía ni a mí ni a nadie."] },
       { h: "Backing tracks", p: ["La página de backing tracks muestra miniaturas que sirve YouTube (i.ytimg.com), así que YouTube ve tu dirección IP al cargarla. El reproductor viene de youtube-nocookie.com y solo se carga cuando pulsas play en una base; a partir de ahí, a ese vídeo se le aplica la política de privacidad de YouTube. Diesis no le envía a YouTube nada sobre ti."] },
       { h: "Enlaces a Amazon", p: ["Algunas páginas enlazan a búsquedas en Amazon.es con mi identificador de afiliado, para que Amazon sepa que la visita viene de Diesis. No se carga nada de Amazon hasta que haces clic, y Diesis no le envía nada sobre ti; una vez en Amazon, se aplican su política de privacidad y sus cookies. En calidad de Afiliado de Amazon, obtengo ingresos por las compras adscritas que cumplen los requisitos aplicables."] },
       { h: "Sugerencias", p: ["Si envías el formulario de sugerencias, lo que escribes (tu nombre, tu mensaje y tu email si lo dejas) me llega por email a través de Resend, junto con la página desde la que lo envías, el idioma, la guitarra de tu perfil y tu navegador. No se guarda en ningún otro sitio: se queda en mi correo y solo lo uso para mejorar Diesis y contestarte."] },

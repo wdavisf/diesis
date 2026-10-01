@@ -36,8 +36,8 @@ Todoist project records what is still to do.
   tension, setup). `/start` shows three doors; the app's navigation three sides (`nav.areas.setup`,
   `nav.setupTools`, `SIDES` in `components/app-nav.tsx`, `SETUP_ITEMS`, `setupMenu`). When a tool arrives, ask which of
   the three sides it belongs to rather than defaulting to Practice.
-  Upcoming Setup tools, shown as cards (Will, 2026-09-26): tuner and intonation, my guitars
-  (next); changing tuning, why does it buzz, string log, care and humidity (later). The tuner
+  Upcoming Setup tools, shown as cards (Will, 2026-09-26): intonation, my guitars
+  (next; the tuner is built, 0.33.0); changing tuning, why does it buzz, string log, care and humidity (later). The tuner
   moved here from Practice.
 - **Market (decided 2026-09-25, Claude's call when Will asked):** English is the main market for
   the future premium plan; Spanish is a full second language at `/es`, and Spain is where the
@@ -118,6 +118,28 @@ Todoist project records what is still to do.
   `lib/game/use-challenge.ts`. Personal bests in localStorage `diesis_best:<mode>:<challenge>`
   (per browser, never sent; the privacy page says so), last pick in `diesis_challenge`. The
   Todoist "note-count challenge" (fixed number of notes, timed) is not built.
+- **Tuner (Will, 2026-10-01: "mete el afinador"; built 0.33.0).** Setup side, `/setup/tuner`,
+  «Afinador». Will chose it from five mockups in the chat: the **tape** (the metronome ruler's
+  idea: ticks every 5 cents sliding under a fixed needle, ±50), the big note, the row of strings
+  under it, from the other options only the idea of hearing a string. He then asked for the
+  tuning to be picked on the screen and the string count too: two buttons at the top that show
+  what they hold, **Tuning** («6 strings · Standard») and **Reference** («A 440»), each opening
+  a `Sheet` (now shared, `components/sheet.tsx`, taken out of the metronome). The tuning sheet
+  has 6 / 7 / 8 at the top (a new count starts on that count's standard) and the list of
+  `tuningsFor(n)`; it is the profile's `diesis_guitar`, so the exercises, the neck and the strings
+  tool follow. The string row is the tuning's own strings, string 1 first (the sheet lists them
+  low to high); **tap = hear the note and pin the tuner to that string, tap again = automatic**.
+  Strings held in tune ~0.4 s get a green tick, cleared when the tuning changes or a tick drifts
+  out. Pitch is YIN in `lib/core/tuner.ts` (coarse pass on a quarter-rate copy, fine pass at full
+  rate; tests down to 28 MIDI, an 8-string's low string), the microphone in
+  `lib/audio/tuner-engine.ts` (voice processing off; iOS audio session `play-and-record`),
+  state in `lib/game/use-tuner.ts`; the reference pitch is kept in `diesis_tuner`. Reference notes
+  use the nylon samples, detuned by `NotePlayer.play(midi, detune)` for a reference other than
+  440, and the microphone is deaf for 1.8 s after one so it does not tune to the speaker. The
+  privacy page has "The tuner's microphone"; keep it true (nothing recorded or sent). Notes in
+  the sheet and row are spelled with sharps like the rest of the app (E♭ standard reads D♯ G♯…).
+  Not verified on a real phone yet: the browser pane has no microphone, the loop was tested with
+  a synthetic oscillator.
 - **Metronome** (built 2026-09-25, Will: "empieza con el metrónomo"): open `/practice/metronome`,
   an upright screen (no neck, never sideways). Tempo 20–300 on the tempo ruler, typed, or by tap tempo
   (average of the last five taps, a 2 s pause starts over); the Italian marking under the
@@ -606,7 +628,7 @@ points to it and keeps `/lang/` out. Add new public pages to the sitemap.
   `privacy/`, `[feature]/` (each tool's public page), `(app)/` (the app: `layout.tsx` with the
   app's navigation, `template.tsx`, `start/`, `learn/` with `name-the-note/` and `find-the-note/`,
   `practice/` with `neck/`, `metronome/`, `backing-tracks/` and `fingers/`, `setup/` with
-  `strings/`, `log/`, `profile/`). `(es)/`: `layout.tsx` (lang es), `es/` with the same pages in Spanish
+  `strings/`, `tuner/`, `log/`, `profile/`). `(es)/`: `layout.tsx` (lang es), `es/` with the same pages in Spanish
   (`es/(app)/` only re-exports the English app screens) and `roadmap/`. Outside both:
   `lang/[code]/` (cookie setter), `global-not-found.tsx` (the 404 page), `sitemap.ts`,
   `robots.ts`, `actions/`, `globals.css` (the theme tokens). Fonts, metadata defaults and the

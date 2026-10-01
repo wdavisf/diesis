@@ -30,6 +30,7 @@ const nextConfig: NextConfig = {
         ["metronome", "metronomo"],
         ["finger-independence", "independencia-de-dedos"],
         ["strings", "cuerdas"],
+        ["guitar-tuner", "afinador"],
       ].flatMap(([en, es]) => [
         { source: `/es/${en}`, destination: `/es/${es}`, permanent: true },
         { source: `/${es}`, destination: `/es/${es}`, permanent: true },
