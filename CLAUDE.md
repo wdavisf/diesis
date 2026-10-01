@@ -85,8 +85,12 @@ Todoist project records what is still to do.
   opens on `components/setup-screen.tsx`, upright inside the same `GameShell`. Will chose it from
   mockups in the chat, in three picks: the title in Fraunces with the one-line hint (a phone's top
   bar already names the tool, so there only the hint); **a still of the exercise on the neck**
-  (`Preview`: the player's own strings, frets 0–12; Name the note lights one position, Find the
-  note shows every A found but one; bare dots on a phone, where a letter does not fit);
+  (`Preview`: the player's own strings, frets 0–12, never under 150 px tall so a dot holds a
+  note's name on a phone too). **It moves (Will, 2026-10-01: "can you animate them"; 0.32.1):**
+  Name the note lights a position, turns it green with its name, then lights another; Find the
+  note finds every place of a note one by one up the neck, holds, then takes the next note (A,
+  C, E, G, D). The modes build the marks from `useDemoTick` (`lib/game/use-demo.ts`), which only
+  ticks on the setup screen and gives null under Reduce Motion, when they show a still. No sound;
   **the three challenges as cards** (icon, name, a short line, and the best kept for it: "Your
   best: 34", "No best yet", or "No score kept" for Practice; the minutes are chips inside the
   Against the clock card and stay as last picked; the whole card is the radio); **Notes and Note

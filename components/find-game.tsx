@@ -2,9 +2,10 @@
 
 import { useEffect, useMemo } from "react";
 import { createNotePlayer } from "@/lib/audio/note-player";
-import { namesFor, pitchClassAt, samePosition } from "@/lib/core/notes";
+import { namesFor, pitchClassAt, samePosition, type PitchClass } from "@/lib/core/notes";
 import { DEFAULT_SETTINGS, positionsOf } from "@/lib/core/quiz";
 import { useChallenge } from "@/lib/game/use-challenge";
+import { useDemoTick } from "@/lib/game/use-demo";
 import { useModeB } from "@/lib/game/use-mode-b";
 import { useSettings } from "@/lib/game/use-settings";
 import { useGuitar } from "@/lib/game/use-guitar";
@@ -15,6 +16,10 @@ import { GameFrame, GameShell } from "@/components/game-frame";
 import { SetupScreen } from "@/components/setup-screen";
 import { cn } from "@/lib/utils";
 import type { Lang, Strings } from "@/lib/i18n";
+
+/** The notes the setup screen's picture looks for, one after another, and how long each stays whole. */
+const DEMO_NOTES: readonly PitchClass[] = [9, 0, 4, 7, 2];
+const DEMO_HOLD = 4;
 
 /** Mode B, Find the note. */
 export function FindGame({
@@ -43,6 +48,7 @@ export function FindGame({
 
   const over = run.tally.over;
   const picking = game.phase === "idle" || game.phase === "loading";
+  const tick = useDemoTick(420, picking);
   const { halt } = game;
   useEffect(() => {
     if (over) halt();
@@ -87,10 +93,27 @@ export function FindGame({
   const allFound = round !== null && game.found.length === round.positions.length;
 
   if (picking) {
-    // The still on the setup screen: every A on this neck, all found but the last.
-    const preview: Mark[] = positionsOf(9, settings)
-      .slice(0, -1)
-      .map((position) => ({ position, state: "correct", label: names[9] }));
+    // The picture on the setup screen, moving: every place of a note found one by one up the neck,
+    // then the next note. Under Reduce Motion a still: every A, all found but the last.
+    let note: PitchClass = DEMO_NOTES[0];
+    let found = -1;
+    if (tick !== null) {
+      const total = DEMO_NOTES.reduce<number>((n, pc) => n + positionsOf(pc, settings).length + DEMO_HOLD, 0);
+      let left = tick % total;
+      for (const pc of DEMO_NOTES) {
+        const span = positionsOf(pc, settings).length + DEMO_HOLD;
+        if (left < span) {
+          note = pc;
+          found = left + 1;
+          break;
+        }
+        left -= span;
+      }
+    }
+    const preview: Mark[] = [...positionsOf(note, settings)]
+      .sort((a, b) => a.fret - b.fret || a.string - b.string)
+      .slice(0, found)
+      .map((position) => ({ position, state: "correct", label: names[note] }));
     return (
       <GameShell t={t} title={tf.title}>
         <SetupScreen

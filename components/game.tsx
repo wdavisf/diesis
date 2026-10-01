@@ -2,8 +2,9 @@
 
 import { useEffect, useMemo } from "react";
 import { createNotePlayer } from "@/lib/audio/note-player";
-import { namesFor, NATURAL_PITCH_CLASSES, type PitchClass } from "@/lib/core/notes";
-import { DEFAULT_SETTINGS } from "@/lib/core/quiz";
+import { namesFor, NATURAL_PITCH_CLASSES, pitchClassAt, type PitchClass } from "@/lib/core/notes";
+import { candidatePositions, DEFAULT_SETTINGS } from "@/lib/core/quiz";
+import { useDemoTick } from "@/lib/game/use-demo";
 import { useChallenge } from "@/lib/game/use-challenge";
 import { useModeA } from "@/lib/game/use-mode-a";
 import { useSettings } from "@/lib/game/use-settings";
@@ -35,6 +36,7 @@ export function Game({ t, tc, ts, lang }: { t: Strings["game"]; tc: Strings["cha
 
   const over = run.tally.over;
   const picking = game.phase === "idle" || game.phase === "loading";
+  const tick = useDemoTick(650, picking);
   const { halt } = game;
   useEffect(() => {
     if (over) halt();
@@ -73,6 +75,12 @@ export function Game({ t, tc, ts, lang }: { t: Strings["game"]; tc: Strings["cha
   const score = t.score.replace("{r}", String(run.tally.right)).replace("{w}", String(run.tally.wrong));
 
   if (picking) {
+    // The picture on the setup screen, moving: a note lights up, then turns green with its name,
+    // then the next one somewhere else on the neck. A still of the first one under Reduce Motion.
+    const spots = candidatePositions(settings);
+    const step = tick ?? 0;
+    const spot = spots[(Math.floor(step / 4) * 17 + 5) % spots.length];
+    const named = step % 4 >= 2;
     return (
       <GameShell t={t} title={t.title}>
         <SetupScreen
@@ -80,7 +88,7 @@ export function Game({ t, tc, ts, lang }: { t: Strings["game"]; tc: Strings["cha
           tc={tc}
           ts={ts}
           hint={t.startSub}
-          marks={[{ position: { string: 5, fret: 3 }, state: "asking" }]}
+          marks={[{ position: spot, state: named ? "correct" : "asking", label: named ? names[pitchClassAt(spot, tuning)] : undefined }]}
           strings={tuning.length}
           boardLabel={t.board}
           value={run.challenge}

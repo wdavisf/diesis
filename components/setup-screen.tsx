@@ -108,18 +108,18 @@ function Tiles({ label, children }: { label: string; children: ReactNode }) {
 }
 
 /**
- * A still of the exercise on the player's own neck, so the screen shows what Start leads to.
- * Drawn at the width it has: a strip on a phone, a full board beside the sidebar.
+ * The exercise pictured on the player's own neck, so the screen shows what Start leads to; the
+ * marks come from the mode, which moves them (`useDemoTick`). Drawn at the width it has: a strip
+ * on a phone, a full board beside the sidebar.
  */
 function Preview({ marks, strings, label }: { marks: Mark[]; strings: number; label: string }) {
   const { ref, size } = useSize<HTMLDivElement>();
-  const height = Math.round(Math.min(230, Math.max(120, size.width * 0.26)) * ((strings + 1) / 7));
-  // On a phone's strip the dots are smaller than a letter: show them bare.
-  const shown = size.width < 560 ? marks.map((m) => ({ ...m, label: undefined })) : marks;
+  // Never under 150: the dots have to hold a note's name, on a phone too.
+  const height = Math.round(Math.min(230, Math.max(150, size.width * 0.26)) * ((strings + 1) / 7));
   return (
     <div ref={ref} className="min-w-0 [@media(max-height:30rem)]:hidden" style={{ height }}>
       {size.width > 0 ? (
-        <Fretboard label={label} width={size.width} height={height} minFret={DEFAULT_SETTINGS.minFret} maxFret={DEFAULT_SETTINGS.maxFret} strings={strings} marks={shown} />
+        <Fretboard label={label} width={size.width} height={height} minFret={DEFAULT_SETTINGS.minFret} maxFret={DEFAULT_SETTINGS.maxFret} strings={strings} marks={marks} />
       ) : null}
     </div>
   );

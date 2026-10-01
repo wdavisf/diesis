@@ -3,6 +3,12 @@
 Written for the people using it, not for the code. Newest first. Version matches
 `package.json`.
 
+## 0.32.1 — 1 October 2026
+
+- The neck on the screen before Name the note and Find the note now moves, so you see the
+  exercise before you start it: a note lights up and gets its name, or every place of a note is
+  found one by one. With Reduce Motion on it stays a still picture.
+
 ## 0.32.0 — 1 October 2026, a practice log
 
 - New: the practice log. Set a goal with a date (a piece, a solo, a concert) and write down each
