@@ -2,6 +2,7 @@
    a position lighting up, the row of note buttons, and the green-or-red verdict. Decorative
    SVG scaled by the card; the note names follow the language (letters or solfège). */
 
+import { useId } from "react";
 import type { Strings } from "@/lib/i18n";
 
 const W = 320;
@@ -50,8 +51,15 @@ function Board({ x, y, w, h, from, to, marks }: { x: number; y: number; w: numbe
   const cells: number[] = [];
   for (let n = from; n <= to; n++) cells.push(n);
   const r = Math.min(gap * 0.46, 11);
+  const haloId = useId();
   return (
     <g>
+      <defs>
+        <radialGradient id={haloId}>
+          <stop offset="35%" stopColor={amber} stopOpacity={0.95} />
+          <stop offset="100%" stopColor={amber} stopOpacity={0} />
+        </radialGradient>
+      </defs>
       <rect x={x} y={y} width={w} height={h} fill={wood} stroke={woodEdge} strokeWidth="1.5" rx="2" />
       {[3, 5, 7, 9].filter((n) => n >= from && n <= to).map((n) => (
         <circle key={n} cx={cx(n)} cy={(sy(3) + sy(4)) / 2} r={Math.min(gap * 0.28, 5)} fill={inlay} opacity="0.9" />
@@ -76,7 +84,8 @@ function Board({ x, y, w, h, from, to, marks }: { x: number; y: number; w: numbe
       ))}
       {marks.map((m, i) => (
         <g key={i}>
-          {m.glow ? <circle cx={cx(m.fret)} cy={sy(m.string)} r={r * 2.2} fill={m.fill} opacity="0.18" /> : null}
+          {/* The same breathing glow as the real neck's asked note (`.mark-halo` in globals.css). */}
+          {m.glow ? <circle className="mark-halo" cx={cx(m.fret)} cy={sy(m.string)} r={r * 2.3} fill={`url(#${haloId})`} /> : null}
           <circle cx={cx(m.fret)} cy={sy(m.string)} r={r} fill={m.fill} stroke={m.fill === amber ? amberLight : "none"} strokeWidth="1.5" />
           {m.label ? (
             <text x={cx(m.fret)} y={sy(m.string) + 3.5} fontSize="10" fontWeight="700" fill={ink} textAnchor="middle">

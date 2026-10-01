@@ -197,11 +197,24 @@
   to { transform: none; opacity: 1 }
 }
 
+/* The note being asked glows, breathing slowly, on every neck that shows one: the exercises, the
+   setup screens, the landing and the tool pages (Will, 2026-10-01). A steady glow under Reduce
+   Motion. */
+.mark-halo {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: mark-halo 1.6s ease-in-out infinite;
+}
+@keyframes mark-halo {
+  0%, 100% { opacity: 0.55; transform: scale(0.86) }
+  50% { opacity: 1; transform: scale(1.08) }
+}
+
 /* Anchors on the landing glide; the header nav points at them. */
 html { scroll-behavior: smooth; }
 
 @media (prefers-reduced-motion: reduce) {
-  .mark { animation: none; }
+  .mark, .mark-halo { animation: none; }
   .game-enter, .game-sideways.game-enter { animation: none; }
   html { scroll-behavior: auto; }
 }

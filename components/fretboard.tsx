@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useId, useMemo } from "react";
 import type { Position } from "@/lib/core/notes";
 import { STRING_COUNT } from "@/lib/core/notes";
 
@@ -105,8 +105,16 @@ export function Fretboard({ width, height, minFret, maxFret, marks, onPick, labe
   // Longer names ("Sol", "Do♯", "Sol♯") shrink to stay inside the dot.
   const labelFit = (s: string) => Math.max(9, Math.min(labelSize, (highlightR * 1.8) / (s.length * 0.62)));
 
+  const haloId = useId();
+
   return (
     <svg width={width} height={height} viewBox={`0 0 ${width} ${height}`} role="img" aria-label={label}>
+      <defs>
+        <radialGradient id={haloId}>
+          <stop offset="35%" stopColor={board.highlight} stopOpacity={0.95} />
+          <stop offset="100%" stopColor={board.highlight} stopOpacity={0} />
+        </radialGradient>
+      </defs>
       <rect
         x={layout.left}
         y={layout.boardTop}
@@ -180,6 +188,8 @@ export function Fretboard({ width, height, minFret, maxFret, marks, onPick, labe
         const fill = markFill[m.state];
         return (
           <g key={`mark-${m.position.string}-${m.position.fret}`} className={m.state === "wrong" ? "mark flash-wrong" : "mark"}>
+            {/* The note being asked glows, wherever a neck shows one (`.mark-halo` in globals.css). */}
+            {m.state === "asking" ? <circle className="mark-halo" cx={cx} cy={cy} r={highlightR * 2.3} fill={`url(#${haloId})`} /> : null}
             {m.state === "note" ? null : <circle cx={cx} cy={cy} r={highlightR + 4} fill="none" stroke={fill} strokeWidth={2} opacity={0.55} />}
             <circle cx={cx} cy={cy} r={highlightR} fill={fill} />
             {m.label ? (

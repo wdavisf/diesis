@@ -3,6 +3,12 @@
 Written for the people using it, not for the code. Newest first. Version matches
 `package.json`.
 
+## 0.32.2 — 1 October 2026
+
+- The lit note now glows, breathing slowly, wherever a neck shows one: in the exercises, on the
+  screen before them, on the front page and on each tool's page. With Reduce Motion on the glow
+  holds still.
+
 ## 0.32.1 — 1 October 2026
 
 - The neck on the screen before Name the note and Find the note now moves, so you see the
