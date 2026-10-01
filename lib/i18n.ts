@@ -336,9 +336,9 @@ const en: Strings = {
   otherLabel: "ES",
   otherName: "Español",
   meta: {
-    title: "Diesis — everything you need to master the guitar",
+    title: "Guitar practice app: fretboard trainer, scales, metronome · Diesis",
     description:
-      "Everything you need to master the guitar, in one place. See every note and scale on the neck, learn the notes, build speed with the metronome, jam over backing tracks and work out the strings and setup for your own guitar; scale exercises and reading music come next. Free while in preview, in the browser.",
+      "A guitar practice app in your browser: learn the notes on the fretboard, see every scale on the neck, build speed with a metronome and speed trainer, jam over backing tracks, train finger independence and work out the string tension for your guitar. Free while in preview.",
     privacyTitle: "Privacy",
     privacyDescription: "What Diesis does with your data: no account, no ads, and your settings and scores never leave your browser. Visits are counted with Google Analytics and PostHog only if you allow it.",
   },
@@ -994,9 +994,9 @@ const es: Strings = {
   otherLabel: "EN",
   otherName: "English",
   meta: {
-    title: "Diesis — todo lo que necesitas para dominar la guitarra",
+    title: "App para practicar guitarra: notas del mástil, escalas, metrónomo · Diesis",
     description:
-      "Todo lo que necesitas para dominar la guitarra, en un solo sitio. Hoy, todas las notas y escalas del mástil, un metrónomo que te hace ganar velocidad, backing tracks y las cuerdas y el ajuste de tu propia guitarra; después, ejercicios de escalas y lectura de partituras. Gratis durante la beta y en el navegador.",
+      "Una app para practicar guitarra en el navegador: apréndete las notas del mástil, mira todas las escalas, gana velocidad con el metrónomo y la subida de tempo, improvisa sobre backing tracks, trabaja la independencia de dedos y calcula la tensión de las cuerdas de tu guitarra. Gratis durante la beta.",
     privacyTitle: "Privacidad",
     privacyDescription: "Qué hace Diesis con tus datos: sin cuenta, sin anuncios, y tus ajustes y tus marcas no salen de tu navegador. Las visitas se cuentan con Google Analytics y PostHog solo si tú lo permites.",
   },

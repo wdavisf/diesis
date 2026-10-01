@@ -3,6 +3,12 @@
 Written for the people using it, not for the code. Newest first. Version matches
 `package.json`.
 
+## 0.32.4 — 1 October 2026
+
+- The front page now tells search engines what it is about, a guitar practice app (in Spanish,
+  «app para practicar guitarra»), with the tools listed, instead of only the name Diesis. A
+  shared link to it now carries that title too.
+
 ## 0.32.3 — 1 October 2026
 
 - The lit note's glow is now its own ring, sent out in two small ripples one after the other,

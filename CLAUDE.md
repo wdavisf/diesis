@@ -340,7 +340,7 @@ Todoist project records what is still to do.
   an array): "Know the neck. Lock in the tempo. Dial in your guitar." / «Domina el mástil. Clava
   el tempo. Pon a punto tu guitarra.» **Will does not want "Everything you need to master the
   guitar" as the headline** (2026-09-30; "you can use that below the fold"): it now heads
-  `#tools`, and stays in the page title, the footer and the link-preview card. Each line must
+  `#tools`, and stays in the footer and the link-preview card. Each line must
   fit on one line from `sm` up (`sm:whitespace-nowrap`): check both languages at 1024 and 1440
   when the words change, the Spanish ones are longer.
   **Made by `tools/gen-video.mjs`** in three steps: a still with OpenAI `gpt-image-2` (check it
@@ -554,8 +554,15 @@ Todoist project records what is still to do.
   weighed 680 KB; chat apps want far less). The card from 2026-09-24, the exercise itself ("¿Qué
   nota es?" / "Which note is it?", frets 0–7 with C lit on string 2, the seven natural buttons
   with C green), is now Name the note's own card, `og/name-the-note-<lang>.png`. The page title
-  next to the card is unchanged ("Diesis — everything you need to master the guitar"): Will was
-  asked and did not say, and it is also what Google shows. A page that sets its own `openGraph`
+  next to the card is the landing's search title (next point).
+- **The landing's title targets a search, not the brand (Will, 2026-10-01: nobody searches for
+  "Diesis").** `meta.title`/`meta.description` in i18n: "Guitar practice app: fretboard trainer,
+  scales, metronome · Diesis" / «App para practicar guitarra: notas del mástil, escalas,
+  metrónomo · Diesis», picked from Google's autocomplete ("guitar practice app" and "app para
+  practicar guitarra" are real searches with many variants; "guitar practice tools" had none).
+  The landing aims at the broad phrase; each tool page aims at its own narrow one
+  (`features.pages[*].metaTitle`). They are still guesses with no volumes behind them: check
+  Search Console's queries once it has a few weeks of data and adjust. A page that sets its own `openGraph`
   must repeat `images` (Next replaces the object, it does not merge): `/es` pages use
   `og-es.jpg`. Bump `CARD_VERSION` in `lib/lang.ts` (the `?v=` on every card) when a card changes.
   **A card per tool (Will, 2026-09-29: a shared /setup/strings link showed the landing card and
