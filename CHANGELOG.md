@@ -3,6 +3,19 @@
 Written for the people using it, not for the code. Newest first. Version matches
 `package.json`.
 
+## 0.34.0 — 1 October 2026
+
+- Reading music, four new exercises in Learn, all with natural notes and the treble clef as
+  guitar music is written (an octave above where it sounds):
+  - **Read the note**: a note on the staff; name it.
+  - **Staff to neck**: a note on the staff; tap where it is on the neck.
+  - **Sight reading**: notes come along the staff and you name each before it passes the line.
+    They come faster the more you get right, and one let through counts as a mistake.
+  - **Read a bar**: four notes in a row, named in order.
+- Each one has the same three challenges as Name the note (Practice, Against the clock, No
+  mistakes), its own bests, and a choice of the part of the neck: first position (frets 0–3), up
+  to the 7th fret, or the whole neck. A right answer plays the note.
+
 ## 0.33.1 — 1 October 2026
 
 - The tuner shows a dial with a needle (left for flat, right for sharp, a green zone at the top

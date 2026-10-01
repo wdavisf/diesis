@@ -81,6 +81,28 @@ Todoist project records what is still to do.
   real name for 0.7 s and counts one mistake, the round goes on; the round ends when all are
   found; in Practice a "Show me" button reveals the rest and moves on. Core: `positionsOf`
   and `nextFindRound` in `lib/core/quiz.ts` (never the same note twice in a row).
+- **Reading music, four exercises in Learn (Will, 2026-10-01: "nombra la nota pero de partituras",
+  then "hazlas todas con naturales, como juegos diferentes"; built 0.34.0).** Will chose from five
+  mockups: A (staff and buttons) became **Read the note** `/learn/read-the-note`, C **Staff to
+  neck** `/learn/staff-to-neck` (staff above, the neck below, tap where it is), D **Sight
+  reading** `/learn/sight-reading` (notes scroll toward a "now" line; the oldest unanswered is the
+  target; one passing the line plus a 450 ms grace is a mistake; the gap between notes starts at
+  2.6 s and shrinks 4% per right answer to 1.2 s, `paceAfter`), E **Read a bar**
+  `/learn/read-a-bar` (four notes by step, named in order). **B (seven letters plus ♯/♭) was
+  dropped: with naturals only it is A.** Naturals only, so no accidentals are drawn and no Notes
+  tile appears on the setup screen (`SetupScreen showNotes={false}`); a ♯/♭ level is the obvious
+  next step. Guitar is written an octave above it sounds (`staffStep` in `lib/core/reading.ts`:
+  open low E, MIDI 40, is the E3 under the staff); the lowest note asked is MIDI 40, so 7- and
+  8-string guitars read from the same pool, not their low strings. Each exercise asks from a
+  **zone** of the neck, by highest fret (3, 7 or 12, `READ_ZONES`, chosen on the setup screen,
+  localStorage `diesis_read_zone`), and keeps bests apart per zone (`modeKey(…, fret)`: keys
+  like `read:naturals:f3:timed:60`; exercise ids `read`, `staffneck`, `flow`, `bar` in
+  `records.ts`; the profile spells them out). The note sounds when answered right, never before
+  (hearing it would be the answer). Drawing: `components/staff.tsx`, the clef is the outline of
+  U+1D11E from Noto Music (OFL), the staff scales to the zone's range plus ledger lines. Games:
+  `components/read-game.tsx` (`ReadGame` mode note | neck | bar, `ReadFlow`), hooks
+  `lib/game/use-read.ts` and `use-read-flow.ts`. Not done: a public page per exercise (the
+  landing does not list them yet), a link-preview card each, and Spanish slugs for those pages.
 - **Setup screen (redesigned 2026-10-01, 0.31.0; Will: "this empty state sucks").** Every mode
   opens on `components/setup-screen.tsx`, upright inside the same `GameShell`. Will chose it from
   mockups in the chat, in three picks: the title in Fraunces with the one-line hint (a phone's top

@@ -40,11 +40,15 @@ export function Profile({ t }: { t: Strings }) {
   const bests = useRecords();
   const count = guitar.preset.notes.length;
 
+  const exerciseTitle = (e: Best["exercise"]) =>
+    e === "name" ? t.game.title : e === "find" ? t.find.title : e === "read" ? t.read.note.title : e === "staffneck" ? t.read.neck.title : e === "flow" ? t.read.flow.title : t.read.bar.title;
+
   const bestLabel = (b: Best) =>
     [
-      b.exercise === "name" ? t.game.title : t.find.title,
+      exerciseTitle(b.exercise),
       b.challenge.kind === "timed" ? `${t.challenge.timed} ${t.challenge.minutes.replace("{m}", String(b.challenge.seconds / 60))}` : t.challenge.streak,
-      b.naturals ? t.settings.naturals : null,
+      b.fret !== undefined ? (t.read.zones[[3, 7, 12].indexOf(b.fret)]?.detail ?? null) : null,
+      b.naturals && b.fret === undefined ? t.settings.naturals : null,
       b.strings !== 6 ? p.stringsCount.replace("{n}", String(b.strings)) : null,
     ]
       .filter(Boolean)

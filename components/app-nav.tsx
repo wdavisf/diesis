@@ -3,7 +3,7 @@
 import { useEffect, useSyncExternalStore, type ComponentType, type SVGProps } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { BookOpen, ChevronLeft, Ear, Gauge, Guitar, Hand, Headphones, Metronome, Music2, NotebookPen, PanelLeft, Ruler, Search, SlidersHorizontal, UserRound, Wrench } from "lucide-react";
+import { ArrowRightLeft, BookOpen, ChevronLeft, Ear, Gauge, Guitar, Hand, Headphones, ListMusic, Metronome, Music2, Music4, NotebookPen, PanelLeft, Ruler, ScanEye, Search, SlidersHorizontal, UserRound, Wrench } from "lucide-react";
 import { Feedback } from "@/components/feedback";
 import { LangSwitch } from "@/components/lang-switch";
 import { Logo, LogoMark } from "@/components/logo";
@@ -37,6 +37,10 @@ const SIDES: { id: Side; icon: Icon; tools: { href: string; icon: Icon }[]; soon
     tools: [
       { href: "/learn/name-the-note", icon: Music2 },
       { href: "/learn/find-the-note", icon: Search },
+      { href: "/learn/read-the-note", icon: Music4 },
+      { href: "/learn/staff-to-neck", icon: ArrowRightLeft },
+      { href: "/learn/sight-reading", icon: ScanEye },
+      { href: "/learn/read-a-bar", icon: ListMusic },
     ],
     soon: [Ear],
   },

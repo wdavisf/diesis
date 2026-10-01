@@ -78,7 +78,7 @@ function ChallengeCard({
 }
 
 /** One of two choices, spelled out: its name and what you get with it. */
-function Tile({ name, detail, on, onClick }: { name: string; detail: string; on: boolean; onClick: () => void }) {
+export function Tile({ name, detail, on, onClick }: { name: string; detail: string; on: boolean; onClick: () => void }) {
   return (
     <button
       type="button"
@@ -96,11 +96,11 @@ function Tile({ name, detail, on, onClick }: { name: string; detail: string; on:
   );
 }
 
-function Tiles({ label, children }: { label: string; children: ReactNode }) {
+export function Tiles({ label, children, columns = 2 }: { label: string; children: ReactNode; columns?: 2 | 3 }) {
   return (
     <div className="flex min-w-0 flex-col gap-1.5">
       <span className="text-sm font-medium text-dim">{label}</span>
-      <div role="radiogroup" aria-label={label} className="grid flex-1 grid-cols-2 gap-2">
+      <div role="radiogroup" aria-label={label} className={cn("grid flex-1 gap-2", columns === 3 ? "grid-cols-3" : "grid-cols-2")}>
         {children}
       </div>
     </div>
@@ -139,9 +139,12 @@ export function SetupScreen({
   tc,
   ts,
   hint,
-  marks,
-  strings,
-  boardLabel,
+  marks = [],
+  strings = 6,
+  boardLabel = "",
+  preview,
+  showNotes = true,
+  extra,
   value,
   onChange,
   settings,
@@ -156,9 +159,15 @@ export function SetupScreen({
   /** One line on what the mode asks of you. */
   hint: string;
   /** What the still of the exercise shows on the neck. */
-  marks: Mark[];
-  strings: number;
-  boardLabel: string;
+  marks?: Mark[];
+  strings?: number;
+  boardLabel?: string;
+  /** A picture of the exercise in place of the neck (the reading exercises draw a staff). */
+  preview?: ReactNode;
+  /** False for exercises where which notes are asked is not a choice. */
+  showNotes?: boolean;
+  /** Settings of the exercise's own, above the note names. */
+  extra?: ReactNode;
   value: Challenge;
   onChange: (c: Challenge) => void;
   settings: Settings;
@@ -190,7 +199,7 @@ export function SetupScreen({
           <h1 className="hidden font-display text-3xl font-semibold tracking-tight md:block [@media(max-height:30rem)]:hidden">{title}</h1>
           <p className="text-sm text-dim [@media(max-height:26rem)]:hidden">{hint}</p>
         </div>
-        <Preview marks={marks} strings={strings} label={boardLabel} />
+        {preview ?? <Preview marks={marks} strings={strings} label={boardLabel} />}
         <div role="radiogroup" aria-label={ts.challenge} className="grid grid-cols-1 gap-2 @2xl:grid-cols-3 @2xl:gap-3">
           <ChallengeCard icon={InfinityIcon} name={tc.practice} on={value.kind === "practice"} onPick={() => pick({ kind: "practice" })} best={tc.noScore} scored={false}>
             <p className="text-sm text-dim">{tc.practiceCard}</p>
@@ -208,16 +217,19 @@ export function SetupScreen({
             <p className="text-sm text-dim">{tc.streakCard}</p>
           </ChallengeCard>
         </div>
-        <div className="grid grid-cols-1 gap-3 @2xl:grid-cols-[3fr_2fr] @2xl:gap-4">
-          <Tiles label={ts.notes}>
-            <Tile name={ts.all} detail={names.join(" ")} on={!settings.naturalsOnly} onClick={() => settings.setNaturalsOnly(false)} />
-            <Tile
-              name={ts.naturals}
-              detail={NATURAL_PITCH_CLASSES.map((pc) => names[pc]).join(" ")}
-              on={settings.naturalsOnly}
-              onClick={() => settings.setNaturalsOnly(true)}
-            />
-          </Tiles>
+        {extra}
+        <div className={cn("grid grid-cols-1 gap-3 @2xl:gap-4", showNotes && "@2xl:grid-cols-[3fr_2fr]")}>
+          {showNotes ? (
+            <Tiles label={ts.notes}>
+              <Tile name={ts.all} detail={names.join(" ")} on={!settings.naturalsOnly} onClick={() => settings.setNaturalsOnly(false)} />
+              <Tile
+                name={ts.naturals}
+                detail={NATURAL_PITCH_CLASSES.map((pc) => names[pc]).join(" ")}
+                on={settings.naturalsOnly}
+                onClick={() => settings.setNaturalsOnly(true)}
+              />
+            </Tiles>
+          ) : null}
           <Tiles label={ts.names}>
             <Tile name={ts.solfege} detail={rest("solfege")} on={settings.names === "solfege"} onClick={() => settings.setNames("solfege")} />
             <Tile name={ts.letters} detail={rest("letters")} on={settings.names === "letters"} onClick={() => settings.setNames("letters")} />

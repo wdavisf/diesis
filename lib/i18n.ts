@@ -203,6 +203,20 @@ export interface Strings {
     keys: string;
   };
   /** /practice/fingers (components/fingers.tsx). {ms}, {g}, {n}, {k}, {p}, {bpm}, {w}, {m} as named. */
+  /** The reading exercises (/learn/read-the-note, staff-to-neck, sight-reading, read-a-bar): a note on the staff, written for guitar. */
+  read: {
+    note: { title: string; startSub: string };
+    neck: { title: string; startSub: string; prompt: string };
+    flow: { title: string; startSub: string; missed: string };
+    bar: { title: string; startSub: string; progress: string };
+    staff: string;
+    zone: string;
+    /** Name and detail of each part of the neck, in the order of `READ_ZONES`. */
+    zones: { name: string; detail: string }[];
+    /** Said once, on the setup screen: how guitar music is written. */
+    written: string;
+    keys: string;
+  };
   /** /setup/tuner. {n} a string number or a count, {hz} a frequency. */
   tuner: {
     title: string;
@@ -373,7 +387,7 @@ const en: Strings = {
     privacyTitle: "Privacy",
     privacyDescription: "What Diesis does with your data: no account, no ads, and your settings and scores never leave your browser. Visits are counted with Google Analytics and PostHog only if you allow it.",
   },
-  nav: { tools: "Tools", faq: "FAQ", cta: "Open the app", privacy: "Privacy", about: "About Diesis", areas: { learn: "Learn", practice: "Practice", setup: "Setup" }, learnTools: ["Name the note", "Find the note"], practiceTools: ["The neck", "Metronome", "Backing tracks", "Fingers"], setupTools: ["Strings", "Tuner"], learnSoon: ["Hear the note"], setupSoon: ["Intonation", "My guitars"], soon: "Soon", collapse: "Collapse the sidebar", expand: "Open the sidebar" },
+  nav: { tools: "Tools", faq: "FAQ", cta: "Open the app", privacy: "Privacy", about: "About Diesis", areas: { learn: "Learn", practice: "Practice", setup: "Setup" }, learnTools: ["Name the note", "Find the note", "Read the note", "Staff to neck", "Sight reading", "Read a bar"], practiceTools: ["The neck", "Metronome", "Backing tracks", "Fingers"], setupTools: ["Strings", "Tuner"], learnSoon: ["Hear the note"], setupSoon: ["Intonation", "My guitars"], soon: "Soon", collapse: "Collapse the sidebar", expand: "Open the sidebar" },
   hero: {
     eyebrow: "The guitar practice app",
     h1: ["Know the neck.", "Lock in the tempo.", "Dial in your guitar."],
@@ -764,9 +778,12 @@ const en: Strings = {
     modes: [
       { title: "Name the note", body: "A position lights and plays. Say which note it is." },
       { title: "Find the note", body: "You get a name. Tap every place it lives." },
+      { title: "Read the note", body: "A note on the staff, written for guitar. Name it." },
+      { title: "Staff to neck", body: "A note on the staff. Tap where it lives on the neck." },
+      { title: "Sight reading", body: "Notes come along the staff. Name each one before it passes." },
+      { title: "Read a bar", body: "Four notes in a row. Name them in order." },
       { title: "Hear the note", body: "A note plays with nothing lit. Find it on the neck." },
       { title: "Scale exercises", body: "Build the scale, name the scale, name the degree." },
-      { title: "Reading music", body: "The note on the staff, the place on the neck." },
       { title: "Glossary and technique", body: "What down picking, a hammer-on or a rest stroke is, and how to do it. Electric and classical." },
     ],
   },
@@ -874,6 +891,21 @@ const en: Strings = {
     slower: "Slower",
     faster: "Faster",
     keys: "Keys: Space starts and stops, ← → change the tempo (Shift for 5 at a time), T taps it.",
+  },
+  read: {
+    note: { title: "Read the note", startSub: "A note appears on the staff. Name it." },
+    neck: { title: "Staff to neck", startSub: "A note appears on the staff. Tap where it is on the neck.", prompt: "Tap it on the neck" },
+    flow: { title: "Sight reading", startSub: "Notes come along the staff. Name each one before it passes the line.", missed: "Missed" },
+    bar: { title: "Read a bar", startSub: "Four notes in a row. Name them in order.", progress: "Note {n} of 4" },
+    staff: "Staff in the treble clef",
+    zone: "Part of the neck",
+    zones: [
+      { name: "First position", detail: "Frets 0–3" },
+      { name: "Up to the 7th fret", detail: "Frets 0–7" },
+      { name: "The whole neck", detail: "Frets 0–12" },
+    ],
+    written: "Guitar music is written an octave above where it sounds: your open low E is the E under the staff.",
+    keys: "Keys: C D E F G A B pick a note.",
   },
   tuner: {
     title: "Tuner",
@@ -1088,7 +1120,7 @@ const es: Strings = {
     privacyTitle: "Privacidad",
     privacyDescription: "Qué hace Diesis con tus datos: sin cuenta, sin anuncios, y tus ajustes y tus marcas no salen de tu navegador. Las visitas se cuentan con Google Analytics y PostHog solo si tú lo permites.",
   },
-  nav: { tools: "Herramientas", faq: "Preguntas", cta: "Abrir la app", privacy: "Privacidad", about: "Sobre Diesis", areas: { learn: "Aprender", practice: "Practicar", setup: "Ajuste" }, learnTools: ["Nombra la nota", "Encuentra la nota"], practiceTools: ["El mástil", "Metrónomo", "Backing tracks", "Dedos"], setupTools: ["Cuerdas", "Afinador"], learnSoon: ["Escucha la nota"], setupSoon: ["Octavación", "Mis guitarras"], soon: "Pronto", collapse: "Plegar la barra lateral", expand: "Desplegar la barra lateral" },
+  nav: { tools: "Herramientas", faq: "Preguntas", cta: "Abrir la app", privacy: "Privacidad", about: "Sobre Diesis", areas: { learn: "Aprender", practice: "Practicar", setup: "Ajuste" }, learnTools: ["Nombra la nota", "Encuentra la nota", "Lee la nota", "Pentagrama al mástil", "Primera vista", "Lee un compás"], practiceTools: ["El mástil", "Metrónomo", "Backing tracks", "Dedos"], setupTools: ["Cuerdas", "Afinador"], learnSoon: ["Escucha la nota"], setupSoon: ["Octavación", "Mis guitarras"], soon: "Pronto", collapse: "Plegar la barra lateral", expand: "Desplegar la barra lateral" },
   hero: {
     eyebrow: "La app para practicar guitarra",
     h1: ["Domina el mástil.", "Clava el tempo.", "Pon a punto tu guitarra."],
@@ -1479,9 +1511,12 @@ const es: Strings = {
     modes: [
       { title: "Nombra la nota", body: "Se ilumina una posición y suena. Di qué nota es." },
       { title: "Encuentra la nota", body: "Te dan una nota. Tócala en todos los sitios donde esté." },
+      { title: "Lee la nota", body: "Una nota en el pentagrama, escrita para guitarra. Di cuál es." },
+      { title: "Del pentagrama al mástil", body: "Una nota en el pentagrama. Toca dónde está en el mástil." },
+      { title: "Lectura a primera vista", body: "Las notas llegan por el pentagrama. Nombra cada una antes de que pase." },
+      { title: "Lee un compás", body: "Cuatro notas seguidas. Nómbralas en orden." },
       { title: "Escucha la nota", body: "Suena una nota sin iluminar nada. Encuéntrala en el mástil." },
       { title: "Ejercicios de escalas", body: "Constrúyelas, reconócelas y di el grado." },
-      { title: "Leer partituras", body: "De la nota en el pentagrama a la posición en el mástil." },
       { title: "Glosario y técnica", body: "Qué es el down picking, un hammer-on o el apoyando, y cómo se hacen. Guitarra eléctrica y clásica." },
     ],
   },
@@ -1589,6 +1624,21 @@ const es: Strings = {
     slower: "Más lento",
     faster: "Más rápido",
     keys: "Teclado: espacio para empezar o parar, ← → cambian el tempo (con Mayús, de 5 en 5), T para marcarlo.",
+  },
+  read: {
+    note: { title: "Lee la nota", startSub: "Aparece una nota en el pentagrama. Di cuál es." },
+    neck: { title: "Del pentagrama al mástil", startSub: "Aparece una nota en el pentagrama. Toca dónde está en el mástil.", prompt: "Tócala en el mástil" },
+    flow: { title: "Lectura a primera vista", startSub: "Las notas llegan por el pentagrama. Nombra cada una antes de que pase la línea.", missed: "Se ha pasado" },
+    bar: { title: "Lee un compás", startSub: "Cuatro notas seguidas. Nómbralas en orden.", progress: "Nota {n} de 4" },
+    staff: "Pentagrama en clave de sol",
+    zone: "Zona del mástil",
+    zones: [
+      { name: "Primera posición", detail: "Trastes 0–3" },
+      { name: "Hasta el traste 7", detail: "Trastes 0–7" },
+      { name: "Todo el mástil", detail: "Trastes 0–12" },
+    ],
+    written: "La guitarra se escribe una octava más aguda de como suena: tu Mi grave al aire es el Mi de debajo del pentagrama.",
+    keys: "Teclado: C D E F G A B para elegir la nota.",
   },
   tuner: {
     title: "Afinador",

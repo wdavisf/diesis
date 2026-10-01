@@ -10,8 +10,11 @@ export type MenuItem = { href: string | null; when: When };
 export const LEARN_ITEMS: MenuItem[] = [
   { href: "/learn/name-the-note", when: "now" },
   { href: "/learn/find-the-note", when: "now" },
+  { href: "/learn/read-the-note", when: "now" },
+  { href: "/learn/staff-to-neck", when: "now" },
+  { href: "/learn/sight-reading", when: "now" },
+  { href: "/learn/read-a-bar", when: "now" },
   { href: null, when: "next" },
-  { href: null, when: "later" },
   { href: null, when: "later" },
   { href: null, when: "later" },
 ];

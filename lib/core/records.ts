@@ -6,21 +6,24 @@
  */
 import { bestKey, type Challenge } from './challenge';
 
-export type Exercise = 'name' | 'find';
+export type Exercise = 'name' | 'find' | 'read' | 'staffneck' | 'flow' | 'bar';
+export const EXERCISES: readonly Exercise[] = ['name', 'find', 'read', 'staffneck', 'flow', 'bar'];
 
 /**
  * The mode part of a best's key: the exercise, then `naturals` for naturals-only rounds, then
  * `7s`/`8s` for extended-range guitars (a seven-string neck holds more positions, so its scores
- * are kept apart). Six strings add nothing, which keeps the keys written before 0.13.0 valid.
+ * are kept apart), then `f3`/`f7`/`f12` for the reading exercises' part of the neck. Six strings add nothing, which keeps the keys written before 0.13.0 valid.
  */
-export function modeKey(exercise: Exercise, naturals: boolean, strings: number): string {
-  return [exercise, naturals ? 'naturals' : null, strings !== 6 ? `${strings}s` : null].filter(Boolean).join(':');
+export function modeKey(exercise: Exercise, naturals: boolean, strings: number, fret?: number): string {
+  return [exercise, naturals ? 'naturals' : null, strings !== 6 ? `${strings}s` : null, fret !== undefined ? `f${fret}` : null].filter(Boolean).join(':');
 }
 
 export interface Best {
   exercise: Exercise;
   naturals: boolean;
   strings: number;
+  /** The highest fret asked, for the reading exercises. */
+  fret?: number;
   challenge: Challenge;
   value: number;
 }
@@ -31,7 +34,7 @@ export function parseBest(key: string, raw: string | null): Best | null {
   if (!Number.isFinite(value) || value <= 0) return null;
   const parts = key.split(':');
   const exercise = parts.shift();
-  if (exercise !== 'name' && exercise !== 'find') return null;
+  if (!EXERCISES.includes(exercise as Exercise)) return null;
   let naturals = false;
   let strings = 6;
   if (parts[0] === 'naturals') {
@@ -43,19 +46,25 @@ export function parseBest(key: string, raw: string | null): Best | null {
     strings = Number(s[1]);
     parts.shift();
   }
+  const f = /^f(\d+)$/.exec(parts[0] ?? '');
+  let fret: number | undefined;
+  if (f) {
+    fret = Number(f[1]);
+    parts.shift();
+  }
   let challenge: Challenge;
   if (parts.length === 1 && parts[0] === 'streak') challenge = { kind: 'streak' };
   else if (parts.length === 2 && parts[0] === 'timed' && /^\d+$/.test(parts[1])) challenge = { kind: 'timed', seconds: Number(parts[1]) };
   else return null;
   // Only keys the games could have written.
-  if (bestKey(modeKey(exercise, naturals, strings), challenge) !== key) return null;
-  return { exercise, naturals, strings, challenge, value };
+  if (bestKey(modeKey(exercise as Exercise, naturals, strings, fret), challenge) !== key) return null;
+  return { exercise: exercise as Exercise, naturals, strings, fret, challenge, value };
 }
 
 /** Bests in a steady order: exercise, then challenge (clock short to long, then no mistakes). */
 export function sortBests(bests: Best[]): Best[] {
   const rank = (b: Best) =>
-    (b.exercise === 'name' ? 0 : 1000) + (b.naturals ? 100 : 0) + b.strings * 10 + (b.challenge.kind === 'timed' ? b.challenge.seconds / 60 : 9);
+    EXERCISES.indexOf(b.exercise) * 1000 + (b.fret ?? 0) * 0.01 + (b.naturals ? 100 : 0) + b.strings * 10 + (b.challenge.kind === 'timed' ? b.challenge.seconds / 60 : 9);
   return [...bests].sort((a, b) => rank(a) - rank(b));
 }
 
