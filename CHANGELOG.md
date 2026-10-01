@@ -3,6 +3,12 @@
 Written for the people using it, not for the code. Newest first. Version matches
 `package.json`.
 
+## 0.32.3 — 1 October 2026
+
+- The lit note's glow is now its own ring, sent out in two small ripples one after the other,
+  in place of the soft halo of 0.32.2. Same places: the exercises, the screen before them, the
+  front page and each tool's page. With Reduce Motion on the ring stays still.
+
 ## 0.32.2 — 1 October 2026
 
 - The lit note now glows, breathing slowly, wherever a neck shows one: in the exercises, on the

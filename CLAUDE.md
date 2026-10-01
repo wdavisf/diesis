@@ -244,11 +244,14 @@ Todoist project records what is still to do.
   board, real logarithmic fret spacing scaled to the range, open strings get a zone left of the
   nut. The landing's `TryIt` and tool cards draw with this same `Fretboard`.
   **The note being asked glows (Will, 2026-10-01: "the highlighted note should glow in all games
-  and landing pages where it is visible"; 0.32.2):** an "asking" mark gets a halo behind it, a
-  radial gradient in amber that breathes (`.mark-halo` in globals.css, steady under Reduce
-  Motion). A gradient, not a CSS `filter`, which Safari does not reliably apply inside an SVG.
-  The step figures on Name the note's page (`how-figures.tsx`) use the same class. Green, red and
-  the neck explorer's notes do not glow.
+  and landing pages where it is visible"; 0.32.3):** an "asking" mark's outer ring leaves the dot
+  in two small ripples, one after the other (`.mark-ripple` in globals.css: two rings at the
+  ring's radius, each growing to 1.55× and fading over 2 s, the second 0.55 s behind; under
+  Reduce Motion the ring stays put). Will meant "the main circle kind of pushes out the outer
+  circle" and picked it from five moving mockups in the chat ("2 but smaller ripples"); the soft
+  amber halo behind the dot shipped first (0.32.2) was not what he meant. The step figures on
+  Name the note's page (`how-figures.tsx`) use the same class. Green, red and the neck
+  explorer's notes do not ripple.
 - Audio: placeholder samples synthesised by `tools/gen-samples.mjs` (Karplus-Strong, one WAV per
   MIDI pitch 40–88) in `public/samples/nylon/`, committed. Real nylon and electric samples with
   clear licensing are a Todoist task. Web Audio unlocks on the "Tap to start" gesture.

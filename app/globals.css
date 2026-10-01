@@ -197,24 +197,26 @@
   to { transform: none; opacity: 1 }
 }
 
-/* The note being asked glows, breathing slowly, on every neck that shows one: the exercises, the
-   setup screens, the landing and the tool pages (Will, 2026-10-01). A steady glow under Reduce
-   Motion. */
-.mark-halo {
+/* The note being asked glows: its ring leaves the dot in two small ripples, one after the other,
+   on every neck that shows one: the exercises, the setup screens, the landing and the tool pages
+   (Will, 2026-10-01; he picked it from five, "but smaller ripples"). Under Reduce Motion the ring
+   stays where it is. */
+.mark-ripple {
   transform-box: fill-box;
   transform-origin: center;
-  animation: mark-halo 1.6s ease-in-out infinite;
+  animation: mark-ripple 2s ease-out infinite;
 }
-@keyframes mark-halo {
-  0%, 100% { opacity: 0.55; transform: scale(0.86) }
-  50% { opacity: 1; transform: scale(1.08) }
+.mark-ripple-2 { animation-delay: 0.55s; }
+@keyframes mark-ripple {
+  0% { transform: scale(1); opacity: 0.75 }
+  75%, 100% { transform: scale(1.55); opacity: 0 }
 }
 
 /* Anchors on the landing glide; the header nav points at them. */
 html { scroll-behavior: smooth; }
 
 @media (prefers-reduced-motion: reduce) {
-  .mark, .mark-halo { animation: none; }
+  .mark, .mark-ripple { animation: none; }
   .game-enter, .game-sideways.game-enter { animation: none; }
   html { scroll-behavior: auto; }
 }
