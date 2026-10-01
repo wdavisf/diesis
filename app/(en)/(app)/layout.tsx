@@ -7,7 +7,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return appMetadata("/start");
 }
 
-/** Every app screen (/start, /learn, /practice, /setup, /profile) inside the app's navigation
+/** Every app screen (/start, /learn, /practice, /setup, /log, /profile) inside the app's navigation
  *  (components/app-nav.tsx): from `md` a sidebar on the left; on a phone a bar at the top and the
  *  tab bar at the bottom, which the screen leaves room for. It lives here, not in the template,
  *  so it stays put while screens fade in beside it. */

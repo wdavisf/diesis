@@ -3,7 +3,7 @@
 import { useEffect, useSyncExternalStore, type ComponentType, type SVGProps } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { BookOpen, ChevronLeft, Ear, Gauge, Guitar, Hand, Headphones, Metronome, Music2, PanelLeft, Search, SlidersHorizontal, UserRound, Wrench } from "lucide-react";
+import { BookOpen, ChevronLeft, Ear, Gauge, Guitar, Hand, Headphones, Metronome, Music2, NotebookPen, PanelLeft, Search, SlidersHorizontal, UserRound, Wrench } from "lucide-react";
 import { Feedback } from "@/components/feedback";
 import { LangSwitch } from "@/components/lang-switch";
 import { Logo, LogoMark } from "@/components/logo";
@@ -101,8 +101,9 @@ const glyph = "size-[1.125rem] shrink-0";
 
 /**
  * The app's navigation from `md` up (Will, 2026-09-30: a left sidebar "like Toggl, but properly
- * done"): every tool under its side, the current one lit, the ones coming next dimmed; feedback,
- * the profile and the language at the bottom. It collapses to a rail of icons with the names as
+ * done"): the practice log on top, which is on no side, then every tool under its side, the
+ * current one lit, the ones coming next dimmed; feedback, the profile and the language at the
+ * bottom. It collapses to a rail of icons with the names as
  * tooltips: by the button or the [ key from `lg` (remembered in localStorage `diesis_sidebar`),
  * and always between `md` and `lg`, where the screen needs the width. Phones get `AppTopBar`
  * and `TabBar` instead. While an exercise is played on a short screen globals.css hides all
@@ -113,6 +114,7 @@ export function AppSidebar({ t }: { t: Strings }) {
   const collapsed = useSyncExternalStore(subscribe, isCollapsed, () => false);
   const names = toolNames(t);
   const profile = `${t.base}/profile`;
+  const log = `${t.base}/log`;
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -150,7 +152,11 @@ export function AppSidebar({ t }: { t: Strings }) {
         aria-label={t.home.title}
         className="flex min-h-0 flex-1 flex-col gap-4 overflow-y-auto px-3 py-2 [scrollbar-width:none] rail:gap-0 rail:overflow-visible rail:px-0 [@media(max-height:42rem)]:rail:overflow-y-auto"
       >
-        {SIDES.map((side, i) => {
+        <Link href={log} aria-current={pathname === log ? "page" : undefined} className={cn(row, pathname === log ? lit : idle)}>
+          <NotebookPen className={glyph} strokeWidth={1.75} aria-hidden />
+          <span className={label}>{t.log.title}</span>
+        </Link>
+        {SIDES.map((side) => {
           const menu = `${t.base}/${side.id}`;
           return (
             <div key={side.id} className="flex flex-col gap-0.5">
@@ -164,7 +170,7 @@ export function AppSidebar({ t }: { t: Strings }) {
               >
                 {t.nav.areas[side.id]}
               </Link>
-              {i > 0 ? <span className="mx-auto my-2 hidden h-px w-7 bg-line rail:block" aria-hidden /> : null}
+              <span className="mx-auto my-2 hidden h-px w-7 bg-line rail:block" aria-hidden />
               {side.tools.map(({ href: path, icon: ToolIcon }, n) => {
                 const href = `${t.base}${path}`;
                 const on = pathname.startsWith(href);
@@ -240,16 +246,17 @@ export function AppTopBar({ t }: { t: Strings }) {
   );
 }
 
-/** On a phone, the bar at the bottom, like an iPhone app's (Will, 2026-09-30, as in Tabula): the three sides and the profile. A side's tools are on its menu. */
+/** On a phone, the bar at the bottom, like an iPhone app's (Will, 2026-09-30, as in Tabula): the three sides, the practice log and the profile. A side's tools are on its menu. */
 export function TabBar({ t }: { t: Strings }) {
   const pathname = usePathname() ?? "/";
   const tabs = [
     ...SIDES.map((side) => ({ href: `${t.base}/${side.id}`, name: t.nav.areas[side.id], icon: side.icon })),
+    { href: `${t.base}/log`, name: t.log.tab, icon: NotebookPen as Icon },
     { href: `${t.base}/profile`, name: t.profile.title, icon: UserRound as Icon },
   ];
   return (
     <nav aria-label={t.home.title} className="app-nav fixed inset-x-0 bottom-0 z-30 border-t border-line/80 bg-stage/95 pb-[env(safe-area-inset-bottom)] backdrop-blur-md md:hidden">
-      <ul className="mx-auto grid max-w-lg grid-cols-4">
+      <ul className="mx-auto grid max-w-lg grid-cols-5">
         {tabs.map(({ href, name, icon: TabIcon }) => {
           const on = pathname === href || pathname.startsWith(`${href}/`);
           return (

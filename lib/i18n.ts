@@ -238,6 +238,55 @@ export interface Strings {
     erase: string;
     eraseConfirm: string;
   };
+  /** /log, the practice log (components/practice-log.tsx). {n} a number of days, {date} a date. */
+  log: {
+    title: string;
+    /** Its short name in the app's navigation. */
+    tab: string;
+    /** What a shared link to it says. */
+    blurb: string;
+    /** Uses {n}, the week's number. */
+    week: string;
+    today: string;
+    prev: string;
+    next: string;
+    /** Monday to Sunday, short. */
+    days: string[];
+    /** Said after a day's date to a screen reader: it has something written; it is the goal's date. */
+    hasEntry: string;
+    goalDay: string;
+    setGoal: string;
+    setGoalSub: string;
+    /** After the goal's name: {n} days left (two or more), one, today, gone by. */
+    left: string;
+    leftOne: string;
+    dueToday: string;
+    overdue: string;
+    editGoal: string;
+    goalTitle: string;
+    goalName: string;
+    goalNameHint: string;
+    goalDate: string;
+    /** In one week, in two, in a month (30 days). */
+    quick: string[];
+    /** Under the date field: {n} days from today (two or more), tomorrow, today; each with {date}. */
+    fromToday: string;
+    tomorrow: string;
+    onToday: string;
+    pickDate: string;
+    errors: { name: string; date: string; past: string };
+    save: string;
+    remove: string;
+    close: string;
+    /** The page's prompt, today and on a past day, and the hint that follows either. */
+    askToday: string;
+    askPast: string;
+    dictate: string;
+    future: string;
+    /** Under the page: before anything is written, and once it is. */
+    stays: string;
+    saved: string;
+  };
   /** /practice/backing-tracks. {n} a note name, {root}/{scale} names, {t} a video title, {c} a channel. */
   backing: {
     title: string; lede: string; style: string; all: string;
@@ -828,9 +877,47 @@ const en: Strings = {
       streak50: { title: "Fifty in a row", body: "50 in a row with all twelve notes." },
     },
     data: "Your data",
-    dataBody: "Everything on this page lives in this browser only: there is no account and nothing is sent. Erasing it cannot be undone.",
+    dataBody: "Everything on this page, and your practice log, lives in this browser only: there is no account and nothing is sent. Erasing it cannot be undone.",
     erase: "Erase my data",
-    eraseConfirm: "Erase your records, achievements and settings from this browser?",
+    eraseConfirm: "Erase your records, achievements, settings and practice log from this browser?",
+  },
+  log: {
+    title: "Practice log",
+    tab: "Log",
+    blurb: "Set a goal with a date and write down what you did each day to get there. A week at a glance, a page per day, and it all stays in your browser.",
+    week: "Week {n}",
+    today: "Today",
+    prev: "Previous week",
+    next: "Next week",
+    days: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+    hasEntry: "something written",
+    goalDay: "the date of your goal",
+    setGoal: "Set a goal",
+    setGoalSub: "A piece, a solo, a date to be ready by",
+    left: "{n} days left",
+    leftOne: "1 day left",
+    dueToday: "it's today",
+    overdue: "the date has passed",
+    editGoal: "Change your goal",
+    goalTitle: "Your goal",
+    goalName: "What are you working towards?",
+    goalNameHint: "The solo for the gig",
+    goalDate: "By when?",
+    quick: ["In 1 week", "In 2 weeks", "In a month"],
+    fromToday: "{n} days from today · {date}",
+    tomorrow: "Tomorrow · {date}",
+    onToday: "Today · {date}",
+    pickDate: "Pick a date, or one of the three above.",
+    errors: { name: "Give the goal a name.", date: "Pick the date you want it ready by.", past: "Pick a date from today on." },
+    save: "Save goal",
+    remove: "Remove goal",
+    close: "Close",
+    askToday: "What did you do today?",
+    askPast: "What did you do this day?",
+    dictate: "Write it, or dictate it with the microphone on your keyboard.",
+    future: "Still to come.",
+    stays: "Stays in this browser",
+    saved: "Saved in this browser",
   },
   backing: {
     title: "Backing tracks",
@@ -883,10 +970,10 @@ const en: Strings = {
   privacy: {
     eyebrow: "Privacy",
     h1: "Privacy policy",
-    updated: "Last updated 30 September 2026",
-    summary: "Diesis has no account and no advertising. What you choose and score in Diesis stays in your browser. The only thing measured is visits: which pages and tools are opened, with Google Analytics and PostHog, and only if you allow it.",
+    updated: "Last updated 1 October 2026",
+    summary: "Diesis has no account and no advertising. What you choose, score and write in Diesis stays in your browser. The only thing measured is visits: which pages and tools are opened, with Google Analytics and PostHog, and only if you allow it.",
     sections: [
-      { h: "The app", p: ["Diesis runs entirely in your browser. It does not ask who you are, does not create an account, and does not send your answers, scores or settings to me or to anyone else.", "Your score for a session is held in memory and disappears when you close the tab. Everything else you choose or earn stays in your browser's local storage, on your device only: your guitar (strings and tuning), how notes are named, your personal bests and the challenge you last picked, the metronome's settings (including a speed-up plan), the finger exercise's settings and your fastest clean runs in it, what you last picked on the neck and your guitar type, scale length and string gauges. None of it is ever sent anywhere. The Erase my data button in your profile removes it, and so does clearing the site's data."] },
+      { h: "The app", p: ["Diesis runs entirely in your browser. It does not ask who you are, does not create an account, and does not send your answers, scores or settings to me or to anyone else.", "Your score for a session is held in memory and disappears when you close the tab. Everything else you choose or earn stays in your browser's local storage, on your device only: your guitar (strings and tuning), how notes are named, your personal bests and the challenge you last picked, the metronome's settings (including a speed-up plan), the finger exercise's settings and your fastest clean runs in it, what you last picked on the neck, your guitar type, scale length and string gauges, and your practice log (your goal and what you write each day). None of it is ever sent anywhere. The Erase my data button in your profile removes it, and so does clearing the site's data."] },
       { h: "Cookies", p: ["Diesis sets two cookies. One remembers the language you picked; the other remembers your answer to the analytics banner. Neither holds anything about you."] },
       { h: "This website", p: ["diesis.app is hosted by Vercel, which keeps standard server logs (IP address, browser, pages requested) for a short time to run the service and keep it safe.", "If you allow it in the banner, the site loads Google Analytics 4 and PostHog to count visits and see which pages and tools are opened, for how long, how fast they load and from what kind of device. Google sets its own cookies for that; PostHog keeps a random identifier in your browser's local storage, does not record your screen or your clicks, and stores its data in the European Union. Each processes the data under its own privacy policy. If you decline, nothing from Google or PostHog is loaded, and you can change your mind by clearing the site's cookies."] },
       { h: "Backing tracks", p: ["The backing tracks page shows thumbnails served by YouTube (i.ytimg.com), so YouTube sees your IP address when the page loads. The video player comes from youtube-nocookie.com and loads only when you press play on a track; from then on YouTube's privacy policy applies to that video. Diesis sends YouTube nothing about you."] },
@@ -1448,9 +1535,47 @@ const es: Strings = {
       streak50: { title: "Cincuenta seguidas", body: "50 seguidas con las doce notas." },
     },
     data: "Tus datos",
-    dataBody: "Todo lo de esta página se guarda solo en este navegador: no hay cuenta y no se envía nada. Borrarlo no tiene vuelta atrás.",
+    dataBody: "Todo lo de esta página, y tu diario de práctica, se guarda solo en este navegador: no hay cuenta y no se envía nada. Borrarlo no tiene vuelta atrás.",
     erase: "Borrar mis datos",
-    eraseConfirm: "¿Borrar tus récords, logros y ajustes de este navegador?",
+    eraseConfirm: "¿Borrar tus récords, logros, ajustes y tu diario de práctica de este navegador?",
+  },
+  log: {
+    title: "Diario de práctica",
+    tab: "Diario",
+    blurb: "Ponte un objetivo con fecha y apunta cada día lo que has hecho para llegar. La semana de un vistazo, una página por día, y todo se queda en tu navegador.",
+    week: "Semana {n}",
+    today: "Hoy",
+    prev: "Semana anterior",
+    next: "Semana siguiente",
+    days: ["Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom"],
+    hasEntry: "con algo apuntado",
+    goalDay: "la fecha de tu objetivo",
+    setGoal: "Ponte un objetivo",
+    setGoalSub: "Una pieza, un solo, una fecha para tenerlo listo",
+    left: "quedan {n} días",
+    leftOne: "queda 1 día",
+    dueToday: "es hoy",
+    overdue: "la fecha ya pasó",
+    editGoal: "Cambiar tu objetivo",
+    goalTitle: "Tu objetivo",
+    goalName: "¿Qué quieres conseguir?",
+    goalNameHint: "El solo para el concierto",
+    goalDate: "¿Para cuándo?",
+    quick: ["En 1 semana", "En 2 semanas", "En un mes"],
+    fromToday: "Dentro de {n} días · {date}",
+    tomorrow: "Mañana · {date}",
+    onToday: "Hoy · {date}",
+    pickDate: "Elige una fecha, o una de las tres de arriba.",
+    errors: { name: "Ponle nombre al objetivo.", date: "Elige para qué fecha lo quieres tener.", past: "Elige una fecha de hoy en adelante." },
+    save: "Guardar objetivo",
+    remove: "Quitar el objetivo",
+    close: "Cerrar",
+    askToday: "¿Qué has hecho hoy?",
+    askPast: "¿Qué hiciste este día?",
+    dictate: "Escríbelo, o díctalo con el micrófono del teclado.",
+    future: "Todavía no ha llegado.",
+    stays: "Se queda en este navegador",
+    saved: "Guardado en este navegador",
   },
   backing: {
     title: "Backing tracks",
@@ -1503,10 +1628,10 @@ const es: Strings = {
   privacy: {
     eyebrow: "Privacidad",
     h1: "Política de privacidad",
-    updated: "Última actualización: 30 de septiembre de 2026",
-    summary: "Diesis no tiene cuentas ni publicidad. Lo que eliges y consigues en Diesis se queda en tu navegador. Lo único que se mide son las visitas: qué páginas y herramientas se abren, con Google Analytics y PostHog, y solo si tú lo permites.",
+    updated: "Última actualización: 1 de octubre de 2026",
+    summary: "Diesis no tiene cuentas ni publicidad. Lo que eliges, consigues y apuntas en Diesis se queda en tu navegador. Lo único que se mide son las visitas: qué páginas y herramientas se abren, con Google Analytics y PostHog, y solo si tú lo permites.",
     sections: [
-      { h: "La app", p: ["Diesis funciona por completo en tu navegador. No te pregunta quién eres, no crea ninguna cuenta y no envía tus respuestas, tus marcas ni tus ajustes a nadie, ni a mí ni a terceros.", "La puntuación de cada sesión se guarda en memoria y desaparece al cerrar la pestaña. Todo lo demás que eliges o consigues se queda en el almacenamiento local de tu navegador, solo en tu dispositivo: tu guitarra (cuerdas y afinación), cómo se nombran las notas, tus mejores marcas y el último reto que elegiste, los ajustes del metrónomo (con el plan de subida de tempo), los ajustes del ejercicio de dedos y tus pasadas limpias más rápidas, lo último que elegiste en el mástil y tu tipo de guitarra, tiro y calibres de cuerda. Nada de eso se envía nunca a ningún sitio. El botón «Borrar mis datos» de tu perfil lo elimina, y también borrar los datos de la web."] },
+      { h: "La app", p: ["Diesis funciona por completo en tu navegador. No te pregunta quién eres, no crea ninguna cuenta y no envía tus respuestas, tus marcas ni tus ajustes a nadie, ni a mí ni a terceros.", "La puntuación de cada sesión se guarda en memoria y desaparece al cerrar la pestaña. Todo lo demás que eliges o consigues se queda en el almacenamiento local de tu navegador, solo en tu dispositivo: tu guitarra (cuerdas y afinación), cómo se nombran las notas, tus mejores marcas y el último reto que elegiste, los ajustes del metrónomo (con el plan de subida de tempo), los ajustes del ejercicio de dedos y tus pasadas limpias más rápidas, lo último que elegiste en el mástil, tu tipo de guitarra, tiro y calibres de cuerda, y tu diario de práctica (tu objetivo y lo que apuntas cada día). Nada de eso se envía nunca a ningún sitio. El botón «Borrar mis datos» de tu perfil lo elimina, y también borrar los datos de la web."] },
       { h: "Cookies", p: ["Diesis guarda dos cookies: una recuerda el idioma que has elegido y la otra, lo que respondiste al aviso de analítica. Ninguna contiene datos sobre ti."] },
       { h: "Esta web", p: ["diesis.app está alojada en Vercel, que conserva durante poco tiempo los registros habituales de cualquier servidor (dirección IP, navegador, páginas solicitadas) para que el servicio funcione y esté protegido.", "Si lo permites en el aviso, la web carga Google Analytics 4 y PostHog para contar visitas y ver qué páginas y herramientas se abren, durante cuánto tiempo, lo rápido que cargan y desde qué tipo de dispositivo. Google instala sus propias cookies para ello; PostHog guarda un identificador aleatorio en el almacenamiento local de tu navegador, no graba tu pantalla ni tus clics y conserva sus datos en la Unión Europea. Cada uno trata los datos según su propia política de privacidad. Si dices que no, no se carga nada de Google ni de PostHog; puedes cambiar de opinión borrando las cookies de la web."] },
       { h: "Backing tracks", p: ["La página de backing tracks muestra miniaturas que sirve YouTube (i.ytimg.com), así que YouTube ve tu dirección IP al cargarla. El reproductor viene de youtube-nocookie.com y solo se carga cuando pulsas play en una base; a partir de ahí, a ese vídeo se le aplica la política de privacidad de YouTube. Diesis no le envía a YouTube nada sobre ti."] },

@@ -3,6 +3,16 @@
 Written for the people using it, not for the code. Newest first. Version matches
 `package.json`.
 
+## 0.32.0 — 1 October 2026, a practice log
+
+- New: the practice log. Set a goal with a date (a piece, a solo, a concert) and write down each
+  day what you did to get there. The week runs across the top, with a dot on the days you wrote
+  something and a flag on the goal's date; the day you pick opens as a page to write on.
+- Write it, or dictate it with the microphone on your keyboard. It saves as you type, and you can
+  go back and fill in a day you missed.
+- It has its own place in the sidebar on a computer and its own tab on a phone. Like everything
+  else in Diesis, the log stays in your browser, and Erase my data in your profile removes it.
+
 ## 0.31.0 — 1 October 2026, a proper screen before you start
 
 - Name the note and Find the note open on a new screen. The neck is there from the first moment,

@@ -205,8 +205,8 @@ Todoist project records what is still to do.
   the document (`components/root-document.tsx`) before the first paint; between `md` and `lg` it is always the rail. The
   Tailwind variant `rail:` (globals.css) styles both cases. **On phones: `AppTopBar`** (the
   logo, or inside a tool the way back to its side and the tool's name; feedback, EN/ES) **and
-  `TabBar`** fixed at the bottom: Learn, Practice, Setup, Profile (the practice log joins when
-  it exists); a side's tools are reached from its menu. **Inside the app the logo goes to `/start`** (Will, 2026-09-30, 0.28.2; it went
+  `TabBar`** fixed at the bottom: Learn, Practice, Setup, Log, Profile; a side's tools are
+  reached from its menu. **Inside the app the logo goes to `/start`** (Will, 2026-09-30, 0.28.2; it went
   to the landing before), in the sidebar and in the phone's top bar; the app has no link back
   to the landing. On the web pages (`SiteNav`, footer) the logo still goes to the landing.
   All three carry `.app-nav` and hide while an exercise is played sideways on a phone or on a
@@ -416,6 +416,35 @@ Todoist project records what is still to do.
   `lib/game/use-fingers.ts`, screen `components/fingers.tsx`. Not built yet (Todoist section
   14): comparing scores with others, a latency calibration for Bluetooth audio or slow touch
   screens.
+- **Practice log (Will, 2026-10-01; first version 0.32.0).** `/log`, «Diario de práctica», on
+  none of the three sides: the top row of the sidebar and a fifth tab on phones ("Log" /
+  «Diario»). **Its purpose**: get the player from "I want to play this by that date" (Will's
+  example: a solo for a concert in two weeks) to playing it. **The first version is a record, not
+  a guide** (Will: "why not just set a goal and then let the user write or dictate what they
+  did"). The design is Will's, arrived at over several rounds of mockups: **a week in one line
+  at the top, like a calendar app's header** (he sent a screenshot: month and week number,
+  Today, arrows, seven days with today marked), then the goal as one quiet line with the days
+  left, then the selected day as a page to write on. He rejected boxed cards under the week ("I
+  don't like what's under it") and every heavier idea: tools suggested by rules (nobody good
+  suggests them: it would need Will's own method per kind of goal, written by him), Diesis
+  noting by itself what was used in each tool, a tempo chart, a streak count. **"Tidy up", a
+  model that cleans a dictated entry, is designed but not built** ("maybe we can start without
+  the tidy up thing"): it needs a model key in Vercel, a limit per IP and a privacy section,
+  since the entry would leave the browser; build it as a button, never automatic, with undo.
+  As built: one goal (a name and a date from today on; quick picks one week, two weeks, a
+  month) in a panel like the metronome's; a dashed "Set a goal" row while there is none; one
+  entry per day, saved on every key with no Save button; past days can be written, days to come
+  cannot; a green dot on days with something written, a flag on the goal's date; dictation is
+  the phone keyboard's own microphone, nothing of ours. The empty state is the same screen,
+  empty: no intro. Core `lib/core/log.ts` (days are `YYYY-MM-DD` strings, weeks start on Monday
+  and are numbered as in ISO 8601 and named after their Thursday's month; tests), storage
+  `diesis_log` (`lib/game/use-log.ts`; kept in memory for the page when storage is blocked),
+  screen `components/practice-log.tsx`. The server does not know the player's day, so the screen
+  is drawn once the browser does. Its goal panel repeats the classes of the metronome's `Sheet`:
+  make one shared sheet when a third panel appears. A new app root like `/log` needs its two
+  lines in `proxy.ts`'s matcher and its re-export under `app/(es)/es/(app)/`. **Not done, to ask
+  Will:** the landing and a public page for the log (the landing is laid out by the three sides,
+  and the log is on none), and a line for an open goal on `/start`.
 - **Contact and price, only what is true (Will, 2026-09-26).** Diesis is made by Will alone:
   never "we", "a team" or "a group of players". There is no working email: hello@diesis.app
   does not exist, so contact is Instagram @diesis.app (landing pricing box, privacy page,
@@ -555,7 +584,7 @@ points to it and keeps `/lang/` out. Add new public pages to the sitemap.
   `privacy/`, `[feature]/` (each tool's public page), `(app)/` (the app: `layout.tsx` with the
   app's navigation, `template.tsx`, `start/`, `learn/` with `name-the-note/` and `find-the-note/`,
   `practice/` with `neck/`, `metronome/`, `backing-tracks/` and `fingers/`, `setup/` with
-  `strings/`, `profile/`). `(es)/`: `layout.tsx` (lang es), `es/` with the same pages in Spanish
+  `strings/`, `log/`, `profile/`). `(es)/`: `layout.tsx` (lang es), `es/` with the same pages in Spanish
   (`es/(app)/` only re-exports the English app screens) and `roadmap/`. Outside both:
   `lang/[code]/` (cookie setter), `global-not-found.tsx` (the 404 page), `sitemap.ts`,
   `robots.ts`, `actions/`, `globals.css` (the theme tokens). Fonts, metadata defaults and the
@@ -564,7 +593,7 @@ points to it and keeps `/lang/` out. Add new public pages to the sitemap.
   `lang-switch`, `fretboard` (SVG, marks and tap targets), `note-panel`, `game-frame`
   (`GameShell`: sideways treatment, gate, header; `GameFrame`: the board inside it),
   `setup-screen` (before a round), `challenge-card` (result card, header status, `Chip`),
-  `game` (Mode A), `find-game` (Mode B), `metronome` (both modes), `neck` (scale explorer), `backing-tracks`, `profile`, `site-nav` (the web pages' top bar), `app-nav` (the app's sidebar, phone top bar and tab bar), `stage-video`, `try-it`, `feature-cards`, `tool-figure` and `open-app` (landing), `feature-page` and `how-figures` (each tool's public page), `ui/`.
+  `game` (Mode A), `find-game` (Mode B), `metronome` (both modes), `neck` (scale explorer), `backing-tracks`, `practice-log`, `profile`, `site-nav` (the web pages' top bar), `app-nav` (the app's sidebar, phone top bar and tab bar), `stage-video`, `try-it`, `feature-cards`, `tool-figure` and `open-app` (landing), `feature-page` and `how-figures` (each tool's public page), `ui/`.
 - `lib/i18n.ts` — every string, EN and ES. `lib/lang.ts` — reads the language cookie.
 - `lib/core/` — note model (`notes.ts`), question generator (`quiz.ts`), tests. Pure TS.
 - `lib/core/challenge.ts` — challenge rules. `lib/audio/note-player.ts` — Web Audio sampler.

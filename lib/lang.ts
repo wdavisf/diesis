@@ -3,7 +3,7 @@ import { headers } from "next/headers";
 import { strings, type Lang, type Strings } from "@/lib/i18n";
 
 /** Language of an app page (/learn/… English, /es/learn/… Spanish; the same for /start,
- *  /practice, /setup and /profile). The Spanish addresses re-export the same pages
+ *  /practice, /setup, /log and /profile). The Spanish addresses re-export the same pages
  *  (app/(es)/es/(app)); proxy.ts says which language was asked for in a header. */
 export async function currentLang(): Promise<Lang> {
   return (await headers()).get("x-diesis-lang") === "es" ? "es" : "en";
@@ -19,7 +19,7 @@ export const CARD_VERSION = 5;
 /**
  * What a shared link to an app page shows in a chat: its own description and its own card
  * (`public/og/<card>-<lang>.png`, drawn by tools/og-card.mjs, `npm run icons`). Pages without a
- * card (the menus, the profile) share the landing's, the hero's guitarist. Keyed by the page's
+ * card (the menus, the practice log, the profile) share the landing's, the hero's guitarist. Keyed by the page's
  * English address: add a line when a tool is built.
  */
 const PREVIEWS: Record<string, { card?: string; blurb: (t: Strings) => string }> = {
@@ -34,6 +34,7 @@ const PREVIEWS: Record<string, { card?: string; blurb: (t: Strings) => string }>
   "/practice/fingers": { card: "fingers", blurb: (t) => t.practiceMenu.modes[3].body },
   "/setup": { blurb: (t) => t.home.setup },
   "/setup/strings": { card: "strings", blurb: (t) => t.setupMenu.modes[0].body },
+  "/log": { blurb: (t) => t.log.blurb },
   "/profile": { blurb: (t) => t.meta.description },
 };
 
