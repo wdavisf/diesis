@@ -3,6 +3,12 @@
 Written for the people using it, not for the code. Newest first. Version matches
 `package.json`.
 
+## 0.33.1 — 1 October 2026
+
+- The tuner shows a dial with a needle (left for flat, right for sharp, a green zone at the top
+  for in tune) in place of the tape. On a computer it is now one larger, centered block instead of
+  a narrow column in the middle of an empty screen. Its page, link card and picture changed too.
+
 ## 0.33.0 — 1 October 2026
 
 - New tool: the tuner, in Setup. Play a string and it listens through the microphone, finds

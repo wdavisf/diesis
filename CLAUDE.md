@@ -119,9 +119,11 @@ Todoist project records what is still to do.
   (per browser, never sent; the privacy page says so), last pick in `diesis_challenge`. The
   Todoist "note-count challenge" (fixed number of notes, timed) is not built.
 - **Tuner (Will, 2026-10-01: "mete el afinador"; built 0.33.0).** Setup side, `/setup/tuner`,
-  «Afinador». Will chose it from five mockups in the chat: the **tape** (the metronome ruler's
-  idea: ticks every 5 cents sliding under a fixed needle, ±50), the big note, the row of strings
-  under it, from the other options only the idea of hearing a string. He then asked for the
+  «Afinador». Will chose it from five mockups in the chat: first the **tape** (a ruler sliding under a
+  fixed needle), then, once it was built, preferred **the needle** (design A, 0.33.1: a dial,
+  green zone ±5 cents at the top, the needle swinging ±82° for ±50 cents), with the big note
+  and the row of strings under it; on desktop the block is centered and larger (it looked empty
+  as a narrow column), from the other options only the idea of hearing a string. He then asked for the
   tuning to be picked on the screen and the string count too: two buttons at the top that show
   what they hold, **Tuning** («6 strings · Standard») and **Reference** («A 440»), each opening
   a `Sheet` (now shared, `components/sheet.tsx`, taken out of the metronome). The tuning sheet

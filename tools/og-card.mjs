@@ -243,17 +243,16 @@ function stringsAndSetup(t) {
   return h('div', { style: { display: 'flex', flexDirection: 'column', width: 1072 } }, ...set.map(row));
 }
 
-/** Tuner: the note, and the tape under its needle with the string a little flat. */
+/** Tuner: the dial with its needle a little flat, and the note under it. */
 function tuner(t) {
-  const ticks = Array.from({ length: 41 }, (_, i) => {
-    const k = i - 20;
-    const big = k % 5 === 0;
-    return h('div', { key: i, style: { width: k === 0 ? 6 : 3, height: big ? 70 : 38, marginTop: big ? 0 : 32, borderRadius: 3, background: k === 0 ? c.correct : c.ink, opacity: k === 0 || big ? 1 : 0.4 } });
-  });
+  const svg = h('svg', { width: 560, height: 310, viewBox: '0 0 200 112' },
+    h('path', { d: 'M18 100 A82 82 0 0 1 182 100', fill: 'none', stroke: c.border, strokeWidth: 9, strokeLinecap: 'round' }),
+    h('path', { d: 'M91.9 18.4 A82 82 0 0 1 108.1 18.4', fill: 'none', stroke: c.correct, strokeWidth: 9 }),
+    h('line', { x1: 100, y1: 100, x2: 64, y2: 31, stroke: c.accent, strokeWidth: 3, strokeLinecap: 'round' }),
+    h('circle', { cx: 100, cy: 100, r: 6, fill: c.accent }));
   return h('div', { style: { display: 'flex', flexDirection: 'column', alignItems: 'center', width: 1072 } },
-    h('div', { style: { fontSize: 190, fontWeight: 600, lineHeight: 1, color: c.ink } }, t.strings[5]),
-    h('div', { style: { display: 'flex', gap: 14, marginTop: 28, marginLeft: 70, alignItems: 'flex-start' } }, ...ticks),
-    h('div', { style: { width: 0, height: 0, marginTop: 14, marginLeft: 0, borderLeft: '16px solid transparent', borderRight: '16px solid transparent', borderBottom: `32px solid ${c.accent}` } }));
+    svg,
+    h('div', { style: { fontSize: 110, fontWeight: 600, lineHeight: 1, color: c.ink, marginTop: 6 } }, t.strings[5]));
 }
 
 const drawings = { tuner,  'find-the-note': findTheNote, neck: theNeck, metronome, 'backing-tracks': backingTracks, fingers, strings: stringsAndSetup };

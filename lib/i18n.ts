@@ -232,7 +232,7 @@ export interface Strings {
     referenceLede: string;
     lower: string;
     higher: string;
-    tapeLabel: string;
+    dialLabel: string;
   };
   fingers: {
     title: string; lede: string; tempo: string; pattern: string; random: string; notes: string; hand: string; left: string; right: string;
@@ -727,13 +727,13 @@ const en: Strings = {
         points: [
           { title: "Your tuning, not just standard", body: "Standard, drop D, DADGAD, open tunings, baritone, and the low tunings of seven and eight strings. The tuner uses the one you pick." },
           { title: "It finds the string for you", body: "Play any string and it picks the closest one of your tuning. Or tap a string to hear it and tune to that one only." },
-          { title: "A tape you can read at a glance", body: "The tape slides under a fixed needle: left is flat, right is sharp, green is in tune, and each string you finish gets a tick." },
+          { title: "A dial you can read at a glance", body: "The needle swings left for flat and right for sharp, the green zone at the top is in tune, and each string you finish gets a tick." },
           { title: "Reference pitch", body: "A 440 by default. Change it to 432, 442 or anything between 415 and 466 if you play with others tuned differently." },
         ],
         steps: [
           { title: "Pick your tuning", body: "Six, seven or eight strings, then the tuning you play in." },
           { title: "Tap Start tuning", body: "Your browser asks for the microphone. Allow it, and play a string." },
-          { title: "Turn the peg", body: "Flat, tune up; sharp, tune down. When the tape turns green, move on to the next string." },
+          { title: "Turn the peg", body: "Flat, tune up; sharp, tune down. When the needle reaches the green, move on to the next string." },
         ],
         faq: [
           { q: "Is the sound recorded?", a: "No. The microphone is analyzed on your device a moment at a time and thrown away. Nothing is saved or sent, and it only listens while the tuner is on." },
@@ -902,7 +902,7 @@ const en: Strings = {
     referenceLede: "The A every other note is tuned against. 440 is the standard; 432 and 442 are the usual others.",
     lower: "Lower",
     higher: "Higher",
-    tapeLabel: "{n} cents",
+    dialLabel: "{n} cents",
   },
   fingers: {
     title: "Finger independence",
@@ -1442,13 +1442,13 @@ const es: Strings = {
         points: [
           { title: "Tu afinación, no solo la estándar", body: "Estándar, drop D, DADGAD, afinaciones abiertas, barítona y las afinaciones graves de siete y ocho cuerdas. El afinador usa la que elijas." },
           { title: "Averigua la cuerda por ti", body: "Toca la cuerda que sea y elige la más cercana de tu afinación. O toca una cuerda en pantalla para oírla y afinar solo esa." },
-          { title: "Una cinta que se lee de un vistazo", body: "La cinta se desliza bajo una aguja fija: a la izquierda grave, a la derecha aguda, en verde está afinada, y cada cuerda que terminas se marca." },
+          { title: "Un reloj que se lee de un vistazo", body: "La aguja va a la izquierda si está grave y a la derecha si está aguda, la zona verde de arriba es estar afinada, y cada cuerda que terminas se marca." },
           { title: "Tono de referencia", body: "La 440 por defecto. Cámbialo a 432, 442 o lo que quieras entre 415 y 466 si tocas con gente afinada distinto." },
         ],
         steps: [
           { title: "Elige tu afinación", body: "Seis, siete u ocho cuerdas, y después la afinación en la que tocas." },
           { title: "Toca Empezar a afinar", body: "El navegador te pide el micrófono. Permítelo y puntea una cuerda." },
-          { title: "Gira la clavija", body: "Grave, sube; aguda, baja. Cuando la cinta se ponga verde, pasa a la siguiente cuerda." },
+          { title: "Gira la clavija", body: "Grave, sube; aguda, baja. Cuando la aguja llegue al verde, pasa a la siguiente cuerda." },
         ],
         faq: [
           { q: "¿Se graba el sonido?", a: "No. El micrófono se analiza en tu dispositivo, un instante cada vez, y se descarta. No se guarda ni se envía nada, y solo escucha mientras el afinador está encendido." },
@@ -1617,7 +1617,7 @@ const es: Strings = {
     referenceLede: "El La contra el que se afinan todas las demás notas. 440 es lo habitual; 432 y 442 son las otras que se ven.",
     lower: "Más grave",
     higher: "Más agudo",
-    tapeLabel: "{n} cents",
+    dialLabel: "{n} cents",
   },
   fingers: {
     title: "Independencia de dedos",

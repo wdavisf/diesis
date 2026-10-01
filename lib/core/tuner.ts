@@ -17,7 +17,7 @@ export function clampA4(hz: number): number {
 
 /** Within this many cents counts as in tune (a guitar's own wobble is about this much). */
 export const IN_TUNE_CENTS = 5;
-/** The tape shows this much either side of the target. */
+/** The dial shows this much either side of the target. */
 export const RANGE_CENTS = 50;
 
 /** A reading: the pitch heard, how clear it is (0–1), and how loud. */
@@ -146,7 +146,7 @@ export function verdictOf(cents: number): Verdict {
   return cents < 0 ? 'flat' : 'sharp';
 }
 
-/** The median of the last readings: a single wild one (a pluck's first instant) cannot jerk the tape. */
+/** The median of the last readings: a single wild one (a pluck's first instant) cannot jerk the needle. */
 export function median(values: readonly number[]): number {
   const sorted = [...values].sort((x, y) => x - y);
   return sorted[Math.floor(sorted.length / 2)];

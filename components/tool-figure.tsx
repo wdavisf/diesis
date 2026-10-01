@@ -67,18 +67,16 @@ export function ToolFigure({ id, t }: { id: FeatureId; t: Strings }) {
     );
   }
   if (id === "tuner") {
-    // Tuner: the note, and the tape under its needle with the string a little flat.
+    // Tuner: the dial, its needle a little flat, and the note under it.
     return (
-      <div className="flex aspect-[520/190] flex-col items-center justify-center gap-2 rounded-lg bg-stage" aria-hidden>
-        <span className="font-display text-6xl leading-none font-semibold">{names[4]}</span>
-        <span className="flex items-start gap-[5px]">
-          {Array.from({ length: 31 }, (_, i) => {
-            const k = i - 15;
-            const big = k % 5 === 0;
-            return <span key={i} className={`w-[2px] rounded-full ${k === 0 ? "h-6 w-[3px] bg-correct" : big ? "h-6 bg-ink" : "mt-2 h-3.5 bg-ink/40"}`} />;
-          })}
-        </span>
-        <span className="h-0 w-0 border-x-[7px] border-b-[12px] border-x-transparent border-b-amber" />
+      <div className="flex aspect-[520/190] flex-col items-center justify-center gap-1 rounded-lg bg-stage" aria-hidden>
+        <svg viewBox="0 0 200 112" className="h-24">
+          <path d="M18 100 A82 82 0 0 1 182 100" fill="none" strokeWidth={9} strokeLinecap="round" className="stroke-line" />
+          <path d="M91.9 18.4 A82 82 0 0 1 108.1 18.4" fill="none" strokeWidth={9} className="stroke-correct" />
+          <line x1={100} y1={100} x2={64} y2={31} strokeWidth={3} strokeLinecap="round" className="stroke-amber" />
+          <circle cx={100} cy={100} r={6} className="fill-amber" />
+        </svg>
+        <span className="font-display text-3xl leading-none font-semibold">{names[4]}</span>
       </div>
     );
   }

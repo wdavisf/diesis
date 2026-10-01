@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { Check, ChevronDown, Minus, Mic, Plus, Square } from "lucide-react";
 import { frequency, namesFor, pitchClassOf, STRING_COUNTS, tuningsFor, type Tuning } from "@/lib/core/notes";
-import { A4_MAX, A4_MIN, A4_PRESETS, clampA4, RANGE_CENTS, verdictOf, type Verdict } from "@/lib/core/tuner";
+import { A4_MAX, A4_MIN, A4_PRESETS, clampA4, IN_TUNE_CENTS, RANGE_CENTS, verdictOf, type Verdict } from "@/lib/core/tuner";
 import { useGuitar } from "@/lib/game/use-guitar";
 import { useSettings } from "@/lib/game/use-settings";
 import { useTuner } from "@/lib/game/use-tuner";
@@ -28,41 +28,34 @@ const verdictColor: Record<Verdict | "idle", string> = {
   idle: "text-dim",
 };
 
-const TAPE_W = 312;
-/** Pixels per cent on the tape: the needle sees ±RANGE_CENTS either side. */
-const PX = TAPE_W / 2 / RANGE_CENTS;
+const CX = 100;
+const CY = 106;
+const R = 82;
+/** The needle swings ±82° for ±RANGE_CENTS. */
+const SWING = 82;
+const point = (deg: number, r = R): [string, string] => [(CX + r * Math.sin((deg * Math.PI) / 180)).toFixed(1), (CY - r * Math.cos((deg * Math.PI) / 180)).toFixed(1)];
+const arc = (from: number, to: number) => `M${point(from).join(" ")} A${R} ${R} 0 0 1 ${point(to).join(" ")}`;
+const degOf = (cents: number) => (Math.max(-RANGE_CENTS, Math.min(RANGE_CENTS, cents)) / RANGE_CENTS) * SWING;
 
-/**
- * A tape of ticks every 5 cents that slides under a fixed needle: the same idea as the
- * metronome's tempo ruler. Left is flat, right is sharp (the tape moves the other way, as a
- * ruler under a pointer would).
- */
-function Tape({ cents, state, label }: { cents: number; state: Verdict | "idle"; label: string }) {
-  const shown = Math.max(-RANGE_CENTS, Math.min(RANGE_CENTS, cents));
-  const ticks = [];
-  for (let c = -RANGE_CENTS * 2; c <= RANGE_CENTS * 2; c += 5) {
-    const big = c % 25 === 0;
-    ticks.push(
-      <line
-        key={c}
-        x1={c * PX}
-        x2={c * PX}
-        y1={big ? 8 : 18}
-        y2={42}
-        strokeWidth={c === 0 ? 3 : 1.25}
-        className={cn(c === 0 ? "stroke-correct" : "stroke-ink", !big && c !== 0 && "opacity-40")}
-      />,
-    );
-  }
+/** A dial: an arc with the in-tune zone in green at the top and a needle that swings left for flat, right for sharp. */
+function Gauge({ cents, state, label }: { cents: number; state: Verdict | "idle"; label: string }) {
+  const zone = degOf(IN_TUNE_CENTS);
   return (
-    <svg viewBox={`0 0 ${TAPE_W} 66`} role="img" aria-label={label} className="w-full max-w-sm overflow-hidden">
+    <svg viewBox="0 0 200 120" role="img" aria-label={label} className="w-full max-w-xs overflow-visible md:max-w-md">
+      <path d={arc(-SWING, SWING)} fill="none" strokeWidth={9} strokeLinecap="round" className="stroke-line" />
+      <path d={arc(-zone, zone)} fill="none" strokeWidth={9} className="stroke-correct" />
+      {[-50, -25, 0, 25, 50].map((c) => {
+        const [x1, y1] = point(degOf(c), R + 9);
+        const [x2, y2] = point(degOf(c), R + 15);
+        return <line key={c} x1={x1} y1={y1} x2={x2} y2={y2} strokeWidth={1.5} className="stroke-dim" />;
+      })}
       <g
         className={cn("transition-transform duration-150 ease-out motion-reduce:transition-none", state === "idle" && "opacity-30")}
-        style={{ transform: `translateX(${TAPE_W / 2 - shown * PX}px)` }}
+        style={{ transform: `rotate(${degOf(cents)}deg)`, transformOrigin: `${CX}px ${CY}px` }}
       >
-        {ticks}
+        <line x1={CX} y1={CY} x2={CX} y2={CY - R + 4} strokeWidth={3} strokeLinecap="round" className={state === "in" ? "stroke-correct" : "stroke-amber"} />
       </g>
-      <path d={`M${TAPE_W / 2} 46 l-7 14 h14z`} className={cn(state === "in" ? "fill-correct" : "fill-amber")} />
+      <circle cx={CX} cy={CY} r={6} className={state === "in" ? "fill-correct" : "fill-amber"} />
     </svg>
   );
 }
@@ -128,13 +121,15 @@ export function Tuner({ t, tunings, lang }: { t: Strings["tuner"]; tunings: Reco
   return (
     <div className="flex flex-1 flex-col px-4 pt-4 pb-6 animate-in fade-in fill-mode-both duration-300 motion-reduce:animate-none">
       <h1 className="sr-only">{t.title}</h1>
-      <div className="mx-auto flex w-full max-w-md flex-1 flex-col items-center gap-5">
+      <div className="mx-auto flex w-full max-w-md flex-1 flex-col items-center gap-5 md:max-w-xl md:justify-center md:gap-8">
         <div className="grid w-full grid-cols-[1.6fr_1fr] gap-2">
           <Setting label={t.tuning} value={`${fill(t.count, { n: count })} · ${tuningName}`} onOpen={() => setPanel("tuning")} />
           <Setting label={t.reference} value={fill(t.referenceValue, { hz: a4 })} onOpen={() => setPanel("reference")} />
         </div>
 
-        <div className="flex flex-1 flex-col items-center justify-center gap-1 text-center">
+        <div className="flex flex-1 flex-col items-center justify-center gap-4 md:flex-none md:gap-6">
+        <Gauge cents={reading?.cents ?? 0} state={verdict} label={reading ? fill(t.dialLabel, { n: Math.round(reading.cents) }) : t.listening} />
+          <div className="flex flex-col items-center gap-1 text-center">
           <p
             aria-live="polite"
             className={cn(
@@ -155,9 +150,8 @@ export function Tuner({ t, tunings, lang }: { t: Strings["tuner"]; tunings: Reco
           <p className={cn("h-7 text-lg font-semibold", verdictColor[verdict])} aria-live="polite">
             {listening && !reading ? <span className="font-normal text-dim">{t.listening}</span> : verdictText}
           </p>
+          </div>
         </div>
-
-        <Tape cents={reading?.cents ?? 0} state={verdict} label={reading ? fill(t.tapeLabel, { n: Math.round(reading.cents) }) : t.listening} />
 
         <div role="group" aria-label={t.stringCount} className="flex w-full gap-1.5">
           {tuning.map((midi, i) => {
@@ -177,7 +171,7 @@ export function Tuner({ t, tunings, lang }: { t: Strings["tuner"]; tunings: Reco
                   }
                 }}
                 className={cn(
-                  "relative flex h-14 min-w-0 flex-1 flex-col items-center justify-center rounded-xl border font-display outline-none transition-colors focus-visible:ring-3 focus-visible:ring-ring/50",
+                  "relative flex h-14 min-w-0 md:h-[4.5rem] flex-1 flex-col items-center justify-center rounded-xl border font-display outline-none transition-colors focus-visible:ring-3 focus-visible:ring-ring/50",
                   on ? "border-amber bg-amber/15 text-amber-text" : heard ? "border-ink/60" : "border-line hover:bg-surface",
                 )}
               >
@@ -197,7 +191,7 @@ export function Tuner({ t, tunings, lang }: { t: Strings["tuner"]; tunings: Reco
           {message ?? (pinned !== null ? fill(t.hintPinned, { n: pinned + 1 }) : t.hintAuto)}
         </p>
 
-        <div className="cta-pin w-full">
+        <div className="cta-pin w-full md:max-w-sm">
           <button
             type="button"
             onClick={() => (listening ? tuner.stop() : void tuner.start())}
