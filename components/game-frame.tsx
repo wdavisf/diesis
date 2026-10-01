@@ -7,7 +7,7 @@ import { ArrowLeft, RotateCw } from "lucide-react";
 import type { Strings } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 
-function useSize<T extends HTMLElement>() {
+export function useSize<T extends HTMLElement>() {
   const ref = useRef<T>(null);
   const [size, setSize] = useState({ width: 0, height: 0 });
   useEffect(() => {

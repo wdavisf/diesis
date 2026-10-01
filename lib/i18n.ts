@@ -138,6 +138,11 @@ export interface Strings {
     heading: string;
     practice: string;
     practiceSub: string;
+    /** The short lines on the setup screen's challenge cards. */
+    practiceCard: string;
+    streakCard: string;
+    noScore: string;
+    noBest: string;
     timed: string;
     timedSub: string;
     streak: string;
@@ -712,6 +717,10 @@ const en: Strings = {
     heading: "How do you want to practice?",
     practice: "Practice",
     practiceSub: "No clock, no end. Stop when you like.",
+    practiceCard: "No clock, no end.",
+    streakCard: "Until the first slip.",
+    noScore: "No score kept",
+    noBest: "No best yet",
     timed: "Against the clock",
     timedSub: "How many can you get right before time runs out?",
     streak: "No mistakes",
@@ -803,7 +812,7 @@ const en: Strings = {
     namesLede: "How notes are written on the buttons and on the neck, everywhere in the app.",
     language: "Language",
     records: "Records",
-    recordsEmpty: "No records yet. Play Name the note or Find the note against the clock or without mistakes, and your bests appear here.",
+    recordsEmpty: "No records yet. Try Name the note or Find the note against the clock or with no mistakes, and your bests appear here.",
     stringsCount: "{n} strings",
     achievements: "Achievements",
     achievementsCount: "{e} of {t}",
@@ -1328,6 +1337,10 @@ const es: Strings = {
     heading: "¿Cómo quieres practicar?",
     practice: "Libre",
     practiceSub: "Sin reloj y sin final. Paras cuando quieras.",
+    practiceCard: "Sin reloj y sin final.",
+    streakCard: "Hasta el primer fallo.",
+    noScore: "No se guarda marca",
+    noBest: "Aún sin marca",
     timed: "Contrarreloj",
     timedSub: "¿Cuántas aciertas antes de que se acabe el tiempo?",
     streak: "Sin fallos",
@@ -1419,7 +1432,7 @@ const es: Strings = {
     namesLede: "Cómo se escriben las notas en los botones y en el mástil, en toda la app.",
     language: "Idioma",
     records: "Récords",
-    recordsEmpty: "Aún no hay récords. Juega a Nombra la nota o Encuentra la nota contrarreloj o sin fallos y aquí aparecerán tus mejores marcas.",
+    recordsEmpty: "Aún no hay récords. Prueba Nombra la nota o Encuentra la nota contrarreloj o sin fallos y aquí aparecerán tus mejores marcas.",
     stringsCount: "{n} cuerdas",
     achievements: "Logros",
     achievementsCount: "{e} de {t}",

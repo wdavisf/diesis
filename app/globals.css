@@ -168,6 +168,20 @@
   }
 }
 
+/* On a phone a screen's main button is always in sight, pinned right above the tab bar, however
+   long the screen is (Will, 2026-10-01). The bar is 4rem plus the safe area (app layout). */
+@media (width < 48rem) {
+  .cta-pin {
+    position: sticky;
+    bottom: calc(4rem + env(safe-area-inset-bottom));
+    z-index: 10;
+    margin: auto -1rem 0;
+    padding: 0.75rem 1rem;
+    background: var(--color-stage);
+    border-top: 1px solid var(--color-line);
+  }
+}
+
 /* A mark appearing on the neck pops in, and its color eases when it turns green
    (components/fretboard.tsx). The wrong mark keeps the shake below instead. */
 .mark {

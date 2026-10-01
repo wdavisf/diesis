@@ -5,6 +5,7 @@ import {
   EMPTY_TALLY,
   encodeChallenge,
   secondsLeft,
+  TIMED_SECONDS,
   tallyRight,
   tallyTimeUp,
   tallyWrong,
@@ -14,6 +15,8 @@ import {
 
 const LAST_KEY = "diesis_challenge";
 const BEST_PREFIX = "diesis_best:";
+/** Every challenge that keeps a best, in the order their bests are read for the setup screen. */
+const SCORED: readonly Challenge[] = [{ kind: "streak" }, ...TIMED_SECONDS.map((seconds) => ({ kind: "timed", seconds }) as const)];
 
 function read(key: string): string | null {
   try {
@@ -43,9 +46,9 @@ export interface ChallengeState {
   best: number | null;
   /** True when the run just ended beat the stored best. */
   newBest: boolean;
-  /** The stored best for the challenge as currently picked, for the setup screen. Null for
-   *  practice or when there is none. */
-  bestNow: number | null;
+  /** The stored best for any challenge, for the setup screen's cards. Null for practice or when
+   *  there is none. */
+  bestOf: (c: Challenge) => number | null;
   begin: () => void;
   right: () => void;
   wrong: () => void;
@@ -72,9 +75,15 @@ export function useChallenge(mode: string): ChallengeState {
 
   const running = startedAt !== null && !tally.over;
   const key = bestKey(mode, challenge);
-  const storedBest = useSyncExternalStore(noSubscribe, () => (key ? read(BEST_PREFIX + key) : null), () => null);
-  const bestNowValue = Number(storedBest);
-  const bestNow = Number.isFinite(bestNowValue) && bestNowValue > 0 ? bestNowValue : null;
+  const storedBests = useSyncExternalStore(noSubscribe, () => SCORED.map((c) => read(BEST_PREFIX + bestKey(mode, c)) ?? "").join(","), () => "");
+  const bestOf = useCallback(
+    (c: Challenge) => {
+      const at = SCORED.findIndex((s) => bestKey(mode, s) === bestKey(mode, c));
+      const value = at < 0 ? NaN : Number(storedBests.split(",")[at]);
+      return Number.isFinite(value) && value > 0 ? value : null;
+    },
+    [mode, storedBests],
+  );
   const newBest = tally.over && key !== null && tally.right > 0 && (best === null || tally.right > best);
 
   const setChallenge = useCallback((c: Challenge) => {
@@ -117,5 +126,5 @@ export function useChallenge(mode: string): ChallengeState {
     setLeft(null);
   }, []);
 
-  return { challenge, setChallenge, tally, left, running, best, newBest, bestNow, begin, right, wrong, reset };
+  return { challenge, setChallenge, tally, left, running, best, newBest, bestOf, begin, right, wrong, reset };
 }

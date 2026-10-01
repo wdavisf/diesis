@@ -3,7 +3,7 @@
 import { useEffect, useMemo } from "react";
 import { createNotePlayer } from "@/lib/audio/note-player";
 import { namesFor, pitchClassAt, samePosition } from "@/lib/core/notes";
-import { DEFAULT_SETTINGS } from "@/lib/core/quiz";
+import { DEFAULT_SETTINGS, positionsOf } from "@/lib/core/quiz";
 import { useChallenge } from "@/lib/game/use-challenge";
 import { useModeB } from "@/lib/game/use-mode-b";
 import { useSettings } from "@/lib/game/use-settings";
@@ -87,16 +87,24 @@ export function FindGame({
   const allFound = round !== null && game.found.length === round.positions.length;
 
   if (picking) {
+    // The still on the setup screen: every A on this neck, all found but the last.
+    const preview: Mark[] = positionsOf(9, settings)
+      .slice(0, -1)
+      .map((position) => ({ position, state: "correct", label: names[9] }));
     return (
       <GameShell t={t} title={tf.title}>
         <SetupScreen
+          title={tf.title}
           tc={tc}
           ts={ts}
           hint={tf.startSub}
+          marks={preview}
+          strings={tuning.length}
+          boardLabel={t.board}
           value={run.challenge}
           onChange={run.setChallenge}
           settings={prefs}
-          best={run.bestNow}
+          bestOf={run.bestOf}
           onStart={() => void begin()}
           loading={game.phase === "loading"}
           loadingLabel={t.loading}

@@ -3,6 +3,16 @@
 Written for the people using it, not for the code. Newest first. Version matches
 `package.json`.
 
+## 0.31.0 — 1 October 2026, a proper screen before you start
+
+- Name the note and Find the note open on a new screen. The neck is there from the first moment,
+  with a picture of what the exercise asks. The three challenges are cards, each with your best
+  on it, and the minutes sit inside Against the clock.
+- Which notes are asked and how they are named are now tiles that spell out what you get: all
+  twelve notes or the seven naturals, Do Re Mi or C D E.
+- On a phone, Start stays in sight right above the bottom bar however long the screen is. The
+  same goes for Start in the finger exercise.
+
 ## 0.30.0 — 30 September 2026, the metronome counts you in
 
 - The metronome now counts one bar in every time it starts: the big number counts the beats

@@ -81,12 +81,32 @@ Todoist project records what is still to do.
   real name for 0.7 s and counts one mistake, the round goes on; the round ends when all are
   found; in Practice a "Show me" button reveals the rest and moves on. Core: `positionsOf`
   and `nextFindRound` in `lib/core/quiz.ts` (never the same note twice in a row).
-- **Setup screen (Will, 2026-09-24: the picker over the neck "looks awful").** Every mode
-  opens on `components/setup-screen.tsx`, a full screen inside the same `GameShell` (sideways
-  on phones): challenge, minutes, notes, names, the stored best for that pick, Start. The
-  board only mounts once the round starts; the result card is still an overlay on the board.
-  The mode hooks call `player.preload()` on mount so the WAVs download during setup and Start
-  only decodes (`lib/audio/note-player.ts` keeps the bytes; decoding gets a copy).
+- **Setup screen (redesigned 2026-10-01, 0.31.0; Will: "this empty state sucks").** Every mode
+  opens on `components/setup-screen.tsx`, upright inside the same `GameShell`. Will chose it from
+  mockups in the chat, in three picks: the title in Fraunces with the one-line hint (a phone's top
+  bar already names the tool, so there only the hint); **a still of the exercise on the neck**
+  (`Preview`: the player's own strings, frets 0–12; Name the note lights one position, Find the
+  note shows every A found but one; bare dots on a phone, where a letter does not fit);
+  **the three challenges as cards** (icon, name, a short line, and the best kept for it: "Your
+  best: 34", "No best yet", or "No score kept" for Practice; the minutes are chips inside the
+  Against the clock card and stay as last picked; the whole card is the radio); **Notes and Note
+  names as tiles that spell out what you get** ("All twelve" with the twelve names written in
+  full, never cut short; "Do Re Mi" over "Fa Sol La Si"); then the picked challenge's sentence
+  and Start. Bests for all challenges come from `bestOf` in `use-challenge.ts`. The layout uses
+  container queries (three columns from `@2xl`). The first version (2026-09-24, a form of chip
+  rows in the middle of an empty screen) and a picker laid over the neck before that are both
+  rejected; so were plain chip pairs for notes and names ("shit"). The board for the round still
+  only mounts on Start; the result card is still an overlay on the board. The mode hooks call
+  `player.preload()` on mount so the WAVs download during setup and Start only decodes
+  (`lib/audio/note-player.ts` keeps the bytes; decoding gets a copy).
+- **On a phone the main button is always in sight, right above the tab bar (Will, 2026-10-01:
+  "all CTAs should always be visible right above the bottom row").** `.cta-pin` in globals.css
+  (below `md`: sticky above the tab bar, with the stage behind it and a rule on top, pushed to
+  the foot of a short screen). It sticks to the window, so the screen must scroll with the page:
+  no `overflow-auto` on an ancestor. Used by the setup screen and the finger exercise's setup.
+  The metronome keeps the layout Will picked (Start under the tempo, the three setting buttons
+  at the foot), where Start is always in sight already. A new screen with a main button uses
+  `.cta-pin`.
 - **Challenges** (Will, 2026-09-24): every mode starts on a picker. Practice (endless),
   Against the clock (1, 2 or 5 min, score = right answers; mistakes counted, do not end it),
   No mistakes (score = right answers before the first mistake). In Find the note each position

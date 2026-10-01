@@ -76,13 +76,17 @@ export function Game({ t, tc, ts, lang }: { t: Strings["game"]; tc: Strings["cha
     return (
       <GameShell t={t} title={t.title}>
         <SetupScreen
+          title={t.title}
           tc={tc}
           ts={ts}
           hint={t.startSub}
+          marks={[{ position: { string: 5, fret: 3 }, state: "asking" }]}
+          strings={tuning.length}
+          boardLabel={t.board}
           value={run.challenge}
           onChange={run.setChallenge}
           settings={prefs}
-          best={run.bestNow}
+          bestOf={run.bestOf}
           onStart={() => void begin()}
           loading={game.phase === "loading"}
           loadingLabel={t.loading}

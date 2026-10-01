@@ -320,7 +320,14 @@ export function Fingers({ t, tm, tg }: { t: Strings["fingers"]; tm: Strings["met
   // edge, the notes falling from the far side. The setup screen and the result stay upright.
   return (
     <GameShell t={tg} title={t.title} status={status} sideways={phase === "running"} gate={false}>
-      <div className={cn("flex min-h-0 flex-1 flex-col overflow-auto px-4 animate-in fade-in fill-mode-both duration-300 motion-reduce:animate-none", phase === "running" ? "pb-3" : "pb-6")}>
+      {/* The setup screen scrolls with the page, so its pinned Start sticks to the window (`.cta-pin`). */}
+      <div
+        className={cn(
+          "flex flex-1 flex-col px-4 animate-in fade-in fill-mode-both duration-300 motion-reduce:animate-none",
+          phase === "setup" ? "" : "min-h-0 overflow-auto",
+          phase === "running" ? "pb-3" : "pb-6",
+        )}
+      >
         <div className={cn("mx-auto flex w-full max-w-2xl flex-1 flex-col", phase === "running" ? "pt-1" : "justify-center gap-6 py-4")}>
           {phase === "setup" ? (
             <>
@@ -361,11 +368,13 @@ export function Fingers({ t, tm, tg }: { t: Strings["fingers"]; tm: Strings["met
                 <Trophy className="mt-0.5 size-4 shrink-0 text-amber" aria-hidden />
                 <span className={best ? "" : "text-dim"}>{best ? fill(t.best, { bpm: best.bpm }) : t.noBest}</span>
               </p>
-              <button type="button" onClick={() => void start()} className={cn(primary, "inline-flex w-full items-center justify-center gap-2 py-3")}>
-                <Play className="size-5" aria-hidden />
-                {t.start}
-              </button>
               <p className="text-center text-sm text-dim">{t.tip}</p>
+              <div className="cta-pin">
+                <button type="button" onClick={() => void start()} className={cn(primary, "inline-flex w-full items-center justify-center gap-2 py-3")}>
+                  <Play className="size-5" aria-hidden />
+                  {t.start}
+                </button>
+              </div>
               <p className="hidden text-center text-xs text-dim pointer-fine:block">{settings.hand === "left" ? t.keysLeft : t.keysRight}</p>
             </>
           ) : null}
