@@ -1120,7 +1120,7 @@ const en: Strings = {
   },
   settings: { challenge: "Challenge", time: "Time", notes: "Notes", all: "All twelve", naturals: "Naturals only", names: "Note names", solfege: "Do Re Mi", letters: "C D E" },
   consent: {
-    text: "Diesis counts visits and which tools get used, with Google Analytics and PostHog, only if you say yes. No ads, nothing sold.",
+    text: "Allow analytics cookies?",
     accept: "Allow",
     decline: "No thanks",
     more: "Privacy",
@@ -1880,7 +1880,7 @@ const es: Strings = {
   },
   settings: { challenge: "Reto", time: "Tiempo", notes: "Notas", all: "Todas", naturals: "Solo naturales", names: "Nombres", solfege: "Do Re Mi", letters: "C D E" },
   consent: {
-    text: "Diesis cuenta las visitas y qué herramientas se usan, con Google Analytics y PostHog, solo si tú lo permites. Sin anuncios y sin vender nada.",
+    text: "¿Permites las cookies de analítica?",
     accept: "Permitir",
     decline: "No, gracias",
     more: "Privacidad",

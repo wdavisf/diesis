@@ -348,7 +348,9 @@ Todoist project records what is still to do.
   GA id), both loaded by `components/consent.tsx` only after the visitor accepts a banner (cookie
   `diesis_consent`, one year; the accepted value is `yes2` since PostHog joined, so an older
   `yes`, given to a banner that named only Google, is asked again). Decline loads nothing from
-  either. PostHog gets page views, page leaves and web vitals only (every tool is a page): autocapture,
+  either. The banner is one question, "Allow analytics cookies?" / «¿Permites las cookies de
+  analítica?», and a link to the privacy page (Will, 2026-10-02: "no necesitan saber ahí para qué
+  las uso"); what is measured and by whom is said there, not in the banner. PostHog gets page views, page leaves and web vitals only (every tool is a page): autocapture,
   heatmaps, dead clicks and session recordings are switched off in code whatever the PostHog
   project says, events are anonymous, its id sits in localStorage, not a cookie. The privacy
   page describes all of it in both languages; keep it true: turning any of those on, or adding

@@ -3,6 +3,11 @@
 Written for the people using it, not for the code. Newest first. Version matches
 `package.json`.
 
+## 0.35.1 — 2 October 2026
+
+- The analytics banner is one short question now ("Allow analytics cookies?"), so on a phone it no
+  longer covers half the screen. What is measured and with what stays on the privacy page.
+
 ## 0.35.0 — 2 October 2026
 
 - Learn is now split into three tracks, picked at the top of its page: **Fretboard notes** (Name
