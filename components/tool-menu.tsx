@@ -1,11 +1,12 @@
 import type { ReactNode } from "react";
 import Link from "next/link";
 import { ArrowRight, Lock } from "lucide-react";
+import { ExerciseFigure, type ExerciseFigureId } from "@/components/exercise-figure";
 import type { Menu, Strings, TrackId, When } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 
-/** One card per entry of `menu.modes`, in the same order: where it goes (null while it is not built) and when it comes. */
-export type MenuItem = { href: string | null; when: When };
+/** One card per entry of `menu.modes`, in the same order: where it goes (null while it is not built), when it comes, and the still drawn at the top of its card (Learn's exercises). */
+export type MenuItem = { href: string | null; when: When; figure?: ExerciseFigureId };
 
 /**
  * Learn's tracks (Will, 2026-10-02: the notes on the neck, reading music, reading tab), in the
@@ -16,27 +17,27 @@ export const LEARN_TRACKS: { id: TrackId; items: MenuItem[] }[] = [
   {
     id: "notes",
     items: [
-      { href: "/learn/name-the-note", when: "now" },
-      { href: "/learn/find-the-note", when: "now" },
-      { href: null, when: "next" },
+      { href: "/learn/name-the-note", when: "now", figure: "name" },
+      { href: "/learn/find-the-note", when: "now", figure: "find" },
+      { href: null, when: "next", figure: "hear" },
     ],
   },
   {
     id: "reading",
     items: [
-      { href: "/learn/read-the-note", when: "now" },
-      { href: "/learn/staff-to-neck", when: "now" },
-      { href: "/learn/read-a-bar", when: "now" },
-      { href: "/learn/sight-reading", when: "now" },
+      { href: "/learn/read-the-note", when: "now", figure: "read" },
+      { href: "/learn/staff-to-neck", when: "now", figure: "staffNeck" },
+      { href: "/learn/read-a-bar", when: "now", figure: "bar" },
+      { href: "/learn/sight-reading", when: "now", figure: "sight" },
     ],
   },
   {
     id: "tab",
     items: [
-      { href: null, when: "next" },
-      { href: null, when: "next" },
-      { href: null, when: "next" },
-      { href: null, when: "next" },
+      { href: null, when: "next", figure: "tabNeck" },
+      { href: null, when: "next", figure: "neckTab" },
+      { href: null, when: "next", figure: "riff" },
+      { href: null, when: "next", figure: "symbols" },
     ],
   },
 ];
@@ -85,7 +86,12 @@ export function MenuCards({ t, modes, items }: { t: Strings; modes: { title: str
   return (
     <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
       {modes.map((m, i) => {
-        const { href: path, when } = items[i];
+        const { href: path, when, figure } = items[i];
+        const still = figure ? (
+          <div className="mb-4">
+            <ExerciseFigure id={figure} names={t.game.noteNames} />
+          </div>
+        ) : null;
         const href = path ? `${t.base}${path}` : null;
         const tag = when === "now" ? h.start : when === "next" ? h.next : h.later;
         const enter = "animate-in fade-in slide-in-from-bottom-3 fill-mode-both duration-500 motion-reduce:animate-none";
@@ -94,8 +100,9 @@ export function MenuCards({ t, modes, items }: { t: Strings; modes: { title: str
           <li key={m.title} className={enter} style={delay}>
             <Link
               href={href}
-              className="group flex h-full flex-col rounded-2xl border border-amber/50 bg-surface p-5 transition-[transform,border-color,background-color] duration-200 hover:-translate-y-0.5 hover:border-amber hover:bg-surface-raised active:translate-y-0 active:scale-[0.99] motion-reduce:transition-none motion-reduce:hover:translate-y-0"
+              className="group flex h-full min-w-0 flex-col rounded-2xl border border-amber/50 bg-surface p-5 transition-[transform,border-color,background-color] duration-200 hover:-translate-y-0.5 hover:border-amber hover:bg-surface-raised active:translate-y-0 active:scale-[0.99] motion-reduce:transition-none motion-reduce:hover:translate-y-0"
             >
+              {still}
               <span className="text-xs font-semibold text-correct">{tag}</span>
               <span className="mt-2 flex items-center justify-between font-display text-xl font-semibold">
                 {m.title}
@@ -105,7 +112,8 @@ export function MenuCards({ t, modes, items }: { t: Strings; modes: { title: str
             </Link>
           </li>
         ) : (
-          <li key={m.title} className={cn("flex flex-col rounded-2xl border border-line p-5 opacity-70", enter)} style={delay}>
+          <li key={m.title} className={cn("flex min-w-0 flex-col rounded-2xl border border-line p-5 opacity-70", enter)} style={delay}>
+            {still}
             <span className="flex items-center gap-1.5 text-xs font-semibold text-dim">
               <Lock className="size-3" aria-hidden />
               {tag}

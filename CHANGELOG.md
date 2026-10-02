@@ -3,6 +3,12 @@
 Written for the people using it, not for the code. Newest first. Version matches
 `package.json`.
 
+## 0.35.3 — 2 October 2026
+
+- Every card in Learn shows a picture of its exercise: the neck, the staff or tab, or the two side
+  by side with an arrow when you read one and answer on the other, so the kinds of exercise are
+  told apart at a glance. The coming tab exercises have theirs too.
+
 ## 0.35.2 — 2 October 2026
 
 - On a computer, Learn's page no longer repeats the Fretboard · Notation · Tab picker: the

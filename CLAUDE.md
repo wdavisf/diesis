@@ -56,7 +56,11 @@ Todoist project records what is still to do.
   included. On a phone the back arrow inside an exercise goes to its track (`trackOf` in
   `tool-menu.tsx`, also used by `GameShell`'s own back arrow). Exercise addresses did not change.
   The track's name is not "El mástil": that is the neck explorer in Practice. The cards still say
-  "Start", not the player's best (the mockup showed a best; not built). A new Learn exercise gets
+  "Start", not the player's best (the mockup showed a best; not built). **Each card opens with a
+  still of its exercise** (Will, 2026-10-02: "agrega alguna imagen dentro para diferenciar los
+  tipos de ejercicios"; `components/exercise-figure.tsx`, picked by `figure` in `LEARN_TRACKS`):
+  the neck (`Fretboard`), the staff (`Staff`) or six lines of tab, or two of them side by side
+  with an arrow when the exercise reads one and answers on the other. A new Learn exercise gets
   its line in its track in `LEARN_TRACKS` and its copy in that track's `modes`.
 - **A third side, Setup (Will, 2026-09-26: strings and setup "no es practicar, es otra cosa";
   "guitar setup en inglés").** `/setup`, «Ajuste» in Spanish: the guitar itself (strings,
