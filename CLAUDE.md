@@ -36,8 +36,9 @@ Todoist project records what is still to do.
   el mástil… aprender a leer notación musical… y una sección para aprender a leer tablaturas";
   "todo está ahí tirado como si nada"; built 0.35.0).** Will chose design C of five mockups in the
   chat ("C all the way"; the others were one long page of sections, doors to a page per track, a
-  numbered path with progress, and shelves that scroll sideways). Learn's page has a picker at the
-  top, Fretboard · Notation · Tab / «Mástil · Partitura · Tablatura» (`short` in
+  numbered path with progress, and shelves that scroll sideways). Learn's page has, on phones only, a picker at the
+  top (from `md` it is hidden and the track's name heads the cards instead; Will, 2026-10-02: "en
+  desktop no hacen falta las tabs, ya están en la sidebar"), Fretboard · Notation · Tab / «Mástil · Partitura · Tablatura» (`short` in
   `learnMenu.tracks`), and under it the picked track's one line and its exercises as cards. Each
   track is its own address, `/learn/notes`, `/learn/reading`, `/learn/tab` (`components/learn-menu.tsx`;
   the three pages and their `/es` re-exports are one-liners). `/learn` redirects to the first

@@ -3,6 +3,12 @@
 Written for the people using it, not for the code. Newest first. Version matches
 `package.json`.
 
+## 0.35.2 — 2 October 2026
+
+- On a computer, Learn's page no longer repeats the Fretboard · Notation · Tab picker: the
+  sidebar already lists the tracks, so the page shows the open track's name instead. Phones keep
+  the picker.
+
 ## 0.35.1 — 2 October 2026
 
 - The analytics banner is one short question now ("Allow analytics cookies?"), so on a phone it no
