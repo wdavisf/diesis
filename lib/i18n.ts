@@ -31,6 +31,20 @@ export interface Menu {
   modes: { title: string; body: string }[];
 }
 
+export type TrackId = "notes" | "reading" | "tab";
+
+/**
+ * Learn is split into tracks (Will, 2026-10-02), picked at the top of its page: `short` is what
+ * the picker says, `name` what the sidebar and /start say. A mode's `short` is its name in the
+ * phone's top bar when the full title is too long for it. `later` are the tracks still to come.
+ */
+export interface LearnMenu {
+  title: string;
+  lede: string;
+  tracks: Record<TrackId, { name: string; short: string; lede: string; modes: { title: string; body: string; short?: string }[] }>;
+  later: { title: string; body: string }[];
+}
+
 export interface Strings {
   code: Lang;
   base: string; // "" for en, "/es" for es
@@ -40,12 +54,10 @@ export interface Strings {
   meta: { title: string; description: string; privacyTitle: string; privacyDescription: string };
   nav: {
     tools: string; faq: string; cta: string; privacy: string; about: string;
-    /** The three sides of the app and their tools, in the order of `SIDES` in components/app-nav.tsx; the `Soon` lists are the tools shown dimmed as coming next. */
+    /** The three sides of the app and the tools of Practice and Setup, in the order of `SIDES` in components/app-nav.tsx; `setupSoon` are the tools shown dimmed as coming next. Learn lists its tracks, named in `learnMenu`. */
     areas: { learn: string; practice: string; setup: string };
-    learnTools: string[];
     practiceTools: string[];
     setupTools: string[];
-    learnSoon: string[];
     setupSoon: string[];
     soon: string;
     /** The sidebar's toggle. */
@@ -99,8 +111,8 @@ export interface Strings {
   notFound: { title: string; body: string; home: string };
   /** /start: "What do you want to do today?", Learn or Practice. */
   home: { title: string; h1: string; lede: string; about: string; start: string; next: string; later: string; learn: string; practice: string; setup: string };
-  /** The menus of the two sides, cards in the order of their hrefs in components/tool-menu.tsx. */
-  learnMenu: Menu;
+  /** The menus of the three sides, cards in the order of their hrefs in components/tool-menu.tsx. */
+  learnMenu: LearnMenu;
   practiceMenu: Menu;
   setupMenu: Menu;
   game: {
@@ -387,7 +399,7 @@ const en: Strings = {
     privacyTitle: "Privacy",
     privacyDescription: "What Diesis does with your data: no account, no ads, and your settings and scores never leave your browser. Visits are counted with Google Analytics and PostHog only if you allow it.",
   },
-  nav: { tools: "Tools", faq: "FAQ", cta: "Open the app", privacy: "Privacy", about: "About Diesis", areas: { learn: "Learn", practice: "Practice", setup: "Setup" }, learnTools: ["Name the note", "Find the note", "Read the note", "Staff to neck", "Sight reading", "Read a bar"], practiceTools: ["The neck", "Metronome", "Backing tracks", "Fingers"], setupTools: ["Strings", "Tuner"], learnSoon: ["Hear the note"], setupSoon: ["Intonation", "My guitars"], soon: "Soon", collapse: "Collapse the sidebar", expand: "Open the sidebar" },
+  nav: { tools: "Tools", faq: "FAQ", cta: "Open the app", privacy: "Privacy", about: "About Diesis", areas: { learn: "Learn", practice: "Practice", setup: "Setup" }, practiceTools: ["The neck", "Metronome", "Backing tracks", "Fingers"], setupTools: ["Strings", "Tuner"], setupSoon: ["Intonation", "My guitars"], soon: "Soon", collapse: "Collapse the sidebar", expand: "Open the sidebar" },
   hero: {
     eyebrow: "The guitar practice app",
     h1: ["Know the neck.", "Lock in the tempo.", "Dial in your guitar."],
@@ -768,23 +780,50 @@ const en: Strings = {
     start: "Start",
     next: "Coming next",
     later: "Later",
-    learn: "Exercises that teach you the guitar: every note on the neck first, then scales and reading music.",
+    learn: "Exercises that teach you the guitar: the notes on the neck, reading music and reading tab.",
     practice: "The tools you play with: the neck with any scale on it, a metronome that builds your speed, backing tracks and a finger independence drill.",
     setup: "Your guitar itself: the right strings for your tuning, and the numbers to set it up after a string change.",
   },
   learnMenu: {
     title: "Learn",
     lede: "Short exercises that tell you at once if you got it right. A few minutes a day is enough.",
-    modes: [
-      { title: "Name the note", body: "A position lights and plays. Say which note it is." },
-      { title: "Find the note", body: "You get a name. Tap every place it lives." },
-      { title: "Read the note", body: "A note on the staff, written for guitar. Name it." },
-      { title: "Staff to neck", body: "A note on the staff. Tap where it lives on the neck." },
-      { title: "Sight reading", body: "Notes come along the staff. Name each one before it passes." },
-      { title: "Read a bar", body: "Four notes in a row. Name them in order." },
-      { title: "Hear the note", body: "A note plays with nothing lit. Find it on the neck." },
-      { title: "Scale exercises", body: "Build the scale, name the scale, name the degree." },
-      { title: "Glossary and technique", body: "What down picking, a hammer-on or a rest stroke is, and how to do it. Electric and classical." },
+    tracks: {
+      notes: {
+        name: "Fretboard notes",
+        short: "Fretboard",
+        lede: "Where every note lives on the neck, without stopping to think.",
+        modes: [
+          { title: "Name the note", body: "A position lights and plays. Say which note it is." },
+          { title: "Find the note", body: "You get a name. Tap every place it lives." },
+          { title: "Hear the note", body: "A note plays with nothing lit. Find it on the neck." },
+        ],
+      },
+      reading: {
+        name: "Reading music",
+        short: "Notation",
+        lede: "The staff, written for guitar: name what you see and find it on the neck.",
+        modes: [
+          { title: "Read the note", body: "A note on the staff, written for guitar. Name it." },
+          { title: "Staff to neck", body: "A note on the staff. Tap where it lives on the neck." },
+          { title: "Read a bar", body: "Four notes in a row. Name them in order." },
+          { title: "Sight reading", body: "Notes come along the staff. Name each one before it passes." },
+        ],
+      },
+      tab: {
+        name: "Tablature",
+        short: "Tab",
+        lede: "Strings and frets: read tab as easily as you read text.",
+        modes: [
+          { title: "Tab to neck", body: "A number on a line of the tab. Tap that string at that fret." },
+          { title: "Neck to tab", body: "A position lights on the neck. Write it as tab." },
+          { title: "Read a riff", body: "A bar of tab, one note after another. Play it on the neck in order." },
+          { title: "Tab symbols", body: "h, p, b, /, ~, x, PM: what each sign asks you to do." },
+        ],
+      },
+    },
+    later: [
+      { title: "Scales", body: "Build the scale, name the scale, name the degree." },
+      { title: "Technique", body: "What down picking, a hammer-on or a rest stroke is, and how to do it. Electric and classical." },
     ],
   },
   practiceMenu: {
@@ -1089,10 +1128,10 @@ const en: Strings = {
   privacy: {
     eyebrow: "Privacy",
     h1: "Privacy policy",
-    updated: "Last updated 1 October 2026",
+    updated: "Last updated 2 October 2026",
     summary: "Diesis has no account and no advertising. What you choose, score and write in Diesis stays in your browser. The only thing measured is visits: which pages and tools are opened, with Google Analytics and PostHog, and only if you allow it.",
     sections: [
-      { h: "The app", p: ["Diesis runs entirely in your browser. It does not ask who you are, does not create an account, and does not send your answers, scores or settings to me or to anyone else.", "Your score for a session is held in memory and disappears when you close the tab. Everything else you choose or earn stays in your browser's local storage, on your device only: your guitar (strings and tuning), how notes are named, your personal bests and the challenge you last picked, the metronome's settings (including a speed-up plan), the finger exercise's settings and your fastest clean runs in it, what you last picked on the neck, your guitar type, scale length and string gauges, and your practice log (your goal and what you write each day). None of it is ever sent anywhere. The Erase my data button in your profile removes it, and so does clearing the site's data."] },
+      { h: "The app", p: ["Diesis runs entirely in your browser. It does not ask who you are, does not create an account, and does not send your answers, scores or settings to me or to anyone else.", "Your score for a session is held in memory and disappears when you close the tab. Everything else you choose or earn stays in your browser's local storage, on your device only: your guitar (strings and tuning), how notes are named, your personal bests and the challenge you last picked, the metronome's settings (including a speed-up plan), the finger exercise's settings and your fastest clean runs in it, what you last picked on the neck, the part of Learn you were in last, your guitar type, scale length and string gauges, and your practice log (your goal and what you write each day). None of it is ever sent anywhere. The Erase my data button in your profile removes it, and so does clearing the site's data."] },
       { h: "Cookies", p: ["Diesis sets two cookies. One remembers the language you picked; the other remembers your answer to the analytics banner. Neither holds anything about you."] },
       { h: "This website", p: ["diesis.app is hosted by Vercel, which keeps standard server logs (IP address, browser, pages requested) for a short time to run the service and keep it safe.", "If you allow it in the banner, the site loads Google Analytics 4 and PostHog to count visits and see which pages and tools are opened, for how long, how fast they load and from what kind of device. Google sets its own cookies for that; PostHog keeps a random identifier in your browser's local storage, does not record your screen or your clicks, and stores its data in the European Union. Each processes the data under its own privacy policy. If you decline, nothing from Google or PostHog is loaded, and you can change your mind by clearing the site's cookies."] },
       { h: "The tuner's microphone", p: ["The tuner listens through your microphone only while it is on, and only to work out which note you are playing. Your browser asks for permission first, and you can take it back in its settings whenever you like.", "The sound is analysed on your device, a moment at a time, and thrown away. It is not recorded, saved or sent to me or to anyone else."] },
@@ -1120,7 +1159,7 @@ const es: Strings = {
     privacyTitle: "Privacidad",
     privacyDescription: "Qué hace Diesis con tus datos: sin cuenta, sin anuncios, y tus ajustes y tus marcas no salen de tu navegador. Las visitas se cuentan con Google Analytics y PostHog solo si tú lo permites.",
   },
-  nav: { tools: "Herramientas", faq: "Preguntas", cta: "Abrir la app", privacy: "Privacidad", about: "Sobre Diesis", areas: { learn: "Aprender", practice: "Practicar", setup: "Ajuste" }, learnTools: ["Nombra la nota", "Encuentra la nota", "Lee la nota", "Pentagrama al mástil", "Primera vista", "Lee un compás"], practiceTools: ["El mástil", "Metrónomo", "Backing tracks", "Dedos"], setupTools: ["Cuerdas", "Afinador"], learnSoon: ["Escucha la nota"], setupSoon: ["Octavación", "Mis guitarras"], soon: "Pronto", collapse: "Plegar la barra lateral", expand: "Desplegar la barra lateral" },
+  nav: { tools: "Herramientas", faq: "Preguntas", cta: "Abrir la app", privacy: "Privacidad", about: "Sobre Diesis", areas: { learn: "Aprender", practice: "Practicar", setup: "Ajuste" }, practiceTools: ["El mástil", "Metrónomo", "Backing tracks", "Dedos"], setupTools: ["Cuerdas", "Afinador"], setupSoon: ["Octavación", "Mis guitarras"], soon: "Pronto", collapse: "Plegar la barra lateral", expand: "Desplegar la barra lateral" },
   hero: {
     eyebrow: "La app para practicar guitarra",
     h1: ["Domina el mástil.", "Clava el tempo.", "Pon a punto tu guitarra."],
@@ -1501,23 +1540,50 @@ const es: Strings = {
     start: "Empezar",
     next: "Próximamente",
     later: "Más adelante",
-    learn: "Ejercicios que te enseñan la guitarra: primero todas las notas del mástil, luego las escalas y la lectura de partituras.",
+    learn: "Ejercicios que te enseñan la guitarra: las notas del mástil, a leer partitura y a leer tablatura.",
     practice: "Las herramientas con las que tocas: el mástil con la escala que quieras, un metrónomo que te va subiendo la velocidad, backing tracks y un ejercicio de independencia de dedos.",
     setup: "Tu guitarra en sí: las cuerdas que le van a tu afinación y las medidas para ajustarla después de cambiarlas.",
   },
   learnMenu: {
     title: "Aprender",
     lede: "Ejercicios cortos que te dicen al momento si has acertado. Con unos minutos al día basta.",
-    modes: [
-      { title: "Nombra la nota", body: "Se ilumina una posición y suena. Di qué nota es." },
-      { title: "Encuentra la nota", body: "Te dan una nota. Tócala en todos los sitios donde esté." },
-      { title: "Lee la nota", body: "Una nota en el pentagrama, escrita para guitarra. Di cuál es." },
-      { title: "Del pentagrama al mástil", body: "Una nota en el pentagrama. Toca dónde está en el mástil." },
-      { title: "Lectura a primera vista", body: "Las notas llegan por el pentagrama. Nombra cada una antes de que pase." },
-      { title: "Lee un compás", body: "Cuatro notas seguidas. Nómbralas en orden." },
-      { title: "Escucha la nota", body: "Suena una nota sin iluminar nada. Encuéntrala en el mástil." },
-      { title: "Ejercicios de escalas", body: "Constrúyelas, reconócelas y di el grado." },
-      { title: "Glosario y técnica", body: "Qué es el down picking, un hammer-on o el apoyando, y cómo se hacen. Guitarra eléctrica y clásica." },
+    tracks: {
+      notes: {
+        name: "Notas del mástil",
+        short: "Mástil",
+        lede: "Dónde está cada nota del mástil, sin pararte a pensarlo.",
+        modes: [
+          { title: "Nombra la nota", body: "Se ilumina una posición y suena. Di qué nota es." },
+          { title: "Encuentra la nota", body: "Te dan una nota. Tócala en todos los sitios donde esté." },
+          { title: "Escucha la nota", body: "Suena una nota sin iluminar nada. Encuéntrala en el mástil." },
+        ],
+      },
+      reading: {
+        name: "Partitura",
+        short: "Partitura",
+        lede: "El pentagrama, escrito para guitarra: di qué nota ves y encuéntrala en el mástil.",
+        modes: [
+          { title: "Lee la nota", body: "Una nota en el pentagrama, escrita para guitarra. Di cuál es." },
+          { title: "Del pentagrama al mástil", short: "Pentagrama al mástil", body: "Una nota en el pentagrama. Toca dónde está en el mástil." },
+          { title: "Lee un compás", body: "Cuatro notas seguidas. Nómbralas en orden." },
+          { title: "Lectura a primera vista", short: "Primera vista", body: "Las notas llegan por el pentagrama. Nombra cada una antes de que pase." },
+        ],
+      },
+      tab: {
+        name: "Tablatura",
+        short: "Tablatura",
+        lede: "Cuerdas y trastes: que leer una tablatura te cueste lo mismo que leer un texto.",
+        modes: [
+          { title: "De la tab al mástil", body: "Un número en una línea de la tablatura. Toca esa cuerda en ese traste." },
+          { title: "Del mástil a la tab", body: "Se ilumina una posición en el mástil. Escríbela en tablatura." },
+          { title: "Lee un riff", body: "Un compás de tablatura, nota a nota. Tócalo en el mástil en orden." },
+          { title: "Los símbolos", body: "h, p, b, /, ~, x, PM: qué te pide cada signo." },
+        ],
+      },
+    },
+    later: [
+      { title: "Escalas", body: "Constrúyelas, reconócelas y di el grado." },
+      { title: "Técnica", body: "Qué es el down picking, un hammer-on o el apoyando, y cómo se hacen. Guitarra eléctrica y clásica." },
     ],
   },
   practiceMenu: {
@@ -1822,10 +1888,10 @@ const es: Strings = {
   privacy: {
     eyebrow: "Privacidad",
     h1: "Política de privacidad",
-    updated: "Última actualización: 1 de octubre de 2026",
+    updated: "Última actualización: 2 de octubre de 2026",
     summary: "Diesis no tiene cuentas ni publicidad. Lo que eliges, consigues y apuntas en Diesis se queda en tu navegador. Lo único que se mide son las visitas: qué páginas y herramientas se abren, con Google Analytics y PostHog, y solo si tú lo permites.",
     sections: [
-      { h: "La app", p: ["Diesis funciona por completo en tu navegador. No te pregunta quién eres, no crea ninguna cuenta y no envía tus respuestas, tus marcas ni tus ajustes a nadie, ni a mí ni a terceros.", "La puntuación de cada sesión se guarda en memoria y desaparece al cerrar la pestaña. Todo lo demás que eliges o consigues se queda en el almacenamiento local de tu navegador, solo en tu dispositivo: tu guitarra (cuerdas y afinación), cómo se nombran las notas, tus mejores marcas y el último reto que elegiste, los ajustes del metrónomo (con el plan de subida de tempo), los ajustes del ejercicio de dedos y tus pasadas limpias más rápidas, lo último que elegiste en el mástil, tu tipo de guitarra, tiro y calibres de cuerda, y tu diario de práctica (tu objetivo y lo que apuntas cada día). Nada de eso se envía nunca a ningún sitio. El botón «Borrar mis datos» de tu perfil lo elimina, y también borrar los datos de la web."] },
+      { h: "La app", p: ["Diesis funciona por completo en tu navegador. No te pregunta quién eres, no crea ninguna cuenta y no envía tus respuestas, tus marcas ni tus ajustes a nadie, ni a mí ni a terceros.", "La puntuación de cada sesión se guarda en memoria y desaparece al cerrar la pestaña. Todo lo demás que eliges o consigues se queda en el almacenamiento local de tu navegador, solo en tu dispositivo: tu guitarra (cuerdas y afinación), cómo se nombran las notas, tus mejores marcas y el último reto que elegiste, los ajustes del metrónomo (con el plan de subida de tempo), los ajustes del ejercicio de dedos y tus pasadas limpias más rápidas, lo último que elegiste en el mástil, la parte de Aprender en la que estuviste la última vez, tu tipo de guitarra, tiro y calibres de cuerda, y tu diario de práctica (tu objetivo y lo que apuntas cada día). Nada de eso se envía nunca a ningún sitio. El botón «Borrar mis datos» de tu perfil lo elimina, y también borrar los datos de la web."] },
       { h: "Cookies", p: ["Diesis guarda dos cookies: una recuerda el idioma que has elegido y la otra, lo que respondiste al aviso de analítica. Ninguna contiene datos sobre ti."] },
       { h: "Esta web", p: ["diesis.app está alojada en Vercel, que conserva durante poco tiempo los registros habituales de cualquier servidor (dirección IP, navegador, páginas solicitadas) para que el servicio funcione y esté protegido.", "Si lo permites en el aviso, la web carga Google Analytics 4 y PostHog para contar visitas y ver qué páginas y herramientas se abren, durante cuánto tiempo, lo rápido que cargan y desde qué tipo de dispositivo. Google instala sus propias cookies para ello; PostHog guarda un identificador aleatorio en el almacenamiento local de tu navegador, no graba tu pantalla ni tus clics y conserva sus datos en la Unión Europea. Cada uno trata los datos según su propia política de privacidad. Si dices que no, no se carga nada de Google ni de PostHog; puedes cambiar de opinión borrando las cookies de la web."] },
       { h: "El micrófono del afinador", p: ["El afinador escucha por el micrófono solo mientras está encendido, y solo para averiguar qué nota tocas. El navegador te pide permiso antes, y puedes retirarlo cuando quieras en sus ajustes.", "El sonido se analiza en tu dispositivo, un instante cada vez, y se descarta. No se graba, no se guarda y no se envía ni a mí ni a nadie."] },

@@ -4,6 +4,7 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ArrowLeft, RotateCw } from "lucide-react";
+import { trackOf, trackPath } from "@/components/tool-menu";
 import type { Strings } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 
@@ -46,8 +47,12 @@ export function GameShell({
   gate?: boolean;
   children: ReactNode;
 }) {
-  // Back to the menu of the side this screen is on: /learn or /practice, in its language.
-  const home = usePathname()?.match(/^(\/es)?\/(learn|practice)/)?.[0] ?? "/start";
+  // Back to where this screen is reached from, in its language: an exercise's track in Learn
+  // (/learn/reading), the side's menu in Practice.
+  const path = usePathname() ?? "";
+  const base = path.startsWith("/es/") ? "/es" : "";
+  const track = trackOf(path.slice(base.length));
+  const home = track ? `${base}${trackPath(track)}` : (path.match(/^(\/es)?\/practice/)?.[0] ?? "/start");
   return (
     <>
       {sideways && gate ? (

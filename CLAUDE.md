@@ -28,9 +28,35 @@ Todoist project records what is still to do.
   Hear the note, scale exercises, reading music, the glossary). **Practice** (`/practice`): the
   tools you play with (the neck, the metronome; later the tuner, strings and setup). The
   profile is at `/profile`, on neither side. Menus are `components/tool-menu.tsx`
-  (`LEARN_ITEMS`/`PRACTICE_ITEMS`, copy in `learnMenu`/`practiceMenu`); all app routes live in
+  (`LEARN_TRACKS`/`PRACTICE_ITEMS`/`SETUP_ITEMS`, copy in `learnMenu`/`practiceMenu`/`setupMenu`;
+  Learn is split into tracks, next point); all app routes live in
   the route group `app/(en)/(app)/` (re-exported for Spanish, see the two root layouts below). Old `/practice/neck`, `/practice/metronome`, `/profile` and
   their `/es` twins redirect (`next.config.ts`; redirects run before `proxy.ts`).
+- **Learn in tracks (Will, 2026-10-02: "en aprender vamos a tener que distinguir entre aprenderte
+  el mástil… aprender a leer notación musical… y una sección para aprender a leer tablaturas";
+  "todo está ahí tirado como si nada"; built 0.35.0).** Will chose design C of five mockups in the
+  chat ("C all the way"; the others were one long page of sections, doors to a page per track, a
+  numbered path with progress, and shelves that scroll sideways). Learn's page has a picker at the
+  top, Fretboard · Notation · Tab / «Mástil · Partitura · Tablatura» (`short` in
+  `learnMenu.tracks`), and under it the picked track's one line and its exercises as cards. Each
+  track is its own address, `/learn/notes`, `/learn/reading`, `/learn/tab` (`components/learn-menu.tsx`;
+  the three pages and their `/es` re-exports are one-liners). `/learn` redirects to the first
+  (`next.config.ts`, temporary); inside the app every link to Learn (the tab bar, the sidebar's
+  Learn heading, the /start door, `LearnLink`) opens **the track opened last**, kept in
+  localStorage `diesis_learn_track` (`lib/game/use-learn-track.ts`; the privacy page lists it).
+  The tracks: **Fretboard notes** «Notas del mástil» (Name the note, Find the note, Hear the note
+  next), **Reading music** «Partitura» (Read the note, Staff to neck, Read a bar, Sight reading,
+  easiest to hardest), **Tablature** «Tablatura» (Tab to neck, Neck to tab, Read a riff, Tab
+  symbols: proposed by Claude, not designed yet, all "next"). Scales and Technique (the glossary)
+  are tracks for later (`learnMenu.later`), named at the foot of the page and dimmed in the
+  sidebar. **The sidebar lists the tracks under Learn, not the exercises** (a track's row stays
+  lit inside its exercises), each with its own icon (`NeckNoteIcon`, `StaffIcon`, `TablatureIcon`
+  in `app-nav.tsx`, drawn like lucide); Will asked for icons on every row, Practice and Setup
+  included. On a phone the back arrow inside an exercise goes to its track (`trackOf` in
+  `tool-menu.tsx`, also used by `GameShell`'s own back arrow). Exercise addresses did not change.
+  The track's name is not "El mástil": that is the neck explorer in Practice. The cards still say
+  "Start", not the player's best (the mockup showed a best; not built). A new Learn exercise gets
+  its line in its track in `LEARN_TRACKS` and its copy in that track's `modes`.
 - **A third side, Setup (Will, 2026-09-26: strings and setup "no es practicar, es otra cosa";
   "guitar setup en inglés").** `/setup`, «Ajuste» in Spanish: the guitar itself (strings,
   tension, setup). `/start` shows three doors; the app's navigation three sides (`nav.areas.setup`,
@@ -64,10 +90,11 @@ Todoist project records what is still to do.
   `/app/*` from 0.2.0 to 0.3.0 are gone (git history has them; the shared code `RYUJIN` is dead).
   If access control ever comes back it will be an account, not a shared code.
 - **Scope on the landing page**: what exists, as cards under its side, and what is coming to
-  each side as chips read from the app's menus (`LEARN_ITEMS`/`SETUP_ITEMS` and the menu titles
+  each side as chips read from the app's menus (`comingToLearn`, `SETUP_ITEMS` and the menu titles
   in `components/tool-menu.tsx` and lib/i18n.ts), so the landing and the app home cannot drift:
-  Hear the note next; scale exercises, reading music (for classical guitar) and the glossary
-  later; the Setup tools as listed in the Setup point. Change what is coming in the menus.
+  Hear the note and Tablature next (a track with nothing built is one chip under its name);
+  Scales and Technique later; the Setup tools as listed in the Setup point. Change what is coming
+  in the menus.
 - **Mode A** as built: open `/learn/name-the-note`, board in landscape, one position lit and
   played, twelve buttons in a column right of the board (Will, 2026-09-26: a row under the
   board was hard to reach; `GameFrame`'s `aside`), one row per natural with its sharp beside
@@ -249,7 +276,8 @@ Todoist project records what is still to do.
   stays put. **From `md`: `AppSidebar`**, design A of the canvas "Diesis sidebar options"
   (https://claude.ai/artifact/Ba5v7kLBmZbpXDmHseZbWn): every tool under its side (the side's
   name links to its menu), the current one lit, the tools coming next dimmed with "Soon"
-  (`nav.learnSoon`/`setupSoon`); feedback, profile and EN/ES at the bottom. It collapses to a
+  (`nav.setupSoon`); under Learn its tracks instead of its tools (see Learn in tracks); feedback,
+  profile and EN/ES at the bottom. It collapses to a
   rail of icons with the names as tooltips: by its button or the `[` key from `lg`, remembered
   in localStorage `diesis_sidebar` and put on `<html>` as `data-sidebar` by an inline script in
   the document (`components/root-document.tsx`) before the first paint; between `md` and `lg` it is always the rail. The
@@ -650,7 +678,7 @@ points to it and keeps `/lang/` out. Add new public pages to the sitemap.
 
 - `app/` — routes, under two root layouts. `(en)/`: `layout.tsx` (lang en), `page.tsx` (landing),
   `privacy/`, `[feature]/` (each tool's public page), `(app)/` (the app: `layout.tsx` with the
-  app's navigation, `template.tsx`, `start/`, `learn/` with `name-the-note/` and `find-the-note/`,
+  app's navigation, `template.tsx`, `start/`, `learn/` with the track pages `notes/`, `reading/`, `tab/` and the exercises,
   `practice/` with `neck/`, `metronome/`, `backing-tracks/` and `fingers/`, `setup/` with
   `strings/`, `tuner/`, `log/`, `profile/`). `(es)/`: `layout.tsx` (lang es), `es/` with the same pages in Spanish
   (`es/(app)/` only re-exports the English app screens) and `roadmap/`. Outside both:

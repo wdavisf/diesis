@@ -3,12 +3,14 @@
 import { useEffect, useSyncExternalStore, type ComponentType, type SVGProps } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ArrowRightLeft, BookOpen, ChevronLeft, Ear, Gauge, Guitar, Hand, Headphones, ListMusic, Metronome, Music2, Music4, NotebookPen, PanelLeft, Ruler, ScanEye, Search, SlidersHorizontal, UserRound, Wrench } from "lucide-react";
+import { BookA, BookOpen, ChartNoAxesColumnIncreasing, ChevronLeft, Gauge, Guitar, Hand, Headphones, Metronome, NotebookPen, PanelLeft, Ruler, SlidersHorizontal, UserRound, Wrench } from "lucide-react";
 import { Feedback } from "@/components/feedback";
 import { LangSwitch } from "@/components/lang-switch";
 import { Logo, LogoMark } from "@/components/logo";
 import { otherLangPath } from "@/components/site-nav";
-import type { Strings } from "@/lib/i18n";
+import { LEARN_TRACKS, trackOf, trackPath } from "@/components/tool-menu";
+import { useLearnPath } from "@/lib/game/use-learn-track";
+import type { Strings, TrackId } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 
 type Icon = ComponentType<{ className?: string; strokeWidth?: number | string }>;
@@ -23,26 +25,57 @@ function NeckIcon(props: SVGProps<SVGSVGElement>) {
   );
 }
 
+/* Learn's tracks, drawn like the lucide icons beside them: the neck with a note on it, the staff
+   with a note on it, and tab's lines with fret numbers on them. */
+function NeckNoteIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" aria-hidden {...props}>
+      <rect x="2" y="7" width="20" height="10" rx="1.5" />
+      <path d="M7 7v10M12 7v10M17 7v10M2 10.5h20M2 13.5h20" />
+      <circle cx="14.5" cy="13.5" r="2.4" fill="currentColor" stroke="none" />
+    </svg>
+  );
+}
+
+function StaffIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" aria-hidden {...props}>
+      <path d="M2 7h20M2 12h20M2 17h20" />
+      <ellipse cx="10" cy="17" rx="2.7" ry="2" fill="currentColor" stroke="none" transform="rotate(-20 10 17)" />
+      <path d="M12.5 16.3V4.5" />
+    </svg>
+  );
+}
+
+function TablatureIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" aria-hidden {...props}>
+      <path d="M2 4.5h20M2 19.5h20M2 9.5h3.2M10.8 9.5H22M2 14.5h10.2M17.8 14.5H22" />
+      <g fill="currentColor" stroke="none" fontSize="8.5" fontWeight="700" fontFamily="system-ui, sans-serif" textAnchor="middle" dominantBaseline="central">
+        <text x="8" y="9.6">3</text>
+        <text x="15" y="14.6">5</text>
+      </g>
+    </svg>
+  );
+}
+
+const TRACK_ICONS: Record<TrackId, Icon> = { notes: NeckNoteIcon, reading: StaffIcon, tab: TablatureIcon };
+
 type Side = "learn" | "practice" | "setup";
 
 /**
- * The three sides and their tools. Names come from lib/i18n.ts in the same order: `nav.areas`,
- * `nav.learnTools` / `practiceTools` / `setupTools` for the built tools, `nav.learnSoon` /
- * `setupSoon` for the ones shown dimmed as coming next. A new tool gets a line here.
+ * The three sides and what the sidebar lists under each. Learn lists its tracks (Will, 2026-10-02:
+ * the exercises are on each track's page), from `LEARN_TRACKS`, named by `learnMenu.tracks`, with
+ * the tracks still to come (`learnMenu.later`) dimmed. Practice and Setup list their tools, named
+ * in the same order by `nav.practiceTools` / `setupTools`, and `nav.setupSoon` dimmed. A new tool
+ * gets a line here.
  */
 const SIDES: { id: Side; icon: Icon; tools: { href: string; icon: Icon }[]; soon: Icon[] }[] = [
   {
     id: "learn",
     icon: BookOpen,
-    tools: [
-      { href: "/learn/name-the-note", icon: Music2 },
-      { href: "/learn/find-the-note", icon: Search },
-      { href: "/learn/read-the-note", icon: Music4 },
-      { href: "/learn/staff-to-neck", icon: ArrowRightLeft },
-      { href: "/learn/sight-reading", icon: ScanEye },
-      { href: "/learn/read-a-bar", icon: ListMusic },
-    ],
-    soon: [Ear],
+    tools: LEARN_TRACKS.map(({ id }) => ({ href: trackPath(id), icon: TRACK_ICONS[id] })),
+    soon: [ChartNoAxesColumnIncreasing, BookA],
   },
   {
     id: "practice",
@@ -66,12 +99,19 @@ const SIDES: { id: Side; icon: Icon; tools: { href: string; icon: Icon }[]; soon
   },
 ];
 
-function toolNames(t: Strings): Record<Side, { tools: string[]; soon: string[] }> {
+function toolNames(t: Strings): Record<Side, { tools: string[]; soon: string[]; when: string }> {
   return {
-    learn: { tools: t.nav.learnTools, soon: t.nav.learnSoon },
-    practice: { tools: t.nav.practiceTools, soon: [] },
-    setup: { tools: t.nav.setupTools, soon: t.nav.setupSoon },
+    learn: { tools: LEARN_TRACKS.map(({ id }) => t.learnMenu.tracks[id].name), soon: t.learnMenu.later.map(({ title }) => title), when: t.home.later },
+    practice: { tools: t.nav.practiceTools, soon: [], when: t.nav.soon },
+    setup: { tools: t.nav.setupTools, soon: t.nav.setupSoon, when: t.nav.soon },
   };
+}
+
+/** Is this row's page open? A Learn track's row stays lit inside its exercises. */
+function isOpen(pathname: string, base: string, href: string) {
+  if (pathname.startsWith(`${base}${href}`)) return true;
+  const track = pathname.startsWith(`${base}/learn/`) ? trackOf(pathname.slice(base.length)) : null;
+  return track !== null && trackPath(track) === href;
 }
 
 /* Open or collapsed is an attribute on <html>, so the width is right before React wakes up: the
@@ -122,6 +162,7 @@ export function AppSidebar({ t }: { t: Strings }) {
   const names = toolNames(t);
   const profile = `${t.base}/profile`;
   const log = `${t.base}/log`;
+  const learn = useLearnPath(t.base);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -164,15 +205,16 @@ export function AppSidebar({ t }: { t: Strings }) {
           <span className={label}>{t.log.title}</span>
         </Link>
         {SIDES.map((side) => {
-          const menu = `${t.base}/${side.id}`;
+          // Learn has no menu of its own: its name opens the track opened last.
+          const menu = side.id === "learn" ? learn : `${t.base}/${side.id}`;
           return (
             <div key={side.id} className="flex flex-col gap-0.5">
               <Link
                 href={menu}
-                aria-current={pathname === menu ? "page" : undefined}
+                aria-current={side.id !== "learn" && pathname === menu ? "page" : undefined}
                 className={cn(
                   "mb-0.5 self-start rounded-md px-2.5 py-0.5 text-[0.6875rem] font-semibold tracking-[0.08em] uppercase outline-none transition-colors focus-visible:ring-3 focus-visible:ring-ring/50 rail:hidden",
-                  pathname === menu ? "text-amber-text" : "text-dim/80 hover:text-ink",
+                  side.id !== "learn" && pathname === menu ? "text-amber-text" : "text-dim/80 hover:text-ink",
                 )}
               >
                 {t.nav.areas[side.id]}
@@ -180,7 +222,7 @@ export function AppSidebar({ t }: { t: Strings }) {
               <span className="mx-auto my-2 hidden h-px w-7 bg-line rail:block" aria-hidden />
               {side.tools.map(({ href: path, icon: ToolIcon }, n) => {
                 const href = `${t.base}${path}`;
-                const on = pathname.startsWith(href);
+                const on = isOpen(pathname, t.base, path);
                 return (
                   <Link key={href} href={href} aria-current={on ? "page" : undefined} className={cn(row, on ? lit : idle)}>
                     <ToolIcon className={glyph} strokeWidth={1.75} />
@@ -193,9 +235,9 @@ export function AppSidebar({ t }: { t: Strings }) {
                   <SoonIcon className={glyph} strokeWidth={1.75} />
                   <span className={label}>
                     {names[side.id].soon[n]}
-                    <span className="hidden rail:inline"> · {t.nav.soon}</span>
+                    <span className="hidden rail:inline"> · {names[side.id].when}</span>
                   </span>
-                  <span className="rounded-full border border-line px-1.5 py-px text-[0.6875rem] rail:hidden">{t.nav.soon}</span>
+                  <span className="shrink-0 rounded-full border border-line px-1.5 py-px text-[0.6875rem] rail:hidden">{names[side.id].when}</span>
                 </div>
               ))}
             </div>
@@ -217,23 +259,32 @@ export function AppSidebar({ t }: { t: Strings }) {
   );
 }
 
-/** On a phone, the bar at the top: inside a tool, the way back to its side and the tool's name; anywhere else the logo. Feedback and the language on the right. */
+/** Every screen inside a side, with its name for the top bar and where its back arrow goes: a Learn exercise to its track, a tool to its side's menu. */
+function screens(t: Strings): { href: string; name: string; back: string; backName: string }[] {
+  const names = toolNames(t);
+  return [
+    ...LEARN_TRACKS.flatMap(({ id, items }) => {
+      const track = t.learnMenu.tracks[id];
+      return items.flatMap(({ href }, n) => (href ? [{ href, name: track.modes[n].short ?? track.modes[n].title, back: trackPath(id), backName: track.name }] : []));
+    }),
+    ...SIDES.filter((side) => side.id !== "learn").flatMap((side) =>
+      side.tools.map(({ href }, n) => ({ href, name: names[side.id].tools[n], back: `/${side.id}`, backName: t.nav.areas[side.id] })),
+    ),
+  ];
+}
+
+/** On a phone, the bar at the top: inside a tool, the way back (to its track or its side) and the tool's name; anywhere else the logo. Feedback and the language on the right. */
 export function AppTopBar({ t }: { t: Strings }) {
   const pathname = usePathname() ?? "/";
-  const names = toolNames(t);
-  let here: { side: Side; name: string } | null = null;
-  for (const side of SIDES) {
-    const n = side.tools.findIndex(({ href }) => pathname.startsWith(`${t.base}${href}`));
-    if (n >= 0) here = { side: side.id, name: names[side.id].tools[n] };
-  }
+  const here = screens(t).find(({ href }) => pathname.startsWith(`${t.base}${href}`)) ?? null;
 
   return (
     <header className="app-nav sticky top-0 z-30 flex h-14 shrink-0 items-center justify-between gap-3 border-b border-line/80 bg-stage/85 px-4 backdrop-blur-md md:hidden">
       {here ? (
         <div className="flex min-w-0 items-center">
           <Link
-            href={`${t.base}/${here.side}`}
-            aria-label={t.nav.areas[here.side]}
+            href={`${t.base}${here.back}`}
+            aria-label={here.backName}
             className="-ml-3 flex size-11 shrink-0 items-center justify-center rounded-lg text-dim outline-none hover:text-ink focus-visible:ring-3 focus-visible:ring-ring/50"
           >
             <ChevronLeft className="size-6" aria-hidden />
@@ -256,16 +307,17 @@ export function AppTopBar({ t }: { t: Strings }) {
 /** On a phone, the bar at the bottom, like an iPhone app's (Will, 2026-09-30, as in Tabula): the three sides, the practice log and the profile. A side's tools are on its menu. */
 export function TabBar({ t }: { t: Strings }) {
   const pathname = usePathname() ?? "/";
+  const learn = useLearnPath(t.base);
   const tabs = [
-    ...SIDES.map((side) => ({ href: `${t.base}/${side.id}`, name: t.nav.areas[side.id], icon: side.icon })),
-    { href: `${t.base}/log`, name: t.log.tab, icon: NotebookPen as Icon },
-    { href: `${t.base}/profile`, name: t.profile.title, icon: UserRound as Icon },
+    ...SIDES.map((side) => ({ href: side.id === "learn" ? learn : `${t.base}/${side.id}`, root: `${t.base}/${side.id}`, name: t.nav.areas[side.id], icon: side.icon })),
+    { href: `${t.base}/log`, root: `${t.base}/log`, name: t.log.tab, icon: NotebookPen as Icon },
+    { href: `${t.base}/profile`, root: `${t.base}/profile`, name: t.profile.title, icon: UserRound as Icon },
   ];
   return (
     <nav aria-label={t.home.title} className="app-nav fixed inset-x-0 bottom-0 z-30 border-t border-line/80 bg-stage/95 pb-[env(safe-area-inset-bottom)] backdrop-blur-md md:hidden">
       <ul className="mx-auto grid max-w-lg grid-cols-5">
-        {tabs.map(({ href, name, icon: TabIcon }) => {
-          const on = pathname === href || pathname.startsWith(`${href}/`);
+        {tabs.map(({ href, root, name, icon: TabIcon }) => {
+          const on = pathname === root || pathname.startsWith(`${root}/`);
           return (
             <li key={href}>
               <Link

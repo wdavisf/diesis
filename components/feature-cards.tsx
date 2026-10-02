@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { ToolFigure } from "@/components/tool-figure";
-import { LEARN_ITEMS, PRACTICE_ITEMS, SETUP_ITEMS } from "@/components/tool-menu";
+import { comingToLearn, PRACTICE_ITEMS, SETUP_ITEMS } from "@/components/tool-menu";
 import { FEATURES, FEATURE_TOOL, featurePath, type Side } from "@/lib/features";
 import type { Strings } from "@/lib/i18n";
 
@@ -15,11 +15,14 @@ const SIDES: Side[] = ["learn", "practice", "setup"];
  */
 export function FeatureCards({ t }: { t: Strings }) {
   const menus = { learn: t.learnMenu, practice: t.practiceMenu, setup: t.setupMenu };
-  const items = { learn: LEARN_ITEMS, practice: PRACTICE_ITEMS, setup: SETUP_ITEMS };
+  const items = { practice: PRACTICE_ITEMS, setup: SETUP_ITEMS };
   return (
     <div className="mt-12 grid grid-cols-1 gap-14">
       {SIDES.map((side) => {
-        const coming = menus[side].modes.map((m, i) => ({ title: m.title, when: items[side][i].when })).filter((m) => m.when !== "now");
+        const coming =
+          side === "learn"
+            ? comingToLearn(t)
+            : (side === "practice" ? t.practiceMenu : t.setupMenu).modes.map((m, i) => ({ title: m.title, when: items[side][i].when })).filter((m) => m.when !== "now");
         const groups = [
           { name: t.home.next, chip: "border-amber/40 text-amber-text", list: coming.filter((m) => m.when === "next") },
           { name: t.home.later, chip: "border-line text-dim", list: coming.filter((m) => m.when === "later") },

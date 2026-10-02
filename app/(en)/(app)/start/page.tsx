@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
+import type { ReactNode } from "react";
 import Link from "next/link";
 import { ArrowRight, GraduationCap, Timer, Wrench } from "lucide-react";
+import { LearnLink } from "@/components/learn-link";
+import { LEARN_TRACKS } from "@/components/tool-menu";
 import { appMetadata, currentStrings } from "@/lib/lang";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -13,7 +16,7 @@ export default async function Start() {
   const t = await currentStrings();
   const h = t.home;
   const doors = [
-    { href: `${t.base}/learn`, title: t.nav.areas.learn, body: h.learn, tools: t.nav.learnTools, Icon: GraduationCap },
+    { href: `${t.base}/learn`, title: t.nav.areas.learn, body: h.learn, tools: LEARN_TRACKS.map(({ id }) => t.learnMenu.tracks[id].name), Icon: GraduationCap },
     { href: `${t.base}/practice`, title: t.nav.areas.practice, body: h.practice, tools: t.nav.practiceTools, Icon: Timer },
     { href: `${t.base}/setup`, title: t.nav.areas.setup, body: h.setup, tools: t.nav.setupTools, Icon: Wrench },
   ];
@@ -29,8 +32,10 @@ export default async function Start() {
             className="animate-in fade-in slide-in-from-bottom-3 fill-mode-both duration-500 motion-reduce:animate-none"
             style={{ animationDelay: `${i * 90}ms` }}
           >
-            <Link
+            <Door
               href={href}
+              learn={href === `${t.base}/learn`}
+              base={t.base}
               className="group flex h-full flex-col rounded-3xl border border-amber/50 bg-surface p-6 transition-[transform,border-color,background-color] duration-200 hover:-translate-y-0.5 hover:border-amber hover:bg-surface-raised active:translate-y-0 active:scale-[0.99] motion-reduce:transition-none motion-reduce:hover:translate-y-0 sm:p-8"
             >
               <Icon className="size-8 text-amber" aria-hidden />
@@ -46,10 +51,23 @@ export default async function Start() {
                   </span>
                 ))}
               </span>
-            </Link>
+            </Door>
           </li>
         ))}
       </ul>
     </main>
+  );
+}
+
+/** A door's link. Learn's opens the track the player was in last. */
+function Door({ href, learn, base, className, children }: { href: string; learn: boolean; base: string; className: string; children: ReactNode }) {
+  return learn ? (
+    <LearnLink base={base} className={className}>
+      {children}
+    </LearnLink>
+  ) : (
+    <Link href={href} className={className}>
+      {children}
+    </Link>
   );
 }

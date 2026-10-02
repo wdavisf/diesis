@@ -3,6 +3,17 @@
 Written for the people using it, not for the code. Newest first. Version matches
 `package.json`.
 
+## 0.35.0 — 2 October 2026
+
+- Learn is now split into three tracks, picked at the top of its page: **Fretboard notes** (Name
+  the note, Find the note, and Hear the note to come), **Reading music** (Read the note, Staff to
+  neck, Read a bar, Sight reading, from easiest to hardest) and **Tablature**, new, with four
+  exercises on the way: Tab to neck, Neck to tab, Read a riff and Tab symbols. Learn opens on the
+  track you were in last.
+- The sidebar lists the three tracks under Learn instead of every exercise, with Scales and
+  Technique shown as coming later. On a phone, the back arrow inside an exercise goes back to its
+  track.
+
 ## 0.34.1 — 2 October 2026
 
 - Tuner on a phone: the row of strings was hidden behind the Start tuning button. The dial and

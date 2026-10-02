@@ -19,6 +19,9 @@ const nextConfig: NextConfig = {
         { source: `${es}/learn/profile`, destination: `${es}/profile`, permanent: true },
         // Strings and setup opened in Practice (0.17.0) and moved to its own side, Setup, in 0.18.0.
         { source: `${es}/practice/strings`, destination: `${es}/setup/strings`, permanent: true },
+        // 0.35.0 split Learn into tracks, each with its own page: /learn opens the first. Inside the
+        // app, links to Learn go to the track opened last (lib/game/use-learn-track.ts).
+        { source: `${es}/learn`, destination: `${es}/learn/notes`, permanent: false },
       ]),
       // The tools' public pages have a translated slug (`features.pages` in lib/i18n.ts, mirrored
       // here because this file cannot import it): the English slug under /es, and the Spanish one
