@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, type CSSProperties } from "react";
 import { Check, ChevronDown, Minus, Mic, Plus, Square } from "lucide-react";
 import { frequency, namesFor, pitchClassOf, STRING_COUNTS, tuningsFor, type Tuning } from "@/lib/core/notes";
 import { A4_MAX, A4_MIN, A4_PRESETS, clampA4, IN_TUNE_CENTS, RANGE_CENTS, verdictOf, type Verdict } from "@/lib/core/tuner";
@@ -41,7 +41,7 @@ const degOf = (cents: number) => (Math.max(-RANGE_CENTS, Math.min(RANGE_CENTS, c
 function Gauge({ cents, state, label }: { cents: number; state: Verdict | "idle"; label: string }) {
   const zone = degOf(IN_TUNE_CENTS);
   return (
-    <svg viewBox="0 0 200 120" role="img" aria-label={label} className="w-full max-w-xs overflow-visible md:max-w-md">
+    <svg viewBox="0 6 200 110" role="img" aria-label={label} className="w-[clamp(9rem,calc(var(--room)*1.13),20rem)] overflow-visible md:w-full md:max-w-md">
       <path d={arc(-SWING, SWING)} fill="none" strokeWidth={9} strokeLinecap="round" className="stroke-line" />
       <path d={arc(-zone, zone)} fill="none" strokeWidth={9} className="stroke-correct" />
       {[-50, -25, 0, 25, 50].map((c) => {
@@ -119,21 +119,27 @@ export function Tuner({ t, tunings, lang }: { t: Strings["tuner"]; tunings: Reco
   const tuningName = tunings[guitar.preset.id] ?? guitar.preset.id;
 
   return (
-    <div className="flex flex-1 flex-col px-4 pt-4 pb-6 animate-in fade-in fill-mode-both duration-300 motion-reduce:animate-none">
+    <div className="flex flex-1 flex-col px-4 pt-3 md:pt-4 md:pb-6 animate-in fade-in fill-mode-both duration-300 motion-reduce:animate-none">
       <h1 className="sr-only">{t.title}</h1>
-      <div className="mx-auto flex w-full max-w-md flex-1 flex-col items-center gap-5 md:max-w-xl md:justify-center md:gap-8">
+      {/* On a phone the dial and the note share what is left of the screen once the bars, the
+          settings, the strings, a two-line hint and Start have their room (--room), so the
+          strings never hide behind the pinned Start: 62% to the dial, 38% to the note. */}
+      <div
+        style={{ "--room": "calc(100dvh - 478px - env(safe-area-inset-bottom))" } as CSSProperties}
+        className="mx-auto flex w-full max-w-md flex-1 flex-col items-center gap-3 md:max-w-xl md:justify-center md:gap-8"
+      >
         <div className="grid w-full grid-cols-[1.6fr_1fr] gap-2">
           <Setting label={t.tuning} value={`${fill(t.count, { n: count })} · ${tuningName}`} onOpen={() => setPanel("tuning")} />
           <Setting label={t.reference} value={fill(t.referenceValue, { hz: a4 })} onOpen={() => setPanel("reference")} />
         </div>
 
-        <div className="flex flex-1 flex-col items-center justify-center gap-4 md:flex-none md:gap-6">
+        <div className="flex flex-1 flex-col items-center justify-center gap-3 md:flex-none md:gap-6">
         <Gauge cents={reading?.cents ?? 0} state={verdict} label={reading ? fill(t.dialLabel, { n: Math.round(reading.cents) }) : t.listening} />
           <div className="flex flex-col items-center gap-1 text-center">
           <p
             aria-live="polite"
             className={cn(
-              "flex h-[1.05em] items-center justify-center font-display text-[clamp(5.5rem,16dvh,8.5rem)] leading-none font-semibold tabular-nums",
+              "flex h-[1.05em] items-center justify-center font-display text-[clamp(3rem,calc(var(--room)*0.36),6.5rem)] leading-none md:text-[clamp(5.5rem,16dvh,8.5rem)] font-semibold tabular-nums",
               reading ? "text-ink" : "text-dim/50",
             )}
           >

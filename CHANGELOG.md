@@ -3,6 +3,12 @@
 Written for the people using it, not for the code. Newest first. Version matches
 `package.json`.
 
+## 0.34.1 — 2 October 2026
+
+- Tuner on a phone: the row of strings was hidden behind the Start tuning button. The dial and
+  the note now size themselves to the screen, so the strings, the hint and the button all fit
+  without scrolling.
+
 ## 0.34.0 — 1 October 2026
 
 - Reading music, four new exercises in Learn, all with natural notes and the treble clef as
